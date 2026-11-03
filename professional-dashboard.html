@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VORVENA | Professional Dashboard</title>
+
+    <link rel="stylesheet" href="professional-dashboard.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">VORVENA<span>.</span></div>
+
+        <!-- PROFILE -->
+        <div class="sidebar-profile">
+            <div class="profile-avatar" id="sidebarAvatar">
+                <i class="fa-solid fa-user"></i>
+            </div>
+
+            <div class="profile-info">
+                <h4 id="sidebarName">Your Name</h4>
+                <p>Professional Account</p>
+            </div>
+        </div>
+
+        <p class="nav-heading">WORKSPACE</p>
+
+        <nav class="sidebar-nav">
+
+            <a href="#" class="nav-link active" data-page="overview">
+                <i class="fa-solid fa-house"></i>
+                <span>Overview</span>
+            </a>
+
+            <a href="#" class="nav-link" data-page="offers">
+                <i class="fa-solid fa-envelope-open-text"></i>
+                <span>Hiring Offers</span>
+            </a>
+
+            <a href="#" class="nav-link" data-page="projects">
+                <i class="fa-solid fa-folder-open"></i>
+                <span>My Projects</span>
+            </a>
+
+            <a href="#" class="nav-link" data-page="earnings">
+                <i class="fa-solid fa-wallet"></i>
+                <span>Earnings</span>
+            </a>
+
+            <a href="#" class="nav-link" data-page="profile">
+                <i class="fa-solid fa-user"></i>
+                <span>My Profile</span>
+            </a>
+
+            <a href="#" class="nav-link" data-page="notifications">
+                <i class="fa-solid fa-bell"></i>
+                <span>Notifications</span>
+            </a>
+
+            <a href="#" class="nav-link" data-page="settings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+        <!-- LOGOUT -->
+        <div class="sidebar-bottom">
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Log Out</span>
+            </button>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div class="topbar-right">
+
+                <button class="notification-btn" onclick="showPage('notifications')">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+
+                <div class="top-profile">
+                    <div class="small-avatar" id="topAvatar">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <span id="topName">Your Name</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- OVERVIEW -->
+        <section class="dashboard-section active" id="overview">
+
+            <div class="welcome-section">
+                <div>
+                    <h1>Welcome back, <span id="welcomeName">Professional</span> 👋</h1>
+                    <p>Here's what's happening with your VORVENA account.</p>
+                </div>
+
+                <span class="current-date" id="todayDate"></span>
+            </div>
+
+
+            <!-- STATISTICS -->
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-naira-sign"></i>
+                        </div>
+                        <span>Total Earnings</span>
+                    </div>
+                    <h2>₦0.00</h2>
+                    <p>Your total released earnings</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+                        <span>Active Projects</span>
+                    </div>
+                    <h2>0</h2>
+                    <p>Projects currently in progress</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <span>Pending Offers</span>
+                    </div>
+                    <h2 id="offerCount">2</h2>
+                    <p>Offers waiting for your response</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <span>Completed Projects</span>
+                    </div>
+                    <h2>0</h2>
+                    <p>Projects successfully delivered</p>
+                </div>
+
+            </div>
+
+
+            <!-- OVERVIEW CONTENT -->
+            <div class="overview-grid">
+
+                <div class="content-card">
+
+                    <div class="card-heading">
+                        <h3>Recent Hiring Offers</h3>
+                        <a href="#" onclick="showPage('offers'); return false;">View All</a>
+                    </div>
+
+                    <div id="overviewOffers">
+
+                        <div class="offer-card">
+                            <h4>Website Development</h4>
+                            <p>A client is looking for a developer to build a responsive business website.</p>
+
+                            <div class="offer-details">
+                                <span>Budget: <strong>₦250,000</strong></span>
+                                <span>Deadline: <strong>14 days</strong></span>
+                            </div>
+
+                            <div class="offer-actions">
+                                <button class="accept-btn" onclick="respondOffer(this, 'accepted')">Accept Offer</button>
+                                <button class="decline-btn" onclick="respondOffer(this, 'declined')">Decline</button>
+                            </div>
+                        </div>
+
+                        <div class="offer-card">
+                            <h4>UI/UX Design Project</h4>
+                            <p>A client needs a designer for a mobile application interface.</p>
+
+                            <div class="offer-details">
+                                <span>Budget: <strong>₦180,000</strong></span>
+                                <span>Deadline: <strong>10 days</strong></span>
+                            </div>
+
+                            <div class="offer-actions">
+                                <button class="accept-btn" onclick="respondOffer(this, 'accepted')">Accept Offer</button>
+                                <button class="decline-btn" onclick="respondOffer(this, 'declined')">Decline</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROFILE COMPLETION -->
+                <div class="content-card profile-completion">
+
+                    <div class="card-heading">
+                        <h3>Profile Completion</h3>
+                        <strong>70%</strong>
+                    </div>
+
+                    <p>Complete your professional profile to build trust and improve your chances of getting hired.</p>
+
+                    <div class="progress-track">
+                        <div class="progress-fill"></div>
+                    </div>
+
+                    <p>Keep your skills, portfolio and experience up to date.</p>
+
+                    <div class="verification-status">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Verification Status: <strong>Pending</strong>
+                    </div>
+
+                    <button class="primary-btn" onclick="showPage('profile')">
+                        Complete Profile
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- RECENT PROJECTS -->
+            <div class="content-card recent-projects">
+
+                <div class="card-heading">
+                    <h3>Recent Projects</h3>
+                    <a href="#" onclick="showPage('projects'); return false;">View All</a>
+                </div>
+
+                <div class="empty-state">
+                    Your projects will appear here when you accept a hiring offer.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- HIRING OFFERS -->
+        <section class="dashboard-section" id="offers">
+
+            <h2 class="page-title">Hiring Offers</h2>
+            <p class="page-description">Review offers from clients and decide which projects to take.</p>
+
+            <div class="content-card" id="allOffers">
+
+                <div class="offer-card">
+                    <h4>Website Development</h4>
+                    <p>A client is looking for a developer to build a responsive business website.</p>
+
+                    <div class="offer-details">
+                        <span>Budget: <strong>₦250,000</strong></span>
+                        <span>Deadline: <strong>14 days</strong></span>
+                    </div>
+
+                    <div class="offer-actions">
+                        <button class="accept-btn" onclick="respondOffer(this, 'accepted')">Accept Offer</button>
+                        <button class="decline-btn" onclick="respondOffer(this, 'declined')">Decline</button>
+                    </div>
+                </div>
+
+                <div class="offer-card">
+                    <h4>UI/UX Design Project</h4>
+                    <p>A client needs a designer for a mobile application interface.</p>
+
+                    <div class="offer-details">
+                        <span>Budget: <strong>₦180,000</strong></span>
+                        <span>Deadline: <strong>10 days</strong></span>
+                    </div>
+
+                    <div class="offer-actions">
+                        <button class="accept-btn" onclick="respondOffer(this, 'accepted')">Accept Offer</button>
+                        <button class="decline-btn" onclick="respondOffer(this, 'declined')">Decline</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROJECTS -->
+        <section class="dashboard-section" id="projects">
+
+            <h2 class="page-title">My Projects</h2>
+            <p class="page-description">Manage your active and completed projects.</p>
+
+            <div class="content-card">
+                <div class="card-heading">
+                    <h3>Project Overview</h3>
+                </div>
+
+                <div class="empty-state">
+                    No projects yet. Accepted offers will appear here after the client's payment is confirmed.
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- EARNINGS -->
+        <section class="dashboard-section" id="earnings">
+
+            <h2 class="page-title">Earnings & Payments</h2>
+            <p class="page-description">Track your earnings, pending payments and transactions.</p>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <span>Total Earnings</span>
+                    <h2>₦0.00</h2>
+                </div>
+
+                <div class="stat-card">
+                    <span>Available Balance</span>
+                    <h2>₦0.00</h2>
+                </div>
+
+                <div class="stat-card">
+                    <span>Pending Payments</span>
+                    <h2>₦0.00</h2>
+                </div>
+
+                <div class="stat-card">
+                    <span>VORVENA Commission</span>
+                    <h2>15%</h2>
+                </div>
+
+            </div>
+
+            <div class="content-card">
+                <div class="card-heading">
+                    <h3>Transaction History</h3>
+                </div>
+
+                <div class="empty-state">
+                    Your payment transactions will appear here.
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- PROFESSIONAL PROFILE -->
+        <section class="dashboard-section" id="profile">
+
+            <h2 class="page-title">My Professional Profile</h2>
+            <p class="page-description">Manage your public professional information.</p>
+
+            <div class="profile-layout">
+
+                <div class="content-card profile-photo-card">
+
+                    <div class="large-avatar" id="largeAvatar">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+
+                    <h3 id="profileDisplayName">Your Name</h3>
+                    <p>Professional Account</p>
+
+                    <label for="photoInput" class="upload-photo-btn">
+                        <i class="fa-solid fa-camera"></i> Upload Profile Picture
+                    </label>
+
+                    <input type="file" id="photoInput" accept="image/*">
+
+                    <div class="verification-status">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Identity Verification: Pending
+                    </div>
+
+                    <div class="verification-status">
+                        <i class="fa-solid fa-award"></i>
+                        SkillProof: Not Completed
+                    </div>
+
+                </div>
+
+
+                <div class="content-card">
+
+                    <div class="card-heading">
+                        <h3>Personal Information</h3>
+                    </div>
+
+                    <form id="profileForm">
+
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="fullName" placeholder="Enter your full name">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Professional Role</label>
+                            <input type="text" placeholder="e.g. Full-stack Developer">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Experience</label>
+                            <input type="text" placeholder="e.g. 3 years">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Skills</label>
+                            <input type="text" placeholder="e.g. HTML, CSS, JavaScript">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Portfolio Link</label>
+                            <input type="url" placeholder="https://yourportfolio.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Social Media Link</label>
+                            <input type="url" placeholder="https://...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Professional Bio</label>
+                            <textarea placeholder="Tell clients about your experience and skills"></textarea>
+                        </div>
+
+                        <button type="submit" class="primary-btn">Save Profile</button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- NOTIFICATIONS -->
+        <section class="dashboard-section" id="notifications">
+
+            <h2 class="page-title">Notifications</h2>
+            <p class="page-description">Stay updated on your account and projects.</p>
+
+            <div class="content-card">
+
+                <div class="notification-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <div>
+                        <h4>New Hiring Offer</h4>
+                        <p>You have received a new project offer. Review it in Hiring Offers.</p>
+                    </div>
+                </div>
+
+                <div class="notification-item">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <div>
+                        <h4>Complete Your Verification</h4>
+                        <p>Complete your identity verification to qualify for paid projects.</p>
+                    </div>
+                </div>
+
+                <div class="notification-item">
+                    <i class="fa-solid fa-user"></i>
+                    <div>
+                        <h4>Welcome to VORVENA</h4>
+                        <p>Complete your professional profile to get started.</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SETTINGS -->
+        <section class="dashboard-section" id="settings">
+
+            <h2 class="page-title">Settings</h2>
+            <p class="page-description">Manage your account preferences.</p>
+
+            <div class="content-card">
+
+                <div class="settings-item">
+                    <div>
+                        <h4>Account Type</h4>
+                        <p>Professional</p>
+                    </div>
+                    <span>Professional</span>
+                </div>
+
+                <div class="settings-item">
+                    <div>
+                        <h4>Email Notifications</h4>
+                        <p>Manage email notification preferences.</p>
+                    </div>
+                    <span>Enabled</span>
+                </div>
+
+                <div class="settings-item">
+                    <div>
+                        <h4>Security</h4>
+                        <p>Password and account security settings.</p>
+                    </div>
+                    <button type="button">Manage</button>
+                </div>
+
+                <button class="logout-settings-btn" id="settingsLogout">
+                    Log Out
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- NOTIFICATION MESSAGE -->
+<div class="toast-message" id="toast"></div>
+
+
+<!-- TEMPORARY FRONTEND INTERACTIONS -->
+<script>
+const sidebar = document.getElementById('sidebar');
+
+function showPage(page) {
+    document.querySelectorAll('.dashboard-section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+    });
+
+    const target = document.getElementById(page);
+    if (target) target.classList.add('active');
+
+    const activeLink = document.querySelector(`[data-page="${page}"]`);
+    if (activeLink) activeLink.classList.add('active');
+
+    sidebar.classList.remove('open');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('[data-page]').forEach(link => {
+    link.addEventListener('click', event => {
+        event.preventDefault();
+        showPage(link.dataset.page);
+    });
+});
+
+document.getElementById('menuToggle').addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+});
+
+function notify(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 2800);
+}
+
+function respondOffer(button, decision) {
+    const offer = button.closest('.offer-card');
+    if (!offer) return;
+
+    const title = offer.querySelector('h4').textContent;
+    const status = decision === 'accepted' ? 'Accepted' : 'Declined';
+
+    offer.innerHTML = `
+        <h4>${title}</h4>
+        <p>Offer status: <strong>${status}</strong></p>
+        <p>This is a frontend demonstration. Your decision will be sent to the client when the backend is connected.</p>
+    `;
+
+    const remaining = document.querySelectorAll('#allOffers .offer-card .offer-actions').length;
+    document.getElementById('offerCount').textContent = remaining;
+
+    notify('Offer ' + status.toLowerCase() + '. Demo only.');
+}
+
+document.getElementById('photoInput').addEventListener('change', function() {
+    const file = this.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+        notify('Please select an image file.');
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = event => {
+        ['largeAvatar', 'sidebarAvatar', 'topAvatar'].forEach(id => {
+            document.getElementById(id).innerHTML =
+                `<img src="${event.target.result}" alt="Profile picture">`;
+        });
+    };
+
+    reader.readAsDataURL(file);
+});
+
+document.getElementById('profileForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('fullName').value.trim();
+
+    if (name) {
+        document.getElementById('sidebarName').textContent = name;
+        document.getElementById('topName').textContent = name;
+        document.getElementById('welcomeName').textContent = name.split(' ')[0];
+        document.getElementById('profileDisplayName').textContent = name;
+    }
+
+    notify('Profile updated in this demo. Database saving comes later.');
+});
+
+document.getElementById('todayDate').textContent =
+    new Date().toLocaleDateString('en-NG', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+
+function logout() {
+    if (confirm('Are you sure you want to log out?')) {
+        window.location.href = 'login.html';
+    }
+}
+
+document.getElementById('logoutBtn').addEventListener('click', logout);
+document.getElementById('settingsLogout').addEventListener('click', logout);
+</script>
+
+</body>
+</html>

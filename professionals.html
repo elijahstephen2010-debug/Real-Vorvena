@@ -1,0 +1,444 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover and hire verified tech professionals on VORVENA.">
+    <title>Explore Professionals | VORVENA</title>
+
+    <link rel="stylesheet" href="professionals.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">VORVENA<span>.</span></a>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="../index.html">Home</a>
+                <a href="../explore.html" class="active">Explore</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+                <a href="../login.html" class="nav-login">Log In</a>
+                <a href="../signup.html" class="nav-signup">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+
+    <!-- HERO SECTION -->
+    <section class="professionals-hero">
+        <div class="hero-content">
+            <span class="hero-tag">
+                <span class="tag-dot"></span>
+                FIND YOUR NEXT TECH PROFESSIONAL
+            </span>
+
+            <h1>Meet the minds<br>behind <span>great work.</span></h1>
+
+            <p>
+                Discover talented tech professionals, explore their expertise
+                and find the right person for your next project.
+            </p>
+
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+
+                <input
+                    type="text"
+                    id="professionalSearch"
+                    placeholder="Search by name, skill or country..."
+                >
+
+                <button id="searchButton">Search</button>
+            </div>
+
+            <div class="hero-note">
+                <i class="fas fa-shield-alt"></i>
+                Discover skilled professionals on VORVENA.
+            </div>
+        </div>
+    </section>
+
+
+    <!-- PROFESSIONALS SECTION -->
+    <main class="professionals-section">
+
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <i class="fas fa-chevron-right"></i>
+            <a href="../explore.html">Explore</a>
+            <i class="fas fa-chevron-right"></i>
+            <span id="breadcrumbCategory">Professionals</span>
+        </div>
+
+
+        <div class="section-heading">
+            <div class="heading-copy">
+                <span class="section-label">DISCOVER TALENT</span>
+
+                <h2 id="categoryTitle">Explore Professionals</h2>
+
+                <p id="categoryDescription">
+                    Find experienced professionals ready to bring your ideas to life.
+                </p>
+            </div>
+
+            <a href="../explore.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Explore categories
+            </a>
+        </div>
+
+
+        <div class="professionals-layout">
+
+            <!-- FILTER SIDEBAR -->
+            <aside class="filters-sidebar">
+
+                <div class="filter-header">
+                    <h3>Filters</h3>
+                    <button id="resetFilters">Reset</button>
+                </div>
+
+
+                <!-- EXPERIENCE -->
+                <div class="filter-group">
+                    <h4>Experience Level</h4>
+
+                    <label>
+                        <input type="radio" name="experience" value="all" checked>
+                        All levels
+                    </label>
+
+                    <label>
+                        <input type="radio" name="experience" value="entry">
+                        Entry level
+                    </label>
+
+                    <label>
+                        <input type="radio" name="experience" value="intermediate">
+                        Intermediate
+                    </label>
+
+                    <label>
+                        <input type="radio" name="experience" value="expert">
+                        Expert
+                    </label>
+                </div>
+
+
+                <!-- COUNTRY -->
+                <div class="filter-group">
+                    <h4>Country</h4>
+
+                    <select id="countryFilter">
+                        <option value="all">All countries</option>
+                        <option value="Nigeria">Nigeria</option>
+                        <option value="United States">United States</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="Canada">Canada</option>
+                    </select>
+                </div>
+
+
+                <!-- RATING -->
+                <div class="filter-group">
+                    <h4>Minimum Rating</h4>
+
+                    <select id="ratingFilter">
+                        <option value="0">Any rating</option>
+                        <option value="4">4.0 and above</option>
+                        <option value="4.5">4.5 and above</option>
+                        <option value="4.8">4.8 and above</option>
+                    </select>
+                </div>
+
+
+                <!-- VERIFICATION -->
+                <div class="filter-group">
+                    <h4>Verification</h4>
+
+                    <label>
+                        <input type="checkbox" id="verifiedFilter">
+                        Verified professionals only
+                    </label>
+                </div>
+
+            </aside>
+
+
+            <!-- PROFESSIONALS RESULTS -->
+            <section class="professionals-results">
+
+                <div class="results-toolbar">
+                    <p id="resultsCount">Showing professionals</p>
+
+                    <div class="sort-container">
+                        <label for="sortFilter">Sort by:</label>
+
+                        <select id="sortFilter">
+                            <option value="recommended">Recommended</option>
+                            <option value="rating">Highest rated</option>
+                            <option value="jobs">Most completed jobs</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <!-- PROFESSIONAL CARDS -->
+                <div class="professionals-grid" id="professionalsGrid">
+                    <!-- Professional cards are generated by JavaScript -->
+                </div>
+
+
+                <!-- EMPTY STATE -->
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">
+                        <i class="fas fa-user-search"></i>
+                    </div>
+
+                    <h3>No professionals found</h3>
+
+                    <p>
+                        Try changing your search or adjusting your filters.
+                    </p>
+
+                    <button id="clearFilters">Clear filters</button>
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- HELP SECTION -->
+    <section class="help-section">
+        <div class="help-icon">
+            <i class="fas fa-headset"></i>
+        </div>
+
+        <div class="help-content">
+            <h3>Need help finding the right professional?</h3>
+            <p>Let us help you find the right expertise for your project.</p>
+        </div>
+
+        <a href="../contact.html" class="help-button">
+            Contact Us <i class="fas fa-arrow-right"></i>
+        </a>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-main">
+
+            <div class="footer-brand">
+                <a href="../index.html" class="logo">VORVENA<span>.</span></a>
+
+                <p>
+                    Connecting tech professionals with opportunities
+                    and clients with exceptional talent.
+                </p>
+            </div>
+
+
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <a href="../explore.html">Explore</a>
+                <a href="../signup.html">Create Account</a>
+                <a href="../login.html">Log In</a>
+            </div>
+
+
+            <div class="footer-links">
+                <h4>Company</h4>
+                <a href="../about.html">About Us</a>
+                <a href="../contact.html">Contact</a>
+                <a href="../privacy.html">Privacy Policy</a>
+                <a href="../terms.html">Terms of Service</a>
+            </div>
+
+
+            <div class="social-section">
+                <h4>Follow Us</h4>
+
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+            <p>© <span id="copyrightYear"></span> VORVENA. All rights reserved.</p>
+            <p>Built for the future of work.</p>
+        </div>
+    </footer>
+
+
+    <!-- PROFILE MODAL -->
+    <div class="profile-modal" id="profileModal">
+
+        <div class="modal-overlay" id="modalOverlay"></div>
+
+        <div class="modal-container">
+
+            <button class="modal-close" id="closeModal" aria-label="Close profile">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <!-- PROFILE DETAILS -->
+            <div class="modal-profile-panel" id="modalProfileContent">
+                <!-- Profile information generated by JavaScript -->
+            </div>
+
+
+            <!-- AUTHENTICATION PANEL -->
+            <div class="modal-auth-panel" id="modalAuthPanel">
+
+                <div class="auth-logo">VORVENA<span>.</span></div>
+
+                <div class="auth-content" id="authContent">
+
+                    <!-- Visitor sees signup options here -->
+                    <span class="auth-label">JOIN VORVENA</span>
+
+                    <h2>Ready to hire?</h2>
+
+                    <p>
+                        Create an account or sign in to continue hiring
+                        talented professionals.
+                    </p>
+
+                    <a href="../signup.html" class="auth-option">
+                        <i class="fas fa-envelope"></i>
+                        Continue with Email
+                    </a>
+
+                    <a href="../login.html" class="auth-option">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Log In
+                    </a>
+
+                    <p class="auth-terms">
+                        By continuing, you agree to our
+                        <a href="../terms.html">Terms</a> and
+                        <a href="../privacy.html">Privacy Policy</a>.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- HIRING MODAL -->
+    <div class="hire-modal" id="hireModal">
+
+        <div class="hire-overlay" id="hireOverlay"></div>
+
+        <div class="hire-container">
+
+            <button class="hire-close" id="closeHireModal" aria-label="Close hiring form">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="hire-header">
+                <span class="section-label">START A PROJECT</span>
+                <h2>Hire this professional</h2>
+                <p>Share your project details to get started.</p>
+            </div>
+
+
+            <form id="hireForm">
+
+                <div class="form-group">
+                    <label for="projectTitle">Project title</label>
+                    <input
+                        type="text"
+                        id="projectTitle"
+                        name="projectTitle"
+                        placeholder="e.g. Build a business website"
+                        required
+                    >
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label for="projectBudget">Budget (USD)</label>
+                        <input
+                            type="number"
+                            id="projectBudget"
+                            name="projectBudget"
+                            min="1"
+                            placeholder="500"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="projectDeadline">Deadline</label>
+                        <input
+                            type="date"
+                            id="projectDeadline"
+                            name="projectDeadline"
+                            required
+                        >
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+                    <label for="projectDescription">Project description</label>
+                    <textarea
+                        id="projectDescription"
+                        name="projectDescription"
+                        rows="5"
+                        placeholder="Describe what you need..."
+                        required
+                    ></textarea>
+                </div>
+
+
+                <button type="submit" class="submit-hire-btn">
+                    Continue <i class="fas fa-arrow-right"></i>
+                </button>
+
+                <p class="hire-note">
+                    Your project will not be submitted until you confirm it.
+                </p>
+
+            </form>
+
+        </div>
+    </div>
+
+
+    <script src="professionals.js"></script>
+
+</body>
+</html>

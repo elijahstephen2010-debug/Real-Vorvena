@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | VORVENA</title>
+    <link rel="stylesheet" href="Signup.css">
+</head>
+<body>
+
+    <main class="signup-container">
+
+        <a href="index.html" class="logo">VORVENA</a>
+
+        <section class="signup-content">
+
+            <div class="signup-heading">
+                <span>WELCOME TO VORVENA</span>
+                <h1>Create your account</h1>
+                <p>Choose how you want to use VORVENA.</p>
+            </div>
+
+            <!-- ROLE SELECTION -->
+            <div class="role-selection" id="roleSelection">
+
+                <button class="role-card" onclick="selectRole('client')">
+                    <div class="role-icon">🏢</div>
+                    <h2>I'm a Client</h2>
+                    <p>I want to find and hire talented tech professionals.</p>
+                    <span>Continue as Client →</span>
+                </button>
+
+                <button class="role-card" onclick="selectRole('professional')">
+                    <div class="role-icon">💻</div>
+                    <h2>I'm a Professional</h2>
+                    <p>I want to showcase my skills and find opportunities.</p>
+                    <span>Continue as Professional →</span>
+                </button>
+
+            </div>
+
+            <!-- CLIENT SIGNUP -->
+            <form id="clientForm" class="signup-form" hidden>
+
+                <button type="button" class="back-btn" onclick="goBack()">
+                    ← Back
+                </button>
+
+                <h2>Create your Client account</h2>
+                <p>Get started in a few simple steps.</p>
+
+                <label>Full Name</label>
+                <input type="text" name="fullName" placeholder="Enter your full name" required>
+
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+
+                <label>Phone Number</label>
+                <input type="tel" name="phone" placeholder="+234..." required>
+
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Create a password" minlength="8" required>
+
+                <label>Confirm Password</label>
+                <input type="password" name="confirmPassword" placeholder="Confirm your password" required>
+
+                <button type="submit" class="submit-btn">
+                    Create Client Account
+                </button>
+
+            </form>
+
+            <!-- PROFESSIONAL SIGNUP -->
+            <form id="professionalForm" class="signup-form" hidden>
+
+                <button type="button" class="back-btn" onclick="goBack()">
+                    ← Back
+                </button>
+
+                <h2>Create your Professional account</h2>
+                <p>Start your journey as a verified VORVENA professional.</p>
+
+                <label>Full Name</label>
+                <input type="text" name="fullName" placeholder="Enter your full name" required>
+
+                <label>Email Address</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+
+                <label>Phone Number</label>
+                <input type="tel" name="phone" placeholder="+234..." required>
+
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Create a password" minlength="8" required>
+
+                <label>Confirm Password</label>
+                <input type="password" name="confirmPassword" placeholder="Confirm your password" required>
+
+                <button type="submit" class="submit-btn">
+                    Create Professional Account
+                </button>
+
+            </form>
+
+            <p class="login-link">
+                Already have an account?
+                <a href="login.html">Log in</a>
+            </p>
+
+        </section>
+
+    </main>
+
+    <script src="Signup.js"></script>
+</body>
+</html>

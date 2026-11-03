@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description"
+    content="VORVENA connects talented tech professionals with clients worldwide. Find talent, showcase your skills and build great things.">
+
+  <meta name="theme-color" content="#082b68">
+
+  <title>VORVENA | Connect. Create. Grow.</title>
+
+  <link rel="stylesheet" href="index.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div class="intro-screen" id="intro">
+    <div class="intro-content">
+      <div class="intro-logo">VORVENA<span>.</span></div>
+
+      <div class="intro-loader">
+        <span></span>
+      </div>
+
+      <p>Connecting talent with opportunity.</p>
+    </div>
+  </div>
+
+
+  <!-- NAVIGATION -->
+  <header class="navbar">
+    <div class="nav-container">
+
+      <a href="#home" class="logo">VORVENA<span>.</span></a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false"
+        aria-controls="navLinks" type="button">
+
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-links" id="navLinks">
+
+        <a href="#home">Home</a>
+
+        <a href="#categories">Explore Talent</a>
+
+        <a href="#how-it-works">How It Works</a>
+
+        <a href="#about">About Us</a>
+
+        <a href="login.html" class="login-link">Log In</a>
+
+        <a href="#join" class="nav-cta">Get Started</a>
+
+      </nav>
+
+    </div>
+  </header>
+
+
+  <main>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+
+      <div class="hero-background"></div>
+      <div class="hero-overlay"></div>
+
+      <div class="hero-layout">
+
+        <!-- LEFT HERO CONTENT -->
+        <div class="hero-content reveal">
+
+          <span class="hero-tag">
+            <span class="tag-dot"></span>
+            THE FUTURE OF TECH OPPORTUNITIES
+          </span>
+
+          <h1>
+            Great Ideas Need
+            <span>Great Talent.</span>
+          </h1>
+
+          <p>
+            Discover skilled tech professionals, connect with global
+            opportunities and turn your ideas into reality with VORVENA.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="javascript:void(0)" onclick="VORVENA.openSignup('client')" class="btn btn-primary">
+              Join as a Client
+            </a>
+
+            <a href="javascript:void(0)" onclick="VORVENA.openSignup('professional')" class="btn btn-outline">
+              Join as a Professional
+            </a>
+
+
+          </div>
+
+          <div class="hero-social-proof">
+            <i class="fa-solid fa-globe"></i>
+            <span>Connecting talent and opportunities worldwide.</span>
+          </div>
+
+        </div>
+
+
+        <!-- RIGHT HERO ANIMATION -->
+        <div class="hero-visual" aria-label="VORVENA technology animation">
+
+          <!-- Rotating orbit rings -->
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="orbit orbit-three"></div>
+
+          <!-- Central logo -->
+          <div class="orbit-center">
+
+            <div class="orbit-logo">
+              V<span>.</span>
+            </div>
+
+            <div class="orbit-caption">
+              VORVENA
+            </div>
+
+            <div class="orbit-subtitle">
+              CONNECT. CREATE. GROW.
+            </div>
+
+          </div>
+
+          <!-- Floating technology icons -->
+          <div class="orbit-icon orbit-icon-one">
+            <i class="fa-solid fa-code"></i>
+          </div>
+
+          <div class="orbit-icon orbit-icon-two">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+
+          <div class="orbit-icon orbit-icon-three">
+            <i class="fa-solid fa-pen-nib"></i>
+          </div>
+
+          <div class="orbit-icon orbit-icon-four">
+            <i class="fa-solid fa-rocket"></i>
+          </div>
+
+          <div class="visual-caption">
+            <span class="visual-caption-dot"></span>
+            A WORLD OF TECH POSSIBILITIES
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- SCROLL INDICATOR -->
+      <a href="#categories" class="scroll-indicator">
+        <span>Explore VORVENA</span>
+        <i class="fa-solid fa-arrow-down"></i>
+      </a>
+
+    </section>
+
+
+    <!-- TRUST STRIP -->
+    <section class="trust-strip">
+
+      <div class="trust-item">
+        <i class="fa-solid fa-earth-americas"></i>
+        <span>Global Opportunities</span>
+      </div>
+
+      <div class="trust-item">
+        <i class="fa-solid fa-shield-halved"></i>
+        <span>Trusted Professionals</span>
+      </div>
+
+      <div class="trust-item">
+        <i class="fa-solid fa-credit-card"></i>
+        <span>Secure Payments</span>
+      </div>
+
+      <div class="trust-item">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <span>AI-Powered Assistance</span>
+      </div>
+
+    </section>
+
+
+    <!-- CATEGORIES -->
+    <section class="section categories-section" id="categories">
+
+      <div class="section-heading reveal">
+
+        <span class="section-label">EXPLORE OPPORTUNITIES</span>
+
+        <h2>
+          Find the expertise
+          <span>you need.</span>
+        </h2>
+
+        <p>
+          Explore different areas of technology and discover professionals
+          ready to bring your next project to life.
+        </p>
+
+      </div>
+
+
+      <div class="category-grid">
+
+        <article class="category-card reveal">
+
+          <div class="category-icon">
+            <i class="fa-solid fa-code"></i>
+          </div>
+
+          <h3>Development &amp; IT</h3>
+
+          <p>
+            Web development, mobile apps, software engineering and more.
+          </p>
+
+          <a href="explore.html?category=dev-it">
+            Explore talent
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+
+        </article>
+
+
+        <article class="category-card reveal">
+
+          <div class="category-icon">
+            <i class="fa-solid fa-pen-nib"></i>
+          </div>
+
+          <h3>Design &amp; Creative</h3>
+
+          <p>
+            UI/UX design, graphics, branding and creative solutions.
+          </p>
+
+          <a href="explore.html?category=design-creative">
+            Explore talent
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+
+        </article>
+
+
+        <article class="category-card reveal">
+
+          <div class="category-icon">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+
+          <h3>Data &amp; AI</h3>
+
+          <p>
+            Data analysis, machine learning and artificial intelligence.
+          </p>
+
+          <a href="explore.html?category=data-analytics">
+            Explore talent
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+
+        </article>
+
+
+        <article class="category-card reveal">
+
+          <div class="category-icon">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+
+          <h3>Digital &amp; Growth</h3>
+
+          <p>
+            Digital marketing, SEO, strategy and business growth.
+          </p>
+
+          <a href="explore.html?category=digital-growth">
+            Explore talent
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- WHY VORVENA -->
+    <section class="section why-section">
+
+      <div class="why-layout">
+
+        <div class="why-content reveal">
+
+          <span class="section-label">WHY VORVENA</span>
+
+          <h2>
+            More than a platform.
+            <span>A better way to work.</span>
+          </h2>
+
+          <p>
+            VORVENA brings clients and skilled technology professionals
+            together through a platform designed around trust,
+            opportunity and meaningful collaboration.
+          </p>
+
+          <a href="#join" class="text-link">
+            Get started with VORVENA
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+
+        </div>
+
+
+        <div class="features-grid">
+
+          <article class="feature-card reveal">
+            <i class="fa-solid fa-user-check"></i>
+
+            <h3>Verified Talent</h3>
+
+            <p>
+              Professional assessments and identity checks help build trust.
+            </p>
+          </article>
+
+
+          <article class="feature-card reveal">
+            <i class="fa-solid fa-lock"></i>
+
+            <h3>Secure Payments</h3>
+
+            <p>
+              Payments are handled through a secure platform process.
+            </p>
+          </article>
+
+
+          <article class="feature-card reveal">
+            <i class="fa-solid fa-robot"></i>
+
+            <h3>AI Assistance</h3>
+
+            <p>
+              Smarter matching, job improvement and proposal assistance.
+            </p>
+          </article>
+
+
+          <article class="feature-card reveal">
+            <i class="fa-solid fa-comments"></i>
+
+            <h3>Project Workspace</h3>
+
+            <p>
+              Keep project communication and delivery organized in one place.
+            </p>
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+    <section class="section how-section" id="how-it-works">
+
+      <div class="section-heading reveal">
+
+        <span class="section-label">SIMPLE PROCESS</span>
+
+        <h2>
+          How
+          <span>VORVENA works.</span>
+        </h2>
+
+        <p>
+          Getting started is simple. Here's how the platform works.
+        </p>
+
+      </div>
+
+
+      <div class="steps-grid">
+
+        <article class="step-card reveal">
+
+          <span class="step-number">01</span>
+
+          <div class="step-icon">
+            <i class="fa-solid fa-user-plus"></i>
+          </div>
+
+          <h3>Create an Account</h3>
+
+          <p>
+            Join VORVENA as a client or a technology professional.
+          </p>
+
+        </article>
+
+
+        <article class="step-card reveal">
+
+          <span class="step-number">02</span>
+
+          <div class="step-icon">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+
+          <h3>Discover Talent</h3>
+
+          <p>
+            Clients explore professional profiles and find the right expertise.
+          </p>
+
+        </article>
+
+
+        <article class="step-card reveal">
+
+          <span class="step-number">03</span>
+
+          <div class="step-icon">
+            <i class="fa-solid fa-handshake"></i>
+          </div>
+
+          <h3>Start a Project</h3>
+
+          <p>
+            Send a hiring offer, agree on the details and begin securely.
+          </p>
+
+        </article>
+
+
+        <article class="step-card reveal">
+
+          <span class="step-number">04</span>
+
+          <div class="step-icon">
+            <i class="fa-solid fa-rocket"></i>
+          </div>
+
+          <h3>Get Things Done</h3>
+
+          <p>
+            Collaborate, deliver work and complete your project.
+          </p>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- ABOUT -->
+    <section class="section about-section" id="about">
+
+      <div class="about-content reveal">
+
+        <span class="section-label">ABOUT VORVENA</span>
+
+        <h2>
+          Building connections.
+          <span>Creating possibilities.</span>
+        </h2>
+
+        <p>
+          We believe great work happens when the right people connect.
+          VORVENA is built to make discovering talent, accessing
+          opportunities and collaborating on technology projects easier.
+        </p>
+
+        <a href="#join" class="btn btn-primary">
+          Become Part of VORVENA
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- FINAL SIGNUP CTA -->
+    <section class="join-section" id="join">
+
+      <div class="join-content reveal">
+
+        <span class="section-label">
+          YOUR NEXT OPPORTUNITY STARTS HERE
+        </span>
+
+        <h2>Ready to make something happen?</h2>
+
+        <p>
+          Whether you're looking for exceptional talent or ready to
+          showcase your skills, there's a place for you at VORVENA.
+        </p>
+
+
+        <div class="hero-buttons join-buttons">
+
+          <a href="client-signup.html" class="btn btn-white">
+            Join as a Client
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+
+          <a href="professional-signup.html" class="btn btn-outline-light">
+            Join as a Professional
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+
+        </div>
+
+
+        <!-- WHATSAPP COMMUNITY -->
+        <div class="community-cta">
+
+          <p>Stay connected with the VORVENA community.</p>
+
+          <a href="https://chat.whatsapp.com/FdihT1z3FL4HuKzS4zRy8G" class="vorvena-community-link" target="_blank"
+            rel="noopener noreferrer">
+
+            <i class="fab fa-whatsapp"></i>
+            Join Our WhatsApp Community
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+    <div class="footer-main">
+
+
+      <!-- FOOTER BRAND -->
+      <div class="footer-brand">
+
+        <a href="#home" class="logo">
+          VORVENA<span>.</span>
+        </a>
+
+        <p>
+          Connecting technology professionals with opportunities
+          and helping great ideas become reality.
+        </p>
+
+      </div>
+
+
+      <!-- EXPLORE LINKS -->
+      <div class="footer-links">
+
+        <h3>Explore</h3>
+
+        <a href="#home">Home</a>
+
+        <a href="#categories">Explore Talent</a>
+
+        <a href="#how-it-works">How It Works</a>
+
+        <a href="#about">About Us</a>
+
+      </div>
+
+
+      <!-- GET STARTED LINKS -->
+      <div class="footer-links">
+
+        <h3>Get Started</h3>
+
+        <a href="client-signup.html">
+          Join as a Client
+        </a>
+
+        <a href="professional-signup.html">
+          Join as a Professional
+        </a>
+
+        <a href="login.html">Log In</a>
+
+      </div>
+
+
+      <!-- LEGAL AND SUPPORT -->
+      <div class="footer-links">
+
+        <h3>Legal &amp; Support</h3>
+
+        <a href="terms.html">Terms of Service</a>
+
+        <a href="privacy.html">Privacy Policy</a>
+
+        <a href="payment-terms.html">Payment Terms</a>
+
+        <a href="refund-policy.html">Refund Policy</a>
+
+        <a href="contact.html">Contact Support</a>
+
+      </div>
+
+    </div>
+
+
+    <!-- SOCIAL MEDIA -->
+    <div class="social-section">
+
+      <h3>Follow us on our social media</h3>
+
+      <div class="social-icons">
+
+        <a href="https://www.tiktok.com/@onlymovii_" class="social-icon" target="_blank" rel="noopener noreferrer"
+          aria-label="TikTok">
+
+          <i class="fab fa-tiktok"></i>
+
+        </a>
+
+
+        <a href="https://www.instagram.com/vorvena_hq/" class="social-icon" target="_blank" rel="noopener noreferrer"
+          aria-label="Instagram">
+
+          <i class="fab fa-instagram"></i>
+
+        </a>
+
+
+        <a href="https://web.facebook.com/61594650560928/" class="social-icon" target="_blank" rel="noopener noreferrer"
+          aria-label="Facebook">
+
+          <i class="fab fa-facebook-f"></i>
+
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <!-- FOOTER BOTTOM -->
+    <div class="footer-bottom">
+
+      <p>
+        © <span id="copyrightYear"></span>
+        VORVENA. All rights reserved.
+      </p>
+
+      <a href="#home">Back to top ↑</a>
+
+    </div>
+
+  </footer>
+
+
+  <!-- JAVASCRIPT -->
+  <script src="index.js"></script>
+
+</body>
+
+</html>
