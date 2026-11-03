@@ -901,3 +901,129 @@ button {
         grid-template-columns: 1fr;
     }
 }
+
+
+/* =====================================
+   PREMIUM SPECIALTY CARD ENHANCEMENTS
+===================================== */
+
+.specialties-grid {
+    align-items: stretch;
+    gap: 22px;
+}
+
+.specialty-card {
+    position: relative;
+    min-height: 205px;
+    overflow: hidden;
+    padding: 25px 23px 19px;
+    border: 1px solid #e6edf7;
+    border-radius: 13px;
+    background: linear-gradient(145deg, #ffffff 0%, #f9fbff 100%);
+    box-shadow: 0 5px 18px rgba(4, 27, 67, 0.035);
+    transition: transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+}
+
+.specialty-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #174b9a, #66a6f8);
+    transition: width 0.3s ease;
+}
+
+.specialty-card:hover {
+    transform: translateY(-7px);
+    border-color: #c8d9f1;
+    box-shadow: 0 17px 35px rgba(4, 27, 67, 0.11);
+}
+
+.specialty-card:hover::before {
+    width: 100%;
+}
+
+.specialty-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 19px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #edf4ff, #e1ecfc);
+    color: #174b9a;
+    font-size: 19px;
+    transition: transform 0.3s ease,
+                background 0.3s ease,
+                color 0.3s ease;
+}
+
+.specialty-card:hover .specialty-icon {
+    transform: scale(1.08) rotate(-4deg);
+    background: #082b68;
+    color: #ffffff;
+}
+
+.specialty-card h3 {
+    font-size: 15px;
+    line-height: 1.45;
+    transition: color 0.2s ease;
+}
+
+.specialty-card:hover h3 {
+    color: #174b9a;
+}
+
+.specialty-card p {
+    min-height: 41px;
+    font-size: 12px;
+}
+
+.card-bottom {
+    margin-top: 17px;
+    padding-top: 13px;
+    border-top: 1px solid #e9eef6;
+}
+
+.card-bottom span {
+    font-size: 11px;
+    letter-spacing: 0.1px;
+}
+
+.card-bottom i {
+    width: 27px;
+    height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #edf3fc;
+    transition: transform 0.25s ease,
+                background 0.25s ease,
+                color 0.25s ease;
+}
+
+.specialty-card:hover .card-bottom i {
+    transform: translateX(3px);
+    background: #082b68;
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .specialties-grid {
+        gap: 15px;
+    }
+
+    .specialty-card {
+        min-height: 195px;
+    }
+}
+
+@media (max-width: 425px) {
+    .specialty-card {
+        min-height: 175px;
+    }
+}
+

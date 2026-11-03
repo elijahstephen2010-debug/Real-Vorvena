@@ -1,468 +1,296 @@
-// =========================================
-// VORVENA EXPLORE PAGE
-// =========================================
 
 document.addEventListener("DOMContentLoaded", () => {
-
     // =====================================
-    // 1. CATEGORY DATA
+    // VORVENA SPECIALTIES
     // =====================================
 
     const categories = {
         "dev-it": {
             title: "Development & IT",
-            description: "Find skilled developers and technology professionals.",
+            description: "Explore development and IT specialties to find the right professional for your project.",
             specialties: [
-                {
-                    slug: "fullstack-developer",
-                    name: "Full Stack Developer",
-                    description: "Build complete web applications from frontend to backend.",
-                    keywords: "fullstack full stack web react node"
-                },
-                {
-                    slug: "frontend-developer",
-                    name: "Frontend Developer",
-                    description: "Create responsive and engaging user interfaces.",
-                    keywords: "frontend html css javascript react"
-                },
-                {
-                    slug: "backend-developer",
-                    name: "Backend Developer",
-                    description: "Build server-side systems, APIs and databases.",
-                    keywords: "backend api server database"
-                },
-                {
-                    slug: "mobile-app-developer",
-                    name: "Mobile App Developer",
-                    description: "Build applications for mobile devices.",
-                    keywords: "mobile android ios flutter"
-                },
-                {
-                    slug: "wordpress-developer",
-                    name: "WordPress Developer",
-                    description: "Build and manage professional WordPress websites.",
-                    keywords: "wordpress website cms"
-                },
-                {
-                    slug: "software-developer",
-                    name: "Software Developer",
-                    description: "Develop software applications and digital solutions.",
-                    keywords: "software programming applications"
-                },
-                {
-                    slug: "cybersecurity-specialist",
-                    name: "Cybersecurity Specialist",
-                    description: "Protect systems, networks and digital information.",
-                    keywords: "cybersecurity security ethical hacking"
-                },
-                {
-                    slug: "devops-engineer",
-                    name: "DevOps Engineer",
-                    description: "Manage deployment, automation and infrastructure.",
-                    keywords: "devops cloud deployment infrastructure"
-                }
+                { name: "Full-Stack Developer", slug: "fullstack-developer", icon: "fa-code", description: "Build complete web applications from frontend to backend." },
+                { name: "Frontend Developer", slug: "frontend-developer", icon: "fa-laptop-code", description: "Create beautiful, responsive and engaging user interfaces." },
+                { name: "Backend Developer", slug: "backend-developer", icon: "fa-server", description: "Build powerful server-side applications and APIs." },
+                { name: "Mobile App Developer", slug: "mobile-app-developer", icon: "fa-mobile-screen-button", description: "Develop mobile applications for Android and iOS." },
+                { name: "Software Engineer", slug: "software-engineer", icon: "fa-gears", description: "Design, develop and maintain software solutions." },
+                { name: "WordPress Developer", slug: "wordpress-developer", icon: "fa-wordpress", description: "Build and customize professional WordPress websites." },
+                { name: "Web Developer", slug: "web-developer", icon: "fa-globe", description: "Create and maintain modern websites." },
+                { name: "DevOps Engineer", slug: "devops-engineer", icon: "fa-cloud", description: "Manage deployment, infrastructure and development workflows." },
+                { name: "Cybersecurity Specialist", slug: "cybersecurity-specialist", icon: "fa-shield-halved", description: "Protect applications, systems and digital assets." },
+                { name: "QA Engineer", slug: "qa-engineer", icon: "fa-bug", description: "Test software and ensure quality and reliability." }
             ]
         },
 
         "design-creative": {
             title: "Design & Creative",
-            description: "Connect with creative professionals who bring ideas to life.",
+            description: "Discover creative professionals who can bring your ideas to life.",
             specialties: [
-                {
-                    slug: "ui-ux-designer",
-                    name: "UI/UX Designer",
-                    description: "Design intuitive and user-friendly digital experiences.",
-                    keywords: "ui ux figma interface experience"
-                },
-                {
-                    slug: "graphic-designer",
-                    name: "Graphic Designer",
-                    description: "Create attractive visual designs for brands.",
-                    keywords: "graphic photoshop illustrator branding"
-                },
-                {
-                    slug: "logo-designer",
-                    name: "Logo Designer",
-                    description: "Create memorable logos and brand identities.",
-                    keywords: "logo brand identity"
-                },
-                {
-                    slug: "motion-graphics-designer",
-                    name: "Motion Graphics Designer",
-                    description: "Create animated graphics and visual content.",
-                    keywords: "motion animation graphics"
-                },
-                {
-                    slug: "video-editor",
-                    name: "Video Editor",
-                    description: "Edit and produce engaging video content.",
-                    keywords: "video editing premiere"
-                },
-                {
-                    slug: "3d-designer",
-                    name: "3D Designer",
-                    description: "Create detailed three-dimensional designs.",
-                    keywords: "3d blender modelling"
-                },
-                {
-                    slug: "product-designer",
-                    name: "Product Designer",
-                    description: "Shape useful and engaging product experiences.",
-                    keywords: "product design ux"
-                },
-                {
-                    slug: "illustrator",
-                    name: "Illustrator",
-                    description: "Create original illustrations and visual artwork.",
-                    keywords: "illustration drawing artwork"
-                }
+                { name: "UI/UX Designer", slug: "ui-ux-designer", icon: "fa-pen-ruler", description: "Design intuitive and engaging digital experiences." },
+                { name: "Graphic Designer", slug: "graphic-designer", icon: "fa-palette", description: "Create compelling graphics and visual designs." },
+                { name: "Product Designer", slug: "product-designer", icon: "fa-layer-group", description: "Design useful and engaging digital products." },
+                { name: "Brand Designer", slug: "brand-designer", icon: "fa-copyright", description: "Build memorable brand identities." },
+                { name: "Motion Designer", slug: "motion-designer", icon: "fa-film", description: "Create engaging animations and motion graphics." },
+                { name: "Video Editor", slug: "video-editor", icon: "fa-video", description: "Edit videos and create compelling visual stories." },
+                { name: "3D Designer", slug: "3d-designer", icon: "fa-cube", description: "Create detailed three-dimensional designs." },
+                { name: "Illustrator", slug: "illustrator", icon: "fa-pen-nib", description: "Create original digital illustrations and artwork." }
             ]
         },
 
         "data-ai": {
             title: "Data & AI",
-            description: "Find professionals working with data and artificial intelligence.",
+            description: "Discover professionals who turn data and artificial intelligence into useful solutions.",
             specialties: [
-                {
-                    slug: "data-analyst",
-                    name: "Data Analyst",
-                    description: "Turn data into useful business insights.",
-                    keywords: "data analytics excel sql"
-                },
-                {
-                    slug: "data-scientist",
-                    name: "Data Scientist",
-                    description: "Use data science to solve complex problems.",
-                    keywords: "data science statistics"
-                },
-                {
-                    slug: "machine-learning-engineer",
-                    name: "Machine Learning Engineer",
-                    description: "Build and deploy machine learning solutions.",
-                    keywords: "machine learning ml python"
-                },
-                {
-                    slug: "ai-developer",
-                    name: "AI Developer",
-                    description: "Develop applications powered by artificial intelligence.",
-                    keywords: "ai artificial intelligence"
-                },
-                {
-                    slug: "data-engineer",
-                    name: "Data Engineer",
-                    description: "Build data pipelines and infrastructure.",
-                    keywords: "data pipeline engineering"
-                },
-                {
-                    slug: "business-intelligence-analyst",
-                    name: "Business Intelligence Analyst",
-                    description: "Transform business data into actionable insights.",
-                    keywords: "business intelligence power bi"
-                },
-                {
-                    slug: "ai-automation-specialist",
-                    name: "AI Automation Specialist",
-                    description: "Automate business processes using AI tools.",
-                    keywords: "automation ai workflows"
-                },
-                {
-                    slug: "database-administrator",
-                    name: "Database Administrator",
-                    description: "Manage and maintain database systems.",
-                    keywords: "database sql administrator"
-                }
+                { name: "Data Analyst", slug: "data-analyst", icon: "fa-chart-line", description: "Analyze data and uncover valuable insights." },
+                { name: "Data Scientist", slug: "data-scientist", icon: "fa-chart-pie", description: "Use data science to solve complex problems." },
+                { name: "Machine Learning Engineer", slug: "machine-learning-engineer", icon: "fa-brain", description: "Build and deploy machine learning systems." },
+                { name: "AI Engineer", slug: "ai-engineer", icon: "fa-robot", description: "Develop intelligent applications and AI solutions." },
+                { name: "Data Engineer", slug: "data-engineer", icon: "fa-database", description: "Build and manage data pipelines." },
+                { name: "Business Intelligence Analyst", slug: "business-intelligence-analyst", icon: "fa-chart-column", description: "Create reports and dashboards for better decisions." },
+                { name: "Prompt Engineer", slug: "prompt-engineer", icon: "fa-terminal", description: "Design effective prompts for AI systems." }
             ]
         },
 
         "digital-growth": {
-            title: "Digital & Growth",
-            description: "Discover professionals who help businesses grow online.",
+            title: "Digital Growth",
+            description: "Find digital experts who can grow your brand and online presence.",
             specialties: [
-                {
-                    slug: "digital-marketer",
-                    name: "Digital Marketer",
-                    description: "Grow businesses through digital marketing strategies.",
-                    keywords: "digital marketing online"
-                },
-                {
-                    slug: "seo-specialist",
-                    name: "SEO Specialist",
-                    description: "Improve website visibility in search engines.",
-                    keywords: "seo search engine optimization"
-                },
-                {
-                    slug: "social-media-manager",
-                    name: "Social Media Manager",
-                    description: "Manage and grow social media accounts.",
-                    keywords: "social media management"
-                },
-                {
-                    slug: "content-writer",
-                    name: "Content Writer",
-                    description: "Create engaging content for digital platforms.",
-                    keywords: "content writing blogs"
-                },
-                {
-                    slug: "copywriter",
-                    name: "Copywriter",
-                    description: "Write persuasive copy for brands and businesses.",
-                    keywords: "copywriting advertising"
-                },
-                {
-                    slug: "email-marketer",
-                    name: "Email Marketer",
-                    description: "Create and manage effective email campaigns.",
-                    keywords: "email marketing campaigns"
-                },
-                {
-                    slug: "growth-marketer",
-                    name: "Growth Marketer",
-                    description: "Develop strategies that support business growth.",
-                    keywords: "growth marketing business"
-                },
-                {
-                    slug: "ecommerce-specialist",
-                    name: "E-commerce Specialist",
-                    description: "Help businesses manage and grow online stores.",
-                    keywords: "ecommerce online store shopify"
-                }
+                { name: "Digital Marketer", slug: "digital-marketer", icon: "fa-bullhorn", description: "Plan and manage effective digital campaigns." },
+                { name: "SEO Specialist", slug: "seo-specialist", icon: "fa-magnifying-glass-chart", description: "Improve website rankings and search visibility." },
+                { name: "Social Media Manager", slug: "social-media-manager", icon: "fa-hashtag", description: "Manage social media accounts and communities." },
+                { name: "Content Strategist", slug: "content-strategist", icon: "fa-file-lines", description: "Plan content that connects with your audience." },
+                { name: "Email Marketing Specialist", slug: "email-marketing-specialist", icon: "fa-envelope", description: "Create and manage effective email campaigns." },
+                { name: "Growth Marketer", slug: "growth-marketer", icon: "fa-chart-simple", description: "Develop strategies that support business growth." },
+                { name: "Copywriter", slug: "copywriter", icon: "fa-pen-to-square", description: "Write persuasive content for brands and businesses." }
             ]
         }
     };
 
+    // =====================================
+    // HTML ELEMENTS
+    // =====================================
 
-    // =====================================
-    // 2. GET PAGE ELEMENTS
-    // =====================================
+    const grid = document.getElementById("specialtiesGrid");
+    const title = document.getElementById("categoryTitle");
+    const description = document.getElementById("categoryDescription");
+    const breadcrumb = document.getElementById("breadcrumbCategory");
 
     const searchInput = document.getElementById("searchInput");
     const searchButton = document.getElementById("searchButton");
-
-    const specialtiesGrid = document.getElementById("specialtiesGrid");
-
-    const categoryTitle = document.getElementById("categoryTitle");
-    const categoryDescription = document.getElementById("categoryDescription");
-    const breadcrumbCategory = document.getElementById("breadcrumbCategory");
-
+    const clearSearchButton = document.getElementById("clearSearch");
     const emptyState = document.getElementById("emptyState");
-    const clearSearch = document.getElementById("clearSearch");
 
     const menuToggle = document.getElementById("menuToggle");
     const navLinks = document.getElementById("navLinks");
 
+    const copyrightYear = document.getElementById("copyrightYear");
+
+    if (!grid) {
+        console.error("VORVENA: specialtiesGrid was not found.");
+        return;
+    }
 
     // =====================================
-    // 3. PAGE STATE
+    // CATEGORY FROM URL
     // =====================================
 
     const params = new URLSearchParams(window.location.search);
 
-    const selectedCategory = params.get("category") || "dev-it";
+    let selectedCategory = params.get("category") || "dev-it";
+    let searchTerm = "";
 
-    const currentCategory = categories[selectedCategory] || categories["dev-it"];
-
-
-    // =====================================
-    // 4. UPDATE CATEGORY HEADING
-    // =====================================
-
-    function updateCategoryHeading() {
-
-        categoryTitle.textContent = currentCategory.title;
-
-        categoryDescription.textContent = currentCategory.description;
-
-        breadcrumbCategory.textContent = currentCategory.title;
-
+    // Backwards compatibility with the old category link.
+    if (selectedCategory === "data-analytics") {
+        selectedCategory = "data-ai";
     }
 
+    if (!categories[selectedCategory]) {
+        selectedCategory = "dev-it";
+    }
 
     // =====================================
-    // 5. CREATE SPECIALTY CARD
+    // CREATE SPECIALTY CARD
     // =====================================
 
     function createSpecialtyCard(specialty) {
-
         const card = document.createElement("a");
 
         card.className = "specialty-card";
+        card.href = `professionals.html?category=${encodeURIComponent(specialty.slug)}`;
+        card.setAttribute("aria-label", `Explore ${specialty.name} professionals`);
 
-        // Correct path to Professionals page
-        card.href =
-            `professionals/professionals.html?category=${encodeURIComponent(specialty.slug)}`;
+        const iconBox = document.createElement("div");
+        iconBox.className = "specialty-icon";
 
-        card.innerHTML = `
-            <div class="specialty-card-icon">
-                <i class="fas fa-code"></i>
-            </div>
+        const icon = document.createElement("i");
+        icon.className = `fa-solid ${specialty.icon}`;
+        icon.setAttribute("aria-hidden", "true");
 
-            <h3>${specialty.name}</h3>
+        iconBox.appendChild(icon);
 
-            <p>${specialty.description}</p>
+        const content = document.createElement("div");
+        content.className = "specialty-content";
 
-            <span class="specialty-card-link">
-                Explore professionals
-                <i class="fas fa-arrow-right"></i>
-            </span>
-        `;
+        const heading = document.createElement("h3");
+        heading.textContent = specialty.name;
+
+        const text = document.createElement("p");
+        text.textContent = specialty.description;
+
+        content.append(heading, text);
+
+        const bottom = document.createElement("div");
+        bottom.className = "card-bottom";
+
+        const bottomText = document.createElement("span");
+        bottomText.textContent = "Explore Professionals";
+
+        const arrow = document.createElement("i");
+        arrow.className = "fa-solid fa-arrow-right";
+        arrow.setAttribute("aria-hidden", "true");
+
+        bottom.append(bottomText, arrow);
+
+        card.append(iconBox, content, bottom);
 
         return card;
-
     }
 
-
     // =====================================
-    // 6. DISPLAY SPECIALTIES
+    // DISPLAY SPECIALTIES
     // =====================================
 
-    function renderSpecialties(searchTerm = "") {
+    function renderSpecialties() {
+        const category = categories[selectedCategory];
 
-        specialtiesGrid.innerHTML = "";
+        const filtered = category.specialties.filter(specialty => {
+            const name = specialty.name.toLowerCase();
+            const details = specialty.description.toLowerCase();
 
-        const normalizedSearch = searchTerm.trim().toLowerCase();
+            return name.includes(searchTerm) || details.includes(searchTerm);
+        });
 
-        const filteredSpecialties = currentCategory.specialties.filter(
-            specialty => {
+        grid.replaceChildren();
 
-                const searchableText = [
-                    specialty.name,
-                    specialty.description,
-                    specialty.keywords
-                ].join(" ").toLowerCase();
+        if (filtered.length === 0) {
+            grid.style.display = "none";
 
-                return searchableText.includes(normalizedSearch);
-
+            if (emptyState) {
+                emptyState.classList.add("show");
             }
-        );
-
-
-        if (filteredSpecialties.length === 0) {
-
-            emptyState.classList.add("show");
 
             return;
-
         }
 
-        emptyState.classList.remove("show");
+        grid.style.display = "";
 
-        filteredSpecialties.forEach(specialty => {
+        if (emptyState) {
+            emptyState.classList.remove("show");
+        }
 
-            specialtiesGrid.appendChild(
-                createSpecialtyCard(specialty)
-            );
+        const cards = document.createDocumentFragment();
 
+        filtered.forEach(specialty => {
+            cards.appendChild(createSpecialtyCard(specialty));
         });
 
+        grid.appendChild(cards);
     }
 
-
     // =====================================
-    // 7. SEARCH
-    // =====================================
-
-    searchInput.addEventListener("input", () => {
-
-        renderSpecialties(searchInput.value);
-
-    });
-
-
-    searchButton.addEventListener("click", () => {
-
-        renderSpecialties(searchInput.value);
-
-    });
-
-
-    searchInput.addEventListener("keydown", event => {
-
-        if (event.key === "Enter") {
-
-            renderSpecialties(searchInput.value);
-
-        }
-
-    });
-
-
-    // =====================================
-    // 8. CLEAR SEARCH
+    // UPDATE CATEGORY
     // =====================================
 
-    clearSearch.addEventListener("click", () => {
+    function updateCategory() {
+        const category = categories[selectedCategory];
 
-        searchInput.value = "";
+        title && (title.textContent = category.title);
+        description && (description.textContent = category.description);
+        breadcrumb && (breadcrumb.textContent = category.title);
 
         renderSpecialties();
-
-    });
-
-
-    // =====================================
-    // 9. MOBILE NAVIGATION
-    // =====================================
-
-    menuToggle.addEventListener("click", () => {
-
-        navLinks.classList.toggle("show");
-
-        const icon = menuToggle.querySelector("i");
-
-        if (navLinks.classList.contains("show")) {
-
-            icon.classList.replace("fa-bars", "fa-times");
-
-            menuToggle.setAttribute("aria-expanded", "true");
-
-        } else {
-
-            icon.classList.replace("fa-times", "fa-bars");
-
-            menuToggle.setAttribute("aria-expanded", "false");
-
-        }
-
-    });
-
-
-    document.querySelectorAll("#navLinks a").forEach(link => {
-
-        link.addEventListener("click", () => {
-
-            navLinks.classList.remove("show");
-
-            const icon = menuToggle.querySelector("i");
-
-            icon.classList.remove("fa-times");
-            icon.classList.add("fa-bars");
-
-            menuToggle.setAttribute("aria-expanded", "false");
-
-        });
-
-    });
-
-
-    // =====================================
-    // 10. FOOTER YEAR
-    // =====================================
-
-    const copyrightYear = document.getElementById("copyrightYear");
-
-    if (copyrightYear) {
-
-        copyrightYear.textContent = new Date().getFullYear();
-
     }
 
+    // =====================================
+    // SEARCH
+    // =====================================
+
+    function performSearch() {
+        searchTerm = searchInput.value.trim().toLowerCase();
+        renderSpecialties();
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener("input", performSearch);
+
+        searchInput.addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+                performSearch();
+            }
+        });
+    }
+
+    if (searchButton && searchInput) {
+        searchButton.addEventListener("click", performSearch);
+    }
 
     // =====================================
-    // 11. INITIALIZE PAGE
+    // CLEAR SEARCH
     // =====================================
 
-    updateCategoryHeading();
+    function clearSearch() {
+        searchTerm = "";
 
-    renderSpecialties();
+        if (searchInput) {
+            searchInput.value = "";
+            searchInput.focus();
+        }
 
+        renderSpecialties();
+    }
+
+    if (clearSearchButton) {
+        clearSearchButton.addEventListener("click", clearSearch);
+    }
+
+    // =====================================
+    // MOBILE NAVIGATION
+    // =====================================
+
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener("click", () => {
+            const isOpen = navLinks.classList.toggle("show");
+
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
+            menuToggle.setAttribute(
+                "aria-label",
+                isOpen ? "Close navigation" : "Open navigation"
+            );
+        });
+
+        navLinks.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                navLinks.classList.remove("show");
+                menuToggle.classList.remove("active");
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.setAttribute("aria-label", "Open navigation");
+            });
+        });
+    }
+
+    // =====================================
+    // FOOTER YEAR
+    // =====================================
+
+    if (copyrightYear) {
+        copyrightYear.textContent = new Date().getFullYear();
+    }
+
+    // =====================================
+    // INITIALIZE
+    // =====================================
+
+    updateCategory();
+
+    console.log("VORVENA Explore page initialized.");
 });
