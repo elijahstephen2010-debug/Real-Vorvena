@@ -78,7 +78,6 @@
 
     </section>
 
-
     <!-- RIGHT PANEL -->
     <section class="signup-form-section">
 
@@ -98,38 +97,21 @@
 
           <div class="form-group">
             <label for="fullName">Full Name</label>
-            <input
-              type="text"
-              id="fullName"
-              name="fullName"
-              placeholder="Enter your full name"
-              autocomplete="name"
-              required
-            >
+            <input type="text" id="fullName" name="fullName"
+              placeholder="Enter your full name" autocomplete="name" required>
           </div>
 
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="example@email.com"
-              autocomplete="email"
-              required
-            >
+            <input type="email" id="email" name="email"
+              placeholder="example@email.com" autocomplete="email" required>
           </div>
 
           <div class="form-group">
             <label for="country">Country</label>
-            <input
-              type="text"
-              id="country"
-              name="country"
+            <input type="text" id="country" name="country"
               placeholder="Select your country using the phone selector"
-              readonly
-              required
-            >
+              readonly required>
             <small class="field-hint">
               Choose your country in the phone number selector below.
             </small>
@@ -137,64 +119,37 @@
 
           <div class="form-group">
             <label for="phone">Phone Number</label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              placeholder="Enter your phone number"
-              autocomplete="tel"
-              required
-            >
+            <input type="tel" id="phone" name="phone"
+              placeholder="Enter your phone number" autocomplete="tel" required>
           </div>
 
           <div class="form-group">
             <label for="region">State / Province / Region</label>
-            <input
-              type="text"
-              id="region"
-              name="region"
+            <input type="text" id="region" name="region"
               placeholder="Enter your state or region"
-              autocomplete="address-level1"
-              required
-            >
+              autocomplete="address-level1" required>
           </div>
 
           <div class="form-group">
             <label for="city">City</label>
-            <input
-              type="text"
-              id="city"
-              name="city"
+            <input type="text" id="city" name="city"
               placeholder="Enter your city"
-              autocomplete="address-level2"
-              required
-            >
+              autocomplete="address-level2" required>
           </div>
 
           <div class="form-group">
             <label for="password">Password</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
+            <input type="password" id="password" name="password"
               placeholder="Create a strong password"
-              autocomplete="new-password"
-              minlength="8"
-              required
-            >
+              autocomplete="new-password" minlength="8" required>
           </div>
 
           <div class="form-group">
             <label for="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
+            <input type="password" id="confirmPassword"
               name="confirmPassword"
               placeholder="Confirm your password"
-              autocomplete="new-password"
-              minlength="8"
-              required
-            >
+              autocomplete="new-password" minlength="8" required>
           </div>
 
           <div class="terms-group">
@@ -230,7 +185,6 @@
 
   </main>
 
-
   <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
 
   <script>
@@ -259,10 +213,18 @@
     document.querySelector("#year").textContent =
       new Date().getFullYear();
 
+    // PROFESSIONAL SIGNUP SUBMISSION
     document.querySelector("#professionalSignupForm")
       .addEventListener("submit", function(event) {
 
         event.preventDefault();
+
+        const fullName = document.querySelector("#fullName").value.trim();
+        const email = document.querySelector("#email").value.trim();
+        const phone = document.querySelector("#phone").value.trim();
+        const country = countryInput.value;
+        const region = document.querySelector("#region").value.trim();
+        const city = document.querySelector("#city").value.trim();
 
         const password = document.querySelector("#password").value;
         const confirmPassword =
@@ -278,9 +240,20 @@
           return;
         }
 
-        alert(
-          "Form validated. Professional registration and verification will be connected to the backend next."
-        );
+        // Store only non-sensitive signup details.
+        // Passwords are never stored in browser storage.
+
+        sessionStorage.setItem("vorvenaFullName", fullName);
+        sessionStorage.setItem("vorvenaEmail", email);
+        sessionStorage.setItem("vorvenaPhone", iti.getNumber());
+        sessionStorage.setItem("vorvenaCountry", country);
+        sessionStorage.setItem("vorvenaRegion", region);
+        sessionStorage.setItem("vorvenaCity", city);
+        sessionStorage.setItem("vorvenaAccountType", "professional");
+
+        // Open the shared verification page.
+        window.location.href = "verification.html";
+
       });
   </script>
 

@@ -2,196 +2,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | VORVENA</title>
-  <link rel="stylesheet" href="login.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | VORVENA</title>
+
+    <link rel="stylesheet" href="login.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
 <body>
 
-  <header class="navbar">
-    <a href="index.html" class="brand">
-      <span class="brand-icon">V</span>
-      VORVENA
-    </a>
+    <main class="login-container">
 
-    <a href="signup.html" class="signup-link">
-      Don't have an account? <strong>Sign up</strong>
-    </a>
-  </header>
+        <div class="login-card">
 
-  <main class="login-container">
+            <div class="login-header">
+                <a href="index.html" class="logo">VORVENA</a>
+                <h1>Welcome back</h1>
+                <p>Sign in to continue to your account.</p>
+            </div>
 
-    <section class="login-card">
+            <form id="loginForm">
 
-      <div class="welcome">
-        <span class="eyebrow">WELCOME BACK</span>
-        <h1>Login to your account</h1>
-        <p>Continue building your future with VORVENA.</p>
-      </div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope"></i>
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="Enter your email"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+                </div>
 
-      <div class="social-login">
-        <button type="button" class="social-btn" id="googleLogin">
-          <i class="fa-brands fa-google"></i>
-          Continue with Google
-        </button>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+                        <button type="button" id="togglePassword" class="password-toggle" aria-label="Show password">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
 
-        <button type="button" class="social-btn" id="appleLogin">
-          <i class="fa-brands fa-apple"></i>
-          Continue with Apple
-        </button>
-      </div>
+                <div class="login-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="rememberMe">
+                        <span>Remember me</span>
+                    </label>
 
-      <div class="divider">
-        <span></span>
-        <p>OR CONTINUE WITH EMAIL</p>
-        <span></span>
-      </div>
+                    <a href="#" id="forgotPassword">Forgot password?</a>
+                </div>
 
-      <form id="loginForm">
+                <p id="loginMessage" class="login-message" role="alert"></p>
 
-        <div class="form-group">
-          <label for="email">Email address</label>
-          <div class="input-box">
-            <i class="fa-regular fa-envelope"></i>
-            <input
-              type="email"
-              id="email"
-              placeholder="Enter your email address"
-              autocomplete="email"
-              required
-            >
-          </div>
+                <button type="submit" id="loginButton" class="login-btn">
+                    Sign In
+                </button>
+
+            </form>
+
+            <div class="login-divider">
+                <span>OR</span>
+            </div>
+
+            <div class="social-login">
+                <button type="button" id="googleLogin" class="social-btn">
+                    <i class="fa-brands fa-google"></i>
+                    Continue with Google
+                </button>
+
+                <button type="button" id="appleLogin" class="social-btn">
+                    <i class="fa-brands fa-apple"></i>
+                    Continue with Apple
+                </button>
+            </div>
+
+            <p class="signup-link">
+                Don't have an account?
+                <a href="professional-signup.html">Create an account</a>
+            </p>
+
         </div>
 
-        <div class="form-group">
-          <div class="password-label">
-            <label for="password">Password</label>
-            <a href="forgot-password.html">Forgot password?</a>
-          </div>
+    </main>
 
-          <div class="input-box">
-            <i class="fa-solid fa-lock"></i>
-            <input
-              type="password"
-              id="password"
-              placeholder="Enter your password"
-              autocomplete="current-password"
-              required
-            >
-            <button type="button" class="toggle-password" id="togglePassword" aria-label="Show password">
-              <i class="fa-regular fa-eye"></i>
-            </button>
-          </div>
-        </div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
 
-        <div class="remember">
-          <label>
-            <input type="checkbox" id="remember">
-            <span>Remember me</span>
-          </label>
-        </div>
+        const loginForm = document.getElementById("loginForm");
+        const emailInput = document.getElementById("email");
+        const passwordInput = document.getElementById("password");
+        const loginMessage = document.getElementById("loginMessage");
+        const loginButton = document.getElementById("loginButton");
+        const togglePassword = document.getElementById("togglePassword");
 
-        <button type="submit" class="login-btn" id="loginButton">
-          Login to your account
-          <i class="fa-solid fa-arrow-right"></i>
-        </button>
+        function showMessage(message, type = "error") {
+            loginMessage.textContent = message;
+            loginMessage.style.color = type === "success" ? "#16803c" : "#d93025";
+        }
 
-        <p class="message" id="message" role="status"></p>
+        // Show or hide password
+        togglePassword.addEventListener("click", function () {
+            const isPassword = passwordInput.type === "password";
 
-      </form>
+            passwordInput.type = isPassword ? "text" : "password";
 
-      <div class="security-note">
-        <i class="fa-solid fa-shield-halved"></i>
-        Your account and information are protected.
-      </div>
+            this.innerHTML = isPassword
+                ? '<i class="fa-regular fa-eye-slash"></i>'
+                : '<i class="fa-regular fa-eye"></i>';
+        });
 
-      <p class="bottom-text">
-        New to VORVENA?
-        <a href="signup.html">Create an account</a>
-      </p>
+        // Login
+        loginForm.addEventListener("submit", function (event) {
+            event.preventDefault();
 
-    </section>
+            const email = emailInput.value.trim().toLowerCase();
+            const password = passwordInput.value;
 
-    <section class="side-content">
-      <div class="side-overlay"></div>
+            if (!email || !password) {
+                showMessage("Please enter your email and password.");
+                return;
+            }
 
-      <div class="side-text">
-        <span>YOUR NEXT OPPORTUNITY STARTS HERE</span>
-        <h2>Connect. Create.<br>Grow with VORVENA.</h2>
-        <p>
-          A platform connecting talented tech professionals
-          with clients looking for great work.
-        </p>
-      </div>
+            const savedEmail = sessionStorage.getItem("vorvenaEmail");
+            const accountType = sessionStorage.getItem("vorvenaAccountType");
 
-      <div class="side-footer">
-        <span>© <span id="year"></span> VORVENA</span>
-        <a href="index.html">Back to home</a>
-      </div>
-    </section>
+            if (!savedEmail) {
+                showMessage("No registered account found. Please sign up first.");
+                return;
+            }
 
-  </main>
+            if (email !== savedEmail.toLowerCase()) {
+                showMessage("This email does not match your registered account.");
+                return;
+            }
 
-  <script>
-    const passwordInput = document.getElementById("password");
-    const togglePassword = document.getElementById("togglePassword");
-    const loginForm = document.getElementById("loginForm");
-    const message = document.getElementById("message");
-    const loginButton = document.getElementById("loginButton");
+            if (accountType !== "professional") {
+                showMessage("Client dashboard is not connected yet.");
+                return;
+            }
 
-    // Current year
-    document.getElementById("year").textContent = new Date().getFullYear();
+            let profile;
 
-    // Show or hide password
-    togglePassword.addEventListener("click", () => {
-      const isPassword = passwordInput.type === "password";
+            try {
+                profile = JSON.parse(
+                    sessionStorage.getItem("vorvenaProfessionalProfile") ||
+                    localStorage.getItem("vorvenaProfessionalProfile") ||
+                    "null"
+                );
+            } catch (error) {
+                showMessage("Your profile information could not be loaded.");
+                return;
+            }
 
-      passwordInput.type = isPassword ? "text" : "password";
+            if (!profile || profile.onboardingStatus !== "demo-completed") {
+                showMessage("Please complete your professional onboarding first.");
+                return;
+            }
 
-      togglePassword.innerHTML = isPassword
-        ? '<i class="fa-regular fa-eye-slash"></i>'
-        : '<i class="fa-regular fa-eye"></i>';
+            loginButton.disabled = true;
+            loginButton.textContent = "Signing in...";
+
+            sessionStorage.setItem("vorvenaLoggedIn", "true");
+            sessionStorage.setItem("vorvenaLoggedInEmail", email);
+            sessionStorage.setItem("vorvenaLoggedInRole", "professional");
+
+            showMessage("Login successful. Redirecting...", "success");
+
+            setTimeout(function () {
+                window.location.href = "professional-dashboard.html";
+            }, 700);
+        });
+
+        // Forgot password placeholder
+        document.getElementById("forgotPassword").addEventListener("click", function (event) {
+            event.preventDefault();
+            showMessage("Password recovery will be available when the backend is connected.");
+        });
+
+        // Social login placeholders
+        document.getElementById("googleLogin").addEventListener("click", function () {
+            showMessage("Google sign-in is not connected yet.");
+        });
+
+        document.getElementById("appleLogin").addEventListener("click", function () {
+            showMessage("Apple sign-in is not connected yet.");
+        });
+
     });
-
-    // Email login interface
-    loginForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      const email = document.getElementById("email").value.trim();
-      const password = passwordInput.value;
-
-      if (!email || !password) {
-        showMessage("Please enter your email and password.", "error");
-        return;
-      }
-
-      // Backend authentication will be connected here.
-      showMessage(
-        "Login is not connected yet. Backend authentication will be added next.",
-        "error"
-      );
-    });
-
-    // Social login placeholders
-    document.getElementById("googleLogin").addEventListener("click", () => {
-      showMessage("Google login will be enabled when OAuth is configured.", "error");
-    });
-
-    document.getElementById("appleLogin").addEventListener("click", () => {
-      showMessage("Apple login will be enabled when OAuth is configured.", "error");
-    });
-
-    function showMessage(text, type) {
-      message.textContent = text;
-      message.className = "message " + type;
-    }
-  </script>
+    </script>
 
 </body>
 </html>

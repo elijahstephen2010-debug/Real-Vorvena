@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Verify your VORVENA account.">
+  <title>Account Verification | VORVENA</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="verification.css">
+</head>
+
+<body>
+
+  <main class="verification-container">
+
+    <a href="index.html" class="brand">VORVENA</a>
+
+    <section class="verification-card">
+
+      <!-- EMAIL VERIFICATION -->
+      <div class="verification-step active" id="emailStep">
+
+        <div class="verification-icon">
+          <span>✉</span>
+        </div>
+
+        <span class="eyebrow">STEP 1 OF 2</span>
+
+        <h1>Verify your email</h1>
+
+        <p class="description">
+          Enter the six-digit code sent to your email address
+          to confirm your account.
+        </p>
+
+        <div class="email-display">
+          <strong id="displayEmail">your@email.com</strong>
+          <button type="button" id="changeEmail">Change</button>
+        </div>
+
+        <form id="emailVerificationForm">
+
+          <label>Enter verification code</label>
+
+          <div class="otp-inputs">
+            <input type="text" maxlength="1" inputmode="numeric" autocomplete="one-time-code" aria-label="Email code digit 1" required>
+            <input type="text" maxlength="1" inputmode="numeric" aria-label="Email code digit 2" required>
+            <input type="text" maxlength="1" inputmode="numeric" aria-label="Email code digit 3" required>
+            <input type="text" maxlength="1" inputmode="numeric" aria-label="Email code digit 4" required>
+            <input type="text" maxlength="1" inputmode="numeric" aria-label="Email code digit 5" required>
+            <input type="text" maxlength="1" inputmode="numeric" aria-label="Email code digit 6" required>
+          </div>
+
+          <p class="message" id="emailMessage" aria-live="polite"></p>
+
+          <button type="submit" class="verify-btn">
+            Verify Email <span>→</span>
+          </button>
+
+        </form>
+
+        <div class="resend-section">
+          <p>Didn't receive the code?</p>
+          <button type="button" id="resendEmailCode">Resend Code</button>
+          <p class="resend-message" id="emailResendMessage" aria-live="polite"></p>
+        </div>
+
+      </div>
+
+
+      <!-- PHONE VERIFICATION -->
+      <div class="verification-step" id="phoneStep">
+
+        <div class="verification-icon">
+          <span>☎</span>
+        </div>
+
+        <span class="eyebrow">STEP 2 OF 2</span>
+
+        <h1>Verify your phone</h1>
+
+        <p class="description">
+          Enter the six-digit code sent to your phone number
+          to complete your account verification.
+        </p>
+
+        <div class="email-display">
+          <strong id="displayPhone">+234 000 000 0000</strong>
+          <button type="button" id="changePhone">Change</button>
+        </div>
+
+        <form id="phoneVerificationForm">
+
+          <label>Enter verification code</label>
+
+          <div class="otp-inputs">
+            <input type="text" maxlength="1" inputmode="numeric" autocomplete="one-time-code" aria-label="Phone code digit 1" required>
+            <input type="text" maxlength="1" inputmode="numeric" aria-label="Phone code digit 2" required>
+            <input type="text" maxlength="1" inputmode="numeric" aria-label="Phone code digit 3" required>
+            <input type="text" maxlength="1" inputmode="numeric" aria-label="Phone code digit 4" required>
+            <input type="text" maxlength="1" inputmode="numeric" aria-label="Phone code digit 5" required>
+            <input type="text" maxlength="1" inputmode="numeric" aria-label="Phone code digit 6" required>
+          </div>
+
+          <p class="message" id="phoneMessage" aria-live="polite"></p>
+
+          <button type="submit" class="verify-btn">
+            Verify Phone <span>→</span>
+          </button>
+
+        </form>
+
+        <div class="resend-section">
+          <p>Didn't receive the code?</p>
+          <button type="button" id="resendPhoneCode">Resend Code</button>
+          <p class="resend-message" id="phoneResendMessage" aria-live="polite"></p>
+        </div>
+
+        <button type="button" class="back-home" id="backToEmail">
+          ← Back to email verification
+        </button>
+
+      </div>
+
+
+      <!-- SUCCESS SCREEN -->
+      <div class="verification-step" id="successStep">
+
+        <div class="verification-icon">
+          <span>✓</span>
+        </div>
+
+        <span class="eyebrow">VERIFICATION COMPLETE</span>
+
+        <h1>You're verified!</h1>
+
+        <p class="description">
+          Your email address and phone number have been
+          successfully verified. You can now continue
+          setting up your VORVENA account.
+        </p>
+
+        <button type="button" class="verify-btn" id="continueBtn">
+          Continue <span>→</span>
+        </button>
+
+      </div>
+
+      <a href="index.html" class="back-home">
+        ← Back to homepage
+      </a>
+
+    </section>
+
+    <p class="footer">
+      © <span id="year"></span> VORVENA. All rights reserved.
+    </p>
+
+  </main>
+
+  <script src="verification.js"></script>
+
+</body>
+</html>

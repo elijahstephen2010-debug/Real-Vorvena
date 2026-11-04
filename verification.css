@@ -1,0 +1,313 @@
+
+:root {
+  --navy: #082b68;
+  --navy-dark: #041b43;
+  --blue: #174b9a;
+  --white: #ffffff;
+  --background: #f7f9fc;
+  --text: #17243a;
+  --muted: #778397;
+  --border: #e1e6ee;
+  --success: #16834b;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+  background: var(--background);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.verification-step {
+  display: none;
+}
+
+.verification-step.active {
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.verification-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 35px 20px;
+}
+
+
+#backToEmail {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: #f5f8fd;
+  color: var(--navy);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+#backToEmail:hover {
+  background: var(--navy);
+  color: var(--white);
+  border-color: var(--navy);
+}
+.brand {
+  font-family: "Manrope", sans-serif;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: var(--navy);
+  margin-bottom: 35px;
+}
+
+.verification-card {
+  width: 100%;
+  max-width: 480px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 45px 40px;
+  box-shadow: 0 15px 45px rgba(8, 43, 104, 0.06);
+  text-align: center;
+}
+
+.verification-icon {
+  width: 70px;
+  height: 70px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 25px;
+  border-radius: 50%;
+  background: #edf3ff;
+  color: var(--navy);
+}
+
+.verification-icon span {
+  font-size: 30px;
+}
+
+.eyebrow {
+  display: block;
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 13px;
+}
+
+.verification-card h1 {
+  font-family: "Manrope", sans-serif;
+  color: var(--navy-dark);
+  font-size: 27px;
+  font-weight: 800;
+  line-height: 1.35;
+  margin-bottom: 13px;
+}
+
+.description {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 25px;
+}
+
+.email-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 13px 15px;
+  background: #f5f8fd;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 28px;
+  font-size: 13px;
+}
+
+.email-display strong {
+  color: var(--text);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.email-display button,
+.resend-section button {
+  border: none;
+  background: none;
+  color: var(--blue);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#emailVerificationForm {
+  text-align: left;
+}
+
+#emailVerificationForm label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 13px;
+  color: #26364f;
+}
+
+.otp-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.otp-inputs input {
+  display: block;
+  width: 53px;
+  height: 58px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  outline: none;
+  text-align: center;
+  font-family: inherit;
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--navy);
+  background: #ffffff;
+  cursor: text;
+  pointer-events: auto;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.otp-inputs input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(23, 75, 154, 0.09);
+}
+
+.message,
+.resend-message {
+  min-height: 18px;
+  font-size: 12px;
+  margin-bottom: 10px;
+  color: #d13b3b;
+}
+
+.verify-btn {
+  width: 100%;
+  height: 53px;
+  border: none;
+  border-radius: 8px;
+  background: var(--navy);
+  color: var(--white);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: 0.25s ease;
+}
+
+.verify-btn:hover {
+  background: var(--blue);
+  transform: translateY(-2px);
+}
+
+.verify-btn span {
+  font-size: 19px;
+}
+
+.resend-section {
+  margin-top: 27px;
+}
+
+.resend-section p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 9px;
+}
+
+.resend-section button {
+  font-size: 13px;
+}
+
+.back-home {
+  display: inline-block;
+  margin-top: 30px;
+  color: var(--muted);
+  font-size: 12px;
+  transition: 0.2s ease;
+}
+
+.back-home:hover {
+  color: var(--navy);
+}
+
+.footer {
+  margin-top: 30px;
+  color: var(--muted);
+  font-size: 11px;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .verification-card {
+    padding: 35px 20px;
+  }
+
+  .verification-card h1 {
+    font-size: 23px;
+  }
+
+  .otp-inputs {
+    gap: 7px;
+  }
+
+  .otp-inputs input {
+    width: 44px;
+    height: 52px;
+    font-size: 19px;
+  }
+
+  .brand {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 350px) {
+  .otp-inputs {
+    gap: 5px;
+  }
+
+  .otp-inputs input {
+    width: 39px;
+    height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

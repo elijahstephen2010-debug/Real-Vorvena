@@ -23,7 +23,6 @@
 
         <div class="brand">VORVENA<span>.</span></div>
 
-        <!-- PROFILE -->
         <div class="sidebar-profile">
             <div class="profile-avatar" id="sidebarAvatar">
                 <i class="fa-solid fa-user"></i>
@@ -76,7 +75,6 @@
 
         </nav>
 
-        <!-- LOGOUT -->
         <div class="sidebar-bottom">
             <button class="logout-btn" id="logoutBtn">
                 <i class="fa-solid fa-right-from-bracket"></i>
@@ -93,13 +91,13 @@
         <!-- TOPBAR -->
         <header class="topbar">
 
-            <button class="menu-toggle" id="menuToggle">
+            <button class="menu-toggle" id="menuToggle" type="button">
                 <i class="fa-solid fa-bars"></i>
             </button>
 
             <div class="topbar-right">
 
-                <button class="notification-btn" onclick="showPage('notifications')">
+                <button class="notification-btn" type="button" onclick="showPage('notifications')">
                     <i class="fa-regular fa-bell"></i>
                     <span class="notification-dot"></span>
                 </button>
@@ -127,7 +125,6 @@
 
                 <span class="current-date" id="todayDate"></span>
             </div>
-
 
             <!-- STATISTICS -->
             <div class="stats-grid">
@@ -161,7 +158,7 @@
                         </div>
                         <span>Pending Offers</span>
                     </div>
-                    <h2 id="offerCount">2</h2>
+                    <h2 id="offerCount">0</h2>
                     <p>Offers waiting for your response</p>
                 </div>
 
@@ -189,39 +186,7 @@
                         <a href="#" onclick="showPage('offers'); return false;">View All</a>
                     </div>
 
-                    <div id="overviewOffers">
-
-                        <div class="offer-card">
-                            <h4>Website Development</h4>
-                            <p>A client is looking for a developer to build a responsive business website.</p>
-
-                            <div class="offer-details">
-                                <span>Budget: <strong>₦250,000</strong></span>
-                                <span>Deadline: <strong>14 days</strong></span>
-                            </div>
-
-                            <div class="offer-actions">
-                                <button class="accept-btn" onclick="respondOffer(this, 'accepted')">Accept Offer</button>
-                                <button class="decline-btn" onclick="respondOffer(this, 'declined')">Decline</button>
-                            </div>
-                        </div>
-
-                        <div class="offer-card">
-                            <h4>UI/UX Design Project</h4>
-                            <p>A client needs a designer for a mobile application interface.</p>
-
-                            <div class="offer-details">
-                                <span>Budget: <strong>₦180,000</strong></span>
-                                <span>Deadline: <strong>10 days</strong></span>
-                            </div>
-
-                            <div class="offer-actions">
-                                <button class="accept-btn" onclick="respondOffer(this, 'accepted')">Accept Offer</button>
-                                <button class="decline-btn" onclick="respondOffer(this, 'declined')">Decline</button>
-                            </div>
-                        </div>
-
-                    </div>
+                    <div id="overviewOffers"></div>
 
                 </div>
 
@@ -231,20 +196,21 @@
 
                     <div class="card-heading">
                         <h3>Profile Completion</h3>
-                        <strong>70%</strong>
+                        <strong id="completionPercentage">0%</strong>
                     </div>
 
                     <p>Complete your professional profile to build trust and improve your chances of getting hired.</p>
 
                     <div class="progress-track">
-                        <div class="progress-fill"></div>
+                        <div class="progress-fill" id="completionProgress"></div>
                     </div>
 
                     <p>Keep your skills, portfolio and experience up to date.</p>
 
                     <div class="verification-status">
                         <i class="fa-solid fa-shield-halved"></i>
-                        Verification Status: <strong>Pending</strong>
+                        Verification Status:
+                        <strong id="identityStatus">Pending</strong>
                     </div>
 
                     <button class="primary-btn" onclick="showPage('profile')">
@@ -265,7 +231,7 @@
                 </div>
 
                 <div class="empty-state">
-                    Your projects will appear here when you accept a hiring offer.
+                    Your projects will appear here when you accept a hiring offer and client payment is confirmed.
                 </div>
 
             </div>
@@ -279,39 +245,7 @@
             <h2 class="page-title">Hiring Offers</h2>
             <p class="page-description">Review offers from clients and decide which projects to take.</p>
 
-            <div class="content-card" id="allOffers">
-
-                <div class="offer-card">
-                    <h4>Website Development</h4>
-                    <p>A client is looking for a developer to build a responsive business website.</p>
-
-                    <div class="offer-details">
-                        <span>Budget: <strong>₦250,000</strong></span>
-                        <span>Deadline: <strong>14 days</strong></span>
-                    </div>
-
-                    <div class="offer-actions">
-                        <button class="accept-btn" onclick="respondOffer(this, 'accepted')">Accept Offer</button>
-                        <button class="decline-btn" onclick="respondOffer(this, 'declined')">Decline</button>
-                    </div>
-                </div>
-
-                <div class="offer-card">
-                    <h4>UI/UX Design Project</h4>
-                    <p>A client needs a designer for a mobile application interface.</p>
-
-                    <div class="offer-details">
-                        <span>Budget: <strong>₦180,000</strong></span>
-                        <span>Deadline: <strong>10 days</strong></span>
-                    </div>
-
-                    <div class="offer-actions">
-                        <button class="accept-btn" onclick="respondOffer(this, 'accepted')">Accept Offer</button>
-                        <button class="decline-btn" onclick="respondOffer(this, 'declined')">Decline</button>
-                    </div>
-                </div>
-
-            </div>
+            <div class="content-card" id="allOffers"></div>
 
         </section>
 
@@ -393,7 +327,7 @@
                     </div>
 
                     <h3 id="profileDisplayName">Your Name</h3>
-                    <p>Professional Account</p>
+                    <p id="profileDisplayRole">Professional Account</p>
 
                     <label for="photoInput" class="upload-photo-btn">
                         <i class="fa-solid fa-camera"></i> Upload Profile Picture
@@ -403,12 +337,14 @@
 
                     <div class="verification-status">
                         <i class="fa-solid fa-shield-halved"></i>
-                        Identity Verification: Pending
+                        Identity Verification:
+                        <strong id="profileIdentityStatus">Pending</strong>
                     </div>
 
                     <div class="verification-status">
                         <i class="fa-solid fa-award"></i>
-                        SkillProof: Not Completed
+                        SkillProof:
+                        <strong id="skillProofStatus">Not Completed</strong>
                     </div>
 
                 </div>
@@ -423,38 +359,38 @@
                     <form id="profileForm">
 
                         <div class="form-group">
-                            <label>Full Name</label>
+                            <label for="fullName">Full Name</label>
                             <input type="text" id="fullName" placeholder="Enter your full name">
                         </div>
 
                         <div class="form-group">
-                            <label>Professional Role</label>
-                            <input type="text" placeholder="e.g. Full-stack Developer">
+                            <label for="profileRole">Professional Role</label>
+                            <input type="text" id="profileRole" placeholder="e.g. Full-stack Developer">
                         </div>
 
                         <div class="form-group">
-                            <label>Experience</label>
-                            <input type="text" placeholder="e.g. 3 years">
+                            <label for="profileExperience">Experience</label>
+                            <input type="text" id="profileExperience" placeholder="e.g. 3 years">
                         </div>
 
                         <div class="form-group">
-                            <label>Skills</label>
-                            <input type="text" placeholder="e.g. HTML, CSS, JavaScript">
+                            <label for="profileSkills">Skills</label>
+                            <input type="text" id="profileSkills" placeholder="e.g. HTML, CSS, JavaScript">
                         </div>
 
                         <div class="form-group">
-                            <label>Portfolio Link</label>
-                            <input type="url" placeholder="https://yourportfolio.com">
+                            <label for="profilePortfolio">Portfolio Link</label>
+                            <input type="url" id="profilePortfolio" placeholder="https://yourportfolio.com">
                         </div>
 
                         <div class="form-group">
-                            <label>Social Media Link</label>
-                            <input type="url" placeholder="https://...">
+                            <label for="profileSocialLink">Social Media Link</label>
+                            <input type="url" id="profileSocialLink" placeholder="https://...">
                         </div>
 
                         <div class="form-group">
-                            <label>Professional Bio</label>
-                            <textarea placeholder="Tell clients about your experience and skills"></textarea>
+                            <label for="profileBio">Professional Bio</label>
+                            <textarea id="profileBio" placeholder="Tell clients about your experience and skills"></textarea>
                         </div>
 
                         <button type="submit" class="primary-btn">Save Profile</button>
@@ -479,8 +415,8 @@
                 <div class="notification-item">
                     <i class="fa-solid fa-envelope"></i>
                     <div>
-                        <h4>New Hiring Offer</h4>
-                        <p>You have received a new project offer. Review it in Hiring Offers.</p>
+                        <h4>Welcome to VORVENA</h4>
+                        <p>Your professional dashboard is ready. Complete your profile to get started.</p>
                     </div>
                 </div>
 
@@ -489,14 +425,6 @@
                     <div>
                         <h4>Complete Your Verification</h4>
                         <p>Complete your identity verification to qualify for paid projects.</p>
-                    </div>
-                </div>
-
-                <div class="notification-item">
-                    <i class="fa-solid fa-user"></i>
-                    <div>
-                        <h4>Welcome to VORVENA</h4>
-                        <p>Complete your professional profile to get started.</p>
                     </div>
                 </div>
 
@@ -523,6 +451,14 @@
 
                 <div class="settings-item">
                     <div>
+                        <h4>Account Email</h4>
+                        <p id="settingsEmail">Not available</p>
+                    </div>
+                    <span>Account</span>
+                </div>
+
+                <div class="settings-item">
+                    <div>
                         <h4>Email Notifications</h4>
                         <p>Manage email notification preferences.</p>
                     </div>
@@ -531,10 +467,18 @@
 
                 <div class="settings-item">
                     <div>
+                        <h4>Profile Information</h4>
+                        <p>Update your name, photo and professional details.</p>
+                    </div>
+                    <button type="button" onclick="showPage('profile')">Edit Profile</button>
+                </div>
+
+                <div class="settings-item">
+                    <div>
                         <h4>Security</h4>
                         <p>Password and account security settings.</p>
                     </div>
-                    <button type="button">Manage</button>
+                    <span>Demo</span>
                 </div>
 
                 <button class="logout-settings-btn" id="settingsLogout">
@@ -550,125 +494,542 @@
 </div>
 
 
-<!-- NOTIFICATION MESSAGE -->
+<!-- TOAST MESSAGE -->
 <div class="toast-message" id="toast"></div>
 
 
-<!-- TEMPORARY FRONTEND INTERACTIONS -->
+<!-- DASHBOARD JAVASCRIPT -->
 <script>
-const sidebar = document.getElementById('sidebar');
+"use strict";
 
-function showPage(page) {
-    document.querySelectorAll('.dashboard-section').forEach(section => {
-        section.classList.remove('active');
-    });
+// ========================================
+// STORAGE KEYS
+// ========================================
 
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.classList.remove('active');
-    });
+const PROFILE_KEY = "vorvenaProfessionalProfile";
+const IMAGE_KEY = "vorvenaProfileImage";
+const OFFERS_KEY = "vorvenaProfessionalOffers";
 
-    const target = document.getElementById(page);
-    if (target) target.classList.add('active');
+const sidebar = document.getElementById("sidebar");
 
-    const activeLink = document.querySelector(`[data-page="${page}"]`);
-    if (activeLink) activeLink.classList.add('active');
+let profile = {};
+let profileImage = "";
+let offers = [];
 
-    sidebar.classList.remove('open');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+// ========================================
+// LOGIN PROTECTION
+// ========================================
+
+function checkLogin() {
+    const loggedIn = sessionStorage.getItem("vorvenaLoggedIn");
+    const role = sessionStorage.getItem("vorvenaLoggedInRole");
+
+    if (loggedIn !== "true" || role !== "professional") {
+        window.location.replace("login.html");
+        return false;
+    }
+
+    return true;
 }
 
-document.querySelectorAll('[data-page]').forEach(link => {
-    link.addEventListener('click', event => {
-        event.preventDefault();
-        showPage(link.dataset.page);
+if (!checkLogin()) {
+    throw new Error("Professional login required.");
+}
+
+// ========================================
+// LOAD PROFILE
+// ========================================
+
+function readProfile() {
+    try {
+        const saved =
+            sessionStorage.getItem(PROFILE_KEY) ||
+            localStorage.getItem(PROFILE_KEY);
+
+        profile = saved ? JSON.parse(saved) : {};
+    } catch (error) {
+        profile = {};
+    }
+
+    if (!profile || typeof profile !== "object" || Array.isArray(profile)) {
+        profile = {};
+    }
+
+    profile.fullName ||= sessionStorage.getItem("vorvenaFullName") || "";
+    profile.email ||= sessionStorage.getItem("vorvenaEmail") || "";
+    profile.phone ||= sessionStorage.getItem("vorvenaPhone") || "";
+    profile.country ||= sessionStorage.getItem("vorvenaCountry") || "";
+    profile.city ||= sessionStorage.getItem("vorvenaCity") || "";
+
+    if (Array.isArray(profile.skills)) {
+        // Keep existing skills.
+    } else if (typeof profile.skills === "string" && profile.skills) {
+        profile.skills = profile.skills.split(",").map(skill => skill.trim()).filter(Boolean);
+    } else {
+        profile.skills = [];
+    }
+
+    try {
+        profileImage = localStorage.getItem(IMAGE_KEY) || "";
+    } catch (error) {
+        profileImage = "";
+    }
+
+    renderProfile();
+}
+
+function saveProfile() {
+    try {
+        const data = JSON.stringify(profile);
+
+        sessionStorage.setItem(PROFILE_KEY, data);
+        localStorage.setItem(PROFILE_KEY, data);
+
+        return true;
+    } catch (error) {
+        notify("Could not save your profile. Please try again.");
+        return false;
+    }
+}
+
+// ========================================
+// DISPLAY PROFILE
+// ========================================
+
+function renderProfile() {
+    const name = profile.fullName || "Your Name";
+    const firstName = name.trim().split(/\s+/)[0] || "Professional";
+
+    document.getElementById("sidebarName").textContent = name;
+    document.getElementById("topName").textContent = name;
+    document.getElementById("welcomeName").textContent = firstName;
+    document.getElementById("profileDisplayName").textContent = name;
+
+    document.getElementById("profileDisplayRole").textContent =
+        profile.role || "Professional Account";
+
+    document.getElementById("settingsEmail").textContent =
+        profile.email || "Not available";
+
+    const fields = {
+        fullName: profile.fullName,
+        profileRole: profile.role,
+        profileExperience: profile.experience,
+        profileSkills: profile.skills.join(", "),
+        profilePortfolio: profile.portfolio,
+        profileSocialLink: profile.socialLink,
+        profileBio: profile.bio
+    };
+
+    Object.entries(fields).forEach(([id, value]) => {
+        const input = document.getElementById(id);
+
+        if (input && value !== undefined && value !== null) {
+            input.value = value;
+        }
     });
-});
 
-document.getElementById('menuToggle').addEventListener('click', () => {
-    sidebar.classList.toggle('open');
-});
+    document.getElementById("identityStatus").textContent =
+        profile.identityVerified ? "Verified" : "Pending";
 
-function notify(message) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.classList.add('show');
+    document.getElementById("profileIdentityStatus").textContent =
+        profile.identityVerified ? "Verified" : "Pending";
 
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 2800);
+    document.getElementById("skillProofStatus").textContent =
+        profile.skillProofPassed ? "Completed" : "Not Completed";
+
+    renderPhoto();
+    updateProfileCompletion();
 }
 
-function respondOffer(button, decision) {
-    const offer = button.closest('.offer-card');
-    if (!offer) return;
+// ========================================
+// PROFILE PHOTO
+// ========================================
 
-    const title = offer.querySelector('h4').textContent;
-    const status = decision === 'accepted' ? 'Accepted' : 'Declined';
+function renderPhoto() {
+    ["sidebarAvatar", "topAvatar", "largeAvatar"].forEach(id => {
+        const avatar = document.getElementById(id);
 
-    offer.innerHTML = `
-        <h4>${title}</h4>
-        <p>Offer status: <strong>${status}</strong></p>
-        <p>This is a frontend demonstration. Your decision will be sent to the client when the backend is connected.</p>
-    `;
+        if (!avatar) return;
 
-    const remaining = document.querySelectorAll('#allOffers .offer-card .offer-actions').length;
-    document.getElementById('offerCount').textContent = remaining;
+        avatar.replaceChildren();
 
-    notify('Offer ' + status.toLowerCase() + '. Demo only.');
+        if (profileImage) {
+            const image = document.createElement("img");
+            image.src = profileImage;
+            image.alt = "Professional profile picture";
+            avatar.appendChild(image);
+        } else {
+            const icon = document.createElement("i");
+            icon.className = "fa-solid fa-user";
+            avatar.appendChild(icon);
+        }
+    });
 }
 
-document.getElementById('photoInput').addEventListener('change', function() {
-    const file = this.files[0];
+document.getElementById("photoInput").addEventListener("change", function () {
+    const file = this.files && this.files[0];
+
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-        notify('Please select an image file.');
+    if (!file.type.startsWith("image/")) {
+        notify("Please select a valid image.");
+        this.value = "";
+        return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+        notify("Please select an image smaller than 2MB.");
+        this.value = "";
         return;
     }
 
     const reader = new FileReader();
 
     reader.onload = event => {
-        ['largeAvatar', 'sidebarAvatar', 'topAvatar'].forEach(id => {
-            document.getElementById(id).innerHTML =
-                `<img src="${event.target.result}" alt="Profile picture">`;
-        });
+        try {
+            const newImage = event.target.result;
+
+            localStorage.setItem(IMAGE_KEY, newImage);
+            profileImage = newImage;
+
+            renderPhoto();
+            updateProfileCompletion();
+
+            notify("Profile picture updated.");
+        } catch (error) {
+            notify("Image could not be saved. Try a smaller image.");
+        }
     };
+
+    reader.onerror = () => notify("Could not read this image.");
 
     reader.readAsDataURL(file);
 });
 
-document.getElementById('profileForm').addEventListener('submit', function(event) {
+// ========================================
+// SAVE PROFILE
+// ========================================
+
+document.getElementById("profileForm").addEventListener("submit", event => {
     event.preventDefault();
 
-    const name = document.getElementById('fullName').value.trim();
+    profile.fullName = document.getElementById("fullName").value.trim();
+    profile.role = document.getElementById("profileRole").value.trim();
+    profile.experience = document.getElementById("profileExperience").value.trim();
 
-    if (name) {
-        document.getElementById('sidebarName').textContent = name;
-        document.getElementById('topName').textContent = name;
-        document.getElementById('welcomeName').textContent = name.split(' ')[0];
-        document.getElementById('profileDisplayName').textContent = name;
-    }
+    profile.skills = document.getElementById("profileSkills").value
+        .split(",")
+        .map(skill => skill.trim())
+        .filter(Boolean);
 
-    notify('Profile updated in this demo. Database saving comes later.');
+    profile.portfolio = document.getElementById("profilePortfolio").value.trim();
+    profile.socialLink = document.getElementById("profileSocialLink").value.trim();
+    profile.bio = document.getElementById("profileBio").value.trim();
+
+    if (!saveProfile()) return;
+
+    renderProfile();
+    notify("Your professional profile has been updated.");
 });
 
-document.getElementById('todayDate').textContent =
-    new Date().toLocaleDateString('en-NG', {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-    });
+// ========================================
+// PROFILE COMPLETION
+// ========================================
 
-function logout() {
-    if (confirm('Are you sure you want to log out?')) {
-        window.location.href = 'login.html';
+function updateProfileCompletion() {
+    const checks = [
+        Boolean(profile.fullName),
+        Boolean(profile.role),
+        Boolean(profile.experience),
+        profile.skills.length > 0,
+        Boolean(profile.portfolio),
+        Boolean(profile.socialLink),
+        Boolean(profile.bio),
+        Boolean(profileImage)
+    ];
+
+    const completed = checks.filter(Boolean).length;
+    const percentage = Math.round((completed / checks.length) * 100);
+
+    document.getElementById("completionPercentage").textContent =
+        percentage + "%";
+
+    document.getElementById("completionProgress").style.width =
+        percentage + "%";
+}
+
+// ========================================
+// DEMO HIRING OFFERS
+// ========================================
+
+const demoOffers = [
+    {
+        id: "demo-offer-1",
+        title: "Website Development",
+        description: "A client is looking for a developer to build a responsive business website.",
+        budget: "₦250,000",
+        deadline: "14 days",
+        status: "pending"
+    },
+    {
+        id: "demo-offer-2",
+        title: "UI/UX Design Project",
+        description: "A client needs a designer for a mobile application interface.",
+        budget: "₦180,000",
+        deadline: "10 days",
+        status: "pending"
+    }
+];
+
+function readOffers() {
+    try {
+        const saved = localStorage.getItem(OFFERS_KEY);
+
+        if (saved !== null) {
+            const parsed = JSON.parse(saved);
+            return Array.isArray(parsed) ? parsed : [];
+        }
+    } catch (error) {
+        console.error("Could not load offers:", error);
+    }
+
+    return demoOffers.map(offer => ({ ...offer }));
+}
+
+function saveOffers() {
+    try {
+        localStorage.setItem(OFFERS_KEY, JSON.stringify(offers));
+        return true;
+    } catch (error) {
+        notify("Could not save offer changes.");
+        return false;
     }
 }
 
-document.getElementById('logoutBtn').addEventListener('click', logout);
-document.getElementById('settingsLogout').addEventListener('click', logout);
+function createOfferCard(offer) {
+    const card = document.createElement("div");
+    card.className = "offer-card";
+
+    const title = document.createElement("h4");
+    title.textContent = offer.title;
+
+    const description = document.createElement("p");
+    description.textContent = offer.description;
+
+    card.append(title, description);
+
+    if (offer.status === "pending") {
+        const details = document.createElement("div");
+        details.className = "offer-details";
+
+        const budget = document.createElement("span");
+        budget.textContent = "Budget: ";
+
+        const budgetValue = document.createElement("strong");
+        budgetValue.textContent = offer.budget;
+        budget.appendChild(budgetValue);
+
+        const deadline = document.createElement("span");
+        deadline.textContent = "Deadline: ";
+
+        const deadlineValue = document.createElement("strong");
+        deadlineValue.textContent = offer.deadline;
+        deadline.appendChild(deadlineValue);
+
+        details.append(budget, deadline);
+
+        const actions = document.createElement("div");
+        actions.className = "offer-actions";
+
+        const acceptButton = document.createElement("button");
+        acceptButton.className = "accept-btn";
+        acceptButton.textContent = "Accept Offer";
+
+        acceptButton.addEventListener("click", () => {
+            respondOffer(offer.id, "accepted");
+        });
+
+        const declineButton = document.createElement("button");
+        declineButton.className = "decline-btn";
+        declineButton.textContent = "Decline";
+
+        declineButton.addEventListener("click", () => {
+            respondOffer(offer.id, "declined");
+        });
+
+        actions.append(acceptButton, declineButton);
+        card.append(details, actions);
+    } else {
+        const status = document.createElement("p");
+        const strong = document.createElement("strong");
+
+        strong.textContent =
+            offer.status === "accepted" ? "Accepted" : "Declined";
+
+        status.append("Offer status: ", strong);
+        card.appendChild(status);
+
+        if (offer.status === "accepted") {
+            const note = document.createElement("p");
+            note.textContent = "Waiting for client payment confirmation.";
+            card.appendChild(note);
+        }
+    }
+
+    return card;
+}
+
+function renderOffers() {
+    const overview = document.getElementById("overviewOffers");
+    const allOffers = document.getElementById("allOffers");
+
+    overview.replaceChildren();
+    allOffers.replaceChildren();
+
+    offers.forEach(offer => {
+        overview.appendChild(createOfferCard(offer));
+        allOffers.appendChild(createOfferCard(offer));
+    });
+
+    if (offers.length === 0) {
+        overview.textContent = "No hiring offers yet.";
+        allOffers.textContent = "No hiring offers yet.";
+    }
+
+    const pending = offers.filter(
+        offer => offer.status === "pending"
+    ).length;
+
+    document.getElementById("offerCount").textContent = pending;
+}
+
+function respondOffer(id, decision) {
+    const offer = offers.find(item => item.id === id);
+
+    if (!offer || offer.status !== "pending") return;
+
+    offer.status = decision;
+
+    if (!saveOffers()) {
+        offer.status = "pending";
+        return;
+    }
+
+    renderOffers();
+
+    notify(
+        decision === "accepted"
+            ? "Offer accepted. Awaiting client payment confirmation."
+            : "Offer declined."
+    );
+}
+
+// ========================================
+// NAVIGATION
+// ========================================
+
+function showPage(page) {
+    const target = document.getElementById(page);
+
+    if (!target || !target.classList.contains("dashboard-section")) {
+        return;
+    }
+
+    document.querySelectorAll(".dashboard-section").forEach(section => {
+        section.classList.remove("active");
+    });
+
+    document.querySelectorAll(".nav-link").forEach(link => {
+        link.classList.remove("active");
+    });
+
+    target.classList.add("active");
+
+    const activeLink = document.querySelector(`[data-page="${page}"]`);
+
+    if (activeLink) {
+        activeLink.classList.add("active");
+    }
+
+    sidebar.classList.remove("open");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+document.querySelectorAll("[data-page]").forEach(link => {
+    link.addEventListener("click", event => {
+        event.preventDefault();
+        showPage(link.dataset.page);
+    });
+});
+
+document.getElementById("menuToggle").addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+});
+
+// ========================================
+// TOAST NOTIFICATIONS
+// ========================================
+
+let toastTimer;
+
+function notify(message) {
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2800);
+}
+
+// ========================================
+// DATE
+// ========================================
+
+document.getElementById("todayDate").textContent =
+    new Date().toLocaleDateString("en-NG", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+
+// ========================================
+// LOGOUT
+// ========================================
+
+function logout() {
+    if (!confirm("Are you sure you want to log out?")) {
+        return;
+    }
+
+    sessionStorage.removeItem("vorvenaLoggedIn");
+    sessionStorage.removeItem("vorvenaLoggedInEmail");
+    sessionStorage.removeItem("vorvenaLoggedInRole");
+
+    window.location.replace("login.html");
+}
+
+document.getElementById("logoutBtn").addEventListener("click", logout);
+document.getElementById("settingsLogout").addEventListener("click", logout);
+
+// ========================================
+// INITIALISE DASHBOARD
+// ========================================
+
+readProfile();
+
+offers = readOffers();
+renderOffers();
+
 </script>
 
 </body>

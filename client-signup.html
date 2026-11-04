@@ -64,10 +64,11 @@
         </div>
       </div>
 
-      <p class="panel-footer">© <span id="year"></span> VORVENA. All rights reserved.</p>
+      <p class="panel-footer">
+        © <span id="year"></span> VORVENA. All rights reserved.
+      </p>
 
     </section>
-
 
     <!-- RIGHT PANEL -->
     <section class="signup-form-section">
@@ -120,7 +121,9 @@
               readonly
               required
             >
-            <small class="field-hint">Choose your country in the phone number selector below.</small>
+            <small class="field-hint">
+              Choose your country in the phone number selector below.
+            </small>
           </div>
 
           <div class="form-group">
@@ -187,6 +190,7 @@
 
           <div class="terms-group">
             <input type="checkbox" id="terms" name="terms" required>
+
             <label for="terms">
               I agree to the
               <a href="terms.html">Terms of Service</a>
@@ -207,14 +211,15 @@
           <a href="login.html">Log in</a>
         </p>
 
-        <a href="index.html" class="back-home">← Back to homepage</a>
+        <a href="index.html" class="back-home">
+          ← Back to homepage
+        </a>
 
       </div>
 
     </section>
 
   </main>
-
 
   <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
 
@@ -244,24 +249,57 @@
     document.querySelector("#year").textContent =
       new Date().getFullYear();
 
-    document.querySelector("#clientSignupForm").addEventListener("submit", function(event) {
-      event.preventDefault();
+    // CLIENT SIGNUP SUBMISSION
+    document.querySelector("#clientSignupForm")
+      .addEventListener("submit", function(event) {
 
-      const password = document.querySelector("#password").value;
-      const confirmPassword = document.querySelector("#confirmPassword").value;
+        event.preventDefault();
 
-      if (password !== confirmPassword) {
-        alert("Your passwords do not match.");
-        return;
-      }
+        const fullName =
+          document.querySelector("#fullName").value.trim();
 
-      if (!iti.isValidNumber()) {
-        alert("Please enter a valid international phone number.");
-        return;
-      }
+        const email =
+          document.querySelector("#email").value.trim();
 
-      alert("Form validated. Account registration will be connected to the backend next.");
-    });
+        const country = countryInput.value;
+
+        const region =
+          document.querySelector("#region").value.trim();
+
+        const city =
+          document.querySelector("#city").value.trim();
+
+        const password =
+          document.querySelector("#password").value;
+
+        const confirmPassword =
+          document.querySelector("#confirmPassword").value;
+
+        if (password !== confirmPassword) {
+          alert("Your passwords do not match.");
+          return;
+        }
+
+        if (!iti.isValidNumber()) {
+          alert("Please enter a valid international phone number.");
+          return;
+        }
+
+        // Save non-sensitive signup information only.
+        // Never save passwords in browser storage.
+
+        sessionStorage.setItem("vorvenaFullName", fullName);
+        sessionStorage.setItem("vorvenaEmail", email);
+        sessionStorage.setItem("vorvenaPhone", iti.getNumber());
+        sessionStorage.setItem("vorvenaCountry", country);
+        sessionStorage.setItem("vorvenaRegion", region);
+        sessionStorage.setItem("vorvenaCity", city);
+        sessionStorage.setItem("vorvenaAccountType", "client");
+
+        // Redirect to shared verification page.
+        window.location.href = "verification.html";
+
+      });
   </script>
 
 </body>

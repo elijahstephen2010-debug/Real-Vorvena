@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Onboarding | VORVENA</title>
+  <link rel="stylesheet" href="professional-onboarding.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+  <a href="index.html" class="logo">VORVENA<span>.</span></a>
+  <div class="nav-right">
+    <span class="setup-status"><i></i> Professional setup</span>
+    <a href="login.html" class="exit-link">Exit setup</a>
+  </div>
+</header>
+
+<main class="page-shell">
+  <section class="welcome">
+    <span class="eyebrow">YOUR PROFESSIONAL JOURNEY STARTS HERE</span>
+    <h1>Build your <span>professional identity.</span></h1>
+    <p>Show the VORVENA community who you are, what you do, and the skills you bring.</p>
+  </section>
+
+  <div class="onboarding-grid">
+    <aside class="progress-panel">
+      <div class="progress-heading">
+        <div>
+          <span class="panel-label">PROFILE SETUP</span>
+          <h2>Your progress</h2>
+        </div>
+        <span class="progress-percent" id="progressPercent">0%</span>
+      </div>
+
+      <div class="progress-track"><div id="progressFill"></div></div>
+
+      <div class="step-list">
+        <button class="step-item active" type="button" data-step="0">
+          <span class="step-icon">01</span>
+          <span><strong>Personal details</strong><small>Introduce yourself</small></span>
+          <span class="step-check">✓</span>
+        </button>
+        <button class="step-item" type="button" data-step="1">
+          <span class="step-icon">02</span>
+          <span><strong>Professional details</strong><small>Your role and experience</small></span>
+          <span class="step-check">✓</span>
+        </button>
+        <button class="step-item" type="button" data-step="2">
+          <span class="step-icon">03</span>
+          <span><strong>Skills & portfolio</strong><small>Showcase your work</small></span>
+          <span class="step-check">✓</span>
+        </button>
+        <button class="step-item" type="button" data-step="3">
+          <span class="step-icon">04</span>
+          <span><strong>SkillProof</strong><small>Demonstrate your skills</small></span>
+          <span class="step-check">✓</span>
+        </button>
+        <button class="step-item" type="button" data-step="4">
+          <span class="step-icon">05</span>
+          <span><strong>Identity verification</strong><small>Confirm your identity</small></span>
+          <span class="step-check">✓</span>
+        </button>
+        <button class="step-item" type="button" data-step="5">
+          <span class="step-icon">06</span>
+          <span><strong>Final review</strong><small>Check your details</small></span>
+          <span class="step-check">✓</span>
+        </button>
+      </div>
+
+      <div class="sidebar-note">
+        <span class="note-icon">✦</span>
+        <div>
+          <strong>Your profile matters</strong>
+          <p>A complete profile helps present your professional experience clearly.</p>
+        </div>
+      </div>
+    </aside>
+
+    <section class="form-panel">
+      <form id="onboardingForm" novalidate>
+
+        <!-- STEP 1 -->
+        <section class="form-step active" data-page="0">
+          <div class="section-top">
+            <span class="step-tag">STEP 01 / 06</span>
+            <span class="required-note">* Required fields</span>
+          </div>
+          <h2>Let's get to know you.</h2>
+          <p class="section-intro">Start with your personal details and a photo that represents you.</p>
+
+          <div class="photo-card">
+            <div class="avatar-wrap">
+              <img id="profilePreview" alt="Profile preview" hidden>
+              <div class="avatar-placeholder" id="avatarPlaceholder">
+                <span id="avatarInitial">+</span>
+              </div>
+              <button type="button" id="photoButton" class="avatar-edit" aria-label="Choose profile photo">✎</button>
+            </div>
+            <div class="photo-copy">
+              <h3>Your profile photo</h3>
+              <p>Choose a clear photo so people can recognise you.</p>
+              <div class="photo-actions">
+                <button type="button" id="uploadPhoto" class="link-button">Upload photo</button>
+                <button type="button" id="removePhoto" class="remove-link">Remove</button>
+              </div>
+              <small>JPG, PNG or WEBP · Maximum 5MB</small>
+              <input type="file" id="profilePicture" accept="image/png,image/jpeg,image/webp" hidden>
+              <p class="error-text" id="photoError"></p>
+            </div>
+          </div>
+
+          <div class="fields-grid">
+            <div class="field full">
+              <label for="fullName">Full name <b>*</b></label>
+              <input id="fullName" type="text" placeholder="Enter your full name" required>
+            </div>
+            <div class="field">
+              <label for="email">Email address <b>*</b></label>
+              <input id="email" type="email" placeholder="you@example.com" required>
+            </div>
+            <div class="field">
+              <label for="phone">Phone number <b>*</b></label>
+              <input id="phone" type="tel" placeholder="+234 800 000 0000" required>
+            </div>
+            <div class="field">
+              <label for="country">Country <b>*</b></label>
+              <input id="country" type="text" placeholder="Your country" required>
+            </div>
+            <div class="field">
+              <label for="city">City <b>*</b></label>
+              <input id="city" type="text" placeholder="Your city" required>
+            </div>
+            <div class="field full">
+              <label for="bio">Professional bio <b>*</b></label>
+              <textarea id="bio" rows="4" maxlength="500" placeholder="Tell us about yourself, your experience and what you do..." required></textarea>
+              <small class="helper">A short introduction. Maximum 500 characters.</small>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 2 -->
+        <section class="form-step" data-page="1">
+          <span class="step-tag">STEP 02 / 06</span>
+          <h2>What do you do?</h2>
+          <p class="section-intro">Tell us about your professional background and area of expertise.</p>
+
+          <div class="fields-grid">
+            <div class="field full">
+              <label for="role">Professional role <b>*</b></label>
+              <select id="role" required>
+                <option value="">Select your professional role</option>
+                <option>Frontend Developer</option>
+                <option>Backend Developer</option>
+                <option>Full-Stack Developer</option>
+                <option>Mobile App Developer</option>
+                <option>UI/UX Designer</option>
+                <option>Graphics Designer</option>
+                <option>Product Designer</option>
+                <option>Data Analyst</option>
+                <option>Data Scientist</option>
+                <option>Cybersecurity Specialist</option>
+                <option>DevOps Engineer</option>
+                <option>Cloud Engineer</option>
+                <option>Software Tester / QA</option>
+                <option>Other Tech Professional</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="experience">Experience level <b>*</b></label>
+              <select id="experience" required>
+                <option value="">Choose level</option>
+                <option>Beginner</option>
+                <option>Intermediate</option>
+                <option>Experienced</option>
+                <option>Expert</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="years">Years of experience</label>
+              <select id="years">
+                <option value="">Select years</option>
+                <option>Less than 1 year</option>
+                <option>1–2 years</option>
+                <option>3–5 years</option>
+                <option>6–9 years</option>
+                <option>10+ years</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="specialization">Specialization</label>
+              <input id="specialization" type="text" placeholder="e.g. React development, mobile UI design">
+            </div>
+          </div>
+          <div class="feature-note">
+            <span>✦</span>
+            <p>Your selected role will determine which SkillProof assessment is presented to you.</p>
+          </div>
+        </section>
+
+        <!-- STEP 3 -->
+        <section class="form-step" data-page="2">
+          <span class="step-tag">STEP 03 / 06</span>
+          <h2>Show us your skills.</h2>
+          <p class="section-intro">Add your skills and links so your professional profile tells your story.</p>
+
+          <div class="field">
+            <label for="skills">Your skills <b>*</b></label>
+            <input id="skills" type="text" placeholder="HTML, CSS, JavaScript, React" required>
+            <small class="helper">Separate each skill with a comma.</small>
+          </div>
+          <div class="field">
+            <label for="portfolio">Portfolio link</label>
+            <input id="portfolio" type="url" placeholder="https://yourportfolio.com">
+          </div>
+          <div class="field">
+            <label for="socialLink">Professional or social link <b>*</b></label>
+            <input id="socialLink" type="url" placeholder="https://github.com/yourusername" required>
+            <small class="helper">GitHub, LinkedIn, Behance or another relevant profile.</small>
+          </div>
+
+          <div class="feature-note">
+            <span>↗</span>
+            <p>Share links that demonstrate your work. Make sure the links are correct and accessible.</p>
+          </div>
+        </section>
+
+        <!-- STEP 4 -->
+        <section class="form-step" data-page="3">
+          <span class="step-tag">STEP 04 / 06</span>
+          <h2>Meet SkillProof.</h2>
+          <p class="section-intro">A short assessment designed around your selected professional role.</p>
+
+          <div class="skillproof-card" id="assessmentIntro">
+            <div class="skillproof-symbol">✦</div>
+            <span class="mini-label">VORVENA SKILLPROOF</span>
+            <h3>Let your skills speak.</h3>
+            <p>Answer 10 multiple-choice questions based on your selected role. Your result will help demonstrate your knowledge.</p>
+            <div class="assessment-stats">
+              <div><strong>10</strong><small>Questions</small></div>
+              <div><strong>15 min</strong><small>Suggested time</small></div>
+              <div><strong>70%</strong><small>Proposed pass mark</small></div>
+            </div>
+            <button type="button" class="primary-button" id="startAssessment">Start assessment <span>→</span></button>
+          </div>
+
+          <div class="quiz-area" id="assessmentArea" hidden>
+            <div class="quiz-heading">
+              <span id="questionCounter">Question 1 of 10</span>
+              <span id="assessmentScore">0 answered</span>
+            </div>
+            <div class="quiz-track"><div id="assessmentProgress"></div></div>
+            <h3 id="questionText"></h3>
+            <div id="answerOptions" class="answer-options"></div>
+            <p id="assessmentError" class="error-text"></p>
+            <div class="quiz-controls">
+              <button type="button" class="secondary-button" id="previousQuestion">← Previous</button>
+              <button type="button" class="primary-button" id="nextQuestion">Next →</button>
+            </div>
+          </div>
+
+          <div class="quiz-result" id="assessmentResult" hidden>
+            <div class="result-mark" id="resultIcon">✓</div>
+            <h3 id="resultTitle">Assessment completed</h3>
+            <p id="resultDescription"></p>
+            <strong class="result-score" id="resultScore"></strong>
+            <button type="button" class="secondary-button" id="retakeAssessment">Retake assessment</button>
+          </div>
+
+          <div class="feature-note">
+            <span>i</span>
+            <p>Demo assessment only. Real question banks, scoring and result records must be connected to the backend.</p>
+          </div>
+        </section>
+
+        <!-- STEP 5 -->
+        <section class="form-step" data-page="4">
+          <span class="step-tag">STEP 05 / 06</span>
+          <h2>Verify your identity.</h2>
+          <p class="section-intro">Identity verification helps protect professionals and clients on VORVENA.</p>
+
+          <div class="security-banner">
+            <span>🔒</span>
+            <p>Your identity documents are private. They must never appear on your public profile.</p>
+          </div>
+
+          <div class="field">
+            <label for="documentType">Identity document <b>*</b></label>
+            <select id="documentType" required>
+              <option value="">Choose a document</option>
+              <option value="NIN">National Identification Number (NIN)</option>
+              <option value="Passport">International passport</option>
+              <option value="Drivers Licence">Driver's licence</option>
+              <option value="Voters Card">Voter's card</option>
+            </select>
+          </div>
+
+          <div class="field" id="ninField" hidden>
+            <label for="ninNumber">NIN number</label>
+            <input id="ninNumber" type="password" inputmode="numeric" maxlength="11" placeholder="Enter 11-digit NIN">
+            <small class="helper">Demo only. Do not enter your real NIN before secure backend verification is implemented.</small>
+          </div>
+
+          <div class="field">
+            <label>Identity document file <b>*</b></label>
+            <button type="button" class="file-upload" id="documentUpload">
+              <span class="upload-symbol">↑</span>
+              <strong>Choose your document</strong>
+              <small>Image or PDF · Maximum 5MB</small>
+              <span id="documentFileName" class="file-name">No file selected</span>
+            </button>
+            <input type="file" id="identityFile" accept="image/png,image/jpeg,image/webp,application/pdf" hidden>
+            <p class="error-text" id="documentError"></p>
+          </div>
+
+          <label class="check-row">
+            <input type="checkbox" id="identityConsent">
+            <span>I confirm that the information I provide is accurate and belongs to me.</span>
+          </label>
+
+          <p class="warning-note">This is a frontend demonstration. Real identity verification and secure document storage are not yet connected. Do not upload real identity documents here.</p>
+        </section>
+
+        <!-- STEP 6 -->
+        <section class="form-step" data-page="5">
+          <span class="step-tag">STEP 06 / 06</span>
+          <h2>Review your details.</h2>
+          <p class="section-intro">Take a final look at your information before completing the demo setup.</p>
+
+          <div class="review-card">
+            <div class="review-avatar">
+              <img id="reviewPhoto" alt="Profile photo" hidden>
+              <span id="reviewInitials">VP</span>
+            </div>
+            <div>
+              <h3 id="reviewName">Your name</h3>
+              <p id="reviewRole">Your professional role</p>
+            </div>
+          </div>
+
+          <div id="reviewList" class="review-list"></div>
+
+          <label class="check-row review-check">
+            <input type="checkbox" id="finalConsent">
+            <span>I confirm that the information in my profile is correct.</span>
+          </label>
+        </section>
+
+        <div class="form-actions" id="formActions">
+          <button type="button" class="secondary-button" id="backButton" disabled>← Back</button>
+          <button type="button" class="primary-button" id="continueButton">Continue <span>→</span></button>
+        </div>
+      </form>
+
+      <section class="completion-screen" id="completionScreen" hidden>
+        <div class="completion-symbol">✓</div>
+        <span class="eyebrow">SETUP COMPLETE</span>
+        <h2>Your professional profile is ready for the next stage.</h2>
+        <p>This demo has collected your onboarding information. Backend verification, secure document handling and dashboard access checks still need to be implemented.</p>
+        <a href="login.html" class="primary-button">Continue to login →</a>
+      </section>
+    </section>
+  </div>
+
+  <footer class="footer">© <span id="year"></span> VORVENA. All rights reserved.</footer>
+</main>
+
+<script src="professional-onboarding.js"></script>
+</body>
+</html>
