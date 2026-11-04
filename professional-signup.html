@@ -187,75 +187,98 @@
 
   <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
 
-  <script>
+
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
     const phoneInput = document.querySelector("#phone");
     const countryInput = document.querySelector("#country");
+    const form = document.querySelector("#professionalSignupForm");
 
+    // PHONE NUMBER SETUP
     const iti = window.intlTelInput(phoneInput, {
-      initialCountry: "auto",
-      separateDialCode: true,
-      nationalMode: true,
-      countrySearch: true,
-      preferredCountries: ["ng", "us", "gb", "ca"],
-      utilsScript:
-        "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
+        initialCountry: "ng",
+        separateDialCode: true,
+        nationalMode: true,
+        countrySearch: true,
+        preferredCountries: ["ng", "us", "gb", "ca"],
+        utilsScript:
+            "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
     });
 
+    // WAIT FOR PHONE UTILITIES
+    const phoneReady = iti.promise;
+
+    // UPDATE COUNTRY FIELD
     function updateCountry() {
-      const selectedCountry = iti.getSelectedCountryData();
-      countryInput.value = selectedCountry.name || "";
+        const selectedCountry = iti.getSelectedCountryData();
+        countryInput.value = selectedCountry.name || "";
     }
 
     updateCountry();
 
     phoneInput.addEventListener("countrychange", updateCountry);
 
+    // FOOTER YEAR
     document.querySelector("#year").textContent =
-      new Date().getFullYear();
+        new Date().getFullYear();
 
-    // PROFESSIONAL SIGNUP SUBMISSION
-    document.querySelector("#professionalSignupForm")
-      .addEventListener("submit", function(event) {
+    // SIGNUP SUBMISSION
+    form.addEventListener("submit", async function(event) {
 
         event.preventDefault();
 
         const fullName = document.querySelector("#fullName").value.trim();
         const email = document.querySelector("#email").value.trim();
-        const phone = document.querySelector("#phone").value.trim();
-        const country = countryInput.value;
         const region = document.querySelector("#region").value.trim();
         const city = document.querySelector("#city").value.trim();
 
         const password = document.querySelector("#password").value;
         const confirmPassword =
-          document.querySelector("#confirmPassword").value;
+            document.querySelector("#confirmPassword").value;
 
         if (password !== confirmPassword) {
-          alert("Your passwords do not match.");
-          return;
+            alert("Your passwords do not match.");
+            return;
+        }
+
+        // WAIT UNTIL INTERNATIONAL VALIDATION IS READY
+        try {
+            await phoneReady;
+        } catch (error) {
+            alert("Phone validation could not load. Please refresh and try again.");
+            return;
         }
 
         if (!iti.isValidNumber()) {
-          alert("Please enter a valid international phone number.");
-          return;
+            alert("Please enter a valid phone number for your selected country.");
+            phoneInput.focus();
+            return;
         }
 
-        // Store only non-sensitive signup details.
-        // Passwords are never stored in browser storage.
+        // GET COMPLETE INTERNATIONAL NUMBER
+        const phone = iti.getNumber();
+        const country = iti.getSelectedCountryData().name;
 
+        // SAVE SIGNUP DETAILS
         sessionStorage.setItem("vorvenaFullName", fullName);
         sessionStorage.setItem("vorvenaEmail", email);
-        sessionStorage.setItem("vorvenaPhone", iti.getNumber());
+        sessionStorage.setItem("vorvenaPhone", phone);
         sessionStorage.setItem("vorvenaCountry", country);
         sessionStorage.setItem("vorvenaRegion", region);
         sessionStorage.setItem("vorvenaCity", city);
         sessionStorage.setItem("vorvenaAccountType", "professional");
 
-        // Open the shared verification page.
+        // GO TO VERIFICATION
         window.location.href = "verification.html";
 
-      });
-  </script>
+    });
+
+});
+</script>
+
 
 </body>
 </html>

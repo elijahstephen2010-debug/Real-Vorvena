@@ -15,21 +15,34 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailMessage = document.getElementById("emailMessage");
     const phoneMessage = document.getElementById("phoneMessage");
 
-    // CHECK SIGNUP DETAILS
-    const savedEmail = sessionStorage.getItem("vorvenaEmail");
-    const savedPhone = sessionStorage.getItem("vorvenaPhone");
-    const accountType = sessionStorage.getItem("vorvenaAccountType");
+    const displayEmail = document.getElementById("displayEmail");
+    const displayPhone = document.getElementById("displayPhone");
 
-    if (!savedEmail || !accountType) {
-        alert("Please create an account first.");
-        window.location.href = "professional-signup.html";
+    // GET SAVED SIGNUP DETAILS
+    const savedEmail =
+        sessionStorage.getItem("vorvenaEmail") ||
+        localStorage.getItem("vorvenaEmail");
+
+    const savedPhone =
+        sessionStorage.getItem("vorvenaPhone") ||
+        localStorage.getItem("vorvenaPhone");
+
+    const accountType =
+        sessionStorage.getItem("vorvenaAccountType") ||
+        localStorage.getItem("vorvenaAccountType");
+
+    if (!savedEmail || !savedPhone || !accountType) {
+        alert("Your signup details are incomplete. Please sign up again.");
+        window.location.href =
+            accountType === "client"
+                ? "client-signup.html"
+                : "professional-signup.html";
         return;
     }
 
-    // DISPLAY SIGNUP DETAILS
-    document.getElementById("displayEmail").textContent = savedEmail;
-    document.getElementById("displayPhone").textContent =
-        savedPhone || "Not available";
+    // DISPLAY SAVED DETAILS
+    displayEmail.textContent = savedEmail;
+    displayPhone.textContent = savedPhone;
 
     // FOOTER YEAR
     document.getElementById("year").textContent =
@@ -46,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // OTP INPUT HANDLING
     function setupOtpInputs(inputs) {
-
         inputs.forEach((input, index) => {
 
             input.addEventListener("input", () => {
@@ -58,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             input.addEventListener("keydown", event => {
-
                 if (
                     event.key === "Backspace" &&
                     !input.value &&
@@ -88,43 +99,34 @@ document.addEventListener("DOMContentLoaded", () => {
                     .slice(0, 6);
 
                 pasted.split("").forEach((digit, i) => {
-                    if (inputs[i]) {
-                        inputs[i].value = digit;
-                    }
+                    if (inputs[i]) inputs[i].value = digit;
                 });
 
-                if (pasted.length > 0) {
+                if (pasted.length) {
                     inputs[Math.min(pasted.length, 5)].focus();
                 }
             });
-
         });
     }
 
     setupOtpInputs(emailInputs);
     setupOtpInputs(phoneInputs);
 
-    // GET OTP
     function getOtp(inputs) {
         return Array.from(inputs)
             .map(input => input.value)
             .join("");
     }
 
-    // CLEAR OTP
     function clearOtp(inputs) {
         inputs.forEach(input => input.value = "");
-        inputs[0].focus();
     }
 
     // EMAIL VERIFICATION
     emailForm.addEventListener("submit", event => {
-
         event.preventDefault();
 
-        const otp = getOtp(emailInputs);
-
-        if (otp.length !== 6) {
+        if (getOtp(emailInputs).length !== 6) {
             emailMessage.style.color = "#d93025";
             emailMessage.textContent = "Enter all six digits.";
             return;
@@ -137,18 +139,15 @@ document.addEventListener("DOMContentLoaded", () => {
             emailMessage.textContent = "";
             clearOtp(emailInputs);
             showStep(phoneStep);
+            phoneInputs[0].focus();
         }, 700);
-
     });
 
     // PHONE VERIFICATION
     phoneForm.addEventListener("submit", event => {
-
         event.preventDefault();
 
-        const otp = getOtp(phoneInputs);
-
-        if (otp.length !== 6) {
+        if (getOtp(phoneInputs).length !== 6) {
             phoneMessage.style.color = "#d93025";
             phoneMessage.textContent = "Enter all six digits.";
             return;
@@ -162,29 +161,24 @@ document.addEventListener("DOMContentLoaded", () => {
             clearOtp(phoneInputs);
             showStep(successStep);
         }, 700);
-
     });
 
     // RESEND EMAIL
     document.getElementById("resendEmailCode")
         .addEventListener("click", () => {
-
             const message = document.getElementById("emailResendMessage");
-
             message.style.color = "#16834b";
-            message.textContent = "Demo mode: no email code was sent.";
-
+            message.textContent =
+                "Demo mode: no email code was sent.";
         });
 
     // RESEND PHONE
     document.getElementById("resendPhoneCode")
         .addEventListener("click", () => {
-
             const message = document.getElementById("phoneResendMessage");
-
             message.style.color = "#16834b";
-            message.textContent = "Demo mode: no SMS code was sent.";
-
+            message.textContent =
+                "Demo mode: no SMS code was sent.";
         });
 
     // CHANGE EMAIL
@@ -199,31 +193,29 @@ document.addEventListener("DOMContentLoaded", () => {
             ) {
                 const updatedEmail = newEmail.trim().toLowerCase();
 
-                document.getElementById("displayEmail").textContent =
-                    updatedEmail;
+                displayEmail.textContent = updatedEmail;
 
                 sessionStorage.setItem("vorvenaEmail", updatedEmail);
+                localStorage.setItem("vorvenaEmail", updatedEmail);
             }
-
         });
 
     // CHANGE PHONE
     document.getElementById("changePhone")
         .addEventListener("click", () => {
 
-            const newPhone = prompt("Enter your phone number:");
+            const newPhone = prompt(
+                "Enter your phone number, including country code:"
+            );
 
             if (newPhone && newPhone.trim()) {
+                const updatedPhone = newPhone.trim();
 
-                document.getElementById("displayPhone").textContent =
-                    newPhone.trim();
+                displayPhone.textContent = updatedPhone;
 
-                sessionStorage.setItem(
-                    "vorvenaPhone",
-                    newPhone.trim()
-                );
+                sessionStorage.setItem("vorvenaPhone", updatedPhone);
+                localStorage.setItem("vorvenaPhone", updatedPhone);
             }
-
         });
 
     // BACK TO EMAIL
@@ -232,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
             showStep(emailStep);
         });
 
-    // CONTINUE TO CORRECT ONBOARDING PAGE
+    // CONTINUE
     document.getElementById("continueBtn")
         .addEventListener("click", () => {
 
@@ -241,15 +233,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (accountType === "professional") {
                 window.location.href = "professional-onboarding.html";
-
             } else if (accountType === "client") {
                 window.location.href = "client-onboarding.html";
-
             } else {
                 alert("Invalid account type. Please sign up again.");
                 window.location.href = "professional-signup.html";
             }
-
         });
 
     // START
