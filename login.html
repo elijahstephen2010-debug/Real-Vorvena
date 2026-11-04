@@ -10,6 +10,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
@@ -17,36 +18,102 @@
 
 <body>
 
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <a href="index.html" class="brand">
+            <span class="brand-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </span>
+            VORVENA
+        </a>
+
+        <a href="professional-signup.html" class="signup-link">
+            Don't have an account?
+            <strong>Sign up</strong>
+        </a>
+
+    </nav>
+
+
+    <!-- MAIN CONTAINER -->
     <main class="login-container">
 
-        <div class="login-card">
+        <!-- LOGIN CARD -->
+        <section class="login-card">
 
-            <div class="login-header">
-                <a href="index.html" class="logo">VORVENA</a>
-                <h1>Welcome back</h1>
-                <p>Sign in to continue to your account.</p>
+            <div class="welcome">
+                <span class="eyebrow">WELCOME BACK TO VORVENA</span>
+
+                <h1>Sign in to your account</h1>
+
+                <p>
+                    Access your VORVENA account and continue connecting
+                    with opportunities and talented professionals.
+                </p>
             </div>
 
+
+            <!-- SOCIAL LOGIN -->
+            <div class="social-login">
+
+                <button type="button" class="social-btn" id="googleLogin">
+                    <i class="fa-brands fa-google"></i>
+                    Continue with Google
+                </button>
+
+                <button type="button" class="social-btn" id="appleLogin">
+                    <i class="fa-brands fa-apple"></i>
+                    Continue with Apple
+                </button>
+
+            </div>
+
+
+            <!-- DIVIDER -->
+            <div class="divider">
+                <span></span>
+                <p>OR CONTINUE WITH EMAIL</p>
+                <span></span>
+            </div>
+
+
+            <!-- LOGIN FORM -->
             <form id="loginForm">
 
                 <div class="form-group">
-                    <label for="email">Email address</label>
-                    <div class="input-wrapper">
+
+                    <label for="email">Email Address</label>
+
+                    <div class="input-box">
                         <i class="fa-regular fa-envelope"></i>
+
                         <input
                             type="email"
                             id="email"
-                            placeholder="Enter your email"
+                            placeholder="Enter your email address"
                             autocomplete="email"
                             required
                         >
                     </div>
+
                 </div>
 
+
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <div class="input-wrapper">
+
+                    <div class="password-label">
+                        <label for="password">Password</label>
+
+                        <a href="#" id="forgotPassword">
+                            Forgot password?
+                        </a>
+                    </div>
+
+                    <div class="input-box">
+
                         <i class="fa-solid fa-lock"></i>
+
                         <input
                             type="password"
                             id="password"
@@ -54,55 +121,94 @@
                             autocomplete="current-password"
                             required
                         >
-                        <button type="button" id="togglePassword" class="password-toggle" aria-label="Show password">
+
+                        <button
+                            type="button"
+                            class="toggle-password"
+                            id="togglePassword"
+                            aria-label="Show password"
+                        >
                             <i class="fa-regular fa-eye"></i>
                         </button>
+
                     </div>
+
                 </div>
 
-                <div class="login-options">
-                    <label class="remember-me">
+
+                <!-- REMEMBER ME -->
+                <div class="remember">
+
+                    <label>
                         <input type="checkbox" id="rememberMe">
-                        <span>Remember me</span>
+                        Remember me
                     </label>
 
-                    <a href="#" id="forgotPassword">Forgot password?</a>
                 </div>
 
-                <p id="loginMessage" class="login-message" role="alert"></p>
 
-                <button type="submit" id="loginButton" class="login-btn">
+                <!-- MESSAGE -->
+                <p id="loginMessage" class="message" role="alert"></p>
+
+
+                <!-- SUBMIT -->
+                <button type="submit" class="login-btn" id="loginButton">
                     Sign In
+                    <i class="fa-solid fa-arrow-right"></i>
                 </button>
 
             </form>
 
-            <div class="login-divider">
-                <span>OR</span>
+
+            <!-- SECURITY NOTE -->
+            <div class="security-note">
+                <i class="fa-solid fa-shield-halved"></i>
+                Your account information is protected.
             </div>
 
-            <div class="social-login">
-                <button type="button" id="googleLogin" class="social-btn">
-                    <i class="fa-brands fa-google"></i>
-                    Continue with Google
-                </button>
 
-                <button type="button" id="appleLogin" class="social-btn">
-                    <i class="fa-brands fa-apple"></i>
-                    Continue with Apple
-                </button>
-            </div>
-
-            <p class="signup-link">
-                Don't have an account?
+            <!-- BOTTOM TEXT -->
+            <p class="bottom-text">
+                New to VORVENA?
                 <a href="professional-signup.html">Create an account</a>
             </p>
 
-        </div>
+        </section>
+
+
+        <!-- RIGHT SIDE -->
+        <aside class="side-content">
+
+            <div class="side-overlay"></div>
+
+            <div class="side-text">
+
+                <span>BUILD. CONNECT. GROW.</span>
+
+                <h2>
+                    The right talent can transform your next big idea.
+                </h2>
+
+                <p>
+                    Connect with skilled tech professionals, manage
+                    projects and bring your ideas to life with VORVENA.
+                </p>
+
+            </div>
+
+            <div class="side-footer">
+                <span>© 2026 VORVENA</span>
+                <a href="index.html">Explore VORVENA</a>
+            </div>
+
+        </aside>
 
     </main>
 
+
+    <!-- JAVASCRIPT -->
     <script>
+
     document.addEventListener("DOMContentLoaded", function () {
 
         const loginForm = document.getElementById("loginForm");
@@ -112,13 +218,18 @@
         const loginButton = document.getElementById("loginButton");
         const togglePassword = document.getElementById("togglePassword");
 
+        // DISPLAY MESSAGE
         function showMessage(message, type = "error") {
+
             loginMessage.textContent = message;
-            loginMessage.style.color = type === "success" ? "#16803c" : "#d93025";
+            loginMessage.className = "message " + type;
+
         }
 
-        // Show or hide password
+
+        // SHOW / HIDE PASSWORD
         togglePassword.addEventListener("click", function () {
+
             const isPassword = passwordInput.type === "password";
 
             passwordInput.type = isPassword ? "text" : "password";
@@ -126,10 +237,18 @@
             this.innerHTML = isPassword
                 ? '<i class="fa-regular fa-eye-slash"></i>'
                 : '<i class="fa-regular fa-eye"></i>';
+
+            this.setAttribute(
+                "aria-label",
+                isPassword ? "Hide password" : "Show password"
+            );
+
         });
 
-        // Login
+
+        // LOGIN
         loginForm.addEventListener("submit", function (event) {
+
             event.preventDefault();
 
             const email = emailInput.value.trim().toLowerCase();
@@ -143,69 +262,149 @@
             const savedEmail = sessionStorage.getItem("vorvenaEmail");
             const accountType = sessionStorage.getItem("vorvenaAccountType");
 
-            if (!savedEmail) {
+            if (!savedEmail || !accountType) {
                 showMessage("No registered account found. Please sign up first.");
                 return;
             }
 
-            if (email !== savedEmail.toLowerCase()) {
+            if (email !== savedEmail.trim().toLowerCase()) {
                 showMessage("This email does not match your registered account.");
                 return;
             }
 
-            if (accountType !== "professional") {
-                showMessage("Client dashboard is not connected yet.");
+
+            // CHECK VERIFICATION
+            if (
+                sessionStorage.getItem("vorvenaEmailVerified") !== "true" ||
+                sessionStorage.getItem("vorvenaPhoneVerified") !== "true"
+            ) {
+                showMessage("Please complete your email and phone verification first.");
                 return;
             }
+
 
             let profile;
+            let dashboard;
 
-            try {
-                profile = JSON.parse(
-                    sessionStorage.getItem("vorvenaProfessionalProfile") ||
-                    localStorage.getItem("vorvenaProfessionalProfile") ||
-                    "null"
-                );
-            } catch (error) {
-                showMessage("Your profile information could not be loaded.");
-                return;
+
+            // PROFESSIONAL ACCOUNT
+            if (accountType === "professional") {
+
+                try {
+
+                    profile = JSON.parse(
+                        sessionStorage.getItem("vorvenaProfessionalProfile") ||
+                        localStorage.getItem("vorvenaProfessionalProfile") ||
+                        "null"
+                    );
+
+                } catch (error) {
+
+                    showMessage("Could not load your professional profile.");
+                    return;
+
+                }
+
+                if (!profile || profile.onboardingStatus !== "demo-completed") {
+                    showMessage("Please complete your professional onboarding first.");
+                    return;
+                }
+
+                dashboard = "professional-dashboard.html";
+
             }
 
-            if (!profile || profile.onboardingStatus !== "demo-completed") {
-                showMessage("Please complete your professional onboarding first.");
-                return;
+
+            // CLIENT ACCOUNT
+            else if (accountType === "client") {
+
+                try {
+
+                    profile = JSON.parse(
+                        sessionStorage.getItem("vorvenaClientProfile") || "null"
+                    );
+
+                } catch (error) {
+
+                    showMessage("Could not load your client profile.");
+                    return;
+
+                }
+
+                if (
+                    !profile ||
+                    profile.onboardingStatus !== "demo-completed" ||
+                    sessionStorage.getItem("vorvenaClientOnboardingComplete") !== "true"
+                ) {
+
+                    showMessage("Please complete your client onboarding first.");
+                    return;
+
+                }
+
+                dashboard = "client-dashboard.html";
+
             }
 
-            loginButton.disabled = true;
-            loginButton.textContent = "Signing in...";
 
+            else {
+
+                showMessage("Invalid account type. Please sign up again.");
+                return;
+
+            }
+
+
+            // SAVE LOGIN SESSION
             sessionStorage.setItem("vorvenaLoggedIn", "true");
             sessionStorage.setItem("vorvenaLoggedInEmail", email);
-            sessionStorage.setItem("vorvenaLoggedInRole", "professional");
+            sessionStorage.setItem("vorvenaLoggedInRole", accountType);
+
+
+            loginButton.disabled = true;
+            loginButton.innerHTML = 'Signing in <i class="fa-solid fa-spinner fa-spin"></i>';
 
             showMessage("Login successful. Redirecting...", "success");
 
+
             setTimeout(function () {
-                window.location.href = "professional-dashboard.html";
+
+                window.location.href = dashboard;
+
             }, 700);
+
         });
 
-        // Forgot password placeholder
+
+        // FORGOT PASSWORD
         document.getElementById("forgotPassword").addEventListener("click", function (event) {
+
             event.preventDefault();
-            showMessage("Password recovery will be available when the backend is connected.");
+
+            showMessage(
+                "Password recovery will be available when the backend is connected."
+            );
+
         });
 
-        // Social login placeholders
+
+        // GOOGLE LOGIN
         document.getElementById("googleLogin").addEventListener("click", function () {
+
             showMessage("Google sign-in is not connected yet.");
+
         });
 
+
+        // APPLE LOGIN
         document.getElementById("appleLogin").addEventListener("click", function () {
+
             showMessage("Apple sign-in is not connected yet.");
+
         });
 
     });
+
     </script>
 
 </body>

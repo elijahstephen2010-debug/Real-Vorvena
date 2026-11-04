@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Onboarding | VORVENA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #17233c;
+            min-height: 100vh;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 850px;
+            margin: auto;
+            padding: 35px 20px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: #142d59;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .heading {
+            margin: 35px 0 25px;
+        }
+
+        .heading h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .heading p {
+            color: #718096;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .progress {
+            height: 6px;
+            background: #e3e9f2;
+            border-radius: 20px;
+            margin-top: 22px;
+            overflow: hidden;
+        }
+
+        .progress span {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: #2864dc;
+            border-radius: 20px;
+        }
+
+        .form-card {
+            background: #fff;
+            border: 1px solid #e8edf5;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(20, 45, 89, .04);
+        }
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 9px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #dce3ee;
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+            font-size: 13px;
+            color: #17233c;
+            background: #fff;
+            transition: .2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #2864dc;
+            box-shadow: 0 0 0 3px rgba(40, 100, 220, .09);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .hint {
+            color: #8994a5;
+            font-size: 11px;
+            margin-top: 7px;
+        }
+
+        .account-info {
+            background: #f4f7fc;
+            border-radius: 9px;
+            padding: 15px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .account-info strong {
+            color: #142d59;
+        }
+
+        .message {
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #2864dc;
+            color: white;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .submit-btn:hover {
+            background: #194fb9;
+        }
+
+        .submit-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .footer {
+            text-align: center;
+            color: #8994a5;
+            font-size: 12px;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .page {
+                padding: 25px 16px;
+            }
+
+            .form-card {
+                padding: 23px;
+            }
+        }
+
+        @media (max-width: 425px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .heading h1 {
+                font-size: 24px;
+            }
+
+            .form-card {
+                padding: 19px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .heading h1 {
+                font-size: 22px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="page">
+
+        <a href="index.html" class="logo">VORVENA</a>
+
+        <div class="heading">
+            <h1>Set up your client profile</h1>
+            <p>Tell us a little about yourself so we can personalise your VORVENA experience.</p>
+
+            <div class="progress">
+                <span></span>
+            </div>
+        </div>
+
+        <form class="form-card" id="clientOnboardingForm">
+
+            <h2 class="section-title">Personal information</h2>
+
+            <div class="account-info">
+                <div><strong>Email:</strong> <span id="clientEmail">Not available</span></div>
+                <div><strong>Phone:</strong> <span id="clientPhone">Not available</span></div>
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="fullName">Full name *</label>
+                    <input type="text" id="fullName" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="companyName">Company / Organisation</label>
+                    <input type="text" id="companyName" placeholder="Company name (optional)">
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Country *</label>
+                    <input type="text" id="country" required placeholder="Your country">
+                </div>
+
+                <div class="form-group">
+                    <label for="city">City *</label>
+                    <input type="text" id="city" required placeholder="Your city">
+                </div>
+
+                <div class="form-group">
+                    <label for="industry">Industry *</label>
+                    <select id="industry" required>
+                        <option value="">Select your industry</option>
+                        <option>Technology</option>
+                        <option>Education</option>
+                        <option>Finance</option>
+                        <option>Healthcare</option>
+                        <option>E-commerce</option>
+                        <option>Media and Entertainment</option>
+                        <option>Marketing</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="clientType">Client type *</label>
+                    <select id="clientType" required>
+                        <option value="">Select account type</option>
+                        <option value="individual">Individual</option>
+                        <option value="startup">Startup</option>
+                        <option value="small-business">Small business</option>
+                        <option value="company">Established company</option>
+                        <option value="organisation">Organisation</option>
+                    </select>
+                </div>
+
+                <div class="form-group full">
+                    <label for="about">About you or your organisation</label>
+                    <textarea id="about" placeholder="Briefly tell us about yourself or your organisation..."></textarea>
+                </div>
+
+            </div>
+
+            <p class="message" id="formMessage" role="alert"></p>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Complete Profile <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </form>
+
+        <p class="footer">© 2026 VORVENA. All rights reserved.</p>
+
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const form = document.getElementById("clientOnboardingForm");
+            const message = document.getElementById("formMessage");
+            const submitBtn = document.getElementById("submitBtn");
+
+            const email = sessionStorage.getItem("vorvenaEmail") || "";
+            const phone = sessionStorage.getItem("vorvenaPhone") || "";
+            const accountType = sessionStorage.getItem("vorvenaAccountType");
+
+            // Only allow registered client accounts
+            if (!email || accountType !== "client") {
+                window.location.href = "client-signup.html";
+                return;
+            }
+
+            document.getElementById("clientEmail").textContent = email;
+            document.getElementById("clientPhone").textContent = phone || "Not available";
+
+            document.getElementById("fullName").value =
+                sessionStorage.getItem("vorvenaFullName") || "";
+
+            document.getElementById("country").value =
+                sessionStorage.getItem("vorvenaCountry") || "";
+
+            document.getElementById("city").value =
+                sessionStorage.getItem("vorvenaCity") || "";
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const profile = {
+                    fullName: document.getElementById("fullName").value.trim(),
+                    email: email,
+                    phone: phone,
+                    companyName: document.getElementById("companyName").value.trim(),
+                    country: document.getElementById("country").value.trim(),
+                    city: document.getElementById("city").value.trim(),
+                    industry: document.getElementById("industry").value,
+                    clientType: document.getElementById("clientType").value,
+                    about: document.getElementById("about").value.trim(),
+                    onboardingStatus: "demo-completed"
+                };
+
+                if (!profile.fullName || !profile.country || !profile.city ||
+                    !profile.industry || !profile.clientType) {
+                    message.textContent = "Please complete all required fields.";
+                    message.style.color = "#d93025";
+                    return;
+                }
+
+                try {
+                    sessionStorage.setItem(
+                        "vorvenaClientProfile",
+                        JSON.stringify(profile)
+                    );
+
+                    sessionStorage.setItem("vorvenaClientOnboardingComplete", "true");
+
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = "Profile completed...";
+
+                    message.textContent = "Your profile has been saved. Redirecting...";
+                    message.style.color = "#16803c";
+
+                    setTimeout(function () {
+                        window.location.href = "login.html";
+                    }, 900);
+
+                } catch (error) {
+                    message.textContent = "Could not save your profile. Please try again.";
+                    message.style.color = "#d93025";
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Complete Profile";
+                }
+            });
+
+        });
+    </script>
+
+</body>
+</html>
