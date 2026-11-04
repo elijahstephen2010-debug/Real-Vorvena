@@ -190,94 +190,119 @@
 
 <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
 
+
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+const phoneInput = document.querySelector("#phone");
+const countryInput = document.querySelector("#country");
+const signupForm = document.querySelector("#professionalSignupForm");
 
-    const phoneInput = document.querySelector("#phone");
-    const countryInput = document.querySelector("#country");
-    const form = document.querySelector("#professionalSignupForm");
+const iti = window.intlTelInput(phoneInput, {
+    initialCountry: "ng",
+    separateDialCode: true,
+    nationalMode: true,
+    countrySearch: true,
+    preferredCountries: ["ng", "us", "gb", "ca"],
+    utilsScript:
+        "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
+});
 
-    // PHONE NUMBER SETUP
-    const iti = window.intlTelInput(phoneInput, {
-        initialCountry: "ng",
-        separateDialCode: true,
-        nationalMode: true,
-        countrySearch: true,
-        preferredCountries: ["ng", "us", "gb", "ca"],
-        utilsScript:
-            "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
-    });
+// UPDATE COUNTRY
+function updateCountry() {
+    const selectedCountry = iti.getSelectedCountryData();
+    countryInput.value = selectedCountry.name || "";
+}
 
-    // WAIT FOR PHONE UTILITIES
-    const phoneReady = iti.promise;
+updateCountry();
+phoneInput.addEventListener("countrychange", updateCountry);
 
-    // UPDATE COUNTRY FIELD
-    function updateCountry() {
-        const selectedCountry = iti.getSelectedCountryData();
-        countryInput.value = selectedCountry.name || "";
+// FOOTER YEAR
+document.querySelector("#year").textContent =
+    new Date().getFullYear();
+
+// PROFESSIONAL SIGNUP
+signupForm.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const fullName = document.querySelector("#fullName").value.trim();
+    const email = document.querySelector("#email").value.trim();
+    const country = countryInput.value;
+    const region = document.querySelector("#region").value.trim();
+    const city = document.querySelector("#city").value.trim();
+
+    const password = document.querySelector("#password").value;
+    const confirmPassword =
+        document.querySelector("#confirmPassword").value;
+
+    if (password.length < 8) {
+        alert("Your password must contain at least 8 characters.");
+        return;
     }
 
-    updateCountry();
+    if (password !== confirmPassword) {
+        alert("Your passwords do not match.");
+        return;
+    }
 
-    phoneInput.addEventListener("countrychange", updateCountry);
+    const selectedCountry = iti.getSelectedCountryData();
 
-    // FOOTER YEAR
-    document.querySelector("#year").textContent =
-        new Date().getFullYear();
+    if (!selectedCountry.iso2 || !selectedCountry.dialCode) {
+        alert("Please select your country.");
+        return;
+    }
 
-    // SIGNUP SUBMISSION
-    form.addEventListener("submit", async function(event) {
+    // CLEAN PHONE NUMBER
+    let phoneDigits = phoneInput.value.replace(/\D/g, "");
 
-        event.preventDefault();
+    // REMOVE LEADING ZERO
+    if (phoneDigits.startsWith("0")) {
+        phoneDigits = phoneDigits.substring(1);
+    }
 
-        const fullName = document.querySelector("#fullName").value.trim();
-        const email = document.querySelector("#email").value.trim();
-        const region = document.querySelector("#region").value.trim();
-        const city = document.querySelector("#city").value.trim();
+    if (phoneDigits.length < 7 || phoneDigits.length > 15) {
+        alert("Please enter a valid phone number.");
+        phoneInput.focus();
+        return;
+    }
 
-        const password = document.querySelector("#password").value;
-        const confirmPassword =
-            document.querySelector("#confirmPassword").value;
+    // BUILD INTERNATIONAL NUMBER
+    const internationalNumber =
+        "+" + selectedCountry.dialCode + phoneDigits;
 
-        if (password !== confirmPassword) {
-            alert("Your passwords do not match.");
-            return;
-        }
+    try {
+        await iti.promise;
 
-        // WAIT UNTIL INTERNATIONAL VALIDATION IS READY
-        try {
-            await phoneReady;
-        } catch (error) {
-            alert("Phone validation could not load. Please refresh and try again.");
-            return;
-        }
+        iti.setNumber(internationalNumber);
 
-        if (!iti.isValidNumber()) {
-            alert("Please enter a valid phone number for your selected country.");
+        if (
+            typeof iti.isPossibleNumber === "function" &&
+            !iti.isPossibleNumber()
+        ) {
+            alert("Please check your phone number and try again.");
             phoneInput.focus();
             return;
         }
 
-        // GET COMPLETE INTERNATIONAL NUMBER
-        const phone = iti.getNumber();
-        const country = iti.getSelectedCountryData().name;
+    } catch (error) {
+        alert("Phone validation could not load. Please refresh and try again.");
+        return;
+    }
 
-        // SAVE SIGNUP DETAILS
-        sessionStorage.setItem("vorvenaFullName", fullName);
-        sessionStorage.setItem("vorvenaEmail", email);
-        sessionStorage.setItem("vorvenaPhone", phone);
-        sessionStorage.setItem("vorvenaCountry", country);
-        sessionStorage.setItem("vorvenaRegion", region);
-        sessionStorage.setItem("vorvenaCity", city);
-        sessionStorage.setItem("vorvenaAccountType", "professional");
+    // SAVE SIGNUP DETAILS
+    sessionStorage.setItem("vorvenaFullName", fullName);
+    sessionStorage.setItem("vorvenaEmail", email);
+    sessionStorage.setItem("vorvenaPhone", internationalNumber);
+    sessionStorage.setItem("vorvenaCountry", country);
+    sessionStorage.setItem("vorvenaRegion", region);
+    sessionStorage.setItem("vorvenaCity", city);
+    sessionStorage.setItem("vorvenaAccountType", "professional");
 
-        // GO TO VERIFICATION
-        window.location.href = "verification.html";
-
-    });
+    // OPEN VERIFICATION
+    window.location.href = "verification.html";
 
 });
 </script>
+
 
 
 </body>
