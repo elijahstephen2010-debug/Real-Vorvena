@@ -1,4 +1,3 @@
-
 /* =========================================
    VORVENA PROFESSIONALS PAGE
    FRONTEND DEMO VERSION
@@ -41,8 +40,18 @@ const specialties = {
         category: "Dev & IT",
         description: "Find professionals who build and manage WordPress websites."
     },
-    "software-developer": {
-        title: "Software Developers",
+    "web-developer": {
+        title: "Web Developers",
+        category: "Dev & IT",
+        description: "Find professionals who build and maintain websites and web applications."
+    },
+    "qa-engineer": {
+        title: "QA Engineers",
+        category: "Dev & IT",
+        description: "Find professionals who test software and help ensure product quality."
+    },
+    "software-engineer": {
+        title: "Software Engineers",
         category: "Dev & IT",
         description: "Explore professionals who develop software solutions."
     },
@@ -67,13 +76,13 @@ const specialties = {
         category: "Design & Creative",
         description: "Discover creative professionals for your visual projects."
     },
-    "logo-designer": {
-        title: "Logo Designers",
+    "brand-designer": {
+        title: "Brand Designers",
         category: "Design & Creative",
         description: "Find designers who create memorable brand identities."
     },
-    "motion-graphics-designer": {
-        title: "Motion Graphics Designers",
+    "motion-designer": {
+        title: "Motion Designers",
         category: "Design & Creative",
         description: "Explore professionals who create animated visual content."
     },
@@ -113,10 +122,10 @@ const specialties = {
         category: "Data & AI",
         description: "Find engineers who build machine learning solutions."
     },
-    "ai-developer": {
-        title: "AI Developers",
+    "ai-engineer": {
+        title: "AI Engineers",
         category: "Data & AI",
-        description: "Explore developers building artificial intelligence solutions."
+        description: "Find engineers who build practical artificial intelligence solutions."
     },
     "data-engineer": {
         title: "Data Engineers",
@@ -128,15 +137,10 @@ const specialties = {
         category: "Data & AI",
         description: "Discover analysts who turn business data into insights."
     },
-    "ai-automation-specialist": {
-        title: "AI Automation Specialists",
+    "prompt-engineer": {
+        title: "Prompt Engineers",
         category: "Data & AI",
-        description: "Find experts who automate business processes with AI."
-    },
-    "database-administrator": {
-        title: "Database Administrators",
-        category: "Data & AI",
-        description: "Explore professionals who manage and maintain databases."
+        description: "Find specialists who design and improve prompts for AI tools."
     },
 
     "digital-marketer": {
@@ -154,18 +158,18 @@ const specialties = {
         category: "Digital & Growth",
         description: "Find professionals who manage and grow social media accounts."
     },
-    "content-writer": {
-        title: "Content Writers",
+    "content-strategist": {
+        title: "Content Strategists",
         category: "Digital & Growth",
-        description: "Explore writers who create engaging digital content."
+        description: "Find specialists who plan and create effective content strategies."
     },
     "copywriter": {
         title: "Copywriters",
         category: "Digital & Growth",
         description: "Find writers who create persuasive marketing copy."
     },
-    "email-marketer": {
-        title: "Email Marketers",
+    "email-marketing-specialist": {
+        title: "Email Marketing Specialists",
         category: "Digital & Growth",
         description: "Discover professionals who build effective email campaigns."
     },
@@ -173,11 +177,6 @@ const specialties = {
         title: "Growth Marketers",
         category: "Digital & Growth",
         description: "Find experts who help businesses grow."
-    },
-    "ecommerce-specialist": {
-        title: "E-commerce Specialists",
-        category: "Digital & Growth",
-        description: "Explore professionals who help businesses sell online."
     }
 };
 
@@ -227,14 +226,16 @@ const skillLibrary = {
     "backend-developer": ["Node.js", "Python", "SQL", "API Development"],
     "mobile-app-developer": ["Flutter", "Dart", "Firebase"],
     "wordpress-developer": ["WordPress", "PHP", "Elementor", "CSS"],
-    "software-developer": ["Python", "JavaScript", "Git", "Software Design"],
+    "web-developer": ["HTML", "CSS", "JavaScript", "Responsive Design"],
+    "qa-engineer": ["Software Testing", "Test Automation", "Bug Tracking"],
+    "software-engineer": ["Python", "JavaScript", "Git", "Software Design"],
     "cybersecurity-specialist": ["Network Security", "Linux", "Security Auditing"],
     "devops-engineer": ["Docker", "AWS", "Linux", "CI/CD"],
 
     "ui-ux-designer": ["Figma", "Wireframing", "Prototyping", "Research"],
     "graphic-designer": ["Photoshop", "Illustrator", "Branding"],
-    "logo-designer": ["Illustrator", "Logo Design", "Brand Identity"],
-    "motion-graphics-designer": ["After Effects", "Animation", "Premiere Pro"],
+    "brand-designer": ["Illustrator", "Logo Design", "Brand Identity"],
+    "motion-designer": ["After Effects", "Animation", "Premiere Pro"],
     "video-editor": ["Premiere Pro", "DaVinci Resolve", "Video Editing"],
     "3d-designer": ["Blender", "3D Modelling", "Rendering"],
     "product-designer": ["Figma", "Product Design", "Prototyping"],
@@ -243,20 +244,18 @@ const skillLibrary = {
     "data-analyst": ["Python", "SQL", "Power BI", "Excel"],
     "data-scientist": ["Python", "Statistics", "Machine Learning"],
     "machine-learning-engineer": ["Python", "TensorFlow", "PyTorch"],
-    "ai-developer": ["Python", "AI Integration", "APIs"],
+    "ai-engineer": ["Python", "AI Integration", "APIs"],
     "data-engineer": ["SQL", "Python", "Data Pipelines"],
     "business-intelligence-analyst": ["Power BI", "Excel", "SQL"],
-    "ai-automation-specialist": ["Python", "Automation", "AI Tools"],
-    "database-administrator": ["SQL", "MySQL", "PostgreSQL"],
+    "prompt-engineer": ["Python", "Automation", "AI Tools"],
 
     "digital-marketer": ["SEO", "Social Media", "Content Strategy"],
     "seo-specialist": ["SEO", "Keyword Research", "Google Analytics"],
     "social-media-manager": ["Content Planning", "Instagram", "Analytics"],
-    "content-writer": ["Blog Writing", "Research", "Editing"],
+    "content-strategist": ["Blog Writing", "Research", "Editing"],
     "copywriter": ["Copywriting", "Advertising", "Brand Messaging"],
-    "email-marketer": ["Email Campaigns", "Mailchimp", "Automation"],
-    "growth-marketer": ["Growth Strategy", "Analytics", "Marketing"],
-    "ecommerce-specialist": ["Shopify", "E-commerce", "Product Management"]
+    "email-marketing-specialist": ["Email Campaigns", "Mailchimp", "Automation"],
+    "growth-marketer": ["Growth Strategy", "Analytics", "Marketing"]
 };
 
 
@@ -340,7 +339,7 @@ const navLinks = document.getElementById("navLinks");
 // =========================================
 
 const urlParams = new URLSearchParams(window.location.search);
-const selectedSpecialty = urlParams.get("category");
+const selectedSpecialty = (urlParams.get("category") || "").trim().toLowerCase();
 
 const currentSpecialty = specialties[selectedSpecialty] || null;
 
@@ -443,12 +442,17 @@ function updateCategoryHeading() {
 
     if (!currentSpecialty) {
 
-        categoryTitle.textContent = "Explore Professionals";
+        categoryTitle.textContent = "Choose a Specialty";
 
         categoryDescription.textContent =
-            "Find experienced professionals ready to bring your ideas to life.";
+            "Open a specialty from Explore to view matching professionals.";
 
         breadcrumbCategory.textContent = "Professionals";
+
+        if (emptyState) {
+            emptyState.classList.add("show");
+            emptyState.textContent = "No specialty selected. Return to Explore and choose a professional category.";
+        }
 
         return;
     }
@@ -466,17 +470,13 @@ function updateCategoryHeading() {
 
 function getFilteredProfessionals() {
 
-    let filtered = [...professionals];
+    // Never show the entire demo directory when the URL category is
+    // missing or invalid. A valid specialty page shows only its own profiles.
+    if (!currentSpecialty) return [];
 
-    // Specialty
-
-    if (currentSpecialty) {
-
-        filtered = filtered.filter(person =>
-            person.specialty === selectedSpecialty
-        );
-
-    }
+    let filtered = professionals.filter(person =>
+        person.specialty === selectedSpecialty
+    );
 
     // Search
 
@@ -791,24 +791,24 @@ function updateProfileAccess() {
                 professionals and manage your projects.
             </p>
 
-            <a href="../signup.html" class="auth-option">
+            <a href="signup.html" class="auth-option">
                 <i class="fab fa-google"></i>
                 Continue with Google
             </a>
 
-            <a href="../signup.html" class="auth-option">
+            <a href="signup.html" class="auth-option">
                 <i class="fab fa-apple"></i>
                 Continue with Apple
             </a>
 
-            <a href="../client-signup.html" class="auth-option">
+            <a href="client-signup.html" class="auth-option">
                 <i class="fas fa-envelope"></i>
                 Continue with Email
             </a>
 
             <p class="auth-terms">
                 Already have an account?
-                <a href="../login.html">Log In</a>
+                <a href="login.html">Log In</a>
             </p>
         `;
 
@@ -867,7 +867,7 @@ function updateProfileAccess() {
                 Continue to your professional dashboard.
             </p>
 
-            <a href="../professional-dashboard.html" class="auth-option">
+            <a href="professional-dashboard.html" class="auth-option">
                 <i class="fas fa-th-large"></i>
                 My Dashboard
             </a>
@@ -906,7 +906,7 @@ function openHiringForm() {
 
         closeProfileModal();
 
-        window.location.href = "../login.html";
+        window.location.href = "login.html";
 
         return;
 
@@ -948,7 +948,7 @@ hireForm.addEventListener("submit", function(event) {
 
         alert("Please sign in with a client account to continue.");
 
-        window.location.href = "../login.html";
+        window.location.href = "login.html";
 
         return;
 
