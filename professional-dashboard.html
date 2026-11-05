@@ -509,12 +509,14 @@
 const PROFILE_KEY = "vorvenaProfessionalProfile";
 const IMAGE_KEY = "vorvenaProfileImage";
 const OFFERS_KEY = "vorvenaProfessionalOffers";
+const SHARED_OFFERS_KEY = "vorvenaSharedOffers";
 
 const sidebar = document.getElementById("sidebar");
 
 let profile = {};
 let profileImage = "";
 let offers = [];
+let toastTimer;
 
 // ========================================
 // LOGIN PROTECTION
@@ -534,6 +536,23 @@ function checkLogin() {
 
 if (!checkLogin()) {
     throw new Error("Professional login required.");
+}
+
+// ========================================
+// TOAST NOTIFICATIONS
+// ========================================
+
+function notify(message) {
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2800);
 }
 
 // ========================================
@@ -562,9 +581,12 @@ function readProfile() {
     profile.city ||= sessionStorage.getItem("vorvenaCity") || "";
 
     if (Array.isArray(profile.skills)) {
-        // Keep existing skills.
+        // Existing skills are already in the correct format.
     } else if (typeof profile.skills === "string" && profile.skills) {
-        profile.skills = profile.skills.split(",").map(skill => skill.trim()).filter(Boolean);
+        profile.skills = profile.skills
+            .split(",")
+            .map(skill => skill.trim())
+            .filter(Boolean);
     } else {
         profile.skills = [];
     }
@@ -731,6 +753,10 @@ document.getElementById("profileForm").addEventListener("submit", event => {
 
     renderProfile();
     notify("Your professional profile has been updated.");
+
+    // Refresh offers in case the professional identity changed.
+    offers = readOffers();
+    renderOffers();
 });
 
 // ========================================
@@ -760,7 +786,7 @@ function updateProfileCompletion() {
 }
 
 // ========================================
-// DEMO HIRING OFFERS
+// DEMO OFFERS
 // ========================================
 
 const demoOffers = [
@@ -770,7 +796,8 @@ const demoOffers = [
         description: "A client is looking for a developer to build a responsive business website.",
         budget: "₦250,000",
         deadline: "14 days",
-        status: "pending"
+        status: "pending",
+        isDemo: true
     },
     {
         id: "demo-offer-2",
@@ -778,67 +805,189 @@ const demoOffers = [
         description: "A client needs a designer for a mobile application interface.",
         budget: "₦180,000",
         deadline: "10 days",
-        status: "pending"
+        status: "pending",
+        isDemo: true
     }
 ];
 
+// ========================================
+// PROFESSIONAL IDENTITY
+// ========================================
+
+function getProfessionalIdentity() {
+    return {
+        email: (
+            profile.email ||
+            sessionStorage.getItem("vorvenaLoggedInEmail") ||
+            ""
+        ).trim().toLowerCase(),
+
+        id: profile.professionalId || profile.id || "",
+
+        name: (profile.fullName || "").trim().toLowerCase()
+    };
+}
+
+// ========================================
+// READ SHARED OFFERS
+// ========================================
+
+function readSharedOffers() {
+    try {
+        const saved = JSON.parse(
+            localStorage.getItem(SHARED_OFFERS_KEY) || "[]"
+        );
+
+        if (!Array.isArray(saved)) return [];
+
+        const identity = getProfessionalIdentity();
+
+        return saved.filter(offer => {
+            if (offer.professionalEmail && identity.email) {
+                return (
+                    String(offer.professionalEmail).trim().toLowerCase() ===
+                    identity.email
+                );
+            }
+
+            if (offer.professionalId && identity.id) {
+                return offer.professionalId === identity.id;
+            }
+
+            if (offer.professionalName && identity.name) {
+                return (
+                    String(offer.professionalName).trim().toLowerCase() ===
+                    identity.name
+                );
+            }
+
+            return false;
+        }).map(offer => ({
+            ...offer,
+            isShared: true
+        }));
+
+    } catch (error) {
+        console.error("Could not load shared offers:", error);
+        return [];
+    }
+}
+
+// ========================================
+// READ ALL OFFERS
+// ========================================
+
 function readOffers() {
+    let localOffers = [];
+
     try {
         const saved = localStorage.getItem(OFFERS_KEY);
 
         if (saved !== null) {
             const parsed = JSON.parse(saved);
-            return Array.isArray(parsed) ? parsed : [];
+            localOffers = Array.isArray(parsed) ? parsed : [];
+        } else {
+            localOffers = demoOffers.map(offer => ({ ...offer }));
         }
+
     } catch (error) {
-        console.error("Could not load offers:", error);
+        console.error("Could not load local offers:", error);
+        localOffers = demoOffers.map(offer => ({ ...offer }));
     }
 
-    return demoOffers.map(offer => ({ ...offer }));
+    return [
+        ...localOffers.filter(offer => !offer.isShared),
+        ...readSharedOffers()
+    ];
 }
+
+// ========================================
+// SAVE OFFER RESPONSES
+// ========================================
 
 function saveOffers() {
     try {
-        localStorage.setItem(OFFERS_KEY, JSON.stringify(offers));
+        const localOffers = offers.filter(offer => !offer.isShared);
+
+        const sharedOffers = JSON.parse(
+            localStorage.getItem(SHARED_OFFERS_KEY) || "[]"
+        );
+
+        if (!Array.isArray(sharedOffers)) {
+            throw new Error("Invalid shared offers data.");
+        }
+
+        const updatedSharedOffers = sharedOffers.map(sharedOffer => {
+            const updated = offers.find(
+                offer => offer.id === sharedOffer.id && offer.isShared
+            );
+
+            return updated
+                ? {
+                    ...sharedOffer,
+                    status: updated.status,
+                    respondedAt: new Date().toISOString()
+                }
+                : sharedOffer;
+        });
+
+        localStorage.setItem(
+            OFFERS_KEY,
+            JSON.stringify(localOffers)
+        );
+
+        localStorage.setItem(
+            SHARED_OFFERS_KEY,
+            JSON.stringify(updatedSharedOffers)
+        );
+
         return true;
+
     } catch (error) {
+        console.error("Could not save offers:", error);
         notify("Could not save offer changes.");
         return false;
     }
 }
+
+// ========================================
+// CREATE OFFER CARD
+// ========================================
 
 function createOfferCard(offer) {
     const card = document.createElement("div");
     card.className = "offer-card";
 
     const title = document.createElement("h4");
-    title.textContent = offer.title;
+    title.textContent = offer.title || "Untitled Project";
 
     const description = document.createElement("p");
-    description.textContent = offer.description;
+    description.textContent =
+        offer.description || "No project description provided.";
 
     card.append(title, description);
 
+    const details = document.createElement("div");
+    details.className = "offer-details";
+
+    const budget = document.createElement("span");
+    budget.textContent = "Budget: ";
+
+    const budgetValue = document.createElement("strong");
+    budgetValue.textContent = offer.budget || "Not specified";
+    budget.appendChild(budgetValue);
+
+    const deadline = document.createElement("span");
+    deadline.textContent = "Deadline: ";
+
+    const deadlineValue = document.createElement("strong");
+    deadlineValue.textContent = offer.deadline || "Not specified";
+    deadline.appendChild(deadlineValue);
+
+    details.append(budget, deadline);
+    card.appendChild(details);
+
     if (offer.status === "pending") {
-        const details = document.createElement("div");
-        details.className = "offer-details";
-
-        const budget = document.createElement("span");
-        budget.textContent = "Budget: ";
-
-        const budgetValue = document.createElement("strong");
-        budgetValue.textContent = offer.budget;
-        budget.appendChild(budgetValue);
-
-        const deadline = document.createElement("span");
-        deadline.textContent = "Deadline: ";
-
-        const deadlineValue = document.createElement("strong");
-        deadlineValue.textContent = offer.deadline;
-        deadline.appendChild(deadlineValue);
-
-        details.append(budget, deadline);
-
         const actions = document.createElement("div");
         actions.className = "offer-actions";
 
@@ -859,7 +1008,8 @@ function createOfferCard(offer) {
         });
 
         actions.append(acceptButton, declineButton);
-        card.append(details, actions);
+        card.appendChild(actions);
+
     } else {
         const status = document.createElement("p");
         const strong = document.createElement("strong");
@@ -872,13 +1022,18 @@ function createOfferCard(offer) {
 
         if (offer.status === "accepted") {
             const note = document.createElement("p");
-            note.textContent = "Waiting for client payment confirmation.";
+            note.textContent =
+                "Waiting for client payment confirmation.";
             card.appendChild(note);
         }
     }
 
     return card;
 }
+
+// ========================================
+// RENDER OFFERS
+// ========================================
 
 function renderOffers() {
     const overview = document.getElementById("overviewOffers");
@@ -904,15 +1059,20 @@ function renderOffers() {
     document.getElementById("offerCount").textContent = pending;
 }
 
+// ========================================
+// ACCEPT OR DECLINE OFFER
+// ========================================
+
 function respondOffer(id, decision) {
     const offer = offers.find(item => item.id === id);
 
     if (!offer || offer.status !== "pending") return;
 
+    const previousStatus = offer.status;
     offer.status = decision;
 
     if (!saveOffers()) {
-        offer.status = "pending";
+        offer.status = previousStatus;
         return;
     }
 
@@ -920,10 +1080,28 @@ function respondOffer(id, decision) {
 
     notify(
         decision === "accepted"
-            ? "Offer accepted. Awaiting client payment confirmation."
-            : "Offer declined."
+            ? "Offer accepted. The client has been notified."
+            : "Offer declined. The client has been notified."
     );
 }
+
+// ========================================
+// AUTOMATIC OFFER REFRESH
+// ========================================
+
+// When the client dashboard changes shared offers.
+window.addEventListener("storage", event => {
+    if (event.key === SHARED_OFFERS_KEY) {
+        offers = readOffers();
+        renderOffers();
+    }
+});
+
+// Refresh offers when returning to the dashboard.
+window.addEventListener("focus", () => {
+    offers = readOffers();
+    renderOffers();
+});
 
 // ========================================
 // NAVIGATION
@@ -932,7 +1110,10 @@ function respondOffer(id, decision) {
 function showPage(page) {
     const target = document.getElementById(page);
 
-    if (!target || !target.classList.contains("dashboard-section")) {
+    if (
+        !target ||
+        !target.classList.contains("dashboard-section")
+    ) {
         return;
     }
 
@@ -946,7 +1127,9 @@ function showPage(page) {
 
     target.classList.add("active");
 
-    const activeLink = document.querySelector(`[data-page="${page}"]`);
+    const activeLink = document.querySelector(
+        `[data-page="${page}"]`
+    );
 
     if (activeLink) {
         activeLink.classList.add("active");
@@ -970,25 +1153,6 @@ document.querySelectorAll("[data-page]").forEach(link => {
 document.getElementById("menuToggle").addEventListener("click", () => {
     sidebar.classList.toggle("open");
 });
-
-// ========================================
-// TOAST NOTIFICATIONS
-// ========================================
-
-let toastTimer;
-
-function notify(message) {
-    const toast = document.getElementById("toast");
-
-    toast.textContent = message;
-    toast.classList.add("show");
-
-    clearTimeout(toastTimer);
-
-    toastTimer = setTimeout(() => {
-        toast.classList.remove("show");
-    }, 2800);
-}
 
 // ========================================
 // DATE
@@ -1029,7 +1193,6 @@ readProfile();
 
 offers = readOffers();
 renderOffers();
-
 </script>
 
 </body>
