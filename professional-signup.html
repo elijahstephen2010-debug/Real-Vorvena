@@ -23,16 +23,23 @@
     <!-- LEFT PANEL -->
     <section class="signup-info">
 
-      <a href="index.html" class="brand">VORVENA</a>
+      <div class="left-top">
+<a href="index.html" class="brand">
+    <!-- INSERT VORVENA LOGO IMAGE HERE -->
+    <img src="./assets/VORVENA Logo Badge.png" alt="VORVENA" class="brand-logo">
+</a>
+
+      </div>
 
       <div class="info-content">
+
         <span class="eyebrow">WELCOME, PROFESSIONAL</span>
 
         <h1>Your skills deserve better opportunities.</h1>
 
-        <p>
-          Showcase your expertise, connect with clients
-          worldwide and grow your professional career with VORVENA.
+        <p class="intro-text">
+          Showcase your expertise, connect with clients worldwide
+          and grow your professional career with VORVENA.
         </p>
 
         <div class="benefits">
@@ -78,13 +85,17 @@
 
     </section>
 
+
     <!-- RIGHT PANEL -->
     <section class="signup-form-section">
 
       <div class="form-wrapper">
 
         <div class="mobile-brand">
-          <a href="index.html" class="brand">VORVENA</a>
+          <a href="index.html" class="brand">
+            <!-- INSERT VORVENA LOGO IMAGE HERE -->
+            VORVENA
+          </a>
         </div>
 
         <div class="form-heading">
@@ -185,125 +196,115 @@
 
   </main>
 
+
   <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
 
+  <script>
+    const phoneInput = document.querySelector("#phone");
+    const countryInput = document.querySelector("#country");
+    const signupForm = document.querySelector("#professionalSignupForm");
 
-<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
-
-
-<script>
-const phoneInput = document.querySelector("#phone");
-const countryInput = document.querySelector("#country");
-const signupForm = document.querySelector("#professionalSignupForm");
-
-const iti = window.intlTelInput(phoneInput, {
-    initialCountry: "ng",
-    separateDialCode: true,
-    nationalMode: true,
-    countrySearch: true,
-    preferredCountries: ["ng", "us", "gb", "ca"],
-    utilsScript:
+    const iti = window.intlTelInput(phoneInput, {
+      initialCountry: "ng",
+      separateDialCode: true,
+      nationalMode: true,
+      countrySearch: true,
+      preferredCountries: ["ng", "us", "gb", "ca"],
+      utilsScript:
         "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
-});
+    });
 
-// UPDATE COUNTRY
-function updateCountry() {
-    const selectedCountry = iti.getSelectedCountryData();
-    countryInput.value = selectedCountry.name || "";
-}
+    // UPDATE COUNTRY
+    function updateCountry() {
+      const selectedCountry = iti.getSelectedCountryData();
+      countryInput.value = selectedCountry.name || "";
+    }
 
-updateCountry();
-phoneInput.addEventListener("countrychange", updateCountry);
+    updateCountry();
+    phoneInput.addEventListener("countrychange", updateCountry);
 
-// FOOTER YEAR
-document.querySelector("#year").textContent =
-    new Date().getFullYear();
+    // FOOTER YEAR
+    document.querySelector("#year").textContent =
+      new Date().getFullYear();
 
-// PROFESSIONAL SIGNUP
-signupForm.addEventListener("submit", async function(event) {
+    // PROFESSIONAL SIGNUP
+    signupForm.addEventListener("submit", async function(event) {
 
-    event.preventDefault();
+      event.preventDefault();
 
-    const fullName = document.querySelector("#fullName").value.trim();
-    const email = document.querySelector("#email").value.trim();
-    const country = countryInput.value;
-    const region = document.querySelector("#region").value.trim();
-    const city = document.querySelector("#city").value.trim();
+      const fullName = document.querySelector("#fullName").value.trim();
+      const email = document.querySelector("#email").value.trim();
+      const country = countryInput.value;
+      const region = document.querySelector("#region").value.trim();
+      const city = document.querySelector("#city").value.trim();
 
-    const password = document.querySelector("#password").value;
-    const confirmPassword =
+      const password = document.querySelector("#password").value;
+      const confirmPassword =
         document.querySelector("#confirmPassword").value;
 
-    if (password.length < 8) {
+      if (password.length < 8) {
         alert("Your password must contain at least 8 characters.");
         return;
-    }
+      }
 
-    if (password !== confirmPassword) {
+      if (password !== confirmPassword) {
         alert("Your passwords do not match.");
         return;
-    }
+      }
 
-    const selectedCountry = iti.getSelectedCountryData();
+      const selectedCountry = iti.getSelectedCountryData();
 
-    if (!selectedCountry.iso2 || !selectedCountry.dialCode) {
+      if (!selectedCountry.iso2 || !selectedCountry.dialCode) {
         alert("Please select your country.");
         return;
-    }
+      }
 
-    // CLEAN PHONE NUMBER
-    let phoneDigits = phoneInput.value.replace(/\D/g, "");
+      let phoneDigits = phoneInput.value.replace(/\D/g, "");
 
-    // REMOVE LEADING ZERO
-    if (phoneDigits.startsWith("0")) {
+      if (phoneDigits.startsWith("0")) {
         phoneDigits = phoneDigits.substring(1);
-    }
+      }
 
-    if (phoneDigits.length < 7 || phoneDigits.length > 15) {
+      if (phoneDigits.length < 7 || phoneDigits.length > 15) {
         alert("Please enter a valid phone number.");
         phoneInput.focus();
         return;
-    }
+      }
 
-    // BUILD INTERNATIONAL NUMBER
-    const internationalNumber =
+      const internationalNumber =
         "+" + selectedCountry.dialCode + phoneDigits;
 
-    try {
+      try {
         await iti.promise;
 
         iti.setNumber(internationalNumber);
 
         if (
-            typeof iti.isPossibleNumber === "function" &&
-            !iti.isPossibleNumber()
+          typeof iti.isPossibleNumber === "function" &&
+          !iti.isPossibleNumber()
         ) {
-            alert("Please check your phone number and try again.");
-            phoneInput.focus();
-            return;
+          alert("Please check your phone number and try again.");
+          phoneInput.focus();
+          return;
         }
 
-    } catch (error) {
+      } catch (error) {
         alert("Phone validation could not load. Please refresh and try again.");
         return;
-    }
+      }
 
-    // SAVE SIGNUP DETAILS
-    sessionStorage.setItem("vorvenaFullName", fullName);
-    sessionStorage.setItem("vorvenaEmail", email);
-    sessionStorage.setItem("vorvenaPhone", internationalNumber);
-    sessionStorage.setItem("vorvenaCountry", country);
-    sessionStorage.setItem("vorvenaRegion", region);
-    sessionStorage.setItem("vorvenaCity", city);
-    sessionStorage.setItem("vorvenaAccountType", "professional");
+      sessionStorage.setItem("vorvenaFullName", fullName);
+      sessionStorage.setItem("vorvenaEmail", email);
+      sessionStorage.setItem("vorvenaPhone", internationalNumber);
+      sessionStorage.setItem("vorvenaCountry", country);
+      sessionStorage.setItem("vorvenaRegion", region);
+      sessionStorage.setItem("vorvenaCity", city);
+      sessionStorage.setItem("vorvenaAccountType", "professional");
 
-    // OPEN VERIFICATION
-    window.location.href = "verification.html";
+      window.location.href = "verification.html";
 
-});
-</script>
-
-
+    });
+  </script>
 
 </body>
 </html>

@@ -16,11 +16,17 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
 body {
   font-family: "DM Sans", sans-serif;
   background: var(--background);
   color: var(--text);
-  min-height: 100vh;
+  overflow: hidden;
 }
 
 a {
@@ -28,60 +34,108 @@ a {
   color: inherit;
 }
 
+
+/* =====================================
+   MAIN LAYOUT
+===================================== */
+
 .signup-container {
-  min-height: 100vh;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-}
-
-/* LEFT PANEL */
-
-.signup-info {
-  background: linear-gradient(145deg, var(--navy), var(--navy-dark));
-  color: var(--white);
-  padding: 45px 9%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
+  grid-template-columns: 38% 62%;
   overflow: hidden;
 }
 
-.signup-info::before {
-  content: "";
-  position: absolute;
-  width: 400px;
-  height: 400px;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 50%;
-  right: -180px;
-  bottom: -100px;
+
+/* =====================================
+   LEFT PANEL
+===================================== */
+
+.signup-info {
+  background: linear-gradient(
+    145deg,
+    var(--navy),
+    var(--navy-dark)
+  );
+
+  color: var(--white);
+
+  height: 100%;
+  min-height: 0;
+
+  padding: 35px 8%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
 }
 
+.signup-info::before,
 .signup-info::after {
   content: "";
   position: absolute;
-  width: 250px;
-  height: 250px;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.07);
   border-radius: 50%;
-  right: -100px;
-  bottom: -20px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.signup-info::before {
+  width: 350px;
+  height: 350px;
+  right: -190px;
+  bottom: -170px;
+}
+
+.signup-info::after {
+  width: 240px;
+  height: 240px;
+  right: -130px;
+  bottom: -115px;
+}
+
+
+/* BRAND */
+
+.left-top {
+  position: relative;
+  z-index: 2;
 }
 
 .brand {
   font-family: "Manrope", sans-serif;
-  font-size: 27px;
+  font-size: 25px;
   font-weight: 800;
   letter-spacing: 2px;
   color: var(--white);
+  display: inline-flex;
+  align-items: center;
 }
 
+/* Replace this placeholder with your actual logo image */
+.brand-image-placeholder {
+  display: inline-flex;
+  align-items: center;
+}
+
+
+/* LEFT CONTENT */
+
 .info-content {
-  max-width: 480px;
+  width: 100%;
+  max-width: 430px;
+
   position: relative;
   z-index: 1;
-  margin: 60px 0;
+
+  margin: 0;
 }
 
 .eyebrow,
@@ -89,105 +143,144 @@ a {
   display: inline-block;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 1.8px;
 }
 
 .eyebrow {
   color: #a9c9ff;
-  margin-bottom: 22px;
+  margin-bottom: 15px;
 }
 
 .info-content h1 {
   font-family: "Manrope", sans-serif;
-  font-size: clamp(34px, 4vw, 52px);
+  font-size: clamp(27px, 2.7vw, 39px);
   line-height: 1.2;
   font-weight: 800;
-  margin-bottom: 22px;
+  margin-bottom: 14px;
 }
 
-.info-content > p {
-  font-size: 15px;
-  line-height: 1.8;
+.intro-text {
+  font-size: 13px;
+  line-height: 1.7;
   color: #d2ddf0;
-  max-width: 400px;
+  max-width: 370px;
 }
+
+
+/* BENEFITS */
 
 .benefits {
   display: grid;
-  gap: 23px;
-  margin-top: 38px;
+  gap: 17px;
+  margin-top: 26px;
 }
 
 .benefit {
   display: flex;
   align-items: flex-start;
-  gap: 15px;
+  gap: 12px;
 }
 
 .benefit-icon {
-  width: 25px;
-  height: 25px;
+  width: 23px;
+  height: 23px;
   flex-shrink: 0;
+
   display: grid;
   place-items: center;
+
   border-radius: 50%;
   background: rgba(255,255,255,0.15);
   color: #b9d3ff;
-  font-size: 13px;
+
+  font-size: 12px;
   font-weight: 700;
 }
 
 .benefit h3 {
-  font-size: 15px;
-  margin-bottom: 5px;
+  font-size: 13px;
+  margin-bottom: 3px;
 }
 
 .benefit p {
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 11px;
+  line-height: 1.5;
   color: #c4d2e8;
 }
 
+
+/* FOOTER */
+
 .panel-footer {
-  font-size: 12px;
+  font-size: 11px;
   color: #b7c7df;
   position: relative;
   z-index: 1;
 }
 
 
-/* RIGHT PANEL */
+/* =====================================
+   RIGHT PANEL
+   INDEPENDENT SCROLLING
+===================================== */
 
 .signup-form-section {
+  height: 100%;
+  min-height: 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 55px 8%;
+
+  padding: 55px 7%;
+
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.signup-form-section::-webkit-scrollbar {
+  width: 7px;
+}
+
+.signup-form-section::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.signup-form-section::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 20px;
 }
 
 .form-wrapper {
   width: 100%;
   max-width: 490px;
+  margin: auto;
 }
 
 .mobile-brand {
   display: none;
 }
 
+
+/* FORM HEADING */
+
 .form-heading {
-  margin-bottom: 30px;
+  margin-bottom: 27px;
 }
 
 .form-label {
   color: var(--blue);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .form-heading h2 {
   font-family: "Manrope", sans-serif;
   font-size: 32px;
   font-weight: 800;
-  margin-bottom: 9px;
+  margin-bottom: 8px;
   color: var(--navy-dark);
 }
 
@@ -197,29 +290,37 @@ a {
   line-height: 1.6;
 }
 
+
+/* FORM FIELDS */
+
 .form-group {
-  margin-bottom: 19px;
+  margin-bottom: 17px;
 }
 
 .form-group label {
   display: block;
   font-size: 13px;
   font-weight: 700;
-  margin-bottom: 9px;
+  margin-bottom: 8px;
   color: #26364f;
 }
 
 .form-group input {
   width: 100%;
-  height: 49px;
+  height: 48px;
+
   border: 1px solid var(--border);
   border-radius: 8px;
+
   padding: 0 15px;
+
   outline: none;
   background: var(--white);
+
   font-family: inherit;
   font-size: 13px;
   color: var(--text);
+
   transition: 0.2s ease;
 }
 
@@ -245,7 +346,9 @@ a {
 }
 
 
-/* INTERNATIONAL PHONE INPUT */
+/* =====================================
+   INTERNATIONAL PHONE INPUT
+===================================== */
 
 .iti {
   width: 100%;
@@ -265,13 +368,15 @@ a {
 }
 
 
-/* TERMS */
+/* =====================================
+   TERMS
+===================================== */
 
 .terms-group {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  margin: 24px 0;
+  margin: 22px 0;
 }
 
 .terms-group input {
@@ -294,23 +399,31 @@ a {
 }
 
 
-/* BUTTON */
+/* =====================================
+   SUBMIT BUTTON
+===================================== */
 
 .submit-btn {
   width: 100%;
-  height: 53px;
+  height: 52px;
+
   border: none;
   border-radius: 8px;
+
   background: var(--navy);
   color: var(--white);
+
   font-family: inherit;
   font-size: 14px;
   font-weight: 700;
+
   cursor: pointer;
+
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
+
   transition: 0.25s ease;
 }
 
@@ -329,11 +442,13 @@ a {
 }
 
 
-/* BOTTOM LINKS */
+/* =====================================
+   BOTTOM LINKS
+===================================== */
 
 .login-text {
   text-align: center;
-  margin-top: 25px;
+  margin-top: 23px;
   font-size: 13px;
   color: var(--muted);
 }
@@ -347,7 +462,7 @@ a {
 .back-home {
   display: block;
   text-align: center;
-  margin-top: 23px;
+  margin-top: 20px;
   font-size: 12px;
   color: var(--muted);
   transition: 0.2s ease;
@@ -358,11 +473,22 @@ a {
 }
 
 
-/* RESPONSIVE DESIGN */
+/* =====================================
+   768px
+===================================== */
 
 @media (max-width: 768px) {
+
+  body {
+    overflow: auto;
+  }
+
   .signup-container {
-    grid-template-columns: 1fr;
+    display: block;
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: visible;
   }
 
   .signup-info {
@@ -370,13 +496,19 @@ a {
   }
 
   .signup-form-section {
-    padding: 45px 7%;
+    width: 100%;
+    height: auto;
     min-height: 100vh;
+    min-height: 100dvh;
+
+    overflow: visible;
+
+    padding: 40px 7%;
   }
 
   .mobile-brand {
     display: block;
-    margin-bottom: 45px;
+    margin-bottom: 35px;
   }
 
   .mobile-brand .brand {
@@ -385,16 +517,31 @@ a {
 
   .form-wrapper {
     max-width: 520px;
+    margin: 0 auto;
   }
 }
 
+
+/* =====================================
+   425px
+===================================== */
+
 @media (max-width: 425px) {
+
   .signup-form-section {
-    padding: 35px 6%;
+    padding: 32px 6%;
   }
 
   .mobile-brand {
-    margin-bottom: 35px;
+    margin-bottom: 30px;
+  }
+
+  .mobile-brand .brand {
+    font-size: 23px;
+  }
+
+  .form-heading {
+    margin-bottom: 24px;
   }
 
   .form-heading h2 {
@@ -405,15 +552,25 @@ a {
     font-size: 13px;
   }
 
+  .form-group {
+    margin-bottom: 16px;
+  }
+
   .form-group input {
     height: 47px;
     font-size: 12px;
   }
 }
 
+
+/* =====================================
+   375px
+===================================== */
+
 @media (max-width: 375px) {
+
   .signup-form-section {
-    padding: 28px 5%;
+    padding: 27px 5%;
   }
 
   .form-heading h2 {
@@ -432,12 +589,19 @@ a {
     height: 49px;
     font-size: 13px;
   }
+
+  .mobile-brand {
+    margin-bottom: 25px;
+  }
 }
 
 
-/* ACCESSIBILITY */
+/* =====================================
+   ACCESSIBILITY
+===================================== */
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -445,4 +609,27 @@ a {
     animation: none !important;
     scroll-behavior: auto !important;
   }
+
+}
+/* VORVENA LOGO IMAGE */
+.brand-logo {
+    display: block;
+    width: 165px;
+    height: 48px;
+    object-fit: contain;
+    object-position: left center;
+}
+
+/* Mobile logo */
+.mobile-brand .brand-logo {
+    width: 145px;
+    height: 42px;
+}
+
+/* Smaller screens */
+@media (max-width: 425px) {
+    .brand-logo {
+        width: 135px;
+        height: 40px;
+    }
 }
