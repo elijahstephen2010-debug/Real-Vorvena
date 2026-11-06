@@ -19,10 +19,9 @@
     pointer-events: all;
 
     /* Subtle page fading */
-    background: rgba(4, 27, 67, 0.10);
-
-    backdrop-filter: blur(0.5px);
-    -webkit-backdrop-filter: blur(0.5px);
+ background: rgba(4, 27, 67, 0.28);
+backdrop-filter: blur(1px);
+-webkit-backdrop-filter: blur(1px);
 }
 
 .vorvena-page-loader.active {
