@@ -1,57 +1,33 @@
 
 /* =========================================
    VORVENA - PAGE LOADER
-   Original circular loader + subtle page fade
+   Circular loader + subtle page fading
 ========================================= */
 
 .vorvena-page-loader {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 78px;
-    height: 78px;
+    inset: 0;
 
-    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
 
     display: none;
     align-items: center;
     justify-content: center;
 
     z-index: 99999;
-    pointer-events: none;
+    pointer-events: all;
 
-    /* Keep loader above the fading background */
-    isolation: isolate;
-}
-
-/* =========================================
-   SUBTLE BACKGROUND FADE
-========================================= */
-
-.vorvena-page-loader::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-
-    background: rgba(4, 27, 67, 0.12);
+    /* Subtle page fading */
+    background: rgba(4, 27, 67, 0.10);
 
     backdrop-filter: blur(0.5px);
     -webkit-backdrop-filter: blur(0.5px);
-
-    opacity: 0;
-    transition: opacity 0.25s ease;
-
-    z-index: -1;
-    pointer-events: none;
 }
 
 .vorvena-page-loader.active {
     display: flex;
     animation: vorvenaLoaderAppear 0.25s ease forwards;
-}
-
-.vorvena-page-loader.active::before {
-    opacity: 1;
 }
 
 /* =========================================
@@ -60,7 +36,9 @@
 
 .vorvena-loader-ring {
     position: absolute;
-    inset: 0;
+
+    width: 78px;
+    height: 78px;
 
     border: 3px solid rgba(23, 75, 154, 0.12);
     border-top-color: #174b9a;
@@ -88,7 +66,8 @@
 
     overflow: hidden;
 
-    box-shadow: 0 3px 15px rgba(8, 43, 104, 0.12);
+    /* No square shadow behind the loader */
+    box-shadow: none;
 
     animation: vorvenaLogoPop 1.2s ease-in-out infinite;
 }
@@ -140,8 +119,7 @@
         animation: none;
     }
 
-    .vorvena-page-loader,
-    .vorvena-page-loader::before {
+    .vorvena-page-loader {
         transition: none;
     }
 }
