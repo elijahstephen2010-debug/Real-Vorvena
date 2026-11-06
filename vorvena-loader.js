@@ -34,11 +34,11 @@
         loader.classList.add("active");
     }
 
-    function hideLoader() {
-        if (!loader) return;
+   function hideLoader() {
+    if (!loader) return;
 
-        loader.classList.remove("active");
-    }
+    loader.classList.remove("active");
+}
 
     // Make loader controls available to other page scripts.
     window.VORVENA = window.VORVENA || {};

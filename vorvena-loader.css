@@ -81,3 +81,43 @@
         animation: none;
     }
 }
+
+/* =====================================
+   VORVENA PAGE FADE BACKGROUND
+   ===================================== */
+
+.vorvena-page-loader {
+    background: rgba(4, 27, 67, 0.42);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform: none;
+
+    transition: opacity 0.25s ease;
+    opacity: 0;
+}
+
+.vorvena-page-loader.active {
+    display: flex;
+    opacity: 1;
+}
+
+/* Keep the existing circular loader in the centre */
+.vorvena-loader-ring,
+.vorvena-loader-logo {
+    position: absolute;
+}
+
+.vorvena-loader-ring {
+    width: 78px;
+    height: 78px;
+}
+
+.vorvena-loader-logo {
+    width: 58px;
+    height: 58px;
+}
