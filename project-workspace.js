@@ -1,149 +1,182 @@
 
-/* =========================================
-   VORVENA PROJECT WORKSPACE
-   Shared Client + Professional Workspace
-
+/* =========================================================
+   VORVENA — PROJECT WORKSPACE
    FRONTEND DEMO VERSION
 
+   Features:
+   - Role-based workspace access
+   - Payment status check
+   - Project overview
+   - Messaging and file attachments
+   - Project file uploads
+   - Milestone management
+   - Work submissions
+   - Client approval and revision requests
+   - Activity history
+   - Notifications
+   - Responsive mobile navigation
+
    IMPORTANT:
-   Real-time messaging, secure file storage,
-   payment verification and authorization
-   must be handled by the backend.
-========================================= */
+   This version uses localStorage.
+   It is a frontend demonstration, NOT production security.
+========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* =====================================
-       1. STORAGE KEYS
-    ===================================== */
+    /* =====================================================
+       1. STORAGE HELPERS
+    ===================================================== */
 
-    const STORAGE = {
-        sharedOffers: "vorvenaSharedOffers",
-        clientOffers: "vorvenaClientOffers",
-        professionalOffers: "vorvenaProfessionalOffers",
-
-        professionalProfile: "vorvenaProfessionalProfile",
-        clientProfile: "vorvenaClientProfile",
-
-        professionalImage: "vorvenaProfileImage",
-        clientImage: "vorvenaClientProfileImage",
-
-        messages: "vorvenaWorkspaceMessages",
-        files: "vorvenaWorkspaceFiles",
-        milestones: "vorvenaWorkspaceMilestones",
-        submissions: "vorvenaWorkspaceSubmissions",
-        revisions: "vorvenaWorkspaceRevisions",
-        activity: "vorvenaWorkspaceActivity"
-    };
-
-
-    /* =====================================
-       2. GENERAL HELPERS
-    ===================================== */
-
-    const getElement = id => document.getElementById(id);
-
-    function readStorage(key, fallback = []) {
+    const getData = (key, fallback = []) => {
         try {
-            const value = JSON.parse(localStorage.getItem(key));
-            return value ?? fallback;
-        } catch {
+            const data = localStorage.getItem(key);
+            return data ? JSON.parse(data) : fallback;
+        } catch (error) {
+            console.error("Storage read error:", error);
             return fallback;
         }
-    }
+    };
 
-    function saveStorage(key, value) {
+    const saveData = (key, data) => {
         try {
-            localStorage.setItem(key, JSON.stringify(value));
+            localStorage.setItem(key, JSON.stringify(data));
             return true;
         } catch (error) {
-            console.error("Storage error:", error);
-            showToast("Storage limit reached. Try a smaller file.");
+            console.error("Storage write error:", error);
+            showToast("Storage is full. Remove some files and try again.", "error");
             return false;
         }
-    }
+    };
 
-    function safeText(value) {
-        return String(value ?? "").replace(/[&<>"']/g, char => ({
+    const escapeHTML = (value = "") => {
+        return String(value).replace(/[&<>"']/g, character => ({
             "&": "&amp;",
             "<": "&lt;",
             ">": "&gt;",
             '"': "&quot;",
-            "'": "&#39;"
-        })[char]);
-    }
+            "'": "&#039;"
+        })[character]);
+    };
 
-    function formatDate(value) {
-        if (!value) return "Not set";
+    const formatDate = value => {
+        if (!value) return "Not specified";
 
-        const date = new Date(value);
+        const date = new Date(value + (String(value).length === 10 ? "T00:00:00" : ""));
 
-        if (Number.isNaN(date.getTime())) return "Not set";
+        if (Number.isNaN(date.getTime())) return "Not specified";
 
-        return date.toLocaleDateString("en-US", {
+        return date.toLocaleDateString(undefined, {
             day: "numeric",
             month: "short",
             year: "numeric"
         });
-    }
+    };
 
-    function formatTime(value) {
+    const formatDateTime = value => {
+        if (!value) return "Just now";
+
         const date = new Date(value);
 
-        if (Number.isNaN(date.getTime())) return "";
+        if (Number.isNaN(date.getTime())) return "Just now";
 
-        return date.toLocaleTimeString([], {
+        return date.toLocaleString(undefined, {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
             hour: "2-digit",
             minute: "2-digit"
         });
-    }
+    };
 
-    function formatMoney(value) {
+    const formatMoney = value => {
         const amount = Number(value);
 
         if (!Number.isFinite(amount)) return "—";
 
-        return new Intl.NumberFormat("en-US", {
+        return new Intl.NumberFormat(undefined, {
             style: "currency",
             currency: "USD",
             maximumFractionDigits: 2
         }).format(amount);
-    }
+    };
 
-    function formatFileSize(bytes) {
-        if (!bytes) return "0 KB";
+    const makeId = () => {
+        return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    };
 
-        if (bytes < 1024 * 1024) {
-            return (bytes / 1024).toFixed(1) + " KB";
+    const readFile = file => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = () => reject(new Error("Unable to read file."));
+
+            reader.readAsDataURL(file);
+        });
+    };
+
+
+    /* =====================================================
+       2. ELEMENT HELPERS
+    ===================================================== */
+
+    const $ = selector => document.querySelector(selector);
+    const $$ = selector => [...document.querySelectorAll(selector)];
+
+    const setText = (id, value) => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = value ?? "";
+    };
+
+    const setImage = (id, src) => {
+        const element = document.getElementById(id);
+        if (element && src) element.src = src;
+    };
+
+    const showElement = element => {
+        if (element) element.style.display = "";
+    };
+
+    const hideElement = element => {
+        if (element) element.style.display = "none";
+    };
+
+
+    /* =====================================================
+       3. TOAST NOTIFICATIONS
+    ===================================================== */
+
+    const toast = $("#workspaceToast");
+    const toastMessage = $("#workspaceToastMessage");
+
+    let toastTimeout;
+
+    function showToast(message, type = "success") {
+        if (!toast || !toastMessage) {
+            console.log(message);
+            return;
         }
 
-        return (bytes / (1024 * 1024)).toFixed(2) + " MB";
-    }
-
-    function showToast(message) {
-        const toast = getElement("workspaceToast");
-        const toastMessage = getElement("workspaceToastMessage");
-
-        if (!toast || !toastMessage) return;
-
         toastMessage.textContent = message;
+
+        toast.classList.remove("success", "error");
+        toast.classList.add(type);
+
         toast.classList.add("show");
 
-        clearTimeout(toastTimer);
+        clearTimeout(toastTimeout);
 
-        toastTimer = setTimeout(() => {
+        toastTimeout = setTimeout(() => {
             toast.classList.remove("show");
-        }, 3000);
+        }, 3500);
     }
 
-    let toastTimer;
 
+    /* =====================================================
+       4. CURRENT USER AND PROJECT
+    ===================================================== */
 
-    /* =====================================
-       3. CURRENT USER
-    ===================================== */
-
-    const isLoggedIn = sessionStorage.getItem("vorvenaLoggedIn");
+    const loggedIn = sessionStorage.getItem("vorvenaLoggedIn");
     const currentRole = (
         sessionStorage.getItem("vorvenaLoggedInRole") || ""
     ).toLowerCase();
@@ -152,303 +185,61 @@ document.addEventListener("DOMContentLoaded", () => {
         sessionStorage.getItem("vorvenaLoggedInEmail") || ""
     ).toLowerCase();
 
-    if (isLoggedIn !== "true" || !["client", "professional"].includes(currentRole)) {
+    if (loggedIn !== "true" || !["client", "professional"].includes(currentRole)) {
         window.location.href = "login.html";
         return;
     }
 
-    const currentUser = {
-        role: currentRole,
-        email: currentEmail
-    };
-
-
-    /* =====================================
-       4. PROFILE INFORMATION
-    ===================================== */
-
-    const professionalProfile = readStorage(
-        STORAGE.professionalProfile,
-        {}
-    );
-
-    const clientProfile = readStorage(
-        STORAGE.clientProfile,
-        {}
-    );
-
-    function getProfileName(profile, fallback) {
-        return (
-            profile.fullName ||
-            profile.fullname ||
-            profile.name ||
-            profile.firstName ||
-            profile.username ||
-            fallback
-        );
-    }
-
-    function getProfileEmail(profile) {
-        return String(
-            profile.email ||
-            profile.userEmail ||
-            ""
-        ).toLowerCase();
-    }
-
-    function getCurrentProfile() {
-        if (currentRole === "professional") {
-            return professionalProfile;
-        }
-
-        return clientProfile;
-    }
-
-    function getCurrentUserName() {
-        const profile = getCurrentProfile();
-
-        return getProfileName(
-            profile,
-            currentRole === "professional" ? "Professional" : "Client"
-        );
-    }
-
-    function getCurrentUserImage() {
-        if (currentRole === "professional") {
-            return (
-                localStorage.getItem(STORAGE.professionalImage) ||
-                professionalProfile.profileImage ||
-                professionalProfile.photo ||
-                "images/default-avatar.png"
-            );
-        }
-
-        return (
-            localStorage.getItem(STORAGE.clientImage) ||
-            clientProfile.profileImage ||
-            clientProfile.photo ||
-            "images/default-avatar.png"
-        );
-    }
-
-    function getProfileForRole(role) {
-        return role === "professional"
-            ? professionalProfile
-            : clientProfile;
-    }
-
-    function getImageForRole(role, profile) {
-        if (role === "professional") {
-            return (
-                localStorage.getItem(STORAGE.professionalImage) ||
-                profile.profileImage ||
-                profile.photo ||
-                "images/default-avatar.png"
-            );
-        }
-
-        return (
-            localStorage.getItem(STORAGE.clientImage) ||
-            profile.profileImage ||
-            profile.photo ||
-            "images/default-avatar.png"
-        );
-    }
-
-
-    /* =====================================
-       5. PROJECT IDENTIFICATION
-    ===================================== */
-
     const params = new URLSearchParams(window.location.search);
+    const projectId = params.get("projectId");
 
-    const requestedProjectId = params.get("projectId");
+    const sharedOffers = getData("vorvenaSharedOffers", []);
+    const clientOffers = getData("vorvenaClientOffers", []);
+    const professionalOffers = getData("vorvenaProfessionalOffers", []);
 
-    const allOffers = [
-        ...readStorage(STORAGE.sharedOffers, []),
-        ...readStorage(STORAGE.clientOffers, []),
-        ...readStorage(STORAGE.professionalOffers, [])
-    ];
+    let offer =
+        sharedOffers.find(item => String(item.id) === String(projectId)) ||
+        clientOffers.find(item => String(item.id) === String(projectId)) ||
+        professionalOffers.find(item => String(item.id) === String(projectId));
 
-    const uniqueOffers = [
-        ...new Map(
-            allOffers
-                .filter(offer => offer && typeof offer === "object")
-                .map(offer => [String(offer.id || offer.offerId), offer])
-        ).values()
-    ];
-
-    function getOfferId(offer) {
-        return String(offer.id || offer.offerId || "");
+    if (!offer && !projectId) {
+        showWorkspaceError("Project not found. Please return to your dashboard.");
+        return;
     }
 
-    function findProject() {
-        let project = null;
-
-        if (requestedProjectId) {
-            project = uniqueOffers.find(
-                offer => getOfferId(offer) === String(requestedProjectId)
-            );
-        } else {
-            project = uniqueOffers.find(offer => {
-                return offer.status === "accepted" &&
-                    isOfferForCurrentUser(offer);
-            });
-        }
-
-        return project;
+    if (!offer) {
+        showWorkspaceError("This project could not be found.");
+        return;
     }
 
-    function isOfferForCurrentUser(offer) {
-        if (currentRole === "client") {
-            const email = String(
-                offer.clientEmail || offer.hiringEmail || ""
-            ).toLowerCase();
+    const projectStatus = String(offer.status || "").toLowerCase();
 
-            return !email || !currentEmail || email === currentEmail;
-        }
-
-        const email = String(
-            offer.professionalEmail || ""
-        ).toLowerCase();
-
-        if (email && currentEmail) {
-            return email === currentEmail;
-        }
-
-        return true;
+    if (projectStatus !== "accepted") {
+        showWorkspaceError("This project has not been accepted yet.");
+        return;
     }
 
-    const project = findProject();
+    const paymentStatus = String(
+        offer.paymentStatus ||
+        offer.payment?.status ||
+        ""
+    ).toLowerCase();
 
-    if (!project) {
-        showProjectError(
-            "Project not found",
-            "We couldn't find a project connected to your account."
+    const paymentVerified =
+        offer.paymentVerified === true ||
+        offer.paid === true ||
+        ["paid", "verified", "success"].includes(paymentStatus);
+
+    if (!paymentVerified) {
+        showWorkspaceError(
+            "Payment has not been confirmed. The project workspace is locked until payment is verified."
         );
         return;
     }
 
-    if (project.status !== "accepted") {
-        showProjectError(
-            "Project not available",
-            "This project must be accepted before a workspace can be opened."
-        );
-        return;
-    }
-
-
-    /* =====================================
-       6. PAYMENT ACCESS CHECK
-    ===================================== */
-
-    function isPaymentVerified(offer) {
-        const paymentStatus = String(
-            offer.paymentStatus ||
-            offer.payment?.status ||
-            ""
-        ).toLowerCase();
-
-        return (
-            offer.paymentVerified === true ||
-            offer.paid === true ||
-            paymentStatus === "paid" ||
-            paymentStatus === "verified" ||
-            paymentStatus === "success"
-        );
-    }
-
-    if (!isPaymentVerified(project)) {
-        showWorkspaceLock();
-        return;
-    }
-
-    function showWorkspaceLock() {
-        const lock = document.createElement("div");
-
-        lock.id = "workspacePaymentLock";
-
-        lock.style.cssText = `
-            position:fixed;
-            inset:0;
-            z-index:10000;
-            background:rgba(4,27,67,.78);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            padding:20px;
-            backdrop-filter:blur(5px);
-        `;
-
-        lock.innerHTML = `
-            <div style="
-                width:100%;
-                max-width:430px;
-                background:white;
-                padding:35px 25px;
-                border-radius:15px;
-                text-align:center;
-                box-shadow:0 20px 60px rgba(0,0,0,.2);
-            ">
-                <div style="
-                    width:65px;
-                    height:65px;
-                    border-radius:50%;
-                    background:#fff8e8;
-                    color:#c48a20;
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    font-size:25px;
-                    margin:0 auto 20px;
-                ">
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-
-                <h2 style="
-                    color:#041b43;
-                    font-size:20px;
-                    margin-bottom:10px;
-                ">
-                    Workspace Locked
-                </h2>
-
-                <p style="
-                    color:#78859b;
-                    font-size:12px;
-                    line-height:1.8;
-                    margin-bottom:22px;
-                ">
-                    This project workspace will become available
-                    after VORVENA verifies the client's payment.
-                </p>
-
-                <button id="lockBackButton" style="
-                    border:0;
-                    background:#082b68;
-                    color:white;
-                    padding:13px 22px;
-                    border-radius:8px;
-                    font-size:11px;
-                    font-weight:700;
-                    cursor:pointer;
-                ">
-                    Return to Dashboard
-                </button>
-            </div>
-        `;
-
-        document.body.appendChild(lock);
-
-        document.getElementById("lockBackButton").addEventListener(
-            "click",
-            returnToDashboard
-        );
-    }
-
-    function showProjectError(title, message) {
+    function showWorkspaceError(message) {
         document.body.innerHTML = `
-            <div style="
+            <main style="
                 min-height:100vh;
                 display:flex;
                 align-items:center;
@@ -456,1123 +247,802 @@ document.addEventListener("DOMContentLoaded", () => {
                 padding:25px;
                 background:#f4f7fc;
                 font-family:'DM Sans',sans-serif;
+                text-align:center;
             ">
-                <div style="
-                    max-width:430px;
-                    background:white;
-                    padding:35px;
-                    border-radius:14px;
-                    text-align:center;
-                    border:1px solid #e8edf5;
+                <section style="
+                    background:#fff;
+                    padding:40px;
+                    max-width:480px;
+                    width:100%;
+                    border-radius:18px;
+                    box-shadow:0 10px 40px rgba(0,0,0,.07);
                 ">
-                    <h2 style="color:#041b43;margin-bottom:12px;">
-                        ${safeText(title)}
+                    <div style="
+                        width:65px;
+                        height:65px;
+                        margin:0 auto 20px;
+                        display:grid;
+                        place-items:center;
+                        border-radius:50%;
+                        background:#fff0f1;
+                        color:#d94b57;
+                        font-size:26px;
+                    ">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+
+                    <h2 style="color:#082b68;margin-bottom:12px;">
+                        Workspace Locked
                     </h2>
 
-                    <p style="
-                        color:#78859b;
-                        font-size:12px;
-                        line-height:1.8;
-                        margin-bottom:20px;
-                    ">
-                        ${safeText(message)}
+                    <p style="color:#78859b;line-height:1.7;">
+                        ${escapeHTML(message)}
                     </p>
 
-                    <button id="projectErrorBack" style="
+                    <button onclick="history.back()" style="
+                        margin-top:22px;
+                        padding:13px 24px;
+                        border:0;
+                        border-radius:8px;
                         background:#082b68;
                         color:white;
-                        border:0;
-                        padding:12px 20px;
-                        border-radius:8px;
                         cursor:pointer;
+                        font-weight:600;
                     ">
                         Return to Dashboard
                     </button>
-                </div>
-            </div>
+                </section>
+            </main>
         `;
-
-        document.getElementById("projectErrorBack").addEventListener(
-            "click",
-            returnToDashboard
-        );
     }
 
 
-    /* =====================================
-       7. PROJECT DATA
-    ===================================== */
+    /* =====================================================
+       5. USER PROFILE INFORMATION
+    ===================================================== */
 
-    const projectId = getOfferId(project);
+    const clientProfile = getData("vorvenaClientProfile", {});
+    const professionalProfile = getData("vorvenaProfessionalProfile", {});
 
-    const projectTitle = (
-        project.projectTitle ||
-        project.title ||
-        project.jobTitle ||
-        "Project Workspace"
-    );
+    const clientImage = localStorage.getItem("vorvenaClientProfileImage") || "";
+    const professionalImage = localStorage.getItem("vorvenaProfileImage") || "";
 
-    const projectDescription = (
-        project.description ||
-        project.projectDescription ||
-        project.details ||
-        "Project requirements and information."
-    );
+    const clientName =
+        offer.clientName ||
+        clientProfile.fullName ||
+        clientProfile.name ||
+        "Client";
 
-    const projectBudget = (
-        project.budget ||
-        project.amount ||
-        project.projectBudget ||
-        0
-    );
+    const professionalName =
+        offer.professionalName ||
+        professionalProfile.fullName ||
+        professionalProfile.name ||
+        "Professional";
 
-    const projectDeadline = (
-        project.deadline ||
-        project.dueDate ||
-        project.projectDeadline ||
-        ""
-    );
+    const clientEmail = String(
+        offer.clientEmail || clientProfile.email || ""
+    ).toLowerCase();
 
-    const projectStartDate = (
-        project.acceptedAt ||
-        project.createdAt ||
-        project.date ||
-        ""
-    );
+    const professionalEmail = String(
+        offer.professionalEmail || professionalProfile.email || ""
+    ).toLowerCase();
 
+    const isClient = currentRole === "client";
+    const currentUserName = isClient ? clientName : professionalName;
 
-    /* =====================================
-       8. PARTICIPANT INFORMATION
-    ===================================== */
+    const otherUserName = isClient ? professionalName : clientName;
 
-    const clientName = (
-        project.clientName ||
-        project.hiringName ||
-        getProfileName(clientProfile, "Client")
-    );
+    const currentUserImage = isClient ? clientImage : professionalImage;
+    const otherUserImage = isClient ? professionalImage : clientImage;
 
-    const professionalName = (
-        project.professionalName ||
-        project.freelancerName ||
-        getProfileName(professionalProfile, "Professional")
-    );
+    const currentUserRole = isClient ? "Client" : "Professional";
+    const otherUserRole = isClient ? "Professional" : "Client";
 
-    const clientAvatar = (
-        project.clientImage ||
-        project.clientPhoto ||
-        getImageForRole("client", clientProfile)
-    );
+    const defaultAvatar = "images/default-avatar.png";
 
-    const professionalAvatar = (
-        project.professionalImage ||
-        project.professionalPhoto ||
-        getImageForRole("professional", professionalProfile)
-    );
+    setText("currentUserName", currentUserName);
+    setText("currentUserRole", currentUserRole);
 
-    const partnerRole = currentRole === "client"
-        ? "Professional"
-        : "Client";
+    setImage("currentUserAvatar", currentUserImage || defaultAvatar);
 
-    const partnerName = currentRole === "client"
-        ? professionalName
-        : clientName;
+    setText("clientName", clientName);
+    setText("professionalName", professionalName);
 
-    const partnerAvatar = currentRole === "client"
-        ? professionalAvatar
-        : clientAvatar;
+    setImage("clientAvatar", clientImage || defaultAvatar);
+    setImage("professionalAvatar", professionalImage || defaultAvatar);
 
-    const currentUserName = getCurrentUserName();
-    const currentUserAvatar = getCurrentUserImage();
+    setText("messagePartnerName", otherUserName);
+    setText("messagePartnerRole", otherUserRole);
+    setImage("messagePartnerAvatar", otherUserImage || defaultAvatar);
+
+    setText("chatInfoName", otherUserName);
+    setText("chatInfoRole", otherUserRole);
+    setImage("chatInfoAvatar", otherUserImage || defaultAvatar);
+
+    setText("chatInfoProject", offer.title || offer.projectTitle || "Project");
+    setText("chatInfoStatus", "Project active");
+
+    setText("clientYouLabel", isClient ? "You" : "");
+    setText("professionalYouLabel", !isClient ? "You" : "");
+
+    setText("projectMemberRole", currentUserRole);
 
 
-    /* =====================================
-       9. INITIALIZE PROFILE INFORMATION
-    ===================================== */
+    /* =====================================================
+       6. PROJECT OVERVIEW
+    ===================================================== */
 
-    function setImage(id, source) {
-        const image = getElement(id);
+    const projectTitle =
+        offer.title ||
+        offer.projectTitle ||
+        "Untitled Project";
 
-        if (!image) return;
+    const projectDescription =
+        offer.description ||
+        offer.projectDescription ||
+        "No project description has been added.";
 
-        image.src = source || "images/default-avatar.png";
+    const projectBudget =
+        offer.budget ??
+        offer.amount ??
+        offer.price ??
+        0;
 
-        image.onerror = () => {
-            image.onerror = null;
-            image.src = "images/default-avatar.png";
-        };
-    }
+    const projectDeadline =
+        offer.deadline ||
+        offer.dueDate ||
+        "";
 
-    function initializeProjectInformation() {
+    const projectStartDate =
+        offer.startDate ||
+        offer.acceptedAt ||
+        offer.createdAt ||
+        "";
 
-        document.title = projectTitle + " | VORVENA";
+    setText("headerProjectTitle", projectTitle);
+    setText("sidebarProjectTitle", projectTitle);
+    setText("projectTitle", projectTitle);
+    setText("projectDescription", projectDescription);
 
-        getElement("headerProjectTitle").textContent = projectTitle;
-        getElement("sidebarProjectTitle").textContent = projectTitle;
+    setText("projectBudget", formatMoney(projectBudget));
+    setText("projectDeadline", formatDate(projectDeadline));
+    setText("projectStartDate", formatDate(projectStartDate));
 
-        getElement("projectTitle").textContent = projectTitle;
-        getElement("projectDescription").textContent = projectDescription;
+    setText("headerProjectStatus", "In Progress");
+    setText("projectStatusBadge", "In Progress");
 
-        getElement("projectBudget").textContent = formatMoney(projectBudget);
-
-        getElement("projectDeadline").textContent = formatDate(projectDeadline);
-
-        getElement("projectStartDate").textContent = formatDate(projectStartDate);
-
-        getElement("projectMemberRole").textContent =
-            currentRole === "client" ? "Client" : "Professional";
-
-        getElement("currentUserName").textContent = currentUserName;
-
-        getElement("currentUserRole").textContent =
-            currentRole === "client" ? "Client" : "Professional";
-
-        getElement("clientName").textContent = clientName;
-        getElement("professionalName").textContent = professionalName;
-
-        getElement("messagePartnerName").textContent = partnerName;
-        getElement("messagePartnerRole").textContent = partnerRole;
-
-        getElement("chatInfoName").textContent = partnerName;
-        getElement("chatInfoRole").textContent = partnerRole;
-
-        getElement("chatInfoProject").textContent = projectTitle;
-
-        getElement("chatInfoStatus").textContent = "In Progress";
-
-        setImage("currentUserAvatar", currentUserAvatar);
-
-        setImage("clientAvatar", clientAvatar);
-        setImage("professionalAvatar", professionalAvatar);
-
-        setImage("messagePartnerAvatar", partnerAvatar);
-        setImage("chatInfoAvatar", partnerAvatar);
-
-        getElement(
-            currentRole === "client"
-                ? "clientYouLabel"
-                : "professionalYouLabel"
-        ).textContent = "YOU";
-
-        getElement(
-            currentRole === "client"
-                ? "professionalYouLabel"
-                : "clientYouLabel"
-        ).textContent = "";
-
-        getElement("headerProjectStatus").innerHTML = `
-            <span class="status-dot"></span>
-            <span>In Progress</span>
-        `;
-
-        getElement("projectStatusBadge").textContent = "In Progress";
-
-        updateDeadline();
-    }
-
-
-    /* =====================================
-       10. DEADLINE
-    ===================================== */
+    setText("deadlineDisplay", formatDate(projectDeadline));
 
     function updateDeadline() {
-
-        const deadlineDisplay = getElement("deadlineDisplay");
-        const remaining = getElement("deadlineRemaining");
-
-        deadlineDisplay.textContent = formatDate(projectDeadline);
+        const element = $("#deadlineRemaining");
+        if (!element) return;
 
         if (!projectDeadline) {
-            remaining.textContent = "No deadline specified.";
+            element.textContent = "No deadline set";
             return;
         }
 
-        const difference = new Date(projectDeadline) - new Date();
+        const deadline = new Date(projectDeadline + "T23:59:59");
+        const difference = deadline.getTime() - Date.now();
 
-        const days = Math.ceil(
-            difference / (1000 * 60 * 60 * 24)
-        );
-
-        if (days < 0) {
-            remaining.textContent = "The project deadline has passed.";
-        } else if (days === 0) {
-            remaining.textContent = "Deadline is today.";
+        if (Number.isNaN(deadline.getTime())) {
+            element.textContent = "No deadline set";
+        } else if (difference < 0) {
+            element.textContent = "Deadline passed";
         } else {
-            remaining.textContent = days + " days remaining.";
+            const days = Math.ceil(difference / (1000 * 60 * 60 * 24));
+            element.textContent = `${days} day${days === 1 ? "" : "s"} remaining`;
         }
     }
 
+    updateDeadline();
 
-    /* =====================================
-       11. PROJECT STORAGE
-    ===================================== */
 
-    function projectStorageKey(base) {
-        return base + "_" + projectId;
+    /* =====================================================
+       7. WORKSPACE STORAGE KEYS
+    ===================================================== */
+
+    const storageKeys = {
+        messages: `vorvenaWorkspaceMessages_${projectId}`,
+        files: `vorvenaWorkspaceFiles_${projectId}`,
+        milestones: `vorvenaWorkspaceMilestones_${projectId}`,
+        submissions: `vorvenaWorkspaceSubmissions_${projectId}`,
+        revisions: `vorvenaWorkspaceRevisions_${projectId}`,
+        activity: `vorvenaWorkspaceActivity_${projectId}`
+    };
+
+    let messages = getData(storageKeys.messages, []);
+    let files = getData(storageKeys.files, []);
+    let milestones = getData(storageKeys.milestones, []);
+    let submissions = getData(storageKeys.submissions, []);
+    let revisions = getData(storageKeys.revisions, []);
+    let activities = getData(storageKeys.activity, []);
+
+    function persistAll() {
+        saveData(storageKeys.messages, messages);
+        saveData(storageKeys.files, files);
+        saveData(storageKeys.milestones, milestones);
+        saveData(storageKeys.submissions, submissions);
+        saveData(storageKeys.revisions, revisions);
+        saveData(storageKeys.activity, activities);
     }
 
-    function getProjectData(base) {
-        return readStorage(projectStorageKey(base), []);
-    }
 
-    function saveProjectData(base, data) {
-        return saveStorage(projectStorageKey(base), data);
-    }
+    /* =====================================================
+       8. ACTIVITY LOG
+    ===================================================== */
 
-
-    /* =====================================
-       12. NAVIGATION
-    ===================================== */
-
-    function openSection(sectionId) {
-
-        const target = getElement(sectionId);
-
-        if (!target) return;
-
-        document.querySelectorAll(".workspace-section").forEach(section => {
-            section.classList.remove("active");
-        });
-
-        document.querySelectorAll(".sidebar-link").forEach(button => {
-            button.classList.remove("active");
-        });
-
-        target.classList.add("active");
-
-        const activeButton = document.querySelector(
-            `.sidebar-link[data-section="${sectionId}"]`
-        );
-
-        if (activeButton) {
-            activeButton.classList.add("active");
-        }
-
-        document.querySelector(".workspace-sidebar")
-            ?.classList.remove("mobile-open");
-
-        if (sectionId === "messages") renderMessages();
-        if (sectionId === "files") renderFiles();
-        if (sectionId === "milestones") renderMilestones();
-        if (sectionId === "submissions") renderSubmissions();
-        if (sectionId === "revisions") renderRevisions();
-        if (sectionId === "activity") renderActivity();
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    }
-
-    document.querySelectorAll(".sidebar-link").forEach(button => {
-        button.addEventListener("click", () => {
-            openSection(button.dataset.section);
-        });
-    });
-
-    document.querySelectorAll("[data-open-section]").forEach(button => {
-        button.addEventListener("click", () => {
-            openSection(button.dataset.openSection);
-        });
-    });
-
-
-    /* =====================================
-       13. DASHBOARD NAVIGATION
-    ===================================== */
-
-    function returnToDashboard() {
-        window.location.href = currentRole === "client"
-            ? "client-dashboard.html"
-            : "professional-dashboard.html";
-    }
-
-    getElement("backToDashboard").addEventListener(
-        "click",
-        event => {
-            event.preventDefault();
-            returnToDashboard();
-        }
-    );
-
-
-    /* =====================================
-       14. MODAL MANAGEMENT
-    ===================================== */
-
-    function openModal(id) {
-        const modal = getElement(id);
-
-        if (modal) modal.classList.add("show");
-    }
-
-    function closeModal(id) {
-        const modal = getElement(id);
-
-        if (modal) modal.classList.remove("show");
-    }
-
-    document.querySelectorAll("[data-close-modal]").forEach(button => {
-        button.addEventListener("click", () => {
-            closeModal(button.dataset.closeModal);
-        });
-    });
-
-    document.addEventListener("keydown", event => {
-        if (event.key === "Escape") {
-            document.querySelectorAll(".workspace-modal.show").forEach(modal => {
-                modal.classList.remove("show");
-            });
-        }
-    });
-
-
-    /* =====================================
-       15. ACTIVITY HISTORY
-    ===================================== */
-
-    function addActivity(message, icon = "fa-circle-info") {
-
-        const activities = getProjectData(STORAGE.activity);
-
+    function addActivity(action, description) {
         activities.unshift({
-            id: Date.now().toString(),
-            message,
-            icon,
+            id: makeId(),
+            action,
+            description,
             user: currentUserName,
-            role: currentRole,
+            role: currentUserRole,
             createdAt: new Date().toISOString()
         });
 
-        saveProjectData(STORAGE.activity, activities);
+        activities = activities.slice(0, 100);
+
+        saveData(storageKeys.activity, activities);
 
         renderActivity();
     }
 
     function renderActivity() {
-
-        const activities = getProjectData(STORAGE.activity);
-
         const containers = [
-            getElement("fullActivityList"),
-            getElement("overviewActivityList")
-        ];
+            $("#overviewActivityList"),
+            $("#fullActivityList")
+        ].filter(Boolean);
 
         containers.forEach(container => {
-
-            if (!container) return;
-
             if (!activities.length) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fa-regular fa-clock"></i>
-                        <h3>No activity recorded</h3>
-                        <p>Project updates will appear here.</p>
+                        <p>No activity yet.</p>
                     </div>
                 `;
                 return;
             }
 
-            const limit = container.id === "overviewActivityList"
-                ? 4
-                : activities.length;
-
-            container.innerHTML = activities.slice(0, limit).map(item => `
+            container.innerHTML = activities.map(item => `
                 <div class="activity-item">
-
                     <div class="activity-icon">
-                        <i class="fa-solid ${safeText(item.icon)}"></i>
+                        <i class="fa-solid fa-circle-check"></i>
                     </div>
 
                     <div class="activity-content">
-
-                        <p>
-                            <strong>${safeText(item.user)}</strong>
-                            ${safeText(item.message)}
-                        </p>
-
-                        <span>
-                            ${formatDate(item.createdAt)}
-                            · ${formatTime(item.createdAt)}
-                        </span>
-
+                        <strong>${escapeHTML(item.action)}</strong>
+                        <p>${escapeHTML(item.description)}</p>
+                        <small>
+                            ${escapeHTML(item.user || "Workspace member")}
+                            · ${formatDateTime(item.createdAt)}
+                        </small>
                     </div>
-
                 </div>
             `).join("");
         });
     }
 
 
-    /* =====================================
-       16. MESSAGING SYSTEM
-       FRONTEND DEMO
-    ===================================== */
+    /* =====================================================
+       9. WORKSPACE NAVIGATION
+    ===================================================== */
 
-    let selectedMessageFiles = [];
+    const sidebar = $(".workspace-sidebar");
+    const sections = $$(".workspace-section");
+    const sidebarLinks = $$(".sidebar-link");
 
-    function getMessages() {
-        return getProjectData(STORAGE.messages);
+    function openSection(sectionName) {
+        sections.forEach(section => {
+            section.classList.toggle(
+                "active",
+                section.id === sectionName
+            );
+        });
+
+        sidebarLinks.forEach(link => {
+            link.classList.toggle(
+                "active",
+                link.dataset.section === sectionName
+            );
+        });
+
+        if (sidebar) sidebar.classList.remove("mobile-open");
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function renderMessages() {
+    sidebarLinks.forEach(link => {
+        link.addEventListener("click", () => {
+            openSection(link.dataset.section);
+        });
+    });
 
-        const container = getElement("messagesContainer");
-        const messages = getMessages();
+    $$("[data-open-section]").forEach(button => {
+        button.addEventListener("click", () => {
+            openSection(button.dataset.openSection);
+        });
+    });
+
+    const mobileToggle = document.createElement("button");
+
+    mobileToggle.className = "workspace-mobile-toggle";
+    mobileToggle.type = "button";
+    mobileToggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    mobileToggle.setAttribute("aria-label", "Open navigation");
+
+    const header = $(".workspace-header");
+
+    if (header && sidebar) {
+        header.appendChild(mobileToggle);
+
+        mobileToggle.addEventListener("click", () => {
+            sidebar.classList.toggle("mobile-open");
+        });
+
+        document.addEventListener("click", event => {
+            if (
+                window.innerWidth <= 768 &&
+                sidebar.classList.contains("mobile-open") &&
+                !sidebar.contains(event.target) &&
+                !mobileToggle.contains(event.target)
+            ) {
+                sidebar.classList.remove("mobile-open");
+            }
+        });
+    }
+
+    const backButton = $("#backToDashboard");
+
+    if (backButton) {
+        backButton.addEventListener("click", () => {
+            window.location.href = isClient
+                ? "client-dashboard.html"
+                : "professional-dashboard.html";
+        });
+    }
+
+
+    /* =====================================================
+       10. MODAL HELPERS
+    ===================================================== */
+
+    function openModal(modal) {
+        if (!modal) return;
+
+        modal.classList.add("active");
+        modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeModal(modal) {
+        if (!modal) return;
+
+        modal.classList.remove("active");
+        modal.setAttribute("aria-hidden", "true");
+    }
+
+    $$("[data-close-modal]").forEach(button => {
+        button.addEventListener("click", () => {
+            const modal = button.closest(".workspace-modal");
+            closeModal(modal);
+        });
+    });
+
+    $$(".workspace-modal").forEach(modal => {
+        modal.addEventListener("click", event => {
+            if (event.target === modal) closeModal(modal);
+        });
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            $$(".workspace-modal.active").forEach(closeModal);
+        }
+    });
+
+
+    /* =====================================================
+       11. MESSAGING
+    ===================================================== */
+
+    const messageForm = $("#messageForm");
+    const messageInput = $("#messageInput");
+    const messageFileInput = $("#messageFileInput");
+    const messagesContainer = $("#messagesContainer");
+
+    let pendingMessageFile = null;
+
+    function renderMessages() {
+        if (!messagesContainer) return;
 
         if (!messages.length) {
-            container.innerHTML = `
-                <div class="message-empty-state">
-
-                    <div class="empty-message-icon">
-                        <i class="fa-regular fa-comments"></i>
-                    </div>
-
-                    <h3>Start the conversation</h3>
-
-                    <p>
-                        Send a message to your project partner.
-                        Your project communication will appear here.
-                    </p>
-
+            messagesContainer.innerHTML = `
+                <div class="empty-state">
+                    <i class="fa-regular fa-comments"></i>
+                    <p>No messages yet. Start the conversation.</p>
                 </div>
             `;
+        } else {
+            messagesContainer.innerHTML = messages.map(message => {
+                const ownMessage = message.senderEmail
+                    ? message.senderEmail === currentEmail
+                    : message.senderRole === currentRole;
 
-            getElement("messageCount").textContent = "0";
-            return;
+                return `
+                    <div class="message-item ${ownMessage ? "own-message" : "received-message"}">
+                        <div class="message-avatar">
+                            <img
+                                src="${escapeHTML(message.avatar || defaultAvatar)}"
+                                alt=""
+                            >
+                        </div>
+
+                        <div class="message-body">
+                            <div class="message-meta">
+                                <strong>${escapeHTML(message.senderName)}</strong>
+                                <small>${formatDateTime(message.createdAt)}</small>
+                            </div>
+
+                            ${message.text ? `
+                                <p>${escapeHTML(message.text)}</p>
+                            ` : ""}
+
+                            ${message.attachment ? `
+                                <a
+                                    class="message-attachment"
+                                    href="${escapeHTML(message.attachment.data)}"
+                                    download="${escapeHTML(message.attachment.name)}"
+                                >
+                                    <i class="fa-solid fa-paperclip"></i>
+                                    ${escapeHTML(message.attachment.name)}
+                                    <small>${escapeHTML(message.attachment.size)}</small>
+                                </a>
+                            ` : ""}
+                        </div>
+                    </div>
+                `;
+            }).join("");
         }
 
-        container.innerHTML = messages.map(message => {
+        setText("messageCount", messages.length);
 
-            const ownMessage = message.senderEmail
-                ? message.senderEmail.toLowerCase() === currentEmail
-                : message.senderRole === currentRole;
-
-            const attachments = (message.attachments || []).map(file => `
-                <div class="message-file-card">
-
-                    <i class="fa-solid ${getFileIcon(file.name)}"></i>
-
-                    <div class="message-file-info">
-                        <strong>${safeText(file.name)}</strong>
-                        <span>${formatFileSize(file.size)}</span>
-                    </div>
-
-                    ${
-                        file.data
-                        ? `<a href="${file.data}" download="${safeText(file.name)}" aria-label="Download file">
-                            <i class="fa-solid fa-download"></i>
-                           </a>`
-                        : ""
-                    }
-
-                </div>
-            `).join("");
-
-            return `
-                <div class="message-row ${ownMessage ? "own-message" : ""}">
-
-                    <img
-                        src="${safeText(message.senderImage || "images/default-avatar.png")}"
-                        alt="${safeText(message.senderName)}"
-                        onerror="this.src='images/default-avatar.png'"
-                    >
-
-                    <div class="message-bubble-wrap">
-
-                        <span class="message-sender-name">
-                            ${safeText(message.senderName)}
-                        </span>
-
-                        ${
-                            message.text
-                            ? `<div class="message-bubble">${safeText(message.text)}</div>`
-                            : ""
-                        }
-
-                        ${attachments}
-
-                        <span class="message-time">
-                            ${formatTime(message.createdAt)}
-                        </span>
-
-                    </div>
-
-                </div>
-            `;
-        }).join("");
-
-        getElement("messageCount").textContent = messages.length;
-
-        container.scrollTop = container.scrollHeight;
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
         renderSharedFiles();
     }
 
+    function formatFileSize(bytes) {
+        if (!bytes) return "0 KB";
 
-    /* =====================================
-       17. MESSAGE FILE SELECTION
-    ===================================== */
+        if (bytes < 1024 * 1024) {
+            return `${(bytes / 1024).toFixed(1)} KB`;
+        }
 
-    const messageFileInput = getElement("messageFileInput");
+        return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+    }
 
-    getElement("attachMessageFile").addEventListener("click", () => {
-        messageFileInput.click();
+    function showMessageAttachment(file) {
+        pendingMessageFile = file;
+
+        const preview = $("#messageAttachmentPreview");
+
+        if (preview) preview.style.display = "flex";
+
+        setText("messageAttachmentName", file.name);
+        setText("messageAttachmentSize", formatFileSize(file.size));
+    }
+
+    function clearMessageAttachment() {
+        pendingMessageFile = null;
+
+        if (messageFileInput) messageFileInput.value = "";
+
+        hideElement($("#messageAttachmentPreview"));
+    }
+
+    $("#attachMessageFile")?.addEventListener("click", () => {
+        messageFileInput?.click();
     });
 
-    messageFileInput.addEventListener("change", () => {
+    messageFileInput?.addEventListener("change", () => {
+        const file = messageFileInput.files[0];
 
-        const selected = Array.from(messageFileInput.files || []);
+        if (!file) return;
 
-        selectedMessageFiles = [
-            ...selectedMessageFiles,
-            ...selected
-        ];
-
-        showMessageAttachmentPreview();
-
-        messageFileInput.value = "";
-    });
-
-    function showMessageAttachmentPreview() {
-
-        const preview = getElement("messageAttachmentPreview");
-
-        if (!selectedMessageFiles.length) {
-            preview.hidden = true;
+        if (file.size > 1.5 * 1024 * 1024) {
+            showToast("Message attachments must be 1.5 MB or smaller.", "error");
+            messageFileInput.value = "";
             return;
         }
 
-        preview.hidden = false;
-
-        const names = selectedMessageFiles.map(file => file.name);
-
-        getElement("messageAttachmentName").textContent =
-            names.join(", ");
-
-        getElement("messageAttachmentSize").textContent =
-            selectedMessageFiles.length + " file(s) selected";
-    }
-
-    getElement("removeMessageAttachment").addEventListener("click", () => {
-
-        selectedMessageFiles = [];
-
-        showMessageAttachmentPreview();
+        showMessageAttachment(file);
     });
 
+    $("#removeMessageAttachment")?.addEventListener("click", clearMessageAttachment);
 
-    /* =====================================
-       18. SEND MESSAGE
-    ===================================== */
-
-    function readFile(file) {
-        return new Promise((resolve, reject) => {
-
-            const reader = new FileReader();
-
-            reader.onload = () => resolve({
-                name: file.name,
-                size: file.size,
-                type: file.type,
-                data: reader.result
-            });
-
-            reader.onerror = reject;
-
-            reader.readAsDataURL(file);
-        });
-    }
-
-    getElement("messageForm").addEventListener("submit", async event => {
-
+    messageForm?.addEventListener("submit", async event => {
         event.preventDefault();
 
-        const input = getElement("messageInput");
+        const text = messageInput?.value.trim() || "";
 
-        const text = input.value.trim();
-
-        if (!text && !selectedMessageFiles.length) {
-            showToast("Write a message or attach a file.");
+        if (!text && !pendingMessageFile) {
+            showToast("Write a message or attach a file first.", "error");
             return;
         }
 
-        const sendButton = event.submitter;
-
-        if (sendButton) sendButton.disabled = true;
+        let attachment = null;
 
         try {
-
-            const attachments = [];
-
-            for (const file of selectedMessageFiles) {
-
-                if (file.size > 1.5 * 1024 * 1024) {
-                    showToast("For this demo, message attachments must be under 1.5 MB each.");
-                    return;
-                }
-
-                attachments.push(await readFile(file));
+            if (pendingMessageFile) {
+                attachment = {
+                    name: pendingMessageFile.name,
+                    size: formatFileSize(pendingMessageFile.size),
+                    type: pendingMessageFile.type,
+                    data: await readFile(pendingMessageFile)
+                };
             }
 
-            const messages = getMessages();
-
             messages.push({
-                id: Date.now().toString(),
+                id: makeId(),
                 text,
-                attachments,
-
+                attachment,
                 senderName: currentUserName,
                 senderRole: currentRole,
                 senderEmail: currentEmail,
-                senderImage: currentUserAvatar,
-
+                avatar: currentUserImage || defaultAvatar,
                 createdAt: new Date().toISOString()
             });
 
-            if (!saveProjectData(STORAGE.messages, messages)) return;
+            if (!saveData(storageKeys.messages, messages)) return;
 
-            input.value = "";
-            selectedMessageFiles = [];
+            if (messageInput) messageInput.value = "";
 
-            showMessageAttachmentPreview();
+            clearMessageAttachment();
 
             renderMessages();
 
             addActivity(
-                "sent a project message.",
-                "fa-comment"
+                "New message",
+                `${currentUserName} sent a message.`
             );
 
         } catch (error) {
-
             console.error(error);
-
-            showToast("Unable to attach the selected file.");
-
-        } finally {
-
-            if (sendButton) sendButton.disabled = false;
+            showToast("Unable to send this message.", "error");
         }
     });
 
 
-    /* =====================================
-       19. FILE HELPERS
-    ===================================== */
+    /* =====================================================
+       12. SHARED PROJECT FILES
+    ===================================================== */
 
-    function getFileIcon(name = "") {
+    const projectFileInput = $("#projectFileInput");
+    const modalFileInput = $("#modalFileInput");
 
-        const extension = name.split(".").pop().toLowerCase();
+    const MAX_PROJECT_FILE_SIZE = 5 * 1024 * 1024;
 
-        const icons = {
-            pdf: "fa-file-pdf",
-            doc: "fa-file-word",
-            docx: "fa-file-word",
-            xls: "fa-file-excel",
-            xlsx: "fa-file-excel",
-            ppt: "fa-file-powerpoint",
-            pptx: "fa-file-powerpoint",
-            zip: "fa-file-zipper",
-            rar: "fa-file-zipper",
-            jpg: "fa-file-image",
-            jpeg: "fa-file-image",
-            png: "fa-file-image",
-            gif: "fa-file-image",
-            webp: "fa-file-image",
-            mp4: "fa-file-video",
-            mp3: "fa-file-audio",
-            txt: "fa-file-lines"
-        };
+    async function uploadProjectFiles(fileList) {
+        const selectedFiles = [...fileList];
 
-        return icons[extension] || "fa-file";
+        if (!selectedFiles.length) return;
+
+        for (const file of selectedFiles) {
+            if (file.size > MAX_PROJECT_FILE_SIZE) {
+                showToast(`${file.name} is larger than 5 MB.`, "error");
+                continue;
+            }
+
+            try {
+                const data = await readFile(file);
+
+                const newFile = {
+                    id: makeId(),
+                    name: file.name,
+                    size: formatFileSize(file.size),
+                    type: file.type,
+                    category: getFileCategory(file),
+                    data,
+                    uploadedBy: currentUserName,
+                    uploadedRole: currentRole,
+                    uploadedAt: new Date().toISOString()
+                };
+
+                files.push(newFile);
+
+                if (!saveData(storageKeys.files, files)) {
+                    files.pop();
+                    return;
+                }
+
+                addActivity(
+                    "File uploaded",
+                    `${file.name} was uploaded to the project.`
+                );
+
+            } catch (error) {
+                console.error(error);
+                showToast(`Could not upload ${file.name}.`, "error");
+            }
+        }
+
+        renderFiles();
     }
 
     function getFileCategory(file) {
-
+        const type = file.type || "";
         const extension = file.name.split(".").pop().toLowerCase();
 
-        if (["jpg", "jpeg", "png", "gif", "webp", "svg"].includes(extension)) {
-            return "images";
-        }
+        if (type.startsWith("image/")) return "images";
 
-        if (["zip", "rar", "7z"].includes(extension)) {
-            return "archives";
-        }
+        if ([
+            "zip", "rar", "7z", "tar", "gz"
+        ].includes(extension)) return "archives";
 
         return "documents";
     }
 
-
-    /* =====================================
-       20. PROJECT FILE UPLOAD
-    ===================================== */
-
-    let selectedProjectFiles = [];
-
-    getElement("openFileUpload").addEventListener("click", () => {
-        openModal("fileUploadModal");
+    $("#openFileUpload")?.addEventListener("click", () => {
+        openModal($("#fileUploadModal"));
     });
 
-    getElement("modalFileInput").addEventListener("change", event => {
+    $("#confirmFileUpload")?.addEventListener("click", async () => {
+        if (!modalFileInput?.files.length) {
+            showToast("Choose at least one file.", "error");
+            return;
+        }
 
-        selectedProjectFiles = Array.from(event.target.files || []);
+        const button = $("#confirmFileUpload");
 
-        renderSelectedFiles(
+        if (button) {
+            button.disabled = true;
+            button.textContent = "Uploading...";
+        }
+
+        await uploadProjectFiles(modalFileInput.files);
+
+        if (button) {
+            button.disabled = false;
+            button.textContent = "Upload Files";
+        }
+
+        if (modalFileInput) modalFileInput.value = "";
+
+        setText("modalSelectedFiles", "No files selected");
+
+        closeModal($("#fileUploadModal"));
+    });
+
+    modalFileInput?.addEventListener("change", () => {
+        const names = [...modalFileInput.files].map(file => file.name);
+
+        setText(
             "modalSelectedFiles",
-            selectedProjectFiles
+            names.length ? names.join(", ") : "No files selected"
         );
     });
 
-    function renderSelectedFiles(containerId, files) {
-
-        const container = getElement(containerId);
-
-        container.innerHTML = files.map(file => `
-            <div class="selected-file-item">
-                <i class="fa-solid ${getFileIcon(file.name)}"></i>
-                <span>
-                    ${safeText(file.name)}
-                    (${formatFileSize(file.size)})
-                </span>
-            </div>
-        `).join("");
-    }
-
-    getElement("confirmFileUpload").addEventListener("click", async () => {
-
-        if (!selectedProjectFiles.length) {
-            showToast("Select at least one file.");
-            return;
-        }
-
-        const existingFiles = getProjectData(STORAGE.files);
-
-        try {
-
-            const newFiles = [];
-
-            for (const file of selectedProjectFiles) {
-
-                if (file.size > 1.5 * 1024 * 1024) {
-                    showToast("For this demo, files must be under 1.5 MB each.");
-                    return;
-                }
-
-                const data = await readFile(file);
-
-                newFiles.push({
-                    id: Date.now().toString() + Math.random(),
-                    ...data,
-
-                    category: getFileCategory(file),
-
-                    uploadedBy: currentUserName,
-                    uploaderRole: currentRole,
-                    uploaderEmail: currentEmail,
-
-                    createdAt: new Date().toISOString()
-                });
-            }
-
-            if (!saveProjectData(
-                STORAGE.files,
-                [...existingFiles, ...newFiles]
-            )) return;
-
-            selectedProjectFiles = [];
-
-            getElement("modalFileInput").value = "";
-
-            getElement("modalSelectedFiles").innerHTML = "";
-
-            closeModal("fileUploadModal");
-
-            renderFiles();
-
-            renderSharedFiles();
-
-            addActivity(
-                "uploaded project file(s).",
-                "fa-file-arrow-up"
-            );
-
-            showToast("Files added to the project.");
-
-        } catch (error) {
-
-            console.error(error);
-
-            showToast("Unable to upload these files.");
-        }
+    projectFileInput?.addEventListener("change", async () => {
+        await uploadProjectFiles(projectFileInput.files);
+        projectFileInput.value = "";
     });
 
+    function renderFiles(filter = "all") {
+        const container = $("#projectFilesList");
 
-    /* =====================================
-       21. RENDER PROJECT FILES
-    ===================================== */
+        if (!container) return;
 
-    let currentFileFilter = "all";
-
-    function renderFiles() {
-
-        const files = getProjectData(STORAGE.files);
-
-        const filtered = currentFileFilter === "all"
+        const filteredFiles = filter === "all"
             ? files
-            : files.filter(file => file.category === currentFileFilter);
+            : files.filter(file => file.category === filter);
 
-        getElement("fileCount").textContent =
-            files.length + (files.length === 1 ? " file" : " files");
+        setText("fileCount", files.length);
 
-        const container = getElement("projectFilesList");
-
-        if (!filtered.length) {
-
+        if (!filteredFiles.length) {
             container.innerHTML = `
                 <div class="empty-state">
                     <i class="fa-regular fa-folder-open"></i>
-                    <h3>No files found</h3>
-                    <p>Files shared in this project will appear here.</p>
+                    <p>No files found.</p>
                 </div>
             `;
-
-        } else {
-
-            container.innerHTML = filtered.map(file => `
-
-                <div class="file-item">
-
-                    <div class="file-type-icon ${
-                        file.category === "images" ? "image" :
-                        file.name.toLowerCase().endsWith(".pdf") ? "pdf" : ""
-                    }">
-                        <i class="fa-solid ${getFileIcon(file.name)}"></i>
-                    </div>
-
-                    <div class="file-item-info">
-
-                        <strong>${safeText(file.name)}</strong>
-
-                        <span>
-                            ${formatFileSize(file.size)}
-                            · Uploaded by ${safeText(file.uploadedBy)}
-                            · ${formatDate(file.createdAt)}
-                        </span>
-
-                    </div>
-
-                    <div class="file-item-actions">
-
-                        ${
-                            file.data
-                            ? `<a href="${file.data}" download="${safeText(file.name)}" title="Download">
-                                <i class="fa-solid fa-download"></i>
-                               </a>`
-                            : ""
-                        }
-
-                    </div>
-
-                </div>
-
-            `).join("");
-        }
-
-        renderSharedFiles();
-    }
-
-    document.querySelectorAll("[data-file-filter]").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            currentFileFilter = button.dataset.fileFilter;
-
-            document.querySelectorAll("[data-file-filter]").forEach(item => {
-                item.classList.remove("active");
-            });
-
-            button.classList.add("active");
-
-            renderFiles();
-        });
-    });
-
-
-    /* =====================================
-       22. SHARED FILES IN MESSAGES
-    ===================================== */
-
-    function renderSharedFiles() {
-
-        const files = getProjectData(STORAGE.files);
-
-        const container = getElement("chatSharedFiles");
-
-        if (!files.length) {
-
-            container.innerHTML = `
-                <div class="empty-state compact-empty">
-                    <i class="fa-regular fa-folder-open"></i>
-                    <p>No shared files yet.</p>
-                </div>
-            `;
-
             return;
         }
 
-        container.innerHTML = files.slice(-4).reverse().map(file => `
-
-            <div class="file-item">
-
-                <div class="file-type-icon">
-                    <i class="fa-solid ${getFileIcon(file.name)}"></i>
-                </div>
-
-                <div class="file-item-info">
-                    <strong>${safeText(file.name)}</strong>
-                    <span>${formatFileSize(file.size)}</span>
-                </div>
-
-                ${
-                    file.data
-                    ? `<a href="${file.data}" download="${safeText(file.name)}" aria-label="Download file">
-                        <i class="fa-solid fa-download"></i>
-                       </a>`
-                    : ""
-                }
-
-            </div>
-
-        `).join("");
-    }
-
-
-    /* =====================================
-       23. MILESTONES
-    ===================================== */
-
-    function renderMilestones() {
-
-        const milestones = getProjectData(STORAGE.milestones);
-
-        const completed = milestones.filter(
-            item => item.completed
-        ).length;
-
-        const remaining = milestones.length - completed;
-
-        getElement("milestoneTotal").textContent = milestones.length;
-        getElement("milestoneCompleted").textContent = completed;
-        getElement("milestoneRemaining").textContent = remaining;
-
-        getElement("completedMilestones").textContent =
-            completed + " milestones completed";
-
-        getElement("totalMilestones").textContent =
-            milestones.length + " total";
-
-        const percentage = milestones.length
-            ? Math.round((completed / milestones.length) * 100)
-            : 0;
-
-        getElement("progressPercentage").textContent = percentage + "%";
-
-        getElement("projectProgressBar").style.width =
-            percentage + "%";
-
-        const container = getElement("milestoneList");
-
-        if (!milestones.length) {
-
-            container.innerHTML = `
-                <div class="empty-state">
-                    <i class="fa-solid fa-list-check"></i>
-                    <h3>No milestones added</h3>
-                    <p>Project milestones will appear here.</p>
-                </div>
-            `;
-
-            return;
-        }
-
-        container.innerHTML = milestones.map(item => `
-
-            <div class="milestone-item">
-
-                <div class="milestone-indicator ${
-                    item.completed ? "completed" : ""
-                }">
+        container.innerHTML = filteredFiles.map(file => `
+            <div class="project-file-item">
+                <div class="file-icon">
                     <i class="fa-solid ${
-                        item.completed ? "fa-check" : "fa-list-check"
+                        file.category === "images"
+                            ? "fa-file-image"
+                            : file.category === "archives"
+                                ? "fa-file-zipper"
+                                : "fa-file-lines"
                     }"></i>
                 </div>
 
-                <div class="milestone-content">
-
-                    <strong>${safeText(item.title)}</strong>
-
-                    <p>${safeText(item.description || "No description provided.")}</p>
-
-                    <div class="milestone-meta">
-
-                        <span>
-                            <i class="fa-regular fa-calendar"></i>
-                            ${formatDate(item.deadline)}
-                        </span>
-
-                        <span>
-                            ${item.completed ? "Completed" : "In progress"}
-                        </span>
-
-                    </div>
-
+                <div class="file-details">
+                    <strong>${escapeHTML(file.name)}</strong>
+                    <small>
+                        ${escapeHTML(file.size)}
+                        · Uploaded by ${escapeHTML(file.uploadedBy)}
+                    </small>
                 </div>
 
-                <div class="milestone-actions">
-
-                    ${
-                        !item.completed
-                        ? `<button data-complete-milestone="${safeText(item.id)}">
-                            Mark Complete
-                           </button>`
-                        : `<span style="color:#159b68;font-size:9px;font-weight:700;">
-                            Completed
-                           </span>`
-                    }
-
-                </div>
-
+                <a
+                    class="file-download"
+                    href="${escapeHTML(file.data)}"
+                    download="${escapeHTML(file.name)}"
+                    title="Download file"
+                >
+                    <i class="fa-solid fa-download"></i>
+                </a>
             </div>
-
         `).join("");
     }
 
-    getElement("addMilestoneButton").addEventListener("click", () => {
+    $$(".file-filter").forEach(button => {
+        button.addEventListener("click", () => {
+            $$(".file-filter").forEach(item => item.classList.remove("active"));
 
-        if (currentRole !== "client") {
-            showToast("Only the client can add milestones in this demo.");
+            button.classList.add("active");
+
+            renderFiles(button.dataset.fileFilter || "all");
+        });
+    });
+
+    function renderSharedFiles() {
+        const container = $("#chatSharedFiles");
+
+        if (!container) return;
+
+        const recentFiles = files.slice(-5).reverse();
+
+        if (!recentFiles.length) {
+            container.innerHTML = "<p>No shared files yet.</p>";
             return;
         }
 
-        openModal("milestoneModal");
+        container.innerHTML = recentFiles.map(file => `
+            <a
+                href="${escapeHTML(file.data)}"
+                download="${escapeHTML(file.name)}"
+                class="shared-file-item"
+            >
+                <i class="fa-solid fa-paperclip"></i>
+                ${escapeHTML(file.name)}
+            </a>
+        `).join("");
+    }
+
+
+    /* =====================================================
+       13. MILESTONES
+    ===================================================== */
+
+    const milestoneModal = $("#milestoneModal");
+    const milestoneForm = $("#milestoneForm");
+
+    $("#addMilestoneButton")?.addEventListener("click", () => {
+        if (milestoneForm) milestoneForm.reset();
+        openModal(milestoneModal);
     });
 
-    getElement("milestoneForm").addEventListener("submit", event => {
-
+    milestoneForm?.addEventListener("submit", event => {
         event.preventDefault();
 
-        const title = getElement("milestoneTitle").value.trim();
+        const title = $("#milestoneTitle")?.value.trim();
+        const description = $("#milestoneDescription")?.value.trim();
+        const deadline = $("#milestoneDeadline")?.value;
 
-        const description = getElement("milestoneDescription").value.trim();
-
-        const deadline = getElement("milestoneDeadline").value;
-
-        if (!title || !deadline) return;
-
-        const milestones = getProjectData(STORAGE.milestones);
+        if (!title) {
+            showToast("Enter a milestone title.", "error");
+            return;
+        }
 
         milestones.push({
-            id: Date.now().toString(),
+            id: makeId(),
             title,
             description,
             deadline,
@@ -1581,433 +1051,534 @@ document.addEventListener("DOMContentLoaded", () => {
             createdAt: new Date().toISOString()
         });
 
-        if (!saveProjectData(STORAGE.milestones, milestones)) return;
+        if (!saveData(storageKeys.milestones, milestones)) return;
 
-        event.target.reset();
+        closeModal(milestoneModal);
+        milestoneForm.reset();
 
-        closeModal("milestoneModal");
-
-        renderMilestones();
-
-        addActivity(
-            "created a project milestone.",
-            "fa-list-check"
-        );
-
-        showToast("Milestone added.");
-    });
-
-    getElement("milestoneList").addEventListener("click", event => {
-
-        const button = event.target.closest("[data-complete-milestone]");
-
-        if (!button) return;
-
-        const id = button.dataset.completeMilestone;
-
-        const milestones = getProjectData(STORAGE.milestones);
-
-        const item = milestones.find(
-            milestone => milestone.id === id
-        );
-
-        if (!item) return;
-
-        item.completed = true;
-        item.completedAt = new Date().toISOString();
-
-        if (!saveProjectData(STORAGE.milestones, milestones)) return;
+        addActivity("Milestone added", `${title} was added to the project.`);
 
         renderMilestones();
-
-        addActivity(
-            "completed a project milestone.",
-            "fa-check-circle"
-        );
-
-        showToast("Milestone completed.");
     });
 
+    function renderMilestones() {
+        const container = $("#milestoneList");
 
-    /* =====================================
-       24. WORK SUBMISSIONS
-    ===================================== */
+        const completed = milestones.filter(item => item.completed).length;
+        const total = milestones.length;
+        const remaining = total - completed;
 
-    let selectedSubmissionFiles = [];
+        setText("milestoneTotal", total);
+        setText("milestoneCompleted", completed);
+        setText("milestoneRemaining", remaining);
 
-    getElement("openSubmissionModal").addEventListener("click", () => {
+        setText("completedMilestones", completed);
+        setText("totalMilestones", total);
 
-        if (currentRole !== "professional") {
-            showToast("Only the professional can submit completed work.");
-            return;
+        const percentage = total
+            ? Math.round((completed / total) * 100)
+            : 0;
+
+        setText("progressPercentage", `${percentage}%`);
+
+        const progressBar = $("#projectProgressBar");
+
+        if (progressBar) {
+            progressBar.style.width = `${percentage}%`;
         }
 
-        openModal("submissionModal");
-    });
+        if (!container) return;
 
-    getElement("submissionFileInput").addEventListener("change", event => {
-
-        selectedSubmissionFiles = Array.from(event.target.files || []);
-
-        renderSelectedFiles(
-            "submissionSelectedFiles",
-            selectedSubmissionFiles
-        );
-    });
-
-    getElement("submissionForm").addEventListener("submit", async event => {
-
-        event.preventDefault();
-
-        if (currentRole !== "professional") return;
-
-        const title = getElement("submissionTitle").value.trim();
-
-        const message = getElement("submissionMessage").value.trim();
-
-        if (!title) {
-            showToast("Enter a submission title.");
-            return;
-        }
-
-        if (!message && !selectedSubmissionFiles.length) {
-            showToast("Add a message or attach your completed work.");
-            return;
-        }
-
-        try {
-
-            const attachments = [];
-
-            for (const file of selectedSubmissionFiles) {
-
-                if (file.size > 1.5 * 1024 * 1024) {
-                    showToast("For this demo, files must be under 1.5 MB each.");
-                    return;
-                }
-
-                attachments.push(await readFile(file));
-            }
-
-            const submissions = getProjectData(STORAGE.submissions);
-
-            submissions.push({
-                id: Date.now().toString(),
-                title,
-                message,
-                attachments,
-
-                submittedBy: currentUserName,
-                submittedAt: new Date().toISOString(),
-
-                status: "Under Review"
-            });
-
-            if (!saveProjectData(STORAGE.submissions, submissions)) return;
-
-            event.target.reset();
-
-            selectedSubmissionFiles = [];
-
-            getElement("submissionSelectedFiles").innerHTML = "";
-
-            closeModal("submissionModal");
-
-            renderSubmissions();
-
-            addActivity(
-                "submitted completed work for review.",
-                "fa-cloud-arrow-up"
-            );
-
-            showToast("Work submitted.");
-
-        } catch (error) {
-
-            console.error(error);
-
-            showToast("Unable to submit the selected files.");
-        }
-    });
-
-
-    function renderSubmissions() {
-
-        const submissions = getProjectData(STORAGE.submissions);
-
-        const container = getElement("submissionsList");
-
-        if (!submissions.length) {
-
+        if (!milestones.length) {
             container.innerHTML = `
                 <div class="empty-state">
-                    <i class="fa-solid fa-file-circle-check"></i>
-                    <h3>No submissions yet</h3>
-                    <p>Work submitted for review will appear here.</p>
+                    <i class="fa-solid fa-list-check"></i>
+                    <p>No milestones added yet.</p>
                 </div>
             `;
-
             return;
         }
 
-        container.innerHTML = submissions.map(item => `
-
-            <div class="submission-item">
-
-                <div class="submission-icon">
-                    <i class="fa-solid fa-file-circle-check"></i>
+        container.innerHTML = milestones.map(milestone => `
+            <div class="milestone-item ${milestone.completed ? "completed" : ""}">
+                <div class="milestone-check">
+                    <button
+                        type="button"
+                        class="milestone-toggle"
+                        data-milestone-id="${escapeHTML(milestone.id)}"
+                        aria-label="${milestone.completed ? "Mark incomplete" : "Mark complete"}"
+                    >
+                        <i class="fa-solid ${
+                            milestone.completed
+                                ? "fa-circle-check"
+                                : "fa-circle"
+                        }"></i>
+                    </button>
                 </div>
 
-                <div class="submission-info">
-
-                    <strong>${safeText(item.title)}</strong>
-
-                    <p>
-                        ${safeText(item.message || "Completed work submitted.")}
-                        · ${formatDate(item.submittedAt)}
-                    </p>
-
-                    ${
-                        (item.attachments || []).map(file => `
-                            <a
-                                href="${file.data}"
-                                download="${safeText(file.name)}"
-                                style="display:inline-block;margin-top:8px;color:#174b9a;font-size:9px;"
-                            >
-                                <i class="fa-solid fa-download"></i>
-                                ${safeText(file.name)}
-                            </a>
-                        `).join("<br>")
-                    }
-
+                <div class="milestone-content">
+                    <strong>${escapeHTML(milestone.title)}</strong>
+                    <p>${escapeHTML(milestone.description || "")}</p>
+                    <small>
+                        Deadline: ${formatDate(milestone.deadline)}
+                    </small>
                 </div>
 
-                <span class="submission-status">
-                    ${safeText(item.status)}
+                <span class="milestone-status">
+                    ${milestone.completed ? "Completed" : "Pending"}
                 </span>
-
             </div>
-
         `).join("");
-    }
 
+        container.querySelectorAll("[data-milestone-id]").forEach(button => {
+            button.addEventListener("click", () => {
+                const item = milestones.find(
+                    milestone => milestone.id === button.dataset.milestoneId
+                );
 
-    /* =====================================
-       25. REVISIONS
-    ===================================== */
+                if (!item) return;
 
-    function renderRevisions() {
+                item.completed = !item.completed;
+                item.completedAt = item.completed
+                    ? new Date().toISOString()
+                    : null;
 
-        const revisions = getProjectData(STORAGE.revisions);
+                if (!saveData(storageKeys.milestones, milestones)) return;
 
-        const container = getElement("revisionsList");
+                addActivity(
+                    item.completed ? "Milestone completed" : "Milestone reopened",
+                    item.title
+                );
 
-        if (!revisions.length) {
-
-            container.innerHTML = `
-                <div class="empty-state">
-                    <i class="fa-solid fa-rotate"></i>
-                    <h3>No revisions requested</h3>
-                    <p>Revision requests will appear here.</p>
-                </div>
-            `;
-
-            return;
-        }
-
-        container.innerHTML = revisions.map(item => `
-
-            <div class="revision-item">
-
-                <strong>${safeText(item.title)}</strong>
-
-                <p>${safeText(item.message)}</p>
-
-                <p>
-                    Requested by ${safeText(item.requestedBy)}
-                    · ${formatDate(item.createdAt)}
-                </p>
-
-                <span class="submission-status">
-                    ${safeText(item.status)}
-                </span>
-
-            </div>
-
-        `).join("");
-    }
-
-
-    /* =====================================
-       26. REVIEW AND REVISION ACTIONS
-    ===================================== */
-
-    function reviewSubmission(submissionId, decision) {
-
-        if (currentRole !== "client") {
-            showToast("Only the client can review submissions.");
-            return;
-        }
-
-        const submissions = getProjectData(STORAGE.submissions);
-
-        const submission = submissions.find(
-            item => item.id === submissionId
-        );
-
-        if (!submission) return;
-
-        submission.status = decision;
-
-        submission.reviewedAt = new Date().toISOString();
-
-        if (!saveProjectData(STORAGE.submissions, submissions)) return;
-
-        renderSubmissions();
-
-        if (decision === "Revision Requested") {
-
-            const revisions = getProjectData(STORAGE.revisions);
-
-            revisions.push({
-                id: Date.now().toString(),
-                title: submission.title,
-                message: "Please review the requested changes with your client.",
-                requestedBy: currentUserName,
-                createdAt: new Date().toISOString(),
-                status: "Open"
+                renderMilestones();
             });
-
-            saveProjectData(STORAGE.revisions, revisions);
-
-            renderRevisions();
-
-            addActivity(
-                "requested revisions on a work submission.",
-                "fa-rotate"
-            );
-
-            showToast("Revision requested.");
-
-        } else {
-
-            addActivity(
-                "approved a work submission.",
-                "fa-circle-check"
-            );
-
-            showToast("Submission approved.");
-        }
-    }
-
-    getElement("submissionsList").addEventListener("click", event => {
-
-        const button = event.target.closest("[data-submission-action]");
-
-        if (!button) return;
-
-        reviewSubmission(
-            button.dataset.submissionId,
-            button.dataset.submissionAction
-        );
-    });
-
-
-    /* =====================================
-       27. NOTIFICATIONS BUTTON
-    ===================================== */
-
-    getElement("workspaceNotifications").addEventListener("click", () => {
-
-        showToast("Workspace notifications will be connected to the backend.");
-    });
-
-
-    /* =====================================
-       28. MOBILE SIDEBAR
-    ===================================== */
-
-    const sidebar = document.querySelector(".workspace-sidebar");
-
-    const headerLeft = document.querySelector(".header-left");
-
-    if (window.innerWidth <= 768 && headerLeft) {
-
-        const menuButton = document.createElement("button");
-
-        menuButton.type = "button";
-        menuButton.className = "header-icon-btn";
-        menuButton.setAttribute("aria-label", "Open navigation");
-
-        menuButton.innerHTML = '<i class="fa-solid fa-bars"></i>';
-
-        headerLeft.prepend(menuButton);
-
-        menuButton.addEventListener("click", () => {
-            sidebar.classList.toggle("mobile-open");
         });
     }
 
 
-    /* =====================================
-       29. REFRESH PROJECT DATA
-    ===================================== */
+    /* =====================================================
+       14. WORK SUBMISSIONS
+    ===================================================== */
 
-    window.addEventListener("storage", event => {
+    const submissionModal = $("#submissionModal");
+    const submissionForm = $("#submissionForm");
+    const submissionFileInput = $("#submissionFileInput");
 
-        if (!event.key) return;
+    let selectedSubmissionFiles = [];
 
-        if (
-            event.key.includes("WorkspaceMessages") ||
-            event.key.includes("WorkspaceFiles") ||
-            event.key.includes("WorkspaceMilestones") ||
-            event.key.includes("WorkspaceSubmissions") ||
-            event.key.includes("WorkspaceRevisions") ||
-            event.key.includes("WorkspaceActivity")
-        ) {
-            renderMessages();
-            renderFiles();
-            renderMilestones();
+    const openSubmissionButton = $("#openSubmissionModal");
+
+    if (openSubmissionButton && isClient) {
+        hideElement(openSubmissionButton);
+    }
+
+    openSubmissionButton?.addEventListener("click", () => {
+        if (isClient) return;
+
+        selectedSubmissionFiles = [];
+
+        if (submissionForm) submissionForm.reset();
+
+        renderSelectedSubmissionFiles();
+
+        openModal(submissionModal);
+    });
+
+    submissionFileInput?.addEventListener("change", () => {
+        selectedSubmissionFiles = [...submissionFileInput.files];
+
+        renderSelectedSubmissionFiles();
+    });
+
+    function renderSelectedSubmissionFiles() {
+        const container = $("#submissionSelectedFiles");
+
+        if (!container) return;
+
+        if (!selectedSubmissionFiles.length) {
+            container.textContent = "No files selected";
+            return;
+        }
+
+        container.innerHTML = selectedSubmissionFiles.map(file => `
+            <div class="selected-file">
+                <i class="fa-solid fa-file"></i>
+                ${escapeHTML(file.name)}
+                <small>${formatFileSize(file.size)}</small>
+            </div>
+        `).join("");
+    }
+
+    submissionForm?.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        if (isClient) return;
+
+        const title = $("#submissionTitle")?.value.trim();
+        const message = $("#submissionMessage")?.value.trim();
+
+        if (!title) {
+            showToast("Enter a submission title.", "error");
+            return;
+        }
+
+        if (!message && !selectedSubmissionFiles.length) {
+            showToast("Add a message or attach your completed work.", "error");
+            return;
+        }
+
+        const attachments = [];
+
+        try {
+            for (const file of selectedSubmissionFiles) {
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast(`${file.name} exceeds the 5 MB limit.`, "error");
+                    return;
+                }
+
+                attachments.push({
+                    name: file.name,
+                    size: formatFileSize(file.size),
+                    type: file.type,
+                    data: await readFile(file)
+                });
+            }
+
+            submissions.unshift({
+                id: makeId(),
+                title,
+                message,
+                attachments,
+                submittedBy: currentUserName,
+                submittedRole: currentRole,
+                status: "Pending review",
+                createdAt: new Date().toISOString()
+            });
+
+            if (!saveData(storageKeys.submissions, submissions)) return;
+
+            closeModal(submissionModal);
+            submissionForm.reset();
+            selectedSubmissionFiles = [];
+
+            addActivity(
+                "Work submitted",
+                `${title} was submitted for client review.`
+            );
+
             renderSubmissions();
-            renderRevisions();
-            renderActivity();
+
+            showToast("Your work has been submitted.");
+
+        } catch (error) {
+            console.error(error);
+            showToast("Unable to submit your work.", "error");
+        }
+    });
+
+    function renderSubmissions() {
+        const container = $("#submissionsList");
+
+        if (!container) return;
+
+        if (!submissions.length) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fa-solid fa-file-circle-check"></i>
+                    <p>No work submissions yet.</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = submissions.map(submission => {
+            const pending = submission.status === "Pending review";
+
+            const actions = isClient && pending
+                ? `
+                    <div class="submission-actions">
+                        <button
+                            type="button"
+                            class="approve-submission"
+                            data-approve="${escapeHTML(submission.id)}"
+                        >
+                            <i class="fa-solid fa-check"></i>
+                            Approve Work
+                        </button>
+
+                        <button
+                            type="button"
+                            class="request-revision"
+                            data-revision="${escapeHTML(submission.id)}"
+                        >
+                            <i class="fa-solid fa-rotate-left"></i>
+                            Request Revision
+                        </button>
+                    </div>
+                `
+                : "";
+
+            const attachments = (submission.attachments || []).map(file => `
+                <a
+                    class="submission-attachment"
+                    href="${escapeHTML(file.data)}"
+                    download="${escapeHTML(file.name)}"
+                >
+                    <i class="fa-solid fa-download"></i>
+                    ${escapeHTML(file.name)}
+                    <small>${escapeHTML(file.size)}</small>
+                </a>
+            `).join("");
+
+            return `
+                <article class="submission-card">
+                    <div class="submission-header">
+                        <div>
+                            <h3>${escapeHTML(submission.title)}</h3>
+                            <small>
+                                Submitted by ${escapeHTML(submission.submittedBy)}
+                                · ${formatDateTime(submission.createdAt)}
+                            </small>
+                        </div>
+
+                        <span class="submission-status">
+                            ${escapeHTML(submission.status)}
+                        </span>
+                    </div>
+
+                    <p>${escapeHTML(submission.message || "")}</p>
+
+                    <div class="submission-attachments">
+                        ${attachments}
+                    </div>
+
+                    ${submission.revisionFeedback ? `
+                        <div class="revision-feedback">
+                            <strong>Revision feedback</strong>
+                            <p>${escapeHTML(submission.revisionFeedback)}</p>
+                        </div>
+                    ` : ""}
+
+                    ${actions}
+                </article>
+            `;
+        }).join("");
+
+        container.querySelectorAll("[data-approve]").forEach(button => {
+            button.addEventListener("click", () => {
+                reviewSubmission(button.dataset.approve, "approve");
+            });
+        });
+
+        container.querySelectorAll("[data-revision]").forEach(button => {
+            button.addEventListener("click", () => {
+                reviewSubmission(button.dataset.revision, "revision");
+            });
+        });
+    }
+
+
+    /* =====================================================
+       15. CLIENT REVIEW AND REVISION REQUESTS
+    ===================================================== */
+
+    function reviewSubmission(id, action) {
+        if (!isClient) return;
+
+        const submission = submissions.find(item => item.id === id);
+
+        if (!submission || submission.status !== "Pending review") return;
+
+        if (action === "approve") {
+            const confirmed = confirm(
+                "Are you sure you want to approve this work? This indicates that you have accepted the submitted deliverables."
+            );
+
+            if (!confirmed) return;
+
+            submission.status = "Approved";
+            submission.reviewedAt = new Date().toISOString();
+            submission.reviewedBy = currentUserName;
+
+            saveData(storageKeys.submissions, submissions);
+
+            /*
+              BACKEND INTEGRATION REQUIRED:
+              The real application must notify the admin and
+              initiate the authorized payout workflow here.
+              Do not release funds from frontend JavaScript.
+            */
+
+            addActivity(
+                "Work approved",
+                `${submission.title} was approved by the client. Admin payout processing is required.`
+            );
+
+            showToast("Work approved. Payout processing will require admin confirmation.");
+
+        } else {
+            const feedback = prompt(
+                "Explain what needs to be revised:"
+            );
+
+            if (feedback === null) return;
+
+            if (!feedback.trim()) {
+                showToast("Please provide revision feedback.", "error");
+                return;
+            }
+
+            submission.status = "Revision requested";
+            submission.revisionFeedback = feedback.trim();
+            submission.reviewedAt = new Date().toISOString();
+
+            revisions.unshift({
+                id: makeId(),
+                submissionId: submission.id,
+                title: submission.title,
+                feedback: feedback.trim(),
+                requestedBy: currentUserName,
+                createdAt: new Date().toISOString()
+            });
+
+            saveData(storageKeys.submissions, submissions);
+            saveData(storageKeys.revisions, revisions);
+
+            addActivity(
+                "Revision requested",
+                `The client requested changes to ${submission.title}.`
+            );
+
+            showToast("Revision request sent.");
+        }
+
+        renderSubmissions();
+        renderRevisions();
+    }
+
+
+    /* =====================================================
+       16. REVISION HISTORY
+    ===================================================== */
+
+    function renderRevisions() {
+        const container = $("#revisionsList");
+
+        if (!container) return;
+
+        if (!revisions.length) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <p>No revision requests yet.</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = revisions.map(revision => `
+            <div class="revision-item">
+                <div class="revision-icon">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </div>
+
+                <div class="revision-content">
+                    <strong>${escapeHTML(revision.title)}</strong>
+                    <p>${escapeHTML(revision.feedback)}</p>
+                    <small>
+                        Requested by ${escapeHTML(revision.requestedBy)}
+                        · ${formatDateTime(revision.createdAt)}
+                    </small>
+                </div>
+            </div>
+        `).join("");
+    }
+
+
+    /* =====================================================
+       17. NOTIFICATIONS
+    ===================================================== */
+
+    $("#workspaceNotifications")?.addEventListener("click", () => {
+        openSection("activity");
+
+        if (!activities.length) {
+            showToast("You have no project activity yet.");
+        } else {
+            showToast("Showing your latest project activity.");
         }
     });
 
 
-    /* =====================================
-       30. INITIALIZE WORKSPACE
-    ===================================== */
+    /* =====================================================
+       18. WORKSPACE LOADER
+    ===================================================== */
 
-    function initializeWorkspace() {
+    const loader = $("#workspaceLoader");
 
-        initializeProjectInformation();
+    function hideLoader() {
+        if (!loader) return;
 
-        renderMessages();
+        loader.classList.add("hide");
 
-        renderFiles();
-
-        renderMilestones();
-
-        renderSubmissions();
-
-        renderRevisions();
-
-        renderActivity();
-
-        const loader = getElement("workspaceLoader");
-
-        if (loader) {
-            setTimeout(() => {
-                loader.classList.add("hide");
-            }, 500);
-        }
-
-        console.log("VORVENA workspace initialized.");
-        console.log("Project:", projectId);
-        console.log("Logged-in role:", currentRole);
+        setTimeout(() => {
+            loader.style.display = "none";
+        }, 500);
     }
 
-    initializeWorkspace();
+
+    /* =====================================================
+       19. INITIAL RENDER
+    ===================================================== */
+
+    renderMessages();
+    renderFiles();
+    renderSharedFiles();
+    renderMilestones();
+    renderSubmissions();
+    renderRevisions();
+    renderActivity();
+
+    hideLoader();
+
+
+    /* =====================================================
+       20. CROSS-TAB DEMO SYNCHRONISATION
+    ===================================================== */
+
+    window.addEventListener("storage", event => {
+        if (!event.key) return;
+
+        if (event.key === storageKeys.messages) {
+            messages = getData(storageKeys.messages, []);
+            renderMessages();
+        }
+
+        if (event.key === storageKeys.files) {
+            files = getData(storageKeys.files, []);
+            renderFiles();
+            renderSharedFiles();
+        }
+
+        if (event.key === storageKeys.milestones) {
+            milestones = getData(storageKeys.milestones, []);
+            renderMilestones();
+        }
+
+        if (event.key === storageKeys.submissions) {
+            submissions = getData(storageKeys.submissions, []);
+            renderSubmissions();
+        }
+
+        if (event.key === storageKeys.revisions) {
+            revisions = getData(storageKeys.revisions, []);
+            renderRevisions();
+        }
+
+        if (event.key === storageKeys.activity) {
+            activities = getData(storageKeys.activity, []);
+            renderActivity();
+        }
+    });
 
 });
