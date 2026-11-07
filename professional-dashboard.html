@@ -502,6 +502,7 @@
 
 <!-- DASHBOARD JAVASCRIPT -->
 <script>
+
 "use strict";
 
 // ========================================
@@ -583,7 +584,7 @@ function readProfile() {
     profile.city ||= sessionStorage.getItem("vorvenaCity") || "";
 
     if (Array.isArray(profile.skills)) {
-        // Existing skills are already in the correct format.
+        // Skills already stored as an array.
     } else if (typeof profile.skills === "string" && profile.skills) {
         profile.skills = profile.skills
             .split(",")
@@ -756,7 +757,6 @@ document.getElementById("profileForm").addEventListener("submit", event => {
     renderProfile();
     notify("Your professional profile has been updated.");
 
-    // Refresh offers in case the professional identity changed.
     offers = readOffers();
     renderOffers();
 });
@@ -1012,22 +1012,41 @@ function createOfferCard(offer) {
         actions.append(acceptButton, declineButton);
         card.appendChild(actions);
 
-    } else {
+    } else if (offer.status === "accepted") {
         const status = document.createElement("p");
         const strong = document.createElement("strong");
 
-        strong.textContent =
-            offer.status === "accepted" ? "Accepted" : "Declined";
-
+        strong.textContent = "Accepted";
         status.append("Offer status: ", strong);
         card.appendChild(status);
 
-        if (offer.status === "accepted") {
-            const note = document.createElement("p");
-            note.textContent =
-                "Waiting for client payment confirmation.";
-            card.appendChild(note);
-        }
+        const paymentStatus = document.createElement("div");
+        paymentStatus.className = "offer-payment-status";
+
+        const icon = document.createElement("i");
+        icon.className = "fa-solid fa-clock";
+
+        const content = document.createElement("div");
+
+        const heading = document.createElement("strong");
+        heading.textContent = "Awaiting Client Payment";
+
+        const message = document.createElement("p");
+        message.textContent =
+            "The client must complete payment before this project becomes active. Your project workspace is currently locked.";
+
+        content.append(heading, message);
+        paymentStatus.append(icon, content);
+
+        card.appendChild(paymentStatus);
+
+    } else if (offer.status === "declined") {
+        const status = document.createElement("p");
+        const strong = document.createElement("strong");
+
+        strong.textContent = "Declined";
+        status.append("Offer status: ", strong);
+        card.appendChild(status);
     }
 
     return card;
@@ -1059,6 +1078,86 @@ function renderOffers() {
     ).length;
 
     document.getElementById("offerCount").textContent = pending;
+
+    renderProjects();
+}
+
+// ========================================
+// RENDER PROJECTS
+// ========================================
+
+function renderProjects() {
+    const projectCard = document.querySelector(
+        "#projects .content-card"
+    );
+
+    if (!projectCard) return;
+
+    projectCard.replaceChildren();
+
+    const heading = document.createElement("div");
+    heading.className = "card-heading";
+
+    const title = document.createElement("h3");
+    title.textContent = "Project Overview";
+
+    heading.appendChild(title);
+    projectCard.appendChild(heading);
+
+    // Accepted offers are not active projects.
+    // They remain locked until backend payment verification.
+
+    const acceptedOffers = offers.filter(
+        offer => offer.status === "accepted"
+    );
+
+    if (acceptedOffers.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.textContent =
+            "No active projects yet. Accepted offers will appear here after the client's payment is confirmed.";
+
+        projectCard.appendChild(empty);
+        return;
+    }
+
+    acceptedOffers.forEach(offer => {
+        const project = document.createElement("div");
+        project.className = "offer-card";
+
+        const projectTitle = document.createElement("h4");
+        projectTitle.textContent = offer.title || "Untitled Project";
+
+        const projectDescription = document.createElement("p");
+        projectDescription.textContent =
+            "This offer has been accepted. The project is not active yet.";
+
+        const status = document.createElement("div");
+        status.className = "offer-payment-status";
+
+        const icon = document.createElement("i");
+        icon.className = "fa-solid fa-lock";
+
+        const content = document.createElement("div");
+
+        const statusTitle = document.createElement("strong");
+        statusTitle.textContent = "Workspace Locked";
+
+        const statusMessage = document.createElement("p");
+        statusMessage.textContent =
+            "Waiting for verified client payment. You cannot access project work until payment is confirmed.";
+
+        content.append(statusTitle, statusMessage);
+        status.append(icon, content);
+
+        project.append(
+            projectTitle,
+            projectDescription,
+            status
+        );
+
+        projectCard.appendChild(project);
+    });
 }
 
 // ========================================
@@ -1091,7 +1190,6 @@ function respondOffer(id, decision) {
 // AUTOMATIC OFFER REFRESH
 // ========================================
 
-// When the client dashboard changes shared offers.
 window.addEventListener("storage", event => {
     if (event.key === SHARED_OFFERS_KEY) {
         offers = readOffers();
@@ -1099,7 +1197,6 @@ window.addEventListener("storage", event => {
     }
 });
 
-// Refresh offers when returning to the dashboard.
 window.addEventListener("focus", () => {
     offers = readOffers();
     renderOffers();
@@ -1195,6 +1292,7 @@ readProfile();
 
 offers = readOffers();
 renderOffers();
+
 </script>
 
 </body>

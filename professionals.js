@@ -1,3 +1,4 @@
+
 /* =========================================
    VORVENA PROFESSIONALS PAGE
    FRONTEND DEMO VERSION
@@ -185,10 +186,6 @@ const specialties = {
 // 2. DEMO PROFILE DATA
 // =========================================
 
-// These names are sample/demo identities.
-// Replace them with real registered profiles
-// when the backend is connected.
-
 const demoNames = [
     ["Alex Morgan", "Michael Adams", "Daniel Smith"],
     ["Samuel Okafor", "James Wilson", "David Chen"],
@@ -268,18 +265,17 @@ let profileId = 1;
 Object.keys(specialties).forEach((specialty, specialtyIndex) => {
 
     const specialtyInfo = specialties[specialty];
-
     const role = specialtyInfo.title.replace(/s$/, "");
 
     for (let i = 0; i < 3; i++) {
 
         const name = demoNames[i][specialtyIndex % 3];
 
-        const profile = {
+        professionals.push({
             id: profileId++,
-            name: name,
-            role: role,
-            specialty: specialty,
+            name,
+            role,
+            specialty,
             country: countries[(specialtyIndex + i) % countries.length],
             rating: ratings[i],
             jobs: completedJobs[i],
@@ -288,9 +284,8 @@ Object.keys(specialties).forEach((specialty, specialtyIndex) => {
             bio: `${role} with experience in delivering professional projects and creating practical solutions for clients.`,
             skills: skillLibrary[specialty] || ["Communication", "Problem Solving"],
             initials: name.split(" ").map(part => part[0]).join("")
-        };
+        });
 
-        professionals.push(profile);
     }
 
 });
@@ -347,10 +342,75 @@ let selectedProfessional = null;
 
 
 // =========================================
-// 5. AUTHENTICATION CHECK
+// 5. AUTHENTICATION
 // =========================================
 
+function readStoredObject(key) {
+
+    const sources = [localStorage, sessionStorage];
+
+    for (const storage of sources) {
+
+        try {
+
+            const value = storage.getItem(key);
+
+            if (!value) continue;
+
+            const parsed = JSON.parse(value);
+
+            if (parsed && typeof parsed === "object") {
+                return parsed;
+            }
+
+        } catch (error) {
+            console.warn(`Could not read ${key}.`);
+        }
+
+    }
+
+    return null;
+
+}
+
+
 function getCurrentUser() {
+
+    // Use the same login session keys as the VORVENA dashboards.
+
+    const loggedIn = sessionStorage.getItem("vorvenaLoggedIn") === "true";
+
+    const sessionRole = (
+        sessionStorage.getItem("vorvenaLoggedInRole") || ""
+    ).toLowerCase().trim();
+
+    const sessionEmail =
+        sessionStorage.getItem("vorvenaLoggedInEmail") || "";
+
+    const clientProfile = readStoredObject("vorvenaClientProfile");
+    const professionalProfile = readStoredObject("vorvenaProfessionalProfile");
+
+    if (loggedIn && sessionRole === "client") {
+
+        return {
+            ...(clientProfile || {}),
+            role: "client",
+            email: sessionEmail || clientProfile?.email || ""
+        };
+
+    }
+
+    if (loggedIn && sessionRole === "professional") {
+
+        return {
+            ...(professionalProfile || {}),
+            role: "professional",
+            email: sessionEmail || professionalProfile?.email || ""
+        };
+
+    }
+
+    // Fallback for existing user-object authentication.
 
     const possibleKeys = [
         "vorvenaUser",
@@ -360,27 +420,14 @@ function getCurrentUser() {
 
     for (const key of possibleKeys) {
 
-        try {
+        const user = readStoredObject(key);
 
-            const storedUser = localStorage.getItem(key);
-
-            if (!storedUser) continue;
-
-            const user = JSON.parse(storedUser);
-
-            if (user && typeof user === "object") {
-                return user;
-            }
-
-        } catch (error) {
-
-            console.warn(`Could not read ${key} from localStorage.`);
-
-        }
+        if (user) return user;
 
     }
 
     return null;
+
 }
 
 
@@ -406,8 +453,19 @@ function isLoggedIn() {
 
     const role = getUserRole(user);
 
+    if (!["client", "professional"].includes(role)) {
+        return false;
+    }
+
+    // A valid VORVENA login session is the primary authentication check.
+    const validSession =
+        sessionStorage.getItem("vorvenaLoggedIn") === "true" &&
+        sessionStorage.getItem("vorvenaLoggedInRole") === role;
+
+    if (validSession) return true;
+
+    // Fallback for user objects used by earlier frontend pages.
     return (
-        ["client", "professional"].includes(role) &&
         user.isVerified !== false &&
         user.emailVerified !== false &&
         user.phoneVerified !== false
@@ -418,24 +476,97 @@ function isLoggedIn() {
 
 function isClient() {
 
-    const user = getCurrentUser();
-
-    return isLoggedIn() && getUserRole(user) === "client";
+    return isLoggedIn() && getUserRole(getCurrentUser()) === "client";
 
 }
 
 
 function isProfessional() {
 
-    const user = getCurrentUser();
-
-    return isLoggedIn() && getUserRole(user) === "professional";
+    return isLoggedIn() && getUserRole(getCurrentUser()) === "professional";
 
 }
 
 
 // =========================================
-// 6. UPDATE PAGE CATEGORY
+// 6. NAVIGATION AUTHENTICATION
+// =========================================
+
+function getPagePrefix() {
+
+    const loginLink = document.querySelector(".nav-login");
+
+    if (!loginLink) return "../";
+
+    const href = loginLink.getAttribute("href") || "";
+
+    const lastSlash = href.lastIndexOf("/");
+
+    return lastSlash >= 0 ? href.substring(0, lastSlash + 1) : "";
+
+}
+
+
+function getPageLink(filename) {
+
+    return `${getPagePrefix()}${filename}`;
+
+}
+
+
+function updateNavigation() {
+
+    const loginButton = document.querySelector(".nav-login");
+    const signupButton = document.querySelector(".nav-signup");
+
+    let dashboardLink = document.getElementById("navDashboardLink");
+
+    if (!isLoggedIn()) {
+
+        if (loginButton) loginButton.style.display = "";
+        if (signupButton) signupButton.style.display = "";
+
+        if (dashboardLink) dashboardLink.remove();
+
+        return;
+
+    }
+
+    // Hide authentication buttons for every logged-in account.
+
+    if (loginButton) loginButton.style.display = "none";
+    if (signupButton) signupButton.style.display = "none";
+
+    if (!dashboardLink && navLinks) {
+
+        dashboardLink = document.createElement("a");
+        dashboardLink.id = "navDashboardLink";
+
+        navLinks.appendChild(dashboardLink);
+
+    }
+
+    if (!dashboardLink) return;
+
+    if (isClient()) {
+
+        dashboardLink.href = getPageLink("client-dashboard.html");
+        dashboardLink.textContent = "My Dashboard";
+
+    } else if (isProfessional()) {
+
+        dashboardLink.href = getPageLink("professional-dashboard.html");
+        dashboardLink.textContent = "My Dashboard";
+
+    }
+
+    dashboardLink.classList.add("nav-dashboard-link");
+
+}
+
+
+// =========================================
+// 7. UPDATE PAGE CATEGORY
 // =========================================
 
 function updateCategoryHeading() {
@@ -450,11 +581,16 @@ function updateCategoryHeading() {
         breadcrumbCategory.textContent = "Professionals";
 
         if (emptyState) {
+
             emptyState.classList.add("show");
-            emptyState.textContent = "No specialty selected. Return to Explore and choose a professional category.";
+
+            emptyState.textContent =
+                "No specialty selected. Return to Explore and choose a professional category.";
+
         }
 
         return;
+
     }
 
     categoryTitle.textContent = currentSpecialty.title;
@@ -465,24 +601,18 @@ function updateCategoryHeading() {
 
 
 // =========================================
-// 7. FILTER PROFESSIONALS
+// 8. FILTER PROFESSIONALS
 // =========================================
 
 function getFilteredProfessionals() {
 
-    // Never show the entire demo directory when the URL category is
-    // missing or invalid. A valid specialty page shows only its own profiles.
     if (!currentSpecialty) return [];
 
     let filtered = professionals.filter(person =>
         person.specialty === selectedSpecialty
     );
 
-    // Search
-
-    const searchTerm = professionalSearch.value
-        .trim()
-        .toLowerCase();
+    const searchTerm = professionalSearch.value.trim().toLowerCase();
 
     if (searchTerm) {
 
@@ -503,8 +633,6 @@ function getFilteredProfessionals() {
 
     }
 
-    // Experience
-
     const selectedExperience = document.querySelector(
         'input[name="experience"]:checked'
     )?.value || "all";
@@ -517,8 +645,6 @@ function getFilteredProfessionals() {
 
     }
 
-    // Country
-
     if (countryFilter.value !== "all") {
 
         filtered = filtered.filter(person =>
@@ -526,8 +652,6 @@ function getFilteredProfessionals() {
         );
 
     }
-
-    // Rating
 
     const minimumRating = Number(ratingFilter.value);
 
@@ -539,8 +663,6 @@ function getFilteredProfessionals() {
 
     }
 
-    // Verified
-
     if (verifiedFilter.checked) {
 
         filtered = filtered.filter(person =>
@@ -548,8 +670,6 @@ function getFilteredProfessionals() {
         );
 
     }
-
-    // Sorting
 
     if (sortFilter.value === "rating") {
 
@@ -569,7 +689,7 @@ function getFilteredProfessionals() {
 
 
 // =========================================
-// 8. DISPLAY PROFESSIONAL CARDS
+// 9. DISPLAY PROFESSIONAL CARDS
 // =========================================
 
 function renderProfessionals() {
@@ -673,7 +793,7 @@ function renderProfessionals() {
 
 
 // =========================================
-// 9. FORMAT EXPERIENCE
+// 10. FORMAT EXPERIENCE
 // =========================================
 
 function formatExperience(experience) {
@@ -690,7 +810,7 @@ function formatExperience(experience) {
 
 
 // =========================================
-// 10. OPEN PROFESSIONAL PROFILE
+// 11. OPEN PROFESSIONAL PROFILE
 // =========================================
 
 function openProfile(professionalId) {
@@ -772,12 +892,12 @@ function openProfile(professionalId) {
 
 
 // =========================================
-// 11. CONTROL PROFILE ACCESS
+// 12. CONTROL PROFILE ACCESS
 // =========================================
 
 function updateProfileAccess() {
 
-    // Visitor
+    // Visitor: can view profiles but must sign in to hire.
 
     if (!isLoggedIn()) {
 
@@ -791,24 +911,24 @@ function updateProfileAccess() {
                 professionals and manage your projects.
             </p>
 
-            <a href="signup.html" class="auth-option">
+            <a href="${getPageLink("signup.html")}" class="auth-option">
                 <i class="fab fa-google"></i>
                 Continue with Google
             </a>
 
-            <a href="signup.html" class="auth-option">
+            <a href="${getPageLink("signup.html")}" class="auth-option">
                 <i class="fab fa-apple"></i>
                 Continue with Apple
             </a>
 
-            <a href="client-signup.html" class="auth-option">
+            <a href="${getPageLink("client-signup.html")}" class="auth-option">
                 <i class="fas fa-envelope"></i>
                 Continue with Email
             </a>
 
             <p class="auth-terms">
                 Already have an account?
-                <a href="login.html">Log In</a>
+                <a href="${getPageLink("login.html")}">Log In</a>
             </p>
         `;
 
@@ -817,7 +937,7 @@ function updateProfileAccess() {
     }
 
 
-    // Client
+    // Client: can hire professionals.
 
     if (isClient()) {
 
@@ -853,21 +973,21 @@ function updateProfileAccess() {
     }
 
 
-    // Professional
+    // Professional: can view profiles but cannot hire.
 
     if (isProfessional()) {
 
         authContent.innerHTML = `
             <span class="auth-label">PROFESSIONAL ACCOUNT</span>
 
-            <h2>You're signed in as a professional.</h2>
+            <h2>Welcome back.</h2>
 
             <p>
+                You're signed in as a professional.
                 Hiring other professionals is available through a client account.
-                Continue to your professional dashboard.
             </p>
 
-            <a href="professional-dashboard.html" class="auth-option">
+            <a href="${getPageLink("professional-dashboard.html")}" class="auth-option">
                 <i class="fas fa-th-large"></i>
                 My Dashboard
             </a>
@@ -879,7 +999,7 @@ function updateProfileAccess() {
 
 
 // =========================================
-// 12. CLOSE PROFILE MODAL
+// 13. CLOSE PROFILE MODAL
 // =========================================
 
 function closeProfileModal() {
@@ -897,7 +1017,7 @@ modalOverlay.addEventListener("click", closeProfileModal);
 
 
 // =========================================
-// 13. OPEN HIRING FORM
+// 14. OPEN HIRING FORM
 // =========================================
 
 function openHiringForm() {
@@ -906,7 +1026,7 @@ function openHiringForm() {
 
         closeProfileModal();
 
-        window.location.href = "login.html";
+        window.location.href = getPageLink("login.html");
 
         return;
 
@@ -937,7 +1057,85 @@ hireOverlay.addEventListener("click", closeHiringForm);
 
 
 // =========================================
-// 14. HIRING FORM SUBMISSION
+// 15. SHARED HIRING OFFERS
+// =========================================
+
+const SHARED_OFFERS_KEY = "vorvenaSharedOffers";
+
+
+function getSharedOffers() {
+
+    try {
+
+        const offers = JSON.parse(
+            localStorage.getItem(SHARED_OFFERS_KEY) || "[]"
+        );
+
+        return Array.isArray(offers) ? offers : [];
+
+    } catch (error) {
+
+        console.error("Could not read shared hiring offers.", error);
+
+        return [];
+
+    }
+
+}
+
+
+function saveSharedOffers(offers) {
+
+    try {
+
+        localStorage.setItem(
+            SHARED_OFFERS_KEY,
+            JSON.stringify(offers)
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.error("Could not save shared hiring offers.", error);
+
+        return false;
+
+    }
+
+}
+
+
+function getClientDetails() {
+
+    const user = getCurrentUser() || {};
+
+    const profile = readStoredObject("vorvenaClientProfile") || {};
+
+    const email =
+        user.email ||
+        sessionStorage.getItem("vorvenaLoggedInEmail") ||
+        profile.email ||
+        "";
+
+    const name =
+        user.fullName ||
+        user.name ||
+        profile.fullName ||
+        profile.name ||
+        sessionStorage.getItem("vorvenaFullName") ||
+        "VORVENA Client";
+
+    return {
+        name,
+        email: String(email).trim().toLowerCase()
+    };
+
+}
+
+
+// =========================================
+// 16. HIRING FORM SUBMISSION
 // =========================================
 
 hireForm.addEventListener("submit", function(event) {
@@ -948,7 +1146,7 @@ hireForm.addEventListener("submit", function(event) {
 
         alert("Please sign in with a client account to continue.");
 
-        window.location.href = "login.html";
+        window.location.href = getPageLink("login.html");
 
         return;
 
@@ -977,7 +1175,7 @@ hireForm.addEventListener("submit", function(event) {
 
     if (
         !projectTitle ||
-        !projectBudget ||
+        !Number.isFinite(projectBudget) ||
         projectBudget <= 0 ||
         !projectDeadline ||
         !projectDescription
@@ -990,21 +1188,106 @@ hireForm.addEventListener("submit", function(event) {
     }
 
 
-    /*
-       DEMO ONLY:
-       No project is created or sent to a database yet.
+    // Do not allow a deadline in the past.
 
-       The real version will send this information to the backend,
-       where the client account and professional will be validated.
-    */
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const selectedDate = new Date(`${projectDeadline}T00:00:00`);
+
+    if (selectedDate < today) {
+
+        alert("Please choose a future project deadline.");
+
+        return;
+
+    }
+
+
+    const client = getClientDetails();
+
+    const newOffer = {
+
+        id: `offer-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+
+        professionalName: selectedProfessional.name,
+        professionalRole: selectedProfessional.role,
+
+        // Demo profiles do not have registered account emails or IDs.
+        // These fields will be populated when real profiles come from the backend.
+        professionalEmail: selectedProfessional.email || "",
+        professionalId:
+            selectedProfessional.professionalId ||
+            selectedProfessional.userId ||
+            "",
+
+        professionalDemoId: selectedProfessional.id,
+        professionalSpecialty: selectedProfessional.specialty,
+
+        title: projectTitle,
+        budget: `$${projectBudget.toLocaleString("en-US")}`,
+        deadline: projectDeadline,
+        description: projectDescription,
+
+        clientName: client.name,
+        clientEmail: client.email,
+
+        status: "pending",
+        createdAt: new Date().toISOString()
+
+    };
+
+
+    const sharedOffers = getSharedOffers();
+
+    sharedOffers.unshift(newOffer);
+
+    const saved = saveSharedOffers(sharedOffers);
+
+    if (!saved) {
+
+        alert(
+            "Your offer could not be saved. Please check your browser storage and try again."
+        );
+
+        return;
+
+    }
+
+
+    // Keep the client dashboard offer list in sync.
+
+    try {
+
+        const existingClientOffers = JSON.parse(
+            localStorage.getItem("vorvenaClientOffers") || "[]"
+        );
+
+        const clientOffers = Array.isArray(existingClientOffers)
+            ? existingClientOffers
+            : [];
+
+        clientOffers.unshift(newOffer);
+
+        localStorage.setItem(
+            "vorvenaClientOffers",
+            JSON.stringify(clientOffers)
+        );
+
+    } catch (error) {
+
+        console.warn("The shared offer was saved, but the client offer list could not be updated.", error);
+
+    }
+
 
     alert(
-        `Demo hiring form completed!\n\n` +
+        `Hiring offer submitted successfully!\n\n` +
         `Professional: ${selectedProfessional.name}\n` +
         `Project: ${projectTitle}\n` +
-        `Budget: $${projectBudget}\n` +
+        `Budget: $${projectBudget.toLocaleString("en-US")}\n` +
         `Deadline: ${projectDeadline}\n\n` +
-        `Backend integration is required to submit this project.`
+        `Your offer has been saved.`
     );
 
     hireForm.reset();
@@ -1015,7 +1298,7 @@ hireForm.addEventListener("submit", function(event) {
 
 
 // =========================================
-// 15. SEARCH EVENTS
+// 17. SEARCH EVENTS
 // =========================================
 
 professionalSearch.addEventListener("input", renderProfessionals);
@@ -1025,16 +1308,14 @@ searchButton.addEventListener("click", renderProfessionals);
 professionalSearch.addEventListener("keydown", function(event) {
 
     if (event.key === "Enter") {
-
         renderProfessionals();
-
     }
 
 });
 
 
 // =========================================
-// 16. FILTER EVENTS
+// 18. FILTER EVENTS
 // =========================================
 
 document.querySelectorAll('input[name="experience"]').forEach(input => {
@@ -1050,7 +1331,7 @@ sortFilter.addEventListener("change", renderProfessionals);
 
 
 // =========================================
-// 17. RESET FILTERS
+// 19. RESET FILTERS
 // =========================================
 
 function clearAllFilters() {
@@ -1076,7 +1357,7 @@ clearFilters.addEventListener("click", clearAllFilters);
 
 
 // =========================================
-// 18. PROFILE BUTTON EVENTS
+// 20. PROFILE BUTTON EVENTS
 // =========================================
 
 professionalsGrid.addEventListener("click", function(event) {
@@ -1091,7 +1372,7 @@ professionalsGrid.addEventListener("click", function(event) {
 
 
 // =========================================
-// 19. MOBILE NAVIGATION
+// 21. MOBILE NAVIGATION
 // =========================================
 
 menuToggle.addEventListener("click", function() {
@@ -1121,8 +1402,12 @@ document.querySelectorAll("#navLinks a").forEach(link => {
 
         const icon = menuToggle.querySelector("i");
 
-        icon.classList.remove("fa-times");
-        icon.classList.add("fa-bars");
+        if (icon) {
+
+            icon.classList.remove("fa-times");
+            icon.classList.add("fa-bars");
+
+        }
 
     });
 
@@ -1130,7 +1415,7 @@ document.querySelectorAll("#navLinks a").forEach(link => {
 
 
 // =========================================
-// 20. MODAL KEYBOARD SUPPORT
+// 22. MODAL KEYBOARD SUPPORT
 // =========================================
 
 document.addEventListener("keydown", function(event) {
@@ -1147,7 +1432,46 @@ document.addEventListener("keydown", function(event) {
 
 
 // =========================================
-// 21. FOOTER YEAR
+// 23. REFRESH AUTH AND OFFERS
+// =========================================
+
+// Update navigation if login state changes in another tab.
+
+window.addEventListener("storage", function(event) {
+
+    if (
+        event.key === "vorvenaSharedOffers" ||
+        event.key === "vorvenaLoggedIn" ||
+        event.key === "vorvenaLoggedInRole" ||
+        event.key === "vorvenaLoggedInEmail"
+    ) {
+
+        updateNavigation();
+
+        if (profileModal.classList.contains("show")) {
+            updateProfileAccess();
+        }
+
+    }
+
+});
+
+
+// Recheck authentication when the user returns to this page.
+
+window.addEventListener("focus", function() {
+
+    updateNavigation();
+
+    if (profileModal.classList.contains("show")) {
+        updateProfileAccess();
+    }
+
+});
+
+
+// =========================================
+// 24. FOOTER YEAR
 // =========================================
 
 document.getElementById("copyrightYear").textContent =
@@ -1155,8 +1479,10 @@ document.getElementById("copyrightYear").textContent =
 
 
 // =========================================
-// 22. INITIALIZE PAGE
+// 25. INITIALIZE PAGE
 // =========================================
+
+updateNavigation();
 
 updateCategoryHeading();
 

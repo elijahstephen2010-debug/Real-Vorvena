@@ -1060,3 +1060,52 @@ label:focus-visible {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* =========================================
+   OFFER PAYMENT STATUS
+========================================= */
+
+.offer-payment-status {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: #fff8e8;
+    border: 1px solid #f3dfb2;
+    border-radius: 9px;
+    padding: 12px;
+    margin-top: 14px;
+}
+
+.offer-payment-status i {
+    color: #c48a20;
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.offer-payment-status strong {
+    display: block;
+    color: #8b6419;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.offer-payment-status p {
+    color: #8b7350;
+    font-size: 10px;
+    line-height: 1.6;
+}
+
+/* Active project status */
+
+.project-active-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #eaf8f1;
+    color: #159b68;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 12px;
+}

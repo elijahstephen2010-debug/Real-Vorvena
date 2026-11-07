@@ -1,0 +1,1080 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Project Workspace | VORVENA</title>
+
+    <meta name="description" content="VORVENA project collaboration workspace.">
+
+    <!-- VORVENA WORKSPACE CSS -->
+    <link rel="stylesheet" href="project-workspace.css">
+
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- FONT AWESOME ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- =========================================
+     WORKSPACE LOADER
+========================================= -->
+
+<div class="workspace-loader" id="workspaceLoader">
+    <div class="loader-logo">
+        <!-- INSERT VORVENA LOGO IMAGE HERE -->
+        <img src="images/vorvena-logo.png" alt="VORVENA Logo">
+    </div>
+
+    <div class="loader-spinner"></div>
+    <p>Preparing your workspace...</p>
+</div>
+
+
+<!-- =========================================
+     WORKSPACE HEADER
+========================================= -->
+
+<header class="workspace-header">
+
+    <div class="header-left">
+
+        <a href="#" class="workspace-brand">
+
+            <div class="workspace-logo">
+                <!-- INSERT VORVENA LOGO IMAGE HERE -->
+                <img src="images/vorvena-logo.png" alt="VORVENA">
+            </div>
+
+        </a>
+
+        <div class="header-divider"></div>
+
+        <div class="project-header-info">
+            <span class="header-label">PROJECT WORKSPACE</span>
+            <h2 id="headerProjectTitle">Project Workspace</h2>
+        </div>
+
+    </div>
+
+
+    <div class="header-right">
+
+        <div class="project-status" id="headerProjectStatus">
+            <span class="status-dot"></span>
+            <span>In Progress</span>
+        </div>
+
+        <button class="header-icon-btn" id="workspaceNotifications" aria-label="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notification-indicator"></span>
+        </button>
+
+        <div class="header-user">
+
+            <img
+                src="images/default-avatar.png"
+                alt="Your profile picture"
+                id="currentUserAvatar"
+            >
+
+            <div class="header-user-info">
+                <strong id="currentUserName">Loading...</strong>
+                <span id="currentUserRole">Workspace Member</span>
+            </div>
+
+            <i class="fa-solid fa-chevron-down"></i>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================
+     WORKSPACE MAIN LAYOUT
+========================================= -->
+
+<div class="workspace-layout">
+
+
+    <!-- =====================================
+         SIDEBAR
+    ====================================== -->
+
+    <aside class="workspace-sidebar">
+
+        <div class="sidebar-project-card">
+
+            <div class="project-card-icon">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
+
+            <div class="sidebar-project-details">
+                <span>YOUR PROJECT</span>
+                <strong id="sidebarProjectTitle">Loading project...</strong>
+            </div>
+
+        </div>
+
+
+        <div class="sidebar-navigation">
+
+            <span class="sidebar-heading">WORKSPACE</span>
+
+            <button class="sidebar-link active" data-section="overview">
+                <i class="fa-solid fa-table-columns"></i>
+                <span>Overview</span>
+            </button>
+
+            <button class="sidebar-link" data-section="messages">
+                <i class="fa-regular fa-comments"></i>
+                <span>Messages</span>
+                <span class="sidebar-count" id="messageCount">0</span>
+            </button>
+
+            <button class="sidebar-link" data-section="files">
+                <i class="fa-regular fa-folder-open"></i>
+                <span>Project Files</span>
+            </button>
+
+            <button class="sidebar-link" data-section="milestones">
+                <i class="fa-solid fa-list-check"></i>
+                <span>Milestones</span>
+            </button>
+
+            <button class="sidebar-link" data-section="submissions">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span>Submissions</span>
+            </button>
+
+            <button class="sidebar-link" data-section="revisions">
+                <i class="fa-solid fa-rotate"></i>
+                <span>Revisions</span>
+            </button>
+
+            <button class="sidebar-link" data-section="activity">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span>Activity History</span>
+            </button>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="workspace-support">
+                <div class="support-icon">
+                    <i class="fa-regular fa-circle-question"></i>
+                </div>
+
+                <div>
+                    <strong>Need assistance?</strong>
+                    <span>Contact VORVENA support</span>
+                </div>
+
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+
+            <a href="#" class="back-dashboard-link" id="backToDashboard">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Back to Dashboard</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================
+         MAIN CONTENT
+    ====================================== -->
+
+    <main class="workspace-main">
+
+
+        <!-- =================================
+             PROJECT OVERVIEW
+        ================================== -->
+
+        <section class="workspace-section active" id="overview">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-eyebrow">PROJECT OVERVIEW</span>
+                    <h1>Welcome to your workspace</h1>
+                    <p>Everything you need to manage this project is right here.</p>
+                </div>
+
+                <button class="primary-button" data-open-section="messages">
+                    <i class="fa-regular fa-comments"></i>
+                    Open Messages
+                </button>
+
+            </div>
+
+
+            <!-- PROJECT DETAILS -->
+
+            <div class="project-overview-card">
+
+                <div class="project-overview-top">
+
+                    <div>
+                        <span class="small-label">PROJECT TITLE</span>
+                        <h2 id="projectTitle">Loading project...</h2>
+                        <p id="projectDescription">
+                            Project description will appear here.
+                        </p>
+                    </div>
+
+                    <span class="project-status-badge" id="projectStatusBadge">
+                        In Progress
+                    </span>
+
+                </div>
+
+
+                <div class="project-details-grid">
+
+                    <div class="project-detail">
+                        <span>PROJECT BUDGET</span>
+                        <strong id="projectBudget">—</strong>
+                    </div>
+
+                    <div class="project-detail">
+                        <span>PROJECT DEADLINE</span>
+                        <strong id="projectDeadline">—</strong>
+                    </div>
+
+                    <div class="project-detail">
+                        <span>START DATE</span>
+                        <strong id="projectStartDate">—</strong>
+                    </div>
+
+                    <div class="project-detail">
+                        <span>YOUR ROLE</span>
+                        <strong id="projectMemberRole">—</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PROJECT PARTICIPANTS -->
+
+            <div class="workspace-card participants-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h3>Project Participants</h3>
+                        <p>People working on this project.</p>
+                    </div>
+
+                    <span class="participant-count">2 Members</span>
+                </div>
+
+
+                <div class="participants-grid">
+
+                    <div class="participant-item">
+
+                        <img
+                            src="images/default-avatar.png"
+                            alt="Client profile"
+                            id="clientAvatar"
+                        >
+
+                        <div class="participant-info">
+                            <strong id="clientName">Client</strong>
+                            <span>Project Client</span>
+                        </div>
+
+                        <span class="participant-you" id="clientYouLabel">YOU</span>
+
+                    </div>
+
+
+                    <div class="participant-item">
+
+                        <img
+                            src="images/default-avatar.png"
+                            alt="Professional profile"
+                            id="professionalAvatar"
+                        >
+
+                        <div class="participant-info">
+                            <strong id="professionalName">Professional</strong>
+                            <span>Project Professional</span>
+                        </div>
+
+                        <span class="participant-you" id="professionalYouLabel">YOU</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PROGRESS AND QUICK INFO -->
+
+            <div class="overview-grid">
+
+                <div class="workspace-card progress-card">
+
+                    <div class="card-heading">
+                        <div>
+                            <h3>Project Progress</h3>
+                            <p>Track the progress of your project.</p>
+                        </div>
+
+                        <strong id="progressPercentage">0%</strong>
+                    </div>
+
+                    <div class="progress-track">
+                        <div class="progress-fill" id="projectProgressBar"></div>
+                    </div>
+
+                    <div class="progress-footer">
+                        <span id="completedMilestones">0 milestones completed</span>
+                        <span id="totalMilestones">0 total</span>
+                    </div>
+
+                </div>
+
+
+                <div class="workspace-card deadline-card">
+
+                    <div class="deadline-icon">
+                        <i class="fa-regular fa-calendar"></i>
+                    </div>
+
+                    <span>PROJECT DEADLINE</span>
+
+                    <h3 id="deadlineDisplay">Not set</h3>
+
+                    <p id="deadlineRemaining">Deadline information will appear here.</p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RECENT ACTIVITY -->
+
+            <div class="workspace-card recent-activity-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h3>Recent Activity</h3>
+                        <p>Latest updates from this project.</p>
+                    </div>
+
+                    <button class="text-button" data-open-section="activity">
+                        View All
+                    </button>
+                </div>
+
+                <div id="overviewActivityList" class="activity-list">
+
+                    <div class="empty-state">
+                        <i class="fa-regular fa-clock"></i>
+                        <p>No project activity yet.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             MESSAGES
+        ================================== -->
+
+        <section class="workspace-section" id="messages">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-eyebrow">COMMUNICATION</span>
+                    <h1>Project Messages</h1>
+                    <p>Communicate and collaborate with your project partner.</p>
+                </div>
+
+            </div>
+
+
+            <div class="messaging-layout">
+
+
+                <!-- CONVERSATION AREA -->
+
+                <div class="message-panel">
+
+                    <div class="message-panel-header">
+
+                        <div class="message-partner">
+
+                            <img
+                                src="images/default-avatar.png"
+                                alt="Project partner"
+                                id="messagePartnerAvatar"
+                            >
+
+                            <div>
+                                <strong id="messagePartnerName">Project Partner</strong>
+                                <span id="messagePartnerRole">Project Participant</span>
+                            </div>
+
+                        </div>
+
+                        <div class="message-header-actions">
+
+                            <button class="header-icon-btn" aria-label="Conversation information">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="message-date-divider">
+                        <span>PROJECT CONVERSATION</span>
+                    </div>
+
+
+                    <div class="messages-container" id="messagesContainer">
+
+                        <div class="message-empty-state">
+                            <div class="empty-message-icon">
+                                <i class="fa-regular fa-comments"></i>
+                            </div>
+
+                            <h3>Start the conversation</h3>
+
+                            <p>
+                                Send a message to your project partner.
+                                Your project communication will appear here.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <!-- MESSAGE ATTACHMENT PREVIEW -->
+
+                    <div class="attachment-preview" id="messageAttachmentPreview" hidden>
+
+                        <div class="attachment-preview-content">
+                            <i class="fa-solid fa-paperclip"></i>
+
+                            <div>
+                                <strong id="messageAttachmentName">File name</strong>
+                                <span id="messageAttachmentSize">File size</span>
+                            </div>
+                        </div>
+
+                        <button type="button" id="removeMessageAttachment" aria-label="Remove attachment">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+
+                    </div>
+
+
+                    <!-- MESSAGE COMPOSER -->
+
+                    <form class="message-composer" id="messageForm">
+
+                        <input
+                            type="file"
+                            id="messageFileInput"
+                            hidden
+                            multiple
+                        >
+
+                        <button
+                            type="button"
+                            class="composer-attachment"
+                            id="attachMessageFile"
+                            aria-label="Attach files"
+                            title="Attach files"
+                        >
+                            <i class="fa-solid fa-paperclip"></i>
+                        </button>
+
+                        <textarea
+                            id="messageInput"
+                            placeholder="Write your message..."
+                            rows="1"
+                        ></textarea>
+
+                        <button
+                            type="submit"
+                            class="send-message-button"
+                            aria-label="Send message"
+                        >
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+
+                    </form>
+
+                    <p class="composer-note">
+                        Keep all project communication within VORVENA.
+                    </p>
+
+                </div>
+
+
+
+                <!-- CHAT SIDE INFORMATION -->
+
+                <aside class="message-info-panel">
+
+                    <div class="workspace-card chat-partner-card">
+
+                        <h3>Project Partner</h3>
+
+                        <img
+                            src="images/default-avatar.png"
+                            alt="Project partner"
+                            id="chatInfoAvatar"
+                        >
+
+                        <strong id="chatInfoName">Project Partner</strong>
+
+                        <span id="chatInfoRole">Project Participant</span>
+
+                        <div class="partner-divider"></div>
+
+                        <div class="partner-detail">
+                            <span>PROJECT</span>
+                            <strong id="chatInfoProject">Project Workspace</strong>
+                        </div>
+
+                        <div class="partner-detail">
+                            <span>STATUS</span>
+                            <strong id="chatInfoStatus">In Progress</strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="workspace-card shared-files-card">
+
+                        <div class="card-heading">
+                            <h3>Shared Files</h3>
+                            <button class="text-button" data-open-section="files">View All</button>
+                        </div>
+
+                        <div id="chatSharedFiles">
+
+                            <div class="empty-state compact-empty">
+                                <i class="fa-regular fa-folder-open"></i>
+                                <p>No shared files yet.</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             PROJECT FILES
+        ================================== -->
+
+        <section class="workspace-section" id="files">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-eyebrow">FILE MANAGEMENT</span>
+                    <h1>Project Files</h1>
+                    <p>Share documents, resources and deliverables with your project partner.</p>
+                </div>
+
+                <button class="primary-button" id="openFileUpload">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    Upload Files
+                </button>
+
+            </div>
+
+
+            <div class="file-storage-banner">
+
+                <div class="file-banner-icon">
+                    <i class="fa-solid fa-folder-open"></i>
+                </div>
+
+                <div>
+                    <h3>All your project files in one place</h3>
+                    <p>Files shared by both project participants will appear here.</p>
+                </div>
+
+            </div>
+
+
+            <div class="workspace-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h3>Shared Project Files</h3>
+                        <p>Documents and attachments exchanged during this project.</p>
+                    </div>
+
+                    <span id="fileCount">0 files</span>
+                </div>
+
+
+                <div class="file-filters">
+
+                    <button class="file-filter active" data-file-filter="all">All Files</button>
+                    <button class="file-filter" data-file-filter="documents">Documents</button>
+                    <button class="file-filter" data-file-filter="images">Images</button>
+                    <button class="file-filter" data-file-filter="archives">Archives</button>
+
+                </div>
+
+
+                <div class="files-list" id="projectFilesList">
+
+                    <div class="empty-state">
+                        <i class="fa-regular fa-folder-open"></i>
+                        <h3>No files shared yet</h3>
+                        <p>Upload a file to start sharing project resources.</p>
+                    </div>
+
+                </div>
+
+                <input
+                    type="file"
+                    id="projectFileInput"
+                    hidden
+                    multiple
+                >
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             MILESTONES
+        ================================== -->
+
+        <section class="workspace-section" id="milestones">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-eyebrow">PROJECT PLANNING</span>
+                    <h1>Project Milestones</h1>
+                    <p>Follow the stages and important deadlines of your project.</p>
+                </div>
+
+                <button class="primary-button" id="addMilestoneButton">
+                    <i class="fa-solid fa-plus"></i>
+                    Add Milestone
+                </button>
+
+            </div>
+
+
+            <div class="workspace-card milestone-summary">
+
+                <div>
+                    <span>TOTAL MILESTONES</span>
+                    <strong id="milestoneTotal">0</strong>
+                </div>
+
+                <div>
+                    <span>COMPLETED</span>
+                    <strong id="milestoneCompleted">0</strong>
+                </div>
+
+                <div>
+                    <span>REMAINING</span>
+                    <strong id="milestoneRemaining">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="workspace-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h3>Milestone Timeline</h3>
+                        <p>Track each stage of the project.</p>
+                    </div>
+                </div>
+
+                <div class="milestone-list" id="milestoneList">
+
+                    <div class="empty-state">
+                        <i class="fa-solid fa-list-check"></i>
+                        <h3>No milestones added</h3>
+                        <p>Project milestones will appear here.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             SUBMISSIONS
+        ================================== -->
+
+        <section class="workspace-section" id="submissions">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-eyebrow">WORK DELIVERY</span>
+                    <h1>Work Submissions</h1>
+                    <p>Submit completed work and review project deliverables.</p>
+                </div>
+
+                <button class="primary-button" id="openSubmissionModal">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    Submit Work
+                </button>
+
+            </div>
+
+
+            <div class="workspace-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h3>Project Deliverables</h3>
+                        <p>All work submitted for this project.</p>
+                    </div>
+                </div>
+
+
+                <div id="submissionsList" class="submissions-list">
+
+                    <div class="empty-state">
+                        <i class="fa-solid fa-file-circle-check"></i>
+                        <h3>No submissions yet</h3>
+                        <p>Work submitted for review will appear here.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             REVISIONS
+        ================================== -->
+
+        <section class="workspace-section" id="revisions">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-eyebrow">WORK IMPROVEMENTS</span>
+                    <h1>Revisions</h1>
+                    <p>Manage requested changes and updated submissions.</p>
+                </div>
+
+            </div>
+
+
+            <div class="workspace-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h3>Revision Requests</h3>
+                        <p>Track feedback and requested corrections.</p>
+                    </div>
+                </div>
+
+
+                <div id="revisionsList">
+
+                    <div class="empty-state">
+                        <i class="fa-solid fa-rotate"></i>
+                        <h3>No revisions requested</h3>
+                        <p>Revision requests will appear here when submitted.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             ACTIVITY HISTORY
+        ================================== -->
+
+        <section class="workspace-section" id="activity">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-eyebrow">PROJECT RECORDS</span>
+                    <h1>Activity History</h1>
+                    <p>Keep track of important events and project updates.</p>
+                </div>
+
+            </div>
+
+
+            <div class="workspace-card">
+
+                <div class="card-heading">
+                    <div>
+                        <h3>Project Timeline</h3>
+                        <p>A record of activity from both participants.</p>
+                    </div>
+                </div>
+
+
+                <div id="fullActivityList" class="activity-list">
+
+                    <div class="empty-state">
+                        <i class="fa-regular fa-clock"></i>
+                        <h3>No activity recorded</h3>
+                        <p>Project updates will appear here.</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================================
+     FILE UPLOAD MODAL
+========================================= -->
+
+<div class="workspace-modal" id="fileUploadModal">
+
+    <div class="modal-backdrop" data-close-modal="fileUploadModal"></div>
+
+    <div class="modal-content">
+
+        <button class="modal-close" data-close-modal="fileUploadModal" aria-label="Close">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-icon">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+        </div>
+
+        <h2>Upload Project Files</h2>
+
+        <p>Share documents and resources with your project partner.</p>
+
+        <label class="upload-dropzone" for="modalFileInput">
+
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+
+            <strong>Choose files to upload</strong>
+
+            <span>Browse files from your device</span>
+
+        </label>
+
+        <input type="file" id="modalFileInput" multiple hidden>
+
+        <div id="modalSelectedFiles" class="selected-files"></div>
+
+        <button class="primary-button full-button" id="confirmFileUpload">
+            Upload Selected Files
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================
+     MILESTONE MODAL
+========================================= -->
+
+<div class="workspace-modal" id="milestoneModal">
+
+    <div class="modal-backdrop" data-close-modal="milestoneModal"></div>
+
+    <div class="modal-content">
+
+        <button class="modal-close" data-close-modal="milestoneModal" aria-label="Close">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-icon">
+            <i class="fa-solid fa-list-check"></i>
+        </div>
+
+        <h2>Add Project Milestone</h2>
+
+        <p>Create a new stage for this project.</p>
+
+        <form id="milestoneForm">
+
+            <label for="milestoneTitle">Milestone Title</label>
+            <input
+                type="text"
+                id="milestoneTitle"
+                placeholder="e.g. Complete homepage design"
+                required
+            >
+
+            <label for="milestoneDescription">Description</label>
+            <textarea
+                id="milestoneDescription"
+                placeholder="Describe what needs to be completed..."
+                rows="3"
+            ></textarea>
+
+            <label for="milestoneDeadline">Deadline</label>
+            <input type="date" id="milestoneDeadline" required>
+
+            <button type="submit" class="primary-button full-button">
+                Save Milestone
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================
+     SUBMISSION MODAL
+========================================= -->
+
+<div class="workspace-modal" id="submissionModal">
+
+    <div class="modal-backdrop" data-close-modal="submissionModal"></div>
+
+    <div class="modal-content">
+
+        <button class="modal-close" data-close-modal="submissionModal" aria-label="Close">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-icon">
+            <i class="fa-solid fa-file-circle-check"></i>
+        </div>
+
+        <h2>Submit Completed Work</h2>
+
+        <p>Send your completed work to the client for review.</p>
+
+        <form id="submissionForm">
+
+            <label for="submissionTitle">Submission Title</label>
+            <input
+                type="text"
+                id="submissionTitle"
+                placeholder="Enter submission title"
+                required
+            >
+
+            <label for="submissionMessage">Message</label>
+            <textarea
+                id="submissionMessage"
+                placeholder="Describe the work you have completed..."
+                rows="4"
+            ></textarea>
+
+            <label class="submission-file-label" for="submissionFileInput">
+                <i class="fa-solid fa-paperclip"></i>
+                Attach completed work
+            </label>
+
+            <input
+                type="file"
+                id="submissionFileInput"
+                multiple
+                hidden
+            >
+
+            <div id="submissionSelectedFiles" class="selected-files"></div>
+
+            <button type="submit" class="primary-button full-button">
+                Submit Work
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================
+     WORKSPACE TOAST
+========================================= -->
+
+<div class="workspace-toast" id="workspaceToast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="workspaceToastMessage">Success</span>
+</div>
+
+
+
+<!-- =========================================
+     WORKSPACE JAVASCRIPT
+========================================= -->
+
+<script src="project-workspace.js"></script>
+
+</body>
+</html>

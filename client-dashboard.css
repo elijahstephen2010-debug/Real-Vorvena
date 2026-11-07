@@ -1472,3 +1472,128 @@ tr:last-child td {
         padding: 22px 15px;
     }
 }
+/* =========================================
+   PAYMENT SUMMARY MODAL
+========================================= */
+
+.payment-modal {
+    max-width: 480px;
+}
+
+.payment-modal > p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.payment-project {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.payment-project small {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.payment-project strong {
+    color: var(--ink);
+    font-size: 15px;
+}
+
+.payment-project span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.payment-breakdown {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 15px 0;
+}
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+.payment-row:last-child {
+    margin-bottom: 0;
+}
+
+.payment-row span {
+    color: var(--muted);
+}
+
+.payment-row strong {
+    color: var(--ink);
+    white-space: nowrap;
+}
+
+.payment-total {
+    border-top: 1px solid var(--line);
+    padding-top: 15px;
+    margin-top: 15px;
+    font-size: 15px;
+}
+
+.payment-total span,
+.payment-total strong {
+    color: var(--navy);
+    font-weight: 800;
+}
+
+.payment-note {
+    background: var(--blue-light);
+    border-radius: 9px;
+    padding: 12px;
+    font-size: 11px !important;
+    margin: 16px 0 !important;
+}
+
+.payment-modal #continuePayment {
+    width: 100%;
+    justify-content: center;
+}
+
+.payment-disclaimer {
+    display: block;
+    text-align: center;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.5;
+    margin-top: 12px;
+}
+
+.payment-action {
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+@media (max-width: 425px) {
+    .payment-modal {
+        width: 100%;
+        padding: 22px 17px;
+    }
+
+    .payment-row {
+        font-size: 12px;
+    }
+
+    .payment-action {
+        width: 100%;
+    }
+}
