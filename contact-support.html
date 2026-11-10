@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#082b68">
+  <title>Contact Support | VORVENA</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="contact-support.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="VORVENA home">
+
+      <span class="brand-logo">
+        <!-- YOUR VORVENA LOGO GOES HERE -->
+        <img src="./assets/vorvena_logo_transparent.png" alt="VORVENA logo"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+
+        <span class="logo-fallback">V</span>
+      </span>
+
+      <span class="brand-name">VORVENA</span>
+    </a>
+
+    <nav class="header-actions">
+      <a class="back-link" href="index.html">
+        <span>←</span> Back to home
+      </a>
+
+      <a class="header-cta" href="#contact-form">
+        Contact support
+      </a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO SECTION -->
+    <section class="support-hero">
+      <div class="hero-glow"></div>
+
+      <div class="hero-content">
+        <span class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          VORVENA HELP CENTRE
+        </span>
+
+        <h1>How can we <span>help you?</span></h1>
+
+        <p>
+          Find answers, report an issue, or send a message
+          to our support team. We're here to help you move forward.
+        </p>
+
+        <a class="hero-button" href="#contact-form">
+          Send us a message <span>↗</span>
+        </a>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-orbit orbit-one"></div>
+        <div class="art-orbit orbit-two"></div>
+
+        <div class="art-card">
+          <div class="art-card-top">
+            <span></span><span></span><span></span>
+          </div>
+
+          <div class="art-icon">?</div>
+          <div class="art-line long"></div>
+          <div class="art-line"></div>
+          <div class="art-line short"></div>
+
+          <div class="art-status">
+            <span></span> Support is here
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="quick-help section-wrap">
+
+      <div class="section-heading">
+        <span class="eyebrow light">QUICK HELP</span>
+        <h2>What do you need help with?</h2>
+        <p>Choose a topic to see a few helpful answers.</p>
+      </div>
+
+      <div class="faq-grid" id="faqList">
+
+        <article class="faq-item">
+          <button class="faq-question" type="button" aria-expanded="false">
+            Account and verification <span>+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Make sure you have completed the required email and
+              phone verification. Professional identity checks and
+              SkillProof assessment may also be required before
+              receiving paid work.
+            </p>
+          </div>
+        </article>
+
+        <article class="faq-item">
+          <button class="faq-question" type="button" aria-expanded="false">
+            Hiring a professional <span>+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Browse available professional profiles, review their
+              skills and portfolio, then send a hiring offer through VORVENA.
+            </p>
+          </div>
+        </article>
+
+        <article class="faq-item">
+          <button class="faq-question" type="button" aria-expanded="false">
+            Payments and refunds <span>+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Client payments are processed through the platform's
+              supported payment provider. If a payment or refund
+              needs attention, submit a support ticket.
+            </p>
+          </div>
+        </article>
+
+        <article class="faq-item">
+          <button class="faq-question" type="button" aria-expanded="false">
+            Project workspace <span>+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              The project workspace becomes available after the
+              platform confirms the client's payment.
+            </p>
+          </div>
+        </article>
+
+        <article class="faq-item">
+          <button class="faq-question" type="button" aria-expanded="false">
+            Professional earnings <span>+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              VORVENA's current standard commission is 15%,
+              with 85% allocated to the professional.
+            </p>
+          </div>
+        </article>
+
+        <article class="faq-item">
+          <button class="faq-question" type="button" aria-expanded="false">
+            Report a safety concern <span>+</span>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Use the form below and select Safety or account concern.
+              Never include passwords, card PINs, CVVs or OTPs.
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- CONTACT FORM SECTION -->
+    <section class="contact-section section-wrap" id="contact-form">
+
+      <div class="contact-intro">
+        <span class="eyebrow light">WE'RE LISTENING</span>
+
+        <h2>Send a message to our support team.</h2>
+
+        <p>
+          Share the details below. A support ticket will be created
+          so your request can be tracked.
+        </p>
+
+        <div class="contact-note">
+          <span class="note-icon">✓</span>
+
+          <div>
+            <strong>Keep your account safe</strong>
+            <p>
+              Never send your password, card PIN, CVV,
+              or OTP in a support message.
+            </p>
+          </div>
+        </div>
+
+        <div class="response-card">
+          <span class="response-icon">✉</span>
+
+          <div>
+            <strong>Ticket confirmation</strong>
+            <p>Your ticket reference will appear after submission.</p>
+          </div>
+        </div>
+      </div>
+
+      <form class="support-form" id="supportForm" novalidate>
+
+        <div class="form-top">
+          <div>
+            <span class="eyebrow light">SUPPORT REQUEST</span>
+            <h3>How can we assist?</h3>
+          </div>
+
+          <span class="required-note">* Required fields</span>
+        </div>
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label for="fullName">Full name <span>*</span></label>
+            <input id="fullName" name="fullName" type="text"
+              placeholder="Enter your full name"
+              autocomplete="name" required maxlength="100">
+          </div>
+
+          <div class="field">
+            <label for="email">Email address <span>*</span></label>
+            <input id="email" name="email" type="email"
+              placeholder="you@example.com"
+              autocomplete="email" required maxlength="160">
+          </div>
+
+          <div class="field">
+            <label for="accountType">Account type <span>*</span></label>
+            <select id="accountType" name="accountType" required>
+              <option value="">Select account type</option>
+              <option value="Client">Client</option>
+              <option value="Professional">Professional</option>
+              <option value="Visitor">I don't have an account</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="category">Issue category <span>*</span></label>
+            <select id="category" name="category" required>
+              <option value="">Choose a category</option>
+              <option>Account and verification</option>
+              <option>Hiring and offers</option>
+              <option>Payments and refunds</option>
+              <option>Project workspace</option>
+              <option>Professional earnings</option>
+              <option>Safety or account concern</option>
+              <option>Website technical issue</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label for="subject">Subject <span>*</span></label>
+            <input id="subject" name="subject" type="text"
+              placeholder="Briefly describe the issue"
+              required maxlength="140">
+          </div>
+
+          <div class="field full">
+            <label for="message">Message <span>*</span></label>
+
+            <textarea id="message" name="message" rows="6"
+              placeholder="Explain what happened and what you need help with..."
+              required maxlength="5000"></textarea>
+
+            <div class="field-foot">
+              <span>Do not include passwords or payment security details.</span>
+              <span id="messageCount">0 / 5000</span>
+            </div>
+          </div>
+
+          <div class="field full">
+            <label for="attachment">
+              Attachment <small>(optional)</small>
+            </label>
+
+            <input id="attachment" name="attachment" type="file"
+              accept=".png,.jpg,.jpeg,.pdf,.webp">
+
+            <small class="file-hint">
+              Max 5MB. PNG, JPG, WEBP or PDF.
+            </small>
+          </div>
+
+        </div>
+
+        <label class="consent">
+          <input type="checkbox" id="consent" required>
+          <span>
+            I confirm that the information provided is accurate
+            and understand that support may contact me by email.
+          </span>
+        </label>
+
+        <button class="submit-button" type="submit" id="submitButton">
+          Submit support request <span>→</span>
+        </button>
+
+        <p class="form-message" id="formMessage"
+          role="status" aria-live="polite"></p>
+
+      </form>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <a class="footer-brand" href="index.html">VORVENA</a>
+    <p>Thoughtful support. Better work, together.</p>
+    <span>© <span id="year"></span> VORVENA. All rights reserved.</span>
+  </footer>
+
+  <script src="contact-support.js"></script>
+</body>
+</html>
