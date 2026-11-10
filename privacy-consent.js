@@ -1,35 +1,34 @@
 
 /* =========================================
-   VORVENA PRIVACY CONSENT
+   VORVENA - PRIVACY CONSENT SYSTEM
 ========================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
     // =====================================
-    // CONFIGURATION
+    // SETTINGS
     // =====================================
 
     const POLICY_VERSION = "1.0";
-    const CONSENT_STORAGE_KEY = "vorvenaPrivacyConsent";
-
-    const PRIVACY_POLICY_URL = "privacy-policy.html";
+    const STORAGE_KEY = "vorvenaPrivacyConsent";
+    const POLICY_URL = "privacy-policy.html";
 
 
     // =====================================
-    // CHECK EXISTING CONSENT
+    // CHECK SAVED CONSENT
     // =====================================
 
     function getSavedConsent() {
 
         try {
 
-            const saved = localStorage.getItem(CONSENT_STORAGE_KEY);
+            const saved = localStorage.getItem(STORAGE_KEY);
 
             return saved ? JSON.parse(saved) : null;
 
         } catch (error) {
 
-            console.error("Could not read privacy consent:", error);
+            console.error("Consent storage error:", error);
 
             return null;
 
@@ -38,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    function hasAcceptedPrivacyPolicy() {
+    function hasAcceptedPolicy() {
 
         const consent = getSavedConsent();
 
@@ -52,13 +51,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =====================================
-    // CREATE POPUP HTML
+    // CREATE POPUP
     // =====================================
 
-    function createPrivacyPopup() {
+    function createPopup() {
 
         if (document.getElementById("privacyConsentOverlay")) {
-            return;
+            return document.getElementById("privacyConsentOverlay");
         }
 
         const overlay = document.createElement("div");
@@ -67,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         overlay.id = "privacyConsentOverlay";
 
         overlay.innerHTML = `
+
             <div
                 class="privacy-consent-modal"
                 role="dialog"
@@ -75,17 +75,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 aria-describedby="consentDescription"
             >
 
+                <!-- LOGO AND HEADING -->
+
                 <div class="consent-top">
 
                     <div class="consent-logo">
 
                         <img
-                            src="images/vorvena-logo.png"
+                            src="./assets/VORVENA Logo Badge.png"
                             alt="VORVENA Logo"
-                            onerror="
-                                this.style.display='none';
-                                this.nextElementSibling.style.display='flex';
-                            "
                         >
 
                         <span class="consent-logo-fallback">V</span>
@@ -101,45 +99,46 @@ document.addEventListener("DOMContentLoaded", () => {
                     </h2>
 
                     <p id="consentDescription">
-                        Before continuing to VORVENA, please review
-                        our Privacy Policy to understand how we
-                        handle your personal information.
+                        We value your trust. Please review how VORVENA
+                        collects, uses and protects your personal
+                        information before continuing.
                     </p>
 
                 </div>
 
+
+                <!-- SHORT INFORMATION -->
 
                 <div class="consent-information">
 
                     <h3>How we handle your information</h3>
 
                     <ul>
+
                         <li>
                             We collect information needed to manage
                             your account and platform activities.
                         </li>
 
                         <li>
-                            We use relevant information for identity
-                            verification, security and payments.
+                            We use relevant information for verification,
+                            security and payments.
                         </li>
 
                         <li>
-                            We share necessary information with trusted
-                            service providers where required.
+                            Necessary information may be shared with
+                            trusted service providers.
                         </li>
 
-                        <li>
-                            We take reasonable measures to protect
-                            your personal information.
-                        </li>
                     </ul>
 
                 </div>
 
 
+                <!-- PRIVACY POLICY LINK -->
+
                 <a
-                    href="${PRIVACY_POLICY_URL}"
+                    href="${POLICY_URL}"
                     class="consent-policy-link"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -147,6 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     Read our complete Privacy Policy →
                 </a>
 
+
+                <!-- CONSENT CHECKBOX -->
 
                 <label class="consent-checkbox-area">
 
@@ -157,14 +158,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <span>
                         I acknowledge that I have read and understood
-                        VORVENA's Privacy Policy and consent to the
-                        processing of my personal information as
-                        described in it, where consent is the applicable
-                        legal basis.
+                        VORVENA's Privacy Policy and agree to the
+                        processing described in it where consent
+                        is the applicable legal basis.
                     </span>
 
                 </label>
 
+
+                <!-- ACCEPT BUTTON -->
 
                 <button
                     type="button"
@@ -177,15 +179,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 <p class="consent-footnote">
-                    Your information will be handled in accordance
-                    with our Privacy Policy and applicable data
-                    protection laws.
+                    Your privacy and information security matter to us.
                 </p>
 
             </div>
+
         `;
 
+
         document.body.appendChild(overlay);
+
+        // LOGO FALLBACK
+
+        const logo = overlay.querySelector(".consent-logo img");
+
+        const fallback = overlay.querySelector(
+            ".consent-logo-fallback"
+        );
+
+        logo.addEventListener("error", function () {
+
+            logo.style.display = "none";
+            fallback.style.display = "flex";
+
+        });
 
         return overlay;
 
@@ -196,13 +213,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // SHOW POPUP
     // =====================================
 
-    function showPrivacyPopup() {
+    function showPopup() {
 
-        if (hasAcceptedPrivacyPolicy()) {
+        if (hasAcceptedPolicy()) {
             return;
         }
 
-        const overlay = createPrivacyPopup();
+        const overlay = createPopup();
 
         const checkbox = document.getElementById(
             "privacyConsentCheckbox"
@@ -214,27 +231,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
         document.body.classList.add("privacy-consent-open");
 
-        requestAnimationFrame(() => {
+        requestAnimationFrame(function () {
+
             overlay.classList.add("is-visible");
+
         });
 
 
-        // =====================================
-        // CHECKBOX CONTROL
-        // =====================================
+        // CHECKBOX
 
-        checkbox.addEventListener("change", () => {
+        checkbox.addEventListener("change", function () {
 
             acceptButton.disabled = !checkbox.checked;
 
         });
 
 
-        // =====================================
         // ACCEPT PRIVACY POLICY
-        // =====================================
 
-        acceptButton.addEventListener("click", () => {
+        acceptButton.addEventListener("click", function () {
 
             if (!checkbox.checked) {
                 return;
@@ -256,19 +271,16 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
 
                 localStorage.setItem(
-                    CONSENT_STORAGE_KEY,
+                    STORAGE_KEY,
                     JSON.stringify(consentRecord)
                 );
 
             } catch (error) {
 
-                console.error(
-                    "Could not save privacy consent:",
-                    error
-                );
+                console.error("Could not save consent:", error);
 
                 alert(
-                    "We could not save your privacy consent. Please enable site storage and try again."
+                    "We could not save your privacy preference. Please enable browser storage and try again."
                 );
 
                 return;
@@ -276,7 +288,17 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            closePrivacyPopup();
+            // CLOSE POPUP
+
+            overlay.classList.remove("is-visible");
+
+            document.body.classList.remove("privacy-consent-open");
+
+            setTimeout(function () {
+
+                overlay.remove();
+
+            }, 300);
 
         });
 
@@ -284,86 +306,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =====================================
-    // CLOSE POPUP
+    // PROTECT INTERNAL PAGE NAVIGATION
     // =====================================
 
-    function closePrivacyPopup() {
+    document.addEventListener("click", function (event) {
 
-        const overlay = document.getElementById(
-            "privacyConsentOverlay"
-        );
+        if (hasAcceptedPolicy()) {
+            return;
+        }
 
-        if (!overlay) return;
+        const link = event.target.closest("a");
 
-        overlay.classList.remove("is-visible");
+        if (!link) {
+            return;
+        }
 
-        document.body.classList.remove("privacy-consent-open");
+        const href = link.getAttribute("href");
 
-        setTimeout(() => {
+        if (!href || href.startsWith("#")) {
+            return;
+        }
 
-            overlay.remove();
+        let destination;
 
-        }, 300);
+        try {
 
-    }
+            destination = new URL(href, window.location.href);
+
+        } catch (error) {
+
+            return;
+
+        }
 
 
-    // =====================================
-    // PREVENT UNACCEPTED ACCESS
-    // =====================================
+        // Allow external links.
 
-    function protectPageNavigation() {
+        if (destination.origin !== window.location.origin) {
+            return;
+        }
 
-        document.addEventListener("click", event => {
 
-            if (hasAcceptedPrivacyPolicy()) {
-                return;
-            }
+        // Allow access to the complete Privacy Policy.
 
-            const link = event.target.closest("a");
+        if (
+            destination.pathname.endsWith("privacy-policy.html")
+        ) {
+            return;
+        }
 
-            if (!link) return;
 
-            const href = link.getAttribute("href");
+        // Stop navigation until consent is recorded.
 
-            if (!href || href.startsWith("#")) {
-                return;
-            }
+        event.preventDefault();
 
-            const destination = new URL(href, window.location.href);
+        showPopup();
 
-            const currentOrigin = window.location.origin;
-
-            if (destination.origin !== currentOrigin) {
-                return;
-            }
-
-            // The privacy policy itself must remain readable.
-            if (
-                destination.pathname.endsWith("/privacy-policy.html") ||
-                destination.pathname.endsWith("privacy-policy.html")
-            ) {
-                return;
-            }
-
-            // Do not allow navigation to another local page
-            // before the user has accepted the required notice.
-            event.preventDefault();
-
-            showPrivacyPopup();
-
-        });
-
-    }
+    });
 
 
     // =====================================
     // INITIALISE
     // =====================================
 
-    protectPageNavigation();
-
-    showPrivacyPopup();
-
+    showPopup();
 
 });

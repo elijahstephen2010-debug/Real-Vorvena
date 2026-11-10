@@ -1,6 +1,6 @@
 
 /* =========================================
-   VORVENA PRIVACY CONSENT POPUP
+   VORVENA - COMPACT PRIVACY CONSENT POPUP
 ========================================= */
 
 :root {
@@ -12,15 +12,13 @@
     --consent-text: #15233a;
     --consent-muted: #718096;
     --consent-border: #e5eaf1;
-    --consent-green: #20b86a;
 }
 
-/* Prevent background scrolling */
+/* PREVENT BACKGROUND SCROLLING */
 
 body.privacy-consent-open {
     overflow: hidden;
 }
-
 
 /* OVERLAY */
 
@@ -35,9 +33,8 @@ body.privacy-consent-open {
 
     padding: 20px;
 
-    background: rgba(4, 15, 35, 0.76);
-    backdrop-filter: blur(7px);
-    -webkit-backdrop-filter: blur(7px);
+    background: rgba(4, 15, 35, 0.48);
+    backdrop-filter: blur(3px);
 
     opacity: 0;
     visibility: hidden;
@@ -51,26 +48,27 @@ body.privacy-consent-open {
     visibility: visible;
 }
 
-
-/* POPUP */
+/* MAIN POPUP */
 
 .privacy-consent-modal {
-    width: 100%;
-    max-width: 540px;
-    max-height: 90vh;
+    position: relative;
 
+    width: 100%;
+    max-width: 450px;
+
+    max-height: 85vh;
     overflow-y: auto;
 
     background: var(--consent-white);
+
+    border: 1px solid rgba(255,255,255,0.7);
     border-radius: 17px;
 
-    padding: 35px;
+    padding: 27px 30px;
 
-    position: relative;
+    box-shadow: 0 20px 65px rgba(0,0,0,0.18);
 
-    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
-
-    transform: translateY(20px) scale(0.98);
+    transform: translateY(15px) scale(0.98);
 
     transition: transform 0.3s ease;
 }
@@ -80,43 +78,42 @@ body.privacy-consent-open {
     transform: translateY(0) scale(1);
 }
 
-
-/* TOP SECTION */
+/* LOGO AND HEADING */
 
 .consent-top {
     text-align: center;
-    margin-bottom: 23px;
+    margin-bottom: 17px;
 }
 
 .consent-logo {
-    width: 76px;
-    height: 76px;
+    width: 52px;
+    height: 52px;
 
-    background: var(--consent-white);
+    margin: 0 auto 12px;
+
+    background: #ffffff;
     border: 1px solid var(--consent-border);
-    border-radius: 13px;
+    border-radius: 11px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     overflow: hidden;
-
-    margin: 0 auto 19px;
 }
 
 .consent-logo img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    padding: 5px;
+    padding: 4px;
 }
 
 .consent-logo-fallback {
     display: none;
 
-    font-family: "Manrope", sans-serif;
-    font-size: 35px;
+    font-family: Manrope, sans-serif;
+    font-size: 25px;
     font-weight: 800;
 
     color: var(--consent-navy);
@@ -128,91 +125,94 @@ body.privacy-consent-open {
     color: var(--consent-blue);
     background: var(--consent-light);
 
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 800;
+    letter-spacing: 1.2px;
 
-    letter-spacing: 1.5px;
-
-    padding: 7px 12px;
+    padding: 6px 10px;
     border-radius: 30px;
 
-    margin-bottom: 13px;
+    margin-bottom: 10px;
 }
 
 .consent-top h2 {
-    font-family: "Manrope", sans-serif;
-    font-size: 25px;
+    font-family: Manrope, sans-serif;
+
+    font-size: 22px;
     font-weight: 800;
 
     line-height: 1.35;
 
     color: var(--consent-deep);
 
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .consent-top p {
-    font-size: 13px;
-    line-height: 1.8;
+    font-size: 12px;
+    line-height: 1.7;
 
     color: var(--consent-muted);
+
+    max-width: 350px;
+    margin: 0 auto;
 }
 
-
-/* INFORMATION CARD */
+/* INFORMATION AREA */
 
 .consent-information {
     background: #f7f9fc;
 
     border: 1px solid var(--consent-border);
-    border-radius: 11px;
+    border-radius: 10px;
 
-    padding: 19px;
+    padding: 13px 15px;
 
-    margin-bottom: 20px;
+    margin-bottom: 13px;
 }
 
 .consent-information h3 {
-    font-family: "Manrope", sans-serif;
-    font-size: 13px;
+    font-family: Manrope, sans-serif;
+
+    font-size: 12px;
     font-weight: 800;
 
     color: var(--consent-text);
 
-    margin-bottom: 11px;
+    margin-bottom: 7px;
 }
 
 .consent-information ul {
-    padding-left: 19px;
+    padding-left: 17px;
 }
 
 .consent-information li {
     color: var(--consent-muted);
 
-    font-size: 11px;
-    line-height: 1.8;
+    font-size: 10px;
+    line-height: 1.65;
 
-    margin-bottom: 6px;
+    margin-bottom: 3px;
 }
 
 .consent-information li::marker {
     color: var(--consent-blue);
 }
 
-
 /* POLICY LINK */
 
 .consent-policy-link {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
+
+    gap: 6px;
 
     color: var(--consent-blue);
 
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 800;
 
-    margin-bottom: 20px;
+    margin-bottom: 14px;
 
     transition: 0.3s ease;
 }
@@ -222,20 +222,20 @@ body.privacy-consent-open {
     text-decoration: underline;
 }
 
-
 /* CHECKBOX */
 
 .consent-checkbox-area {
     display: flex;
     align-items: flex-start;
-    gap: 11px;
 
-    padding: 15px;
+    gap: 10px;
+
+    padding: 12px;
 
     border: 1px solid var(--consent-border);
     border-radius: 9px;
 
-    margin-bottom: 18px;
+    margin-bottom: 13px;
 
     cursor: pointer;
 
@@ -248,10 +248,10 @@ body.privacy-consent-open {
 }
 
 .consent-checkbox-area input {
-    width: 17px;
-    height: 17px;
+    width: 16px;
+    height: 16px;
 
-    margin-top: 3px;
+    margin-top: 2px;
 
     accent-color: var(--consent-navy);
 
@@ -262,14 +262,13 @@ body.privacy-consent-open {
 .consent-checkbox-area span {
     color: var(--consent-text);
 
-    font-size: 11px;
-    line-height: 1.8;
+    font-size: 10px;
+    line-height: 1.7;
 
     font-weight: 600;
 }
 
-
-/* BUTTON */
+/* ACCEPT BUTTON */
 
 .consent-accept-button {
     width: 100%;
@@ -278,12 +277,12 @@ body.privacy-consent-open {
     border-radius: 8px;
 
     background: var(--consent-navy);
-    color: var(--consent-white);
+    color: white;
 
-    padding: 15px 20px;
+    padding: 13px 18px;
 
     font-family: "DM Sans", sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 800;
 
     cursor: pointer;
@@ -302,7 +301,6 @@ body.privacy-consent-open {
     transform: none;
 }
 
-
 /* FOOTNOTE */
 
 .consent-footnote {
@@ -310,98 +308,51 @@ body.privacy-consent-open {
 
     color: var(--consent-muted);
 
-    font-size: 10px;
-    line-height: 1.7;
+    font-size: 9px;
+    line-height: 1.6;
 
-    margin-top: 15px;
+    margin-top: 11px;
 }
 
-
 /* =========================================
-   768px
+   TABLET - 768PX
 ========================================= */
 
 @media (max-width: 768px) {
 
     .privacy-consent-modal {
-        max-width: 500px;
-        padding: 30px;
-    }
-
-    .consent-top h2 {
-        font-size: 23px;
-    }
-
-}
-
-
-/* =========================================
-   425px
-========================================= */
-
-@media (max-width: 425px) {
-
-    .privacy-consent-overlay {
-        padding: 13px;
-    }
-
-    .privacy-consent-modal {
-        padding: 24px 19px;
-        border-radius: 13px;
-        max-height: 92vh;
-    }
-
-    .consent-logo {
-        width: 65px;
-        height: 65px;
-        margin-bottom: 15px;
+        max-width: 430px;
+        padding: 25px;
     }
 
     .consent-top h2 {
         font-size: 21px;
     }
 
-    .consent-top p {
-        font-size: 12px;
-    }
-
-    .consent-information {
-        padding: 15px;
-    }
-
-    .consent-information li {
-        font-size: 10px;
-    }
-
-    .consent-checkbox-area {
-        padding: 12px;
-    }
-
-    .consent-checkbox-area span {
-        font-size: 10px;
-    }
-
-    .consent-accept-button {
-        padding: 14px;
-        font-size: 12px;
-    }
-
 }
 
-
 /* =========================================
-   375px
+   MOBILE - 425PX
 ========================================= */
 
-@media (max-width: 375px) {
+@media (max-width: 425px) {
+
+    .privacy-consent-overlay {
+        padding: 14px;
+    }
 
     .privacy-consent-modal {
-        padding: 21px 16px;
+        max-width: 100%;
+        max-height: 85vh;
+
+        padding: 22px 19px;
+
+        border-radius: 14px;
     }
 
     .consent-logo {
-        width: 58px;
-        height: 58px;
+        width: 47px;
+        height: 47px;
     }
 
     .consent-top h2 {
@@ -412,8 +363,8 @@ body.privacy-consent-open {
         font-size: 11px;
     }
 
-    .consent-information h3 {
-        font-size: 12px;
+    .consent-information {
+        padding: 12px;
     }
 
     .consent-information li {
@@ -424,8 +375,50 @@ body.privacy-consent-open {
         font-size: 9px;
     }
 
-    .consent-footnote {
+}
+
+/* =========================================
+   SMALL MOBILE - 375PX
+========================================= */
+
+@media (max-width: 375px) {
+
+    .privacy-consent-overlay {
+        padding: 11px;
+    }
+
+    .privacy-consent-modal {
+        padding: 19px 16px;
+        max-height: 88vh;
+    }
+
+    .consent-logo {
+        width: 43px;
+        height: 43px;
+    }
+
+    .consent-top h2 {
+        font-size: 18px;
+    }
+
+    .consent-top p {
+        font-size: 10px;
+    }
+
+    .consent-information h3 {
+        font-size: 11px;
+    }
+
+    .consent-information li {
         font-size: 9px;
+    }
+
+    .consent-checkbox-area {
+        padding: 10px;
+    }
+
+    .consent-accept-button {
+        padding: 12px;
     }
 
 }
