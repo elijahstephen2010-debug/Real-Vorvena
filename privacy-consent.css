@@ -77,8 +77,6 @@ body.privacy-consent-open {
 }
 
 /* HIDE UNNECESSARY LARGE ELEMENTS */
-
-.consent-logo,
 .consent-label,
 .consent-information,
 .consent-footnote {
@@ -338,3 +336,53 @@ body.privacy-consent-open {
     }
 
 }
+
+/* VORVENA LOGO */
+
+.consent-top {
+    display: grid;
+    grid-template-columns: 38px 1fr;
+    column-gap: 11px;
+    align-items: center;
+    text-align: left;
+}
+
+.consent-logo {
+    display: flex;
+    width: 38px;
+    height: 38px;
+    grid-column: 1;
+    grid-row: 1 / 3;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e5eaf1;
+    border-radius: 8px;
+    margin: 0;
+}
+
+.consent-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 3px;
+}
+
+.consent-logo-fallback {
+    display: none;
+    font-family: Manrope, sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: #082b68;
+}
+
+.consent-top h2,
+.consent-top p {
+    grid-column: 2;
+}
+
+.consent-top h2 {
+    margin: 0 0 3px;
+}
+

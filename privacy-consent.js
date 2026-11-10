@@ -77,7 +77,7 @@
                     <div class="consent-logo">
 
                         <img
-                            src="./assets/VORVENA Logo Badge.png"
+                            src="./assets/vorvena_logo_transparent.png"
                             alt="VORVENA Logo"
                         >
 
