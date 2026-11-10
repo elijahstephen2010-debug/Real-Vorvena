@@ -1,0 +1,794 @@
+
+:root {
+    --navy: #082b68;
+    --navy-deep: #041b43;
+    --blue: #174b9a;
+    --blue-light: #eaf1fc;
+    --white: #ffffff;
+    --background: #f7f9fc;
+    --ink: #15233a;
+    --muted: #718096;
+    --border: #e5eaf1;
+    --green: #20b86a;
+    --shadow: 0 15px 45px rgba(8, 43, 104, 0.07);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 110px;
+}
+
+body {
+    font-family: "DM Sans", sans-serif;
+    background: var(--background);
+    color: var(--ink);
+    line-height: 1.7;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+/* HEADER */
+
+.site-header {
+    width: 100%;
+    min-height: 90px;
+    height: 90px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    width: 100%;
+    max-width: 1440px;
+    height: 100%;
+    margin: auto;
+    padding: 0 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.brand-logo {
+    width: 72px;
+    height: 72px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.brand-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 5px;
+}
+
+.logo-fallback {
+    display: none;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font-family: "Manrope", sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--navy);
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.header-nav a {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.header-nav a:hover {
+    color: var(--navy);
+}
+
+.header-button {
+    background: var(--navy);
+    color: var(--white);
+    padding: 13px 20px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: 0.3s ease;
+}
+
+.header-button:hover {
+    background: var(--blue);
+    transform: translateY(-2px);
+}
+
+
+/* HERO */
+
+.privacy-hero {
+    background:
+        radial-gradient(circle at 85% 20%, rgba(255,255,255,0.09), transparent 25%),
+        linear-gradient(120deg, var(--navy-deep), var(--navy), var(--blue));
+    padding: 95px 8% 85px;
+    position: relative;
+    overflow: hidden;
+}
+
+.privacy-hero::after {
+    content: "";
+    position: absolute;
+    width: 340px;
+    height: 340px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50%;
+    right: -100px;
+    bottom: -220px;
+}
+
+.privacy-hero-content {
+    max-width: 850px;
+    margin: auto;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-label {
+    display: inline-block;
+    color: #b9d1ff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+}
+
+.privacy-hero h1 {
+    font-family: "Manrope", sans-serif;
+    color: var(--white);
+    font-size: clamp(38px, 5vw, 58px);
+    line-height: 1.2;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.privacy-hero-content > p {
+    color: rgba(255,255,255,0.82);
+    font-size: 15px;
+    line-height: 1.9;
+    max-width: 700px;
+}
+
+.policy-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 28px;
+    color: rgba(255,255,255,0.75);
+    font-size: 12px;
+}
+
+.meta-divider {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #8eb7ff;
+}
+
+
+/* MAIN LAYOUT */
+
+.privacy-container {
+    width: 100%;
+    max-width: 1440px;
+    margin: auto;
+    padding: 75px 8% 100px;
+    display: grid;
+    grid-template-columns: 265px minmax(0, 1fr);
+    gap: 55px;
+    align-items: start;
+}
+
+
+/* SIDEBAR */
+
+.privacy-sidebar {
+    position: sticky;
+    top: 115px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 25px 20px;
+    box-shadow: var(--shadow);
+}
+
+.sidebar-heading {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 15px;
+}
+
+.sidebar-icon {
+    color: var(--navy);
+    font-size: 19px;
+}
+
+.sidebar-heading h3 {
+    font-family: "Manrope", sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+.table-of-contents {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.table-of-contents a {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 9px 11px;
+    border-radius: 6px;
+    border-left: 3px solid transparent;
+    transition: 0.25s ease;
+}
+
+.table-of-contents a:hover,
+.table-of-contents a.active {
+    color: var(--navy);
+    background: var(--blue-light);
+    border-left-color: var(--navy);
+}
+
+
+/* POLICY CONTENT */
+
+.privacy-content {
+    min-width: 0;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 50px;
+    box-shadow: var(--shadow);
+}
+
+.privacy-section {
+    position: relative;
+    padding-bottom: 38px;
+    margin-bottom: 38px;
+    border-bottom: 1px solid var(--border);
+    scroll-margin-top: 115px;
+}
+
+.privacy-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 20px;
+}
+
+.section-number {
+    display: inline-block;
+    color: var(--blue);
+    background: var(--blue-light);
+    padding: 5px 11px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+}
+
+.privacy-section h2 {
+    font-family: "Manrope", sans-serif;
+    font-size: 25px;
+    line-height: 1.4;
+    color: var(--navy-deep);
+    font-weight: 800;
+    margin-bottom: 17px;
+}
+
+.privacy-section h3 {
+    font-family: "Manrope", sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--ink);
+    margin-top: 23px;
+    margin-bottom: 10px;
+}
+
+.privacy-section p {
+    font-size: 13px;
+    line-height: 2;
+    color: var(--muted);
+    margin-bottom: 13px;
+}
+
+.privacy-section ul {
+    padding-left: 21px;
+    margin: 13px 0 18px;
+}
+
+.privacy-section li {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.9;
+    padding-left: 5px;
+    margin-bottom: 7px;
+}
+
+.privacy-section li::marker {
+    color: var(--blue);
+}
+
+
+/* CONTACT CARD */
+
+.privacy-contact-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 25px;
+    margin-top: 25px;
+    background: var(--blue-light);
+    border: 1px solid #dce8fc;
+    border-radius: 11px;
+}
+
+.contact-card-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 9px;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--navy);
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.privacy-contact-card h3 {
+    margin-top: 0;
+    font-size: 15px;
+    color: var(--navy);
+}
+
+.privacy-contact-card p {
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.privacy-contact-card a {
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: 800;
+    transition: 0.3s ease;
+}
+
+.privacy-contact-card a:hover {
+    color: var(--blue);
+    text-decoration: underline;
+}
+
+
+/* FINAL NOTICE */
+
+.privacy-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: #f0faf5;
+    border: 1px solid #d7f0e2;
+    padding: 24px;
+    border-radius: 10px;
+}
+
+.notice-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--green);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.privacy-notice h3 {
+    color: #116b3e;
+    font-family: "Manrope", sans-serif;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.privacy-notice p {
+    color: #587b68;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+
+/* FOOTER */
+
+.site-footer {
+    background: var(--navy-deep);
+    padding: 55px 8% 20px;
+    color: var(--white);
+}
+
+.footer-container {
+    max-width: 1440px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    padding-bottom: 40px;
+}
+
+.footer-logo {
+    font-family: "Manrope", sans-serif;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.footer-brand p {
+    color: rgba(255,255,255,0.6);
+    font-size: 12px;
+    margin-top: 12px;
+    max-width: 280px;
+    line-height: 1.8;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+.footer-links a {
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.footer-links a:hover,
+.footer-links a.active {
+    color: var(--white);
+}
+
+.footer-bottom {
+    max-width: 1440px;
+    margin: auto;
+    border-top: 1px solid rgba(255,255,255,0.13);
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.footer-bottom p,
+.footer-bottom span {
+    color: rgba(255,255,255,0.55);
+    font-size: 11px;
+}
+
+
+/* 768px */
+
+@media (max-width: 768px) {
+
+    .site-header {
+        height: 78px;
+        min-height: 78px;
+    }
+
+    .header-container {
+        padding: 0 5%;
+        gap: 15px;
+    }
+
+    .brand-logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .header-nav {
+        gap: 15px;
+    }
+
+    .header-nav a {
+        font-size: 11px;
+    }
+
+    .header-button {
+        padding: 11px 13px;
+        font-size: 10px;
+    }
+
+    .privacy-hero {
+        padding: 75px 6%;
+    }
+
+    .privacy-container {
+        padding: 55px 5%;
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .privacy-sidebar {
+        position: relative;
+        top: auto;
+        padding: 20px;
+    }
+
+    .table-of-contents {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px;
+    }
+
+    .privacy-content {
+        padding: 35px;
+    }
+
+    .privacy-section h2 {
+        font-size: 23px;
+    }
+
+    .footer-container {
+        flex-direction: column;
+    }
+
+}
+
+
+/* 425px */
+
+@media (max-width: 425px) {
+
+    html {
+        scroll-padding-top: 85px;
+    }
+
+    .site-header {
+        height: 70px;
+        min-height: 70px;
+    }
+
+    .header-container {
+        padding: 0 4%;
+        gap: 9px;
+    }
+
+    .brand-logo {
+        width: 53px;
+        height: 53px;
+        border-radius: 9px;
+    }
+
+    .header-nav {
+        gap: 10px;
+    }
+
+    .header-nav a {
+        font-size: 9px;
+    }
+
+    .header-button {
+        padding: 9px 10px;
+        font-size: 9px;
+        gap: 5px;
+    }
+
+    .privacy-hero {
+        padding: 60px 6% 55px;
+    }
+
+    .hero-label {
+        font-size: 9px;
+    }
+
+    .privacy-hero h1 {
+        font-size: 32px;
+    }
+
+    .privacy-hero-content > p {
+        font-size: 12px;
+    }
+
+    .policy-meta {
+        font-size: 10px;
+        gap: 9px;
+    }
+
+    .privacy-container {
+        padding: 35px 4%;
+        gap: 18px;
+    }
+
+    .privacy-sidebar {
+        padding: 17px 13px;
+    }
+
+    .sidebar-heading h3 {
+        font-size: 13px;
+    }
+
+    .table-of-contents {
+        grid-template-columns: 1fr;
+        gap: 2px;
+    }
+
+    .table-of-contents a {
+        font-size: 10px;
+        padding: 8px;
+    }
+
+    .privacy-content {
+        padding: 23px 18px;
+    }
+
+    .privacy-section {
+        padding-bottom: 27px;
+        margin-bottom: 27px;
+    }
+
+    .privacy-section h2 {
+        font-size: 20px;
+    }
+
+    .privacy-section h3 {
+        font-size: 13px;
+    }
+
+    .privacy-section p,
+    .privacy-section li {
+        font-size: 11px;
+    }
+
+    .privacy-contact-card {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .privacy-contact-card h3 {
+        font-size: 12px;
+    }
+
+    .privacy-notice {
+        padding: 17px;
+        gap: 11px;
+    }
+
+    .privacy-notice h3 {
+        font-size: 12px;
+    }
+
+    .privacy-notice p {
+        font-size: 10px;
+    }
+
+    .site-footer {
+        padding: 40px 6% 18px;
+    }
+
+    .footer-logo {
+        font-size: 22px;
+    }
+
+    .footer-links {
+        gap: 15px;
+    }
+
+    .footer-links a {
+        font-size: 10px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .footer-bottom p,
+    .footer-bottom span {
+        font-size: 10px;
+    }
+
+}
+
+
+/* 375px */
+
+@media (max-width: 375px) {
+
+    .header-container {
+        padding: 0 3%;
+        gap: 6px;
+    }
+
+    .brand-logo {
+        width: 49px;
+        height: 49px;
+    }
+
+    .header-nav {
+        gap: 7px;
+    }
+
+    .header-nav a {
+        font-size: 8px;
+    }
+
+    .header-button {
+        padding: 8px;
+        font-size: 8px;
+    }
+
+    .privacy-hero h1 {
+        font-size: 28px;
+    }
+
+    .privacy-hero-content > p {
+        font-size: 11px;
+    }
+
+    .privacy-content {
+        padding: 20px 15px;
+    }
+
+    .privacy-section h2 {
+        font-size: 18px;
+    }
+
+    .privacy-section p,
+    .privacy-section li {
+        font-size: 10px;
+    }
+
+    .footer-links {
+        gap: 11px;
+    }
+
+}
