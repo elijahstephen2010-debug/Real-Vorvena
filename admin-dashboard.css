@@ -1627,3 +1627,282 @@ textarea:focus-visible {
         scroll-behavior: auto !important;
     }
 }
+
+/* =========================================================
+   VORVENA SUPPORT TICKETS
+========================================================= */
+
+/* SUPPORT SUMMARY CARDS */
+
+#support .stats-grid {
+    margin-bottom: 25px;
+}
+
+#support .stat-card {
+    min-width: 0;
+}
+
+#support .stat-card h2 {
+    overflow-wrap: anywhere;
+}
+
+/* SUPPORT TOOLBAR */
+
+.support-toolbar,
+#support .user-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+#supportTicketSearch {
+    flex: 1;
+    min-width: 180px;
+}
+
+#supportTicketStatusFilter {
+    min-width: 160px;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: white;
+    color: var(--text);
+    outline: none;
+    font-size: 11px;
+}
+
+#supportTicketSearch:focus,
+#supportTicketStatusFilter:focus {
+    border-color: var(--blue);
+}
+
+/* SUPPORT TABLE */
+
+#support .admin-table {
+    min-width: 850px;
+}
+
+#support .admin-table td {
+    vertical-align: middle;
+}
+
+#support .admin-table td:nth-child(1) {
+    color: var(--navy);
+    font-weight: 700;
+}
+
+#support .admin-table td:nth-child(2) {
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#support .table-action-btn {
+    white-space: nowrap;
+}
+
+/* SUPPORT STATUS BADGES */
+
+.status-new {
+    background: #eaf1fc;
+    color: #245a9e;
+}
+
+.status-in-progress {
+    background: #fff5e5;
+    color: #b97816;
+}
+
+.status-resolved {
+    background: #e8f8ef;
+    color: #12834e;
+}
+
+/* SUPPORT TICKET DETAILS MODAL */
+
+#supportTicketDetailsModal .admin-modal-content {
+    max-width: 650px;
+    width: 100%;
+}
+
+#supportTicketDetailsContent {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.support-detail-group {
+    padding-bottom: 13px;
+    border-bottom: 1px solid var(--border);
+}
+
+.support-detail-group:last-child {
+    border-bottom: 0;
+}
+
+.support-detail-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .6px;
+}
+
+.support-detail-group p {
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.support-detail-group a {
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.support-ticket-message {
+    padding: 15px;
+    background: #f7f9fc;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.support-ticket-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+.support-ticket-actions select {
+    min-height: 40px;
+    padding: 0 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    color: var(--text);
+    font-size: 11px;
+    outline: none;
+}
+
+.support-ticket-actions select:focus {
+    border-color: var(--blue);
+}
+
+/* SUPPORT EMPTY STATE */
+
+#supportTicketsTableBody .empty-state {
+    padding: 35px 15px;
+    text-align: center;
+}
+
+/* SUPPORT RESPONSIVE: 768PX */
+
+@media (max-width: 768px) {
+
+    #support .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .support-toolbar,
+    #support .user-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    #supportTicketSearch {
+        max-width: none;
+        width: 100%;
+    }
+
+    #supportTicketStatusFilter {
+        width: 100%;
+    }
+
+    #supportTicketDetailsModal {
+        padding: 15px;
+    }
+
+}
+
+/* SUPPORT RESPONSIVE: 425PX */
+
+@media (max-width: 425px) {
+
+    #support .stats-grid {
+        gap: 10px;
+    }
+
+    #support .stat-card {
+        padding: 14px 11px;
+    }
+
+    #support .stat-card h2 {
+        font-size: 22px;
+    }
+
+    #support .admin-panel {
+        padding: 15px 12px;
+    }
+
+    #supportTicketDetailsModal .admin-modal-content {
+        padding: 19px;
+        max-height: 88vh;
+    }
+
+    .support-ticket-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .support-ticket-actions select,
+    .support-ticket-actions button {
+        width: 100%;
+    }
+
+}
+
+/* SUPPORT RESPONSIVE: 375PX */
+
+@media (max-width: 375px) {
+
+    #support .stats-grid {
+        gap: 8px;
+    }
+
+    #support .stat-card {
+        padding: 12px 9px;
+    }
+
+    #support .stat-card h2 {
+        font-size: 19px;
+    }
+
+    #support .admin-panel {
+        padding: 13px 10px;
+    }
+
+    #supportTicketDetailsModal .admin-modal-content {
+        padding: 16px;
+    }
+
+    .support-detail-group p {
+        font-size: 11px;
+    }
+
+}
+

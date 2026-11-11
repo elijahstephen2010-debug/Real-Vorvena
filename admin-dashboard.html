@@ -127,6 +127,16 @@
                 <span>Workspace Monitoring</span>
             </a>
 
+            <!-- SUPPORT TICKETS -->
+            <a href="#support"
+                class="admin-nav-link"
+                data-section="support">
+                <i class="fa-solid fa-headset"></i>
+                <span>Support Tickets</span>
+                <span class="sidebar-count"
+                    id="supportTicketCount">0</span>
+            </a>
+
             <a href="#payouts"
                 class="admin-nav-link"
                 data-section="payouts">
@@ -539,6 +549,101 @@
 
 
 
+        <!-- SUPPORT TICKETS -->
+        <section class="admin-section" id="support">
+
+            <div class="page-heading">
+                <div>
+                    <span class="page-eyebrow">CUSTOMER SUPPORT</span>
+                    <h1>Support Tickets</h1>
+                    <p>Review reports and respond to users who need assistance.</p>
+                </div>
+            </div>
+
+
+            <div class="stats-grid support-stats">
+
+                <article class="stat-card">
+                    <span>Total Tickets</span>
+                    <h2 id="totalSupportTickets">0</h2>
+                    <small>All submitted reports</small>
+                </article>
+
+                <article class="stat-card">
+                    <span>New Tickets</span>
+                    <h2 id="newSupportTickets">0</h2>
+                    <small>Awaiting review</small>
+                </article>
+
+                <article class="stat-card">
+                    <span>In Progress</span>
+                    <h2 id="inProgressSupportTickets">0</h2>
+                    <small>Currently being handled</small>
+                </article>
+
+                <article class="stat-card">
+                    <span>Resolved</span>
+                    <h2 id="resolvedSupportTickets">0</h2>
+                    <small>Successfully resolved</small>
+                </article>
+
+            </div>
+
+
+            <div class="admin-panel">
+
+                <div class="user-toolbar">
+
+                    <div class="admin-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input type="search"
+                            id="supportTicketSearch"
+                            placeholder="Search ticket ID, name, email or subject...">
+                    </div>
+
+                    <select id="supportTicketStatusFilter">
+                        <option value="all">All tickets</option>
+                        <option value="New">New</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table class="admin-table">
+
+                        <thead>
+                            <tr>
+                                <th>Ticket ID</th>
+                                <th>User</th>
+                                <th>Category</th>
+                                <th>Subject</th>
+                                <th>Date Submitted</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="supportTicketsTableBody">
+                            <tr>
+                                <td colspan="7">Loading support tickets...</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
         <!-- PAYOUTS -->
         <section class="admin-section" id="payouts">
 
@@ -856,6 +961,27 @@
         </div>
 
         <div id="projectDetailsContent"></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- SUPPORT TICKET DETAILS MODAL -->
+<div class="admin-modal" id="supportTicketDetailsModal">
+
+    <div class="admin-modal-content large-modal">
+
+        <div class="modal-heading">
+            <h2>Support Ticket Details</h2>
+
+            <button data-close-modal aria-label="Close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div id="supportTicketDetailsContent"></div>
 
     </div>
 

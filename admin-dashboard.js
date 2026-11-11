@@ -346,7 +346,9 @@ function statusClass(status) {
         "suspended": "status-suspended",
         "cancelled": "status-cancelled",
         "flagged": "status-flagged",
-        "unverified": "status-unverified"
+        "unverified": "status-unverified",
+        "new": "status-new",
+        "resolved": "status-resolved"
     };
 
     return classes[status] || "status-pending";
@@ -392,7 +394,9 @@ function showModal(id) {
 }
 
 function closeModal(modal) {
-    modal.classList.remove("active");
+    if (modal) {
+        modal.classList.remove("active");
+    }
 }
 
 
@@ -1021,6 +1025,8 @@ function viewProject(id) {
 
     const content = $("#projectDetailsContent");
 
+    if (!content) return;
+
     content.innerHTML = `
 
         <h3>${escapeHTML(project.title)}</h3>
@@ -1280,6 +1286,8 @@ function openConversation(id) {
 
     const container = $("#adminMessagesContainer");
 
+    if (!container) return;
+
     container.innerHTML = conversation.messages.map(message => `
 
         <div class="admin-message ${message.type}">
@@ -1462,7 +1470,596 @@ function initializeActivity() {
 
 
 /* =========================================================
-   17. MODAL CLOSING
+   17. SUPPORT TICKETS
+========================================================= */
+
+const SUPPORT_STORAGE_KEY = "vorvenaSupportTickets";
+
+let supportTickets = [];
+let currentSupportTicketId = null;
+
+
+/* LOAD TICKETS */
+
+function loadSupportTickets() {
+
+    try {
+
+        const savedTickets = localStorage.getItem(SUPPORT_STORAGE_KEY);
+
+        supportTickets = savedTickets
+            ? JSON.parse(savedTickets)
+            : [];
+
+        if (!Array.isArray(supportTickets)) {
+            supportTickets = [];
+        }
+
+    } catch (error) {
+
+        console.error("Could not load support tickets:", error);
+
+        supportTickets = [];
+
+    }
+
+    renderSupportTickets();
+
+}
+
+
+/* SAVE TICKETS */
+
+function saveSupportTickets() {
+
+    try {
+
+        localStorage.setItem(
+            SUPPORT_STORAGE_KEY,
+            JSON.stringify(supportTickets)
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.error("Could not save support tickets:", error);
+
+        showToast("Could not save the ticket. Check browser storage.");
+
+        return false;
+
+    }
+
+}
+
+
+/* FORMAT TICKET DATE */
+
+function formatTicketDate(dateValue) {
+
+    if (!dateValue) return "Date unavailable";
+
+    const date = new Date(dateValue);
+
+    if (Number.isNaN(date.getTime())) {
+        return "Date unavailable";
+    }
+
+    return new Intl.DateTimeFormat("en", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+    }).format(date);
+
+}
+
+
+/* SUPPORT STATUS CLASS */
+
+function supportStatusClass(status) {
+
+    const normalized = String(status || "new")
+        .toLowerCase()
+        .replaceAll(" ", "-");
+
+    const classes = {
+        "new": "status-new",
+        "in-progress": "status-in-progress",
+        "resolved": "status-resolved"
+    };
+
+    return classes[normalized] || "status-new";
+
+}
+
+
+/* UPDATE SUPPORT COUNTS */
+
+function updateSupportCounts() {
+
+    const total = supportTickets.length;
+
+    const newCount = supportTickets.filter(ticket =>
+        String(ticket.status || "New").toLowerCase() === "new"
+    ).length;
+
+    const inProgressCount = supportTickets.filter(ticket =>
+        String(ticket.status || "").toLowerCase() === "in progress"
+    ).length;
+
+    const resolvedCount = supportTickets.filter(ticket =>
+        String(ticket.status || "").toLowerCase() === "resolved"
+    ).length;
+
+    setText("totalSupportTickets", total);
+    setText("newSupportTickets", newCount);
+    setText("inProgressSupportTickets", inProgressCount);
+    setText("resolvedSupportTickets", resolvedCount);
+
+    setText("supportTicketCount", newCount);
+
+    const sidebarCount = $("#supportTicketCount");
+
+    if (sidebarCount) {
+        sidebarCount.style.display = newCount > 0 ? "inline-flex" : "none";
+    }
+
+}
+
+
+/* RENDER SUPPORT TICKET TABLE */
+
+function renderSupportTickets() {
+
+    const body = $("#supportTicketsTableBody");
+
+    updateSupportCounts();
+
+    if (!body) return;
+
+    const search = (
+        $("#supportTicketSearch")?.value || ""
+    ).trim().toLowerCase();
+
+    const filter = (
+        $("#supportTicketStatusFilter")?.value || "all"
+    ).toLowerCase();
+
+    const filteredTickets = supportTickets.filter(ticket => {
+
+        const status = String(ticket.status || "New")
+            .toLowerCase()
+            .replaceAll(" ", "-");
+
+        const matchesStatus =
+            filter === "all" || status === filter;
+
+        const searchableText = [
+            ticket.id,
+            ticket.fullName,
+            ticket.email,
+            ticket.accountType,
+            ticket.category,
+            ticket.subject,
+            ticket.message
+        ].join(" ").toLowerCase();
+
+        const matchesSearch = searchableText.includes(search);
+
+        return matchesStatus && matchesSearch;
+
+    });
+
+    if (!filteredTickets.length) {
+
+        body.innerHTML = `
+            <tr>
+                <td colspan="7">
+                    <div class="empty-state">
+                        ${
+                            supportTickets.length
+                                ? "No support tickets match your search."
+                                : "No support tickets have been submitted yet."
+                        }
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    body.innerHTML = filteredTickets.map(ticket => {
+
+        const status = ticket.status || "New";
+
+        return `
+
+            <tr>
+
+                <td>
+                    <strong>${escapeHTML(ticket.id || "N/A")}</strong>
+                </td>
+
+                <td>
+                    <div class="table-user">
+                        <strong>${escapeHTML(ticket.fullName || "Unknown user")}</strong>
+                        <small>${escapeHTML(ticket.email || "")}</small>
+                    </div>
+                </td>
+
+                <td>${escapeHTML(ticket.subject || "No subject")}</td>
+
+                <td>${escapeHTML(ticket.category || "General")}</td>
+
+                <td>
+                    <span class="status-badge ${supportStatusClass(status)}">
+                        ${escapeHTML(status)}
+                    </span>
+                </td>
+
+                <td>${escapeHTML(formatTicketDate(ticket.createdAt))}</td>
+
+                <td>
+                    <button
+                        class="table-action-btn"
+                        type="button"
+                        data-support-ticket-id="${escapeHTML(ticket.id)}">
+                        View
+                    </button>
+                </td>
+
+            </tr>
+
+        `;
+
+    }).join("");
+
+    body.querySelectorAll("[data-support-ticket-id]").forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            openSupportTicket(button.dataset.supportTicketId);
+
+        });
+
+    });
+
+}
+
+
+/* FIND SUPPORT TICKET */
+
+function findSupportTicket(ticketId) {
+
+    return supportTickets.find(ticket =>
+        String(ticket.id) === String(ticketId)
+    );
+
+}
+
+
+/* OPEN TICKET DETAILS */
+
+function openSupportTicket(ticketId) {
+
+    const ticket = findSupportTicket(ticketId);
+
+    if (!ticket) return;
+
+    currentSupportTicketId = ticketId;
+
+    const content = $("#supportTicketDetailsContent");
+
+    if (!content) return;
+
+    const attachment = ticket.attachment;
+
+    const attachmentHTML = attachment
+        ? `
+            <div class="support-detail-group">
+                <label>Attachment</label>
+                <p>${escapeHTML(attachment.name || "Uploaded file")}</p>
+                <p>
+                    ${escapeHTML(attachment.type || "File")}
+                    ${
+                        attachment.size
+                            ? ` · ${escapeHTML(formatFileSize(attachment.size))}`
+                            : ""
+                    }
+                </p>
+                <p class="settings-note">
+                    This preview stores attachment details only.
+                    The actual uploaded file is not available here.
+                </p>
+            </div>
+        `
+        : `
+            <div class="support-detail-group">
+                <label>Attachment</label>
+                <p>No attachment provided.</p>
+            </div>
+        `;
+
+    const replies = Array.isArray(ticket.replies)
+        ? ticket.replies
+        : [];
+
+    const repliesHTML = replies.length
+        ? replies.map(reply => `
+            <div class="support-detail-group">
+                <label>
+                    ${escapeHTML(reply.sender || "Support")}
+                    · ${escapeHTML(formatTicketDate(reply.createdAt))}
+                </label>
+                <div class="support-ticket-message">
+                    ${escapeHTML(reply.message || "")}
+                </div>
+            </div>
+        `).join("")
+        : `
+            <p class="empty-state">
+                No replies have been added to this ticket.
+            </p>
+        `;
+
+    content.innerHTML = `
+
+        <div class="support-detail-group">
+            <label>Ticket ID</label>
+            <p>${escapeHTML(ticket.id)}</p>
+        </div>
+
+        <div class="support-detail-group">
+            <label>Submitted by</label>
+            <p>${escapeHTML(ticket.fullName || "Not provided")}</p>
+        </div>
+
+        <div class="support-detail-group">
+            <label>Email address</label>
+            <p>${escapeHTML(ticket.email || "Not provided")}</p>
+        </div>
+
+        <div class="support-detail-group">
+            <label>Account type</label>
+            <p>${escapeHTML(ticket.accountType || "Not provided")}</p>
+        </div>
+
+        <div class="support-detail-group">
+            <label>Category</label>
+            <p>${escapeHTML(ticket.category || "General")}</p>
+        </div>
+
+        <div class="support-detail-group">
+            <label>Subject</label>
+            <p>${escapeHTML(ticket.subject || "No subject")}</p>
+        </div>
+
+        <div class="support-detail-group">
+            <label>Message</label>
+            <div class="support-ticket-message">${escapeHTML(ticket.message || "No message provided.")}</div>
+        </div>
+
+        ${attachmentHTML}
+
+        <div class="support-detail-group">
+            <label>Submitted</label>
+            <p>${escapeHTML(formatTicketDate(ticket.createdAt))}</p>
+        </div>
+
+        <div class="support-detail-group">
+            <label>Last updated</label>
+            <p>${escapeHTML(formatTicketDate(ticket.updatedAt || ticket.createdAt))}</p>
+        </div>
+
+        <div class="support-detail-group">
+            <label>Current status</label>
+
+            <select id="supportTicketStatusUpdate">
+                <option value="New" ${ticket.status === "New" ? "selected" : ""}>New</option>
+                <option value="In Progress" ${ticket.status === "In Progress" ? "selected" : ""}>In Progress</option>
+                <option value="Resolved" ${ticket.status === "Resolved" ? "selected" : ""}>Resolved</option>
+            </select>
+
+            <button
+                type="button"
+                class="primary-btn"
+                id="saveSupportTicketStatus"
+                style="margin-top: 12px;">
+                Update Status
+            </button>
+        </div>
+
+        <div class="support-detail-group">
+            <label>Conversation history</label>
+            ${repliesHTML}
+        </div>
+
+        <div class="support-detail-group">
+            <label>Admin reply</label>
+
+            <textarea
+                id="supportAdminReply"
+                rows="4"
+                maxlength="3000"
+                placeholder="Write a response to this support ticket..."
+                style="width:100%;padding:12px;border:1px solid var(--border);border-radius:9px;resize:vertical;font:inherit;font-size:12px;outline:none;"></textarea>
+
+            <button
+                type="button"
+                class="primary-btn"
+                id="sendSupportAdminReply"
+                style="margin-top: 12px;">
+                Save Reply
+            </button>
+
+            <p class="settings-note" style="margin-top:12px;">
+                Preview only: this saves the reply in this browser.
+                It does not send an email to the user.
+            </p>
+        </div>
+
+    `;
+
+    showModal("supportTicketDetailsModal");
+
+    initializeSupportTicketActions(ticketId);
+
+}
+
+
+/* FORMAT FILE SIZE */
+
+function formatFileSize(bytes) {
+
+    const size = Number(bytes);
+
+    if (!Number.isFinite(size) || size <= 0) {
+        return "Size unavailable";
+    }
+
+    if (size < 1024) {
+        return `${size} bytes`;
+    }
+
+    if (size < 1024 * 1024) {
+        return `${(size / 1024).toFixed(1)} KB`;
+    }
+
+    return `${(size / (1024 * 1024)).toFixed(2)} MB`;
+
+}
+
+
+/* UPDATE TICKET STATUS AND SAVE ADMIN REPLIES */
+
+function initializeSupportTicketActions(ticketId) {
+
+    const statusButton = $("#saveSupportTicketStatus");
+    const replyButton = $("#sendSupportAdminReply");
+
+    statusButton?.addEventListener("click", () => {
+
+        const ticket = findSupportTicket(ticketId);
+
+        if (!ticket) return;
+
+        const newStatus = $("#supportTicketStatusUpdate")?.value;
+
+        if (!newStatus) return;
+
+        ticket.status = newStatus;
+        ticket.updatedAt = new Date().toISOString();
+
+        if (!saveSupportTickets()) return;
+
+        renderSupportTickets();
+
+        showToast("Support ticket status updated.");
+
+        openSupportTicket(ticketId);
+
+    });
+
+
+    replyButton?.addEventListener("click", () => {
+
+        const ticket = findSupportTicket(ticketId);
+
+        if (!ticket) return;
+
+        const replyInput = $("#supportAdminReply");
+
+        const message = replyInput?.value.trim();
+
+        if (!message) {
+
+            showToast("Please write a reply first.");
+
+            replyInput?.focus();
+
+            return;
+        }
+
+        if (!Array.isArray(ticket.replies)) {
+            ticket.replies = [];
+        }
+
+        ticket.replies.push({
+            sender: "VORVENA Support Team",
+            message,
+            createdAt: new Date().toISOString()
+        });
+
+        ticket.updatedAt = new Date().toISOString();
+
+        if (!saveSupportTickets()) return;
+
+        renderSupportTickets();
+
+        showToast("Admin reply saved in preview.");
+
+        openSupportTicket(ticketId);
+
+    });
+
+}
+
+
+/* SUPPORT SEARCH AND FILTERS */
+
+function initializeSupportFilters() {
+
+    $("#supportTicketSearch")?.addEventListener(
+        "input",
+        renderSupportTickets
+    );
+
+    $("#supportTicketStatusFilter")?.addEventListener(
+        "change",
+        renderSupportTickets
+    );
+
+}
+
+
+/* LISTEN FOR CHANGES FROM ANOTHER TAB */
+
+function initializeSupportStorageListener() {
+
+    window.addEventListener("storage", event => {
+
+        if (event.key === SUPPORT_STORAGE_KEY) {
+
+            loadSupportTickets();
+
+            showToast("Support tickets refreshed.");
+
+        }
+
+    });
+
+}
+
+
+/* INITIALIZE SUPPORT TICKETS */
+
+function initializeSupportTickets() {
+
+    initializeSupportFilters();
+
+    initializeSupportStorageListener();
+
+    loadSupportTickets();
+
+}
+
+
+/* =========================================================
+   18. MODAL CLOSING
 ========================================================= */
 
 function initializeModals() {
@@ -1507,7 +2104,7 @@ function initializeModals() {
 
 
 /* =========================================================
-   18. INITIALIZE DASHBOARD
+   19. INITIALIZE DASHBOARD
 ========================================================= */
 
 function initializeAdminDashboard() {
@@ -1530,6 +2127,8 @@ function initializeAdminDashboard() {
 
     initializeVerification();
     initializeActivity();
+
+    initializeSupportTickets();
 
     initializeModals();
 
@@ -1555,7 +2154,7 @@ function initializeAdminDashboard() {
 
 
 /* =========================================================
-   19. START
+   20. START
 ========================================================= */
 
 if (document.readyState === "loading") {

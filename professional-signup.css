@@ -34,7 +34,6 @@ a {
   color: inherit;
 }
 
-
 /* =====================================
    MAIN LAYOUT
 ===================================== */
@@ -49,7 +48,6 @@ a {
   overflow: hidden;
 }
 
-
 /* =====================================
    LEFT PANEL
 ===================================== */
@@ -62,10 +60,8 @@ a {
   );
 
   color: var(--white);
-
   height: 100%;
   min-height: 0;
-
   padding: 35px 8%;
 
   display: flex;
@@ -101,8 +97,9 @@ a {
   bottom: -115px;
 }
 
-
-/* BRAND */
+/* =====================================
+   BRAND
+===================================== */
 
 .left-top {
   position: relative;
@@ -119,22 +116,20 @@ a {
   align-items: center;
 }
 
-/* Replace this placeholder with your actual logo image */
 .brand-image-placeholder {
   display: inline-flex;
   align-items: center;
 }
 
-
-/* LEFT CONTENT */
+/* =====================================
+   LEFT CONTENT
+===================================== */
 
 .info-content {
   width: 100%;
   max-width: 430px;
-
   position: relative;
   z-index: 1;
-
   margin: 0;
 }
 
@@ -166,8 +161,9 @@ a {
   max-width: 370px;
 }
 
-
-/* BENEFITS */
+/* =====================================
+   BENEFITS
+===================================== */
 
 .benefits {
   display: grid;
@@ -208,8 +204,9 @@ a {
   color: #c4d2e8;
 }
 
-
-/* FOOTER */
+/* =====================================
+   FOOTER
+===================================== */
 
 .panel-footer {
   font-size: 11px;
@@ -218,10 +215,8 @@ a {
   z-index: 1;
 }
 
-
 /* =====================================
    RIGHT PANEL
-   INDEPENDENT SCROLLING
 ===================================== */
 
 .signup-form-section {
@@ -264,8 +259,9 @@ a {
   display: none;
 }
 
-
-/* FORM HEADING */
+/* =====================================
+   FORM HEADING
+===================================== */
 
 .form-heading {
   margin-bottom: 27px;
@@ -290,8 +286,9 @@ a {
   line-height: 1.6;
 }
 
-
-/* FORM FIELDS */
+/* =====================================
+   FORM FIELDS
+===================================== */
 
 .form-group {
   margin-bottom: 17px;
@@ -308,19 +305,14 @@ a {
 .form-group input {
   width: 100%;
   height: 48px;
-
   border: 1px solid var(--border);
   border-radius: 8px;
-
   padding: 0 15px;
-
   outline: none;
   background: var(--white);
-
   font-family: inherit;
   font-size: 13px;
   color: var(--text);
-
   transition: 0.2s ease;
 }
 
@@ -345,7 +337,6 @@ a {
   font-size: 11px;
 }
 
-
 /* =====================================
    INTERNATIONAL PHONE INPUT
 ===================================== */
@@ -366,7 +357,6 @@ a {
 .iti__country-list {
   max-width: 300px;
 }
-
 
 /* =====================================
    TERMS
@@ -398,7 +388,6 @@ a {
   font-weight: 700;
 }
 
-
 /* =====================================
    SUBMIT BUTTON
 ===================================== */
@@ -406,17 +395,13 @@ a {
 .submit-btn {
   width: 100%;
   height: 52px;
-
   border: none;
   border-radius: 8px;
-
   background: var(--navy);
   color: var(--white);
-
   font-family: inherit;
   font-size: 14px;
   font-weight: 700;
-
   cursor: pointer;
 
   display: flex;
@@ -440,7 +425,6 @@ a {
 .submit-btn:hover span {
   transform: translateX(4px);
 }
-
 
 /* =====================================
    BOTTOM LINKS
@@ -472,7 +456,6 @@ a {
   color: var(--navy);
 }
 
-
 /* =====================================
    768px
 ===================================== */
@@ -500,9 +483,7 @@ a {
     height: auto;
     min-height: 100vh;
     min-height: 100dvh;
-
     overflow: visible;
-
     padding: 40px 7%;
   }
 
@@ -520,7 +501,6 @@ a {
     margin: 0 auto;
   }
 }
-
 
 /* =====================================
    425px
@@ -562,7 +542,6 @@ a {
   }
 }
 
-
 /* =====================================
    375px
 ===================================== */
@@ -595,7 +574,6 @@ a {
   }
 }
 
-
 /* =====================================
    ACCESSIBILITY
 ===================================== */
@@ -611,25 +589,38 @@ a {
   }
 
 }
-/* VORVENA LOGO IMAGE */
+
+/* =====================================
+   VORVENA LOGO IMAGE
+===================================== */
+
+/* Desktop logo */
 .brand-logo {
-    display: block;
-    width: 165px;
-    height: 48px;
-    object-fit: contain;
-    object-position: left center;
+  display: block;
+  width: 250px;
+  height: 110px;
+  object-fit: contain;
+  object-position: left center;
 }
 
 /* Mobile logo */
 .mobile-brand .brand-logo {
-    width: 145px;
-    height: 42px;
+  width: 230px;
+  height: 100px;
 }
 
-/* Smaller screens */
+/* 425px */
 @media (max-width: 425px) {
-    .brand-logo {
-        width: 135px;
-        height: 40px;
-    }
+  .mobile-brand .brand-logo {
+    width: 210px;
+    height: 90px;
+  }
+}
+
+/* 375px */
+@media (max-width: 375px) {
+  .mobile-brand .brand-logo {
+    width: 195px;
+    height: 85px;
+  }
 }
