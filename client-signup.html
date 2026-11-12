@@ -330,6 +330,8 @@
 
 
 <script>
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.getElementById("clientSignupForm");
@@ -391,7 +393,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // PHONE VALIDATION BASED ON SELECTED COUNTRY
-  function validatePhoneNumber() {
+  async function validatePhoneNumber() {
+
+    // WAIT FOR COUNTRY PHONE VALIDATION DATA
+    await iti.promise;
+
     const phoneDigits = phoneInput.value.trim();
     const selectedCountry = iti.getSelectedCountryData();
 
@@ -454,7 +460,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!validateEmail()) return;
 
-    if (!validatePhoneNumber()) return;
+    if (!(await validatePhoneNumber())) return;
 
     if (!region) {
       alert("Please enter your state or region.");
@@ -519,6 +525,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+
 </script>
 
 
