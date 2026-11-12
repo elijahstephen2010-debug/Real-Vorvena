@@ -34,19 +34,32 @@
         loader.classList.add("active");
     }
 
-   function hideLoader() {
-    if (!loader) return;
+    function hideLoader() {
+        clearTimeout(hideTimer);
 
-    loader.classList.remove("active");
-}
+        if (!loader) return;
 
-    // Make loader controls available to other page scripts.
+        loader.classList.remove("active");
+    }
+
+    // MAKE LOADER CONTROLS AVAILABLE
     window.VORVENA = window.VORVENA || {};
     window.VORVENA.showLoader = showLoader;
     window.VORVENA.hideLoader = hideLoader;
 
-    // Show loader when arriving from another page.
-    if (sessionStorage.getItem("vorvenaPageTransition") === "true") {
+    // DETECT BROWSER HISTORY NAVIGATION
+    const navigationEntry =
+        performance.getEntriesByType("navigation")[0];
+
+    const isHistoryNavigation =
+        navigationEntry &&
+        navigationEntry.type === "back_forward";
+
+    // SHOW LOADER WHEN ARRIVING THROUGH NORMAL NAVIGATION
+    if (
+        sessionStorage.getItem("vorvenaPageTransition") === "true" &&
+        !isHistoryNavigation
+    ) {
         sessionStorage.removeItem("vorvenaPageTransition");
 
         showLoader();
@@ -58,10 +71,30 @@
                 hideTimer = setTimeout(hideLoader, 400);
             }, { once: true });
         }
+    } else if (isHistoryNavigation) {
+        sessionStorage.removeItem("vorvenaPageTransition");
     }
 
-    // Show loader before normal internal page navigation.
-    document.addEventListener("click", event => {
+    // FIX BACK/FORWARD BUTTON LOADER ISSUE
+    window.addEventListener("pageshow", (event) => {
+
+        const navigation =
+            performance.getEntriesByType("navigation")[0];
+
+        const returnedFromHistory =
+            event.persisted ||
+            (navigation && navigation.type === "back_forward");
+
+        if (returnedFromHistory) {
+            sessionStorage.removeItem("vorvenaPageTransition");
+            hideLoader();
+        }
+
+    });
+
+    // SHOW LOADER BEFORE NORMAL INTERNAL PAGE NAVIGATION
+    document.addEventListener("click", (event) => {
+
         const link = event.target.closest("a[href]");
 
         if (!link) return;
@@ -92,10 +125,12 @@
 
         sessionStorage.setItem("vorvenaPageTransition", "true");
         showLoader();
+
     });
 
-    // Connect VORVENA's existing JavaScript navigation functions.
+    // CONNECT EXISTING JAVASCRIPT NAVIGATION FUNCTIONS
     document.addEventListener("DOMContentLoaded", () => {
+
         const originalNavigate = window.VORVENA.navigate;
         const originalOpenSignup = window.VORVENA.openSignup;
         const originalOpenLogin = window.VORVENA.openLogin;
@@ -123,6 +158,7 @@
                 return originalOpenLogin.apply(this, arguments);
             };
         }
+
     });
 
 })();

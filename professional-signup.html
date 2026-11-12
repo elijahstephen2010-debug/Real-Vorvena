@@ -195,214 +195,223 @@
 
   <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
+  
+<!-- PROFESSIONAL SIGNUP FUNCTIONALITY -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
 
-      const phoneInput = document.getElementById("phone");
-      const countryInput = document.getElementById("country");
-      const signupForm = document.getElementById("professionalSignupForm");
+    const form = document.getElementById("professionalSignupForm");
 
-      const fullNameInput = document.getElementById("fullName");
-      const emailInput = document.getElementById("email");
-      const regionInput = document.getElementById("region");
-      const cityInput = document.getElementById("city");
-      const passwordInput = document.getElementById("password");
-      const confirmPasswordInput = document.getElementById("confirmPassword");
-      const termsInput = document.getElementById("terms");
+    const fullNameInput = document.getElementById("fullName");
+    const emailInput = document.getElementById("email");
+    const countryInput = document.getElementById("country");
+    const phoneInput = document.getElementById("phone");
+    const regionInput = document.getElementById("region");
+    const cityInput = document.getElementById("city");
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirmPassword");
+    const termsInput = document.getElementById("terms");
 
-      // FOOTER YEAR
-      document.getElementById("year").textContent =
-        new Date().getFullYear();
+    // FOOTER YEAR
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-      // INTERNATIONAL PHONE INITIALIZATION
-      const iti = window.intlTelInput(phoneInput, {
-        initialCountry: "ng",
-        separateDialCode: true,
-        nationalMode: true,
-        countrySearch: true,
-        preferredCountries: ["ng", "us", "gb", "ca"],
-        utilsScript:
-          "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
-      });
-
-      // UPDATE SELECTED COUNTRY
-      function updateCountry() {
-        const selectedCountry = iti.getSelectedCountryData();
-        countryInput.value = selectedCountry.name || "";
-      }
-
-      updateCountry();
-
-      phoneInput.addEventListener("countrychange", updateCountry);
-
-      // PHONE INPUT: DIGITS ONLY, MAXIMUM 11 DIGITS
-      phoneInput.addEventListener("input", () => {
-
-        let digits = phoneInput.value.replace(/\D/g, "");
-
-        // Maximum 11 digits in the phone field.
-        digits = digits.slice(0, 11);
-
-        phoneInput.value = digits;
-
-        phoneInput.setCustomValidity("");
-      });
-
-      // EMAIL VALIDATION
-      function validateEmail() {
-
-        const email = emailInput.value.trim();
-
-        const emailPattern =
-          /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-        if (!emailPattern.test(email)) {
-          alert("Please enter a valid email address.");
-          emailInput.focus();
-          return false;
-        }
-
-        return true;
-      }
-
-      // PHONE VALIDATION
-      function validatePhone() {
-
-        const phoneDigits = phoneInput.value.trim();
-
-        if (!phoneDigits) {
-          alert("Please enter your phone number.");
-          phoneInput.focus();
-          return false;
-        }
-
-        if (!/^\d+$/.test(phoneDigits)) {
-          alert("Please enter numbers only in your phone number.");
-          phoneInput.focus();
-          return false;
-        }
-
-        if (phoneDigits.length > 11) {
-          alert("Your phone number cannot exceed 11 digits.");
-          phoneInput.focus();
-          return false;
-        }
-
-        if (phoneDigits.length < 7) {
-          alert("Please enter a valid phone number.");
-          phoneInput.focus();
-          return false;
-        }
-
-        const selectedCountry = iti.getSelectedCountryData();
-
-        if (!selectedCountry.iso2 || !selectedCountry.dialCode) {
-          alert("Please select your country.");
-          return false;
-        }
-
-        // Do not manually type the country code.
-        // For countries such as Nigeria, the leading zero is allowed
-        // and will be removed when creating the international number.
-
-        return true;
-      }
-
-      // PROFESSIONAL SIGNUP
-      signupForm.addEventListener("submit", async (event) => {
-
-        event.preventDefault();
-
-        const fullName = fullNameInput.value.trim();
-        const email = emailInput.value.trim();
-        const country = countryInput.value;
-        const region = regionInput.value.trim();
-        const city = cityInput.value.trim();
-
-        const password = passwordInput.value;
-        const confirmPassword = confirmPasswordInput.value;
-
-        if (!fullName) {
-          alert("Please enter your full name.");
-          fullNameInput.focus();
-          return;
-        }
-
-        if (!validateEmail()) return;
-
-        if (!validatePhone()) return;
-
-        if (!region) {
-          alert("Please enter your state or region.");
-          regionInput.focus();
-          return;
-        }
-
-        if (!city) {
-          alert("Please enter your city.");
-          cityInput.focus();
-          return;
-        }
-
-        if (password.length < 8) {
-          alert("Your password must contain at least 8 characters.");
-          passwordInput.focus();
-          return;
-        }
-
-        if (password !== confirmPassword) {
-          alert("Your passwords do not match.");
-          confirmPasswordInput.focus();
-          return;
-        }
-
-        if (!termsInput.checked) {
-          alert("Please accept the Terms of Service and Privacy Policy.");
-          termsInput.focus();
-          return;
-        }
-
-        try {
-
-          await iti.promise;
-
-          // Get the complete international number.
-          // Example: 07068055509 with Nigeria selected
-          // becomes +2347068055509.
-          const internationalNumber = iti.getNumber();
-
-          if (!iti.isValidNumber()) {
-            alert("Please enter a valid phone number for your selected country.");
-            phoneInput.focus();
-            return;
-          }
-
-          // SAVE SIGNUP INFORMATION
-          sessionStorage.setItem("vorvenaFullName", fullName);
-          sessionStorage.setItem("vorvenaEmail", email);
-          sessionStorage.setItem("vorvenaPhone", internationalNumber);
-          sessionStorage.setItem("vorvenaCountry", country);
-          sessionStorage.setItem("vorvenaRegion", region);
-          sessionStorage.setItem("vorvenaCity", city);
-          sessionStorage.setItem("vorvenaAccountType", "professional");
-
-          // CONTINUE TO VERIFICATION
-          window.location.href = "verification.html";
-
-        } catch (error) {
-
-          console.error("Phone validation error:", error);
-
-          alert(
-            "Phone validation could not load. Please refresh and try again."
-          );
-
-        }
-
-      });
-
+    // INTERNATIONAL PHONE INITIALIZATION
+    const iti = window.intlTelInput(phoneInput, {
+      initialCountry: "ng",
+      separateDialCode: true,
+      nationalMode: true,
+      countrySearch: true,
+      preferredCountries: ["ng", "us", "gb", "ca"],
+      utilsScript:
+        "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
     });
-  </script>
+
+    // UPDATE COUNTRY
+    function updateCountry() {
+      const selectedCountry = iti.getSelectedCountryData();
+      countryInput.value = selectedCountry.name || "";
+    }
+
+    updateCountry();
+    phoneInput.addEventListener("countrychange", updateCountry);
+
+    // PHONE INPUT: DIGITS ONLY, MAXIMUM 11 DIGITS
+    phoneInput.addEventListener("input", () => {
+      let digits = phoneInput.value.replace(/\D/g, "");
+      phoneInput.value = digits.slice(0, 11);
+      phoneInput.setCustomValidity("");
+    });
+
+    // EMAIL VALIDATION
+    function validateEmail() {
+      const email = emailInput.value.trim();
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+      if (!emailPattern.test(email)) {
+        alert("Please enter a valid email address.");
+        emailInput.focus();
+        return false;
+      }
+
+      return true;
+    }
+
+    // PHONE VALIDATION
+    function validatePhoneNumber() {
+      const phoneDigits = phoneInput.value.trim();
+      const selectedCountry = iti.getSelectedCountryData();
+
+      if (!phoneDigits) {
+        alert("Please enter your phone number.");
+        phoneInput.focus();
+        return false;
+      }
+
+      if (!/^\d+$/.test(phoneDigits)) {
+        alert("Please enter numbers only in your phone number.");
+        phoneInput.focus();
+        return false;
+      }
+
+      if (phoneDigits.length > 11) {
+        alert("Your phone number cannot exceed 11 digits.");
+        phoneInput.focus();
+        return false;
+      }
+
+      if (phoneDigits.length < 7) {
+        alert("Please enter a valid phone number.");
+        phoneInput.focus();
+        return false;
+      }
+
+      if (!selectedCountry.iso2 || !selectedCountry.dialCode) {
+        alert("Please select your country.");
+        phoneInput.focus();
+        return false;
+      }
+
+      return true;
+    }
+
+    // CONVERT PHONE NUMBER TO INTERNATIONAL FORMAT
+    async function getInternationalPhone() {
+      await iti.promise;
+
+      const selectedCountry = iti.getSelectedCountryData();
+      const nationalNumber = phoneInput.value.trim();
+
+      // Nigeria: remove the national leading zero.
+      // 07068055509 becomes +2347068055509.
+      if (selectedCountry.iso2 === "ng") {
+        const cleanedNumber = nationalNumber.replace(/^0/, "");
+        return "+" + selectedCountry.dialCode + cleanedNumber;
+      }
+
+      // Use intl-tel-input formatting for other countries.
+      let internationalNumber = iti.getNumber();
+
+      if (internationalNumber && /^\+\d{7,15}$/.test(internationalNumber)) {
+        return internationalNumber;
+      }
+
+      // Fallback formatting.
+      const cleanedNumber = nationalNumber.replace(/^0/, "");
+      internationalNumber = "+" + selectedCountry.dialCode + cleanedNumber;
+
+      if (/^\+\d{7,15}$/.test(internationalNumber)) {
+        return internationalNumber;
+      }
+
+      return null;
+    }
+
+    // PROFESSIONAL SIGNUP
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const fullName = fullNameInput.value.trim();
+      const email = emailInput.value.trim();
+      const region = regionInput.value.trim();
+      const city = cityInput.value.trim();
+      const password = passwordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+
+      if (!fullName) {
+        alert("Please enter your full name.");
+        fullNameInput.focus();
+        return;
+      }
+
+      if (!validateEmail()) return;
+
+      if (!validatePhoneNumber()) return;
+
+      if (!region) {
+        alert("Please enter your state or region.");
+        regionInput.focus();
+        return;
+      }
+
+      if (!city) {
+        alert("Please enter your city.");
+        cityInput.focus();
+        return;
+      }
+
+      if (password.length < 8) {
+        alert("Your password must contain at least 8 characters.");
+        passwordInput.focus();
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert("Your passwords do not match.");
+        confirmPasswordInput.focus();
+        return;
+      }
+
+      if (!termsInput.checked) {
+        alert("Please accept the Terms of Service and Privacy Policy.");
+        termsInput.focus();
+        return;
+      }
+
+      try {
+        const internationalPhone = await getInternationalPhone();
+
+        if (!internationalPhone) {
+          alert("Please check your phone number and try again.");
+          phoneInput.focus();
+          return;
+        }
+
+        // SAVE PROFESSIONAL SIGNUP DETAILS
+        sessionStorage.setItem("vorvenaFullName", fullName);
+        sessionStorage.setItem("vorvenaEmail", email);
+        sessionStorage.setItem("vorvenaPhone", internationalPhone);
+
+        sessionStorage.setItem(
+          "vorvenaCountry",
+          iti.getSelectedCountryData().name || ""
+        );
+
+        sessionStorage.setItem("vorvenaRegion", region);
+        sessionStorage.setItem("vorvenaCity", city);
+        sessionStorage.setItem("vorvenaAccountType", "professional");
+
+        // PROCEED TO VERIFICATION
+        window.location.href = "verification.html";
+
+      } catch (error) {
+        console.error("Phone processing error:", error);
+        alert("We could not process your phone number. Please try again.");
+      }
+    });
+
+  });
+</script>
+
 
   <script src="vorvena-loader.js" defer></script>
 
