@@ -1,247 +1,403 @@
 
 document.addEventListener("DOMContentLoaded", () => {
+  const savedEmail =
+    sessionStorage.getItem("vorvenaEmail") ||
+    localStorage.getItem("vorvenaEmail");
 
-    // ELEMENTS
-    const emailStep = document.getElementById("emailStep");
-    const phoneStep = document.getElementById("phoneStep");
-    const successStep = document.getElementById("successStep");
+  const savedPhone =
+    sessionStorage.getItem("vorvenaPhone") ||
+    localStorage.getItem("vorvenaPhone");
 
-    const emailForm = document.getElementById("emailVerificationForm");
-    const phoneForm = document.getElementById("phoneVerificationForm");
+  const accountType =
+    sessionStorage.getItem("vorvenaAccountType") ||
+    localStorage.getItem("vorvenaAccountType") ||
+    "client";
 
-    const emailInputs = emailForm.querySelectorAll(".otp-inputs input");
-    const phoneInputs = phoneForm.querySelectorAll(".otp-inputs input");
+  const displayEmail = document.getElementById("displayEmail");
+  const displayPhone = document.getElementById("displayPhone");
 
-    const emailMessage = document.getElementById("emailMessage");
-    const phoneMessage = document.getElementById("phoneMessage");
+  const emailForm = document.getElementById("emailVerificationForm");
+  const phoneForm = document.getElementById("phoneVerificationForm");
 
-    const displayEmail = document.getElementById("displayEmail");
-    const displayPhone = document.getElementById("displayPhone");
+  const emailMessage = document.getElementById("emailMessage");
+  const phoneMessage = document.getElementById("phoneMessage");
 
-    // GET SAVED SIGNUP DETAILS
-    const savedEmail =
-        sessionStorage.getItem("vorvenaEmail") ||
-        localStorage.getItem("vorvenaEmail");
+  const emailStep = document.getElementById("emailStep");
+  const phoneStep = document.getElementById("phoneStep");
+  const successStep = document.getElementById("successStep");
 
-    const savedPhone =
-        sessionStorage.getItem("vorvenaPhone") ||
-        localStorage.getItem("vorvenaPhone");
+  const continueBtn = document.getElementById("continueBtn");
+  const backToEmail = document.getElementById("backToEmail");
 
-    const accountType =
-        sessionStorage.getItem("vorvenaAccountType") ||
-        localStorage.getItem("vorvenaAccountType");
+  if (!savedEmail || !savedPhone) {
+    alert("Your signup information could not be found. Please sign up again.");
 
-    if (!savedEmail || !savedPhone || !accountType) {
-        alert("Your signup details are incomplete. Please sign up again.");
-        window.location.href =
-            accountType === "client"
-                ? "client-signup.html"
-                : "professional-signup.html";
+    window.location.href =
+      accountType === "professional"
+        ? "professional-signup.html"
+        : "client-signup.html";
+
+    return;
+  }
+
+  // Display saved signup information
+  if (displayEmail) displayEmail.textContent = savedEmail;
+  if (displayPhone) displayPhone.textContent = savedPhone;
+
+  let emailVerified = false;
+  let phoneVerified = false;
+
+  // Clear previous verification flags
+  sessionStorage.removeItem("vorvenaEmailVerified");
+  sessionStorage.removeItem("vorvenaPhoneVerified");
+
+  function showMessage(element, message, type = "error") {
+    if (!element) return;
+
+    element.textContent = message;
+    element.className = type === "success" ? "success-message" : "error-message";
+  }
+
+  function getOtpInputs(form) {
+    return Array.from(form.querySelectorAll("input"));
+  }
+
+  // OTP input handling
+  function setupOtpInputs(form) {
+    if (!form) return;
+
+    const inputs = getOtpInputs(form);
+
+    inputs.forEach((input, index) => {
+      input.maxLength = 1;
+      input.inputMode = "numeric";
+      input.pattern = "[0-9]*";
+
+      input.addEventListener("input", () => {
+        const value = input.value.replace(/\D/g, "");
+        input.value = value.slice(-1);
+
+        if (input.value && index < inputs.length - 1) {
+          inputs[index + 1].focus();
+        }
+      });
+
+      input.addEventListener("keydown", (event) => {
+        if (
+          event.key === "Backspace" &&
+          !input.value &&
+          index > 0
+        ) {
+          inputs[index - 1].focus();
+        }
+      });
+
+      input.addEventListener("paste", (event) => {
+        event.preventDefault();
+
+        const pasted = event.clipboardData
+          .getData("text")
+          .replace(/\D/g, "")
+          .slice(0, inputs.length);
+
+        inputs.forEach((field, i) => {
+          field.value = pasted[i] || "";
+        });
+
+        const nextEmpty = inputs.find((field) => !field.value);
+
+        if (nextEmpty) {
+          nextEmpty.focus();
+        } else {
+          inputs[inputs.length - 1].focus();
+        }
+      });
+    });
+  }
+
+  setupOtpInputs(emailForm);
+  setupOtpInputs(phoneForm);
+
+  function getOtp(form) {
+    return getOtpInputs(form)
+      .map((input) => input.value)
+      .join("");
+  }
+
+  function clearOtp(form) {
+    getOtpInputs(form).forEach((input) => {
+      input.value = "";
+    });
+  }
+
+  // Backend integration placeholder.
+  // Do not mark a contact verified until the backend confirms the OTP.
+  async function verifyOtp(type, code) {
+    if (!/^\d{6}$/.test(code)) {
+      return {
+        success: false,
+        message: "Please enter the complete six-digit verification code."
+      };
+    }
+
+    /*
+      BACKEND CONNECTION REQUIRED
+
+      Your backend developer must provide:
+      - An endpoint to verify email OTP.
+      - An endpoint to verify phone OTP.
+      - The required request payload.
+      - The success/error response format.
+
+      Example structure once the real API is provided:
+
+      const response = await fetch("YOUR_BACKEND_ENDPOINT", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: savedEmail,
+          phone: savedPhone,
+          code: code
+        })
+      });
+
+      const result = await response.json();
+
+      return result;
+    */
+
+    return {
+      success: false,
+      message: "OTP verification is not connected yet. Please try again after backend integration."
+    };
+  }
+
+  // Email verification
+  if (emailForm) {
+    emailForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const code = getOtp(emailForm);
+
+      if (code.length !== 6) {
+        showMessage(
+          emailMessage,
+          "Please enter all six digits of your email verification code."
+        );
         return;
-    }
+      }
 
-    // DISPLAY SAVED DETAILS
-    displayEmail.textContent = savedEmail;
-    displayPhone.textContent = savedPhone;
+      const submitButton = emailForm.querySelector(
+        'button[type="submit"]'
+      );
 
-    // FOOTER YEAR
-    document.getElementById("year").textContent =
-        new Date().getFullYear();
+      if (submitButton) submitButton.disabled = true;
 
-    // SCREEN NAVIGATION
-    function showStep(step) {
-        [emailStep, phoneStep, successStep].forEach(section => {
-            section.classList.remove("active");
-        });
+      try {
+        const result = await verifyOtp("email", code);
 
-        step.classList.add("active");
-    }
-
-    // OTP INPUT HANDLING
-    function setupOtpInputs(inputs) {
-        inputs.forEach((input, index) => {
-
-            input.addEventListener("input", () => {
-                input.value = input.value.replace(/\D/g, "").slice(-1);
-
-                if (input.value && index < inputs.length - 1) {
-                    inputs[index + 1].focus();
-                }
-            });
-
-            input.addEventListener("keydown", event => {
-                if (
-                    event.key === "Backspace" &&
-                    !input.value &&
-                    index > 0
-                ) {
-                    inputs[index - 1].focus();
-                }
-
-                if (event.key === "ArrowLeft" && index > 0) {
-                    inputs[index - 1].focus();
-                }
-
-                if (
-                    event.key === "ArrowRight" &&
-                    index < inputs.length - 1
-                ) {
-                    inputs[index + 1].focus();
-                }
-            });
-
-            input.addEventListener("paste", event => {
-                event.preventDefault();
-
-                const pasted = event.clipboardData
-                    .getData("text")
-                    .replace(/\D/g, "")
-                    .slice(0, 6);
-
-                pasted.split("").forEach((digit, i) => {
-                    if (inputs[i]) inputs[i].value = digit;
-                });
-
-                if (pasted.length) {
-                    inputs[Math.min(pasted.length, 5)].focus();
-                }
-            });
-        });
-    }
-
-    setupOtpInputs(emailInputs);
-    setupOtpInputs(phoneInputs);
-
-    function getOtp(inputs) {
-        return Array.from(inputs)
-            .map(input => input.value)
-            .join("");
-    }
-
-    function clearOtp(inputs) {
-        inputs.forEach(input => input.value = "");
-    }
-
-    // EMAIL VERIFICATION
-    emailForm.addEventListener("submit", event => {
-        event.preventDefault();
-
-        if (getOtp(emailInputs).length !== 6) {
-            emailMessage.style.color = "#d93025";
-            emailMessage.textContent = "Enter all six digits.";
-            return;
+        if (!result.success) {
+          showMessage(
+            emailMessage,
+            result.message || "Incorrect verification code. Please try again."
+          );
+          clearOtp(emailForm);
+          return;
         }
 
-        emailMessage.style.color = "#16834b";
-        emailMessage.textContent = "Email verified successfully!";
+        emailVerified = true;
+        sessionStorage.setItem("vorvenaEmailVerified", "true");
 
-        setTimeout(() => {
-            emailMessage.textContent = "";
-            clearOtp(emailInputs);
-            showStep(phoneStep);
-            phoneInputs[0].focus();
-        }, 700);
+        showMessage(
+          emailMessage,
+          "Email verified successfully!",
+          "success"
+        );
+
+        if (emailStep) emailStep.style.display = "none";
+        if (phoneStep) phoneStep.style.display = "block";
+      } catch (error) {
+        console.error("Email verification error:", error);
+
+        showMessage(
+          emailMessage,
+          "Unable to verify your email right now. Please try again."
+        );
+      } finally {
+        if (submitButton) submitButton.disabled = false;
+      }
     });
+  }
 
-    // PHONE VERIFICATION
-    phoneForm.addEventListener("submit", event => {
-        event.preventDefault();
+  // Phone verification
+  if (phoneForm) {
+    phoneForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-        if (getOtp(phoneInputs).length !== 6) {
-            phoneMessage.style.color = "#d93025";
-            phoneMessage.textContent = "Enter all six digits.";
-            return;
+      const code = getOtp(phoneForm);
+
+      if (code.length !== 6) {
+        showMessage(
+          phoneMessage,
+          "Please enter all six digits of your phone verification code."
+        );
+        return;
+      }
+
+      const submitButton = phoneForm.querySelector(
+        'button[type="submit"]'
+      );
+
+      if (submitButton) submitButton.disabled = true;
+
+      try {
+        const result = await verifyOtp("phone", code);
+
+        if (!result.success) {
+          showMessage(
+            phoneMessage,
+            result.message || "Incorrect verification code. Please try again."
+          );
+          clearOtp(phoneForm);
+          return;
         }
 
-        phoneMessage.style.color = "#16834b";
-        phoneMessage.textContent = "Phone verified successfully!";
+        phoneVerified = true;
+        sessionStorage.setItem("vorvenaPhoneVerified", "true");
 
-        setTimeout(() => {
-            phoneMessage.textContent = "";
-            clearOtp(phoneInputs);
-            showStep(successStep);
-        }, 700);
+        showMessage(
+          phoneMessage,
+          "Phone number verified successfully!",
+          "success"
+        );
+
+        if (phoneStep) phoneStep.style.display = "none";
+        if (successStep) successStep.style.display = "block";
+      } catch (error) {
+        console.error("Phone verification error:", error);
+
+        showMessage(
+          phoneMessage,
+          "Unable to verify your phone right now. Please try again."
+        );
+      } finally {
+        if (submitButton) submitButton.disabled = false;
+      }
     });
+  }
 
-    // RESEND EMAIL
-    document.getElementById("resendEmailCode")
-        .addEventListener("click", () => {
-            const message = document.getElementById("emailResendMessage");
-            message.style.color = "#16834b";
-            message.textContent =
-                "Demo mode: no email code was sent.";
-        });
+  // Back to email step
+  if (backToEmail) {
+    backToEmail.addEventListener("click", () => {
+      if (phoneStep) phoneStep.style.display = "none";
+      if (emailStep) emailStep.style.display = "block";
+    });
+  }
 
-    // RESEND PHONE
-    document.getElementById("resendPhoneCode")
-        .addEventListener("click", () => {
-            const message = document.getElementById("phoneResendMessage");
-            message.style.color = "#16834b";
-            message.textContent =
-                "Demo mode: no SMS code was sent.";
-        });
+  // Change email
+  const changeEmail = document.getElementById("changeEmail");
 
-    // CHANGE EMAIL
-    document.getElementById("changeEmail")
-        .addEventListener("click", () => {
+  if (changeEmail) {
+    changeEmail.addEventListener("click", () => {
+      const newEmail = prompt("Enter your correct email address:");
 
-            const newEmail = prompt("Enter your email address:");
+      if (!newEmail) return;
 
-            if (
-                newEmail &&
-                /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail.trim())
-            ) {
-                const updatedEmail = newEmail.trim().toLowerCase();
+      const cleanedEmail = newEmail.trim();
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-                displayEmail.textContent = updatedEmail;
+      if (!emailPattern.test(cleanedEmail)) {
+        alert("Please enter a valid email address.");
+        return;
+      }
 
-                sessionStorage.setItem("vorvenaEmail", updatedEmail);
-                localStorage.setItem("vorvenaEmail", updatedEmail);
-            }
-        });
+      sessionStorage.setItem("vorvenaEmail", cleanedEmail);
+      localStorage.setItem("vorvenaEmail", cleanedEmail);
 
-    // CHANGE PHONE
-    document.getElementById("changePhone")
-        .addEventListener("click", () => {
+      if (displayEmail) displayEmail.textContent = cleanedEmail;
 
-            const newPhone = prompt(
-                "Enter your phone number, including country code:"
-            );
+      emailVerified = false;
+      sessionStorage.removeItem("vorvenaEmailVerified");
 
-            if (newPhone && newPhone.trim()) {
-                const updatedPhone = newPhone.trim();
+      clearOtp(emailForm);
+      showMessage(emailMessage, "Email changed. A new verification code is required.");
+    });
+  }
 
-                displayPhone.textContent = updatedPhone;
+  // Change phone
+  const changePhone = document.getElementById("changePhone");
 
-                sessionStorage.setItem("vorvenaPhone", updatedPhone);
-                localStorage.setItem("vorvenaPhone", updatedPhone);
-            }
-        });
+  if (changePhone) {
+    changePhone.addEventListener("click", () => {
+      const newPhone = prompt("Enter your correct phone number:");
 
-    // BACK TO EMAIL
-    document.getElementById("backToEmail")
-        .addEventListener("click", () => {
-            showStep(emailStep);
-        });
+      if (!newPhone) return;
 
-    // CONTINUE
-    document.getElementById("continueBtn")
-        .addEventListener("click", () => {
+      const cleanedPhone = newPhone.trim();
 
-            sessionStorage.setItem("vorvenaEmailVerified", "true");
-            sessionStorage.setItem("vorvenaPhoneVerified", "true");
+      if (!/^\+?[0-9\s()-]+$/.test(cleanedPhone)) {
+        alert("Please enter a valid phone number using digits only.");
+        return;
+      }
 
-            if (accountType === "professional") {
-                window.location.href = "professional-onboarding.html";
-            } else if (accountType === "client") {
-                window.location.href = "client-onboarding.html";
-            } else {
-                alert("Invalid account type. Please sign up again.");
-                window.location.href = "professional-signup.html";
-            }
-        });
+      const digits = cleanedPhone.replace(/\D/g, "");
 
-    // START
-    showStep(emailStep);
+      if (digits.length < 7 || digits.length > 15) {
+        alert("Please enter a valid international phone number.");
+        return;
+      }
 
+      sessionStorage.setItem("vorvenaPhone", cleanedPhone);
+      localStorage.setItem("vorvenaPhone", cleanedPhone);
+
+      if (displayPhone) displayPhone.textContent = cleanedPhone;
+
+      phoneVerified = false;
+      sessionStorage.removeItem("vorvenaPhoneVerified");
+
+      clearOtp(phoneForm);
+      showMessage(phoneMessage, "Phone number changed. A new verification code is required.");
+    });
+  }
+
+  // Resend code buttons
+  const resendEmailCode = document.getElementById("resendEmailCode");
+  const resendPhoneCode = document.getElementById("resendPhoneCode");
+
+  if (resendEmailCode) {
+    resendEmailCode.addEventListener("click", () => {
+      const message = document.getElementById("emailResendMessage");
+
+      if (message) {
+        message.textContent =
+          "Email OTP sending will be enabled when the backend email service is connected.";
+      }
+    });
+  }
+
+  if (resendPhoneCode) {
+    resendPhoneCode.addEventListener("click", () => {
+      const message = document.getElementById("phoneResendMessage");
+
+      if (message) {
+        message.textContent =
+          "SMS OTP sending will be enabled when the backend SMS service is connected.";
+      }
+    });
+  }
+
+  // Continue only after both contacts are genuinely verified
+  if (continueBtn) {
+    continueBtn.addEventListener("click", () => {
+      if (!emailVerified || !phoneVerified) {
+        alert("Please verify both your email and phone number first.");
+        return;
+      }
+
+      window.location.href =
+        accountType === "professional"
+          ? "professional-onboarding.html"
+          : "client-onboarding.html";
+    });
+  }
 });

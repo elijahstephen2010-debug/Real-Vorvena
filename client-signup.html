@@ -63,42 +63,33 @@
         <div class="benefits">
 
           <div class="benefit">
-
             <span class="benefit-icon">✓</span>
-
             <div>
               <h3>Global Talent</h3>
               <p>
                 Discover professionals from different countries.
               </p>
             </div>
-
           </div>
 
           <div class="benefit">
-
             <span class="benefit-icon">✓</span>
-
             <div>
               <h3>Secure Payments</h3>
               <p>
                 Make payments through a protected platform process.
               </p>
             </div>
-
           </div>
 
           <div class="benefit">
-
             <span class="benefit-icon">✓</span>
-
             <div>
               <h3>Work With Confidence</h3>
               <p>
                 Manage your projects in one place.
               </p>
             </div>
-
           </div>
 
         </div>
@@ -111,7 +102,6 @@
       </p>
 
     </section>
-
 
     <!-- RIGHT PANEL -->
     <section class="signup-form-section">
@@ -133,7 +123,6 @@
 
         </div>
 
-
         <!-- FORM HEADING -->
         <div class="form-heading">
 
@@ -146,7 +135,6 @@
           </p>
 
         </div>
-
 
         <!-- SIGNUP FORM -->
         <form id="clientSignupForm">
@@ -165,7 +153,6 @@
 
           </div>
 
-
           <div class="form-group">
 
             <label for="email">Email Address</label>
@@ -179,7 +166,6 @@
               required>
 
           </div>
-
 
           <div class="form-group">
 
@@ -199,7 +185,6 @@
 
           </div>
 
-
           <div class="form-group">
 
             <label for="phone">Phone Number</label>
@@ -213,11 +198,10 @@
               required>
 
             <small class="field-hint">
-              The country code is added automatically.
+              The country code is added automatically. Do not enter it again.
             </small>
 
           </div>
-
 
           <div class="form-group">
 
@@ -233,7 +217,6 @@
 
           </div>
 
-
           <div class="form-group">
 
             <label for="city">City</label>
@@ -247,7 +230,6 @@
               required>
 
           </div>
-
 
           <div class="form-group">
 
@@ -264,7 +246,6 @@
 
           </div>
 
-
           <div class="form-group">
 
             <label for="confirmPassword">Confirm Password</label>
@@ -279,7 +260,6 @@
               required>
 
           </div>
-
 
           <!-- TERMS AND PRIVACY -->
           <div class="terms-group">
@@ -308,7 +288,6 @@
 
           </div>
 
-
           <!-- SUBMIT -->
           <button type="submit" class="submit-btn">
 
@@ -320,7 +299,6 @@
 
         </form>
 
-
         <!-- LOGIN LINK -->
         <p class="login-text">
 
@@ -329,7 +307,6 @@
           <a href="login.html">Log in</a>
 
         </p>
-
 
         <!-- HOMEPAGE LINK -->
         <a href="index.html" class="back-home">
@@ -342,184 +319,295 @@
 
   </main>
 
-
   <!-- INTERNATIONAL PHONE INPUT -->
   <script
     src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js">
   </script>
 
-
-  <!-- SIGNUP FUNCTIONALITY -->
+  <!-- CLIENT SIGNUP FUNCTIONALITY -->
   <script>
 
-    const phoneInput = document.querySelector("#phone");
-    const countryInput = document.querySelector("#country");
-    const signupForm = document.querySelector("#clientSignupForm");
+    document.addEventListener("DOMContentLoaded", () => {
 
-    const iti = window.intlTelInput(phoneInput, {
-      initialCountry: "ng",
-      separateDialCode: true,
-      nationalMode: true,
-      countrySearch: true,
-      preferredCountries: ["ng", "us", "gb", "ca"],
-      utilsScript:
-        "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
-    });
+      const form = document.getElementById("clientSignupForm");
 
+      const fullNameInput = document.getElementById("fullName");
+      const emailInput = document.getElementById("email");
+      const countryInput = document.getElementById("country");
+      const phoneInput = document.getElementById("phone");
+      const regionInput = document.getElementById("region");
+      const cityInput = document.getElementById("city");
+      const passwordInput = document.getElementById("password");
+      const confirmPasswordInput = document.getElementById("confirmPassword");
+      const termsInput = document.getElementById("terms");
 
-    function updateCountry() {
+      // FOOTER YEAR
+      document.getElementById("year").textContent =
+        new Date().getFullYear();
 
-      const selectedCountry = iti.getSelectedCountryData();
+      // INTERNATIONAL PHONE INITIALIZATION
+      const iti = window.intlTelInput(phoneInput, {
+        initialCountry: "ng",
+        separateDialCode: true,
+        nationalMode: true,
+        countrySearch: true,
+        preferredCountries: ["ng", "us", "gb", "ca"],
+        utilsScript:
+          "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
+      });
 
-      countryInput.value = selectedCountry.name || "";
+      // UPDATE COUNTRY
+      function updateCountry() {
 
-    }
+        const selectedCountry = iti.getSelectedCountryData();
 
-
-    updateCountry();
-
-    phoneInput.addEventListener("countrychange", updateCountry);
-
-
-    document.querySelector("#year").textContent =
-      new Date().getFullYear();
-
-
-    signupForm.addEventListener("submit", async function(event) {
-
-      event.preventDefault();
-
-
-      const fullName =
-        document.querySelector("#fullName").value.trim();
-
-      const email =
-        document.querySelector("#email").value.trim();
-
-      const country = countryInput.value;
-
-      const region =
-        document.querySelector("#region").value.trim();
-
-      const city =
-        document.querySelector("#city").value.trim();
-
-      const password =
-        document.querySelector("#password").value;
-
-      const confirmPassword =
-        document.querySelector("#confirmPassword").value;
-
-
-      if (password.length < 8) {
-
-        alert("Your password must contain at least 8 characters.");
-
-        return;
+        countryInput.value = selectedCountry.name || "";
 
       }
 
+      updateCountry();
 
-      if (password !== confirmPassword) {
+      phoneInput.addEventListener("countrychange", updateCountry);
 
-        alert("Your passwords do not match.");
+      // PHONE INPUT: DIGITS ONLY, MAXIMUM 11 DIGITS
+      phoneInput.addEventListener("input", () => {
 
-        return;
+        let digits = phoneInput.value.replace(/\D/g, "");
 
-      }
+        digits = digits.slice(0, 11);
 
+        phoneInput.value = digits;
 
-      const selectedCountry = iti.getSelectedCountryData();
+        phoneInput.setCustomValidity("");
 
+      });
 
-      if (!selectedCountry.iso2 || !selectedCountry.dialCode) {
+      // EMAIL VALIDATION
+      function validateEmail() {
 
-        alert("Please select your country.");
+        const email = emailInput.value.trim();
 
-        return;
+        const emailPattern =
+          /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-      }
+        if (!emailPattern.test(email)) {
 
+          alert("Please enter a valid email address.");
 
-      // Remove spaces, brackets and other non-digit characters.
-      let phoneDigits = phoneInput.value.replace(/\D/g, "");
+          emailInput.focus();
 
+          return false;
 
-      // Remove the leading national zero where applicable.
-      if (phoneDigits.startsWith("0")) {
+        }
 
-        phoneDigits = phoneDigits.substring(1);
-
-      }
-
-
-      if (phoneDigits.length < 7 || phoneDigits.length > 15) {
-
-        alert("Please enter a valid phone number.");
-
-        phoneInput.focus();
-
-        return;
+        return true;
 
       }
 
+      // PHONE VALIDATION
+      function validatePhoneNumber() {
 
-      // Build the international number using the selected dialling code.
-      const internationalNumber =
-        "+" + selectedCountry.dialCode + phoneDigits;
+        const phoneDigits = phoneInput.value.trim();
 
+        if (!phoneDigits) {
 
-      try {
-
-        await iti.promise;
-
-        iti.setNumber(internationalNumber);
-
-
-        if (
-          typeof iti.isPossibleNumber === "function" &&
-          !iti.isPossibleNumber()
-        ) {
-
-          alert("Please check your phone number and try again.");
+          alert("Please enter your phone number.");
 
           phoneInput.focus();
+
+          return false;
+
+        }
+
+        if (!/^\d+$/.test(phoneDigits)) {
+
+          alert("Please enter numbers only in your phone number.");
+
+          phoneInput.focus();
+
+          return false;
+
+        }
+
+        if (phoneDigits.length > 11) {
+
+          alert("Your phone number cannot exceed 11 digits.");
+
+          phoneInput.focus();
+
+          return false;
+
+        }
+
+        if (phoneDigits.length < 7) {
+
+          alert("Please enter a valid phone number.");
+
+          phoneInput.focus();
+
+          return false;
+
+        }
+
+        const selectedCountry = iti.getSelectedCountryData();
+
+        if (!selectedCountry.iso2 || !selectedCountry.dialCode) {
+
+          alert("Please select your country.");
+
+          return false;
+
+        }
+
+        return true;
+
+      }
+
+      // CLIENT SIGNUP
+      form.addEventListener("submit", async (event) => {
+
+        event.preventDefault();
+
+        const fullName = fullNameInput.value.trim();
+        const email = emailInput.value.trim();
+        const region = regionInput.value.trim();
+        const city = cityInput.value.trim();
+
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        // FULL NAME
+        if (!fullName) {
+
+          alert("Please enter your full name.");
+
+          fullNameInput.focus();
 
           return;
 
         }
 
-      } catch (error) {
+        // EMAIL
+        if (!validateEmail()) return;
 
-        alert("Phone validation could not load. Please refresh and try again.");
+        // PHONE
+        if (!validatePhoneNumber()) return;
 
-        return;
+        // REGION
+        if (!region) {
 
-      }
+          alert("Please enter your state or region.");
 
+          regionInput.focus();
 
-      // Save signup information.
-      sessionStorage.setItem("vorvenaFullName", fullName);
-      sessionStorage.setItem("vorvenaEmail", email);
-      sessionStorage.setItem("vorvenaPhone", internationalNumber);
-      sessionStorage.setItem("vorvenaCountry", country);
-      sessionStorage.setItem("vorvenaRegion", region);
-      sessionStorage.setItem("vorvenaCity", city);
-      sessionStorage.setItem("vorvenaAccountType", "client");
+          return;
 
+        }
 
-      window.location.href = "verification.html";
+        // CITY
+        if (!city) {
+
+          alert("Please enter your city.");
+
+          cityInput.focus();
+
+          return;
+
+        }
+
+        // PASSWORD
+        if (password.length < 8) {
+
+          alert("Your password must contain at least 8 characters.");
+
+          passwordInput.focus();
+
+          return;
+
+        }
+
+        // CONFIRM PASSWORD
+        if (password !== confirmPassword) {
+
+          alert("Your passwords do not match.");
+
+          confirmPasswordInput.focus();
+
+          return;
+
+        }
+
+        // TERMS
+        if (!termsInput.checked) {
+
+          alert("Please accept the Terms of Service and Privacy Policy.");
+
+          termsInput.focus();
+
+          return;
+
+        }
+
+        try {
+
+          // Wait for phone validation utilities
+          await iti.promise;
+
+          // Get complete international phone number.
+          // Example:
+          // Input: 07068055509
+          // Country code: +234
+          // Saved number: +2347068055509
+
+          const internationalPhone = iti.getNumber();
+
+          if (!iti.isValidNumber()) {
+
+            alert("Please enter a valid phone number for your selected country.");
+
+            phoneInput.focus();
+
+            return;
+
+          }
+
+          // SAVE SIGNUP DETAILS
+          sessionStorage.setItem("vorvenaFullName", fullName);
+          sessionStorage.setItem("vorvenaEmail", email);
+          sessionStorage.setItem("vorvenaPhone", internationalPhone);
+
+          sessionStorage.setItem(
+            "vorvenaCountry",
+            iti.getSelectedCountryData().name || ""
+          );
+
+          sessionStorage.setItem("vorvenaRegion", region);
+          sessionStorage.setItem("vorvenaCity", city);
+          sessionStorage.setItem("vorvenaAccountType", "client");
+
+          // PROCEED TO VERIFICATION
+          window.location.href = "verification.html";
+
+        } catch (error) {
+
+          console.error("Phone validation error:", error);
+
+          alert(
+            "Phone validation could not load. Please refresh and try again."
+          );
+
+        }
+
+      });
 
     });
 
   </script>
 
-
   <!-- VORVENA LOADER -->
   <script src="vorvena-loader.js" defer></script>
 
-  <!-- PRIVACY CONSENT -->
-  <script src="privacy-consent.js"></script>
+ 
 
 </body>
 </html>
