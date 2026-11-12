@@ -20,7 +20,7 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 110px;
+    scroll-padding-top: 105px;
 }
 
 body {
@@ -28,6 +28,9 @@ body {
     background: var(--background);
     color: var(--ink);
     line-height: 1.7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 a {
@@ -39,7 +42,7 @@ a {
 
 .site-header {
     width: 100%;
-    min-height: 86px;
+    min-height: 92px;
     background: var(--white);
     border-bottom: 1px solid var(--border);
     position: sticky;
@@ -50,59 +53,35 @@ a {
 .header-inner {
     width: 100%;
     max-width: 1400px;
-    min-height: 86px;
+    min-height: 92px;
     margin: auto;
     padding: 0 7%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 25px;
+    gap: 18px;
 }
 
-.brand {
-    display: inline-flex;
+/* HEADER LOGO */
+.header-brand-area {
+    width: 210px;
+    min-width: 210px;
+    height: 72px;
+    padding: 4px 6px;
+    display: flex;
     align-items: center;
-    gap: 11px;
+    justify-content: center;
     flex-shrink: 0;
 }
 
-.brand-logo {
-    width: 53px;
-    height: 53px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.brand-logo img {
+.header-brand-area img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    position: relative;
-    z-index: 2;
+    display: block;
 }
 
-.logo-fallback {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--navy);
-    font-family: "Manrope", sans-serif;
-    font-size: 30px;
-    font-weight: 800;
-}
-
-.brand-name {
-    font-family: "Manrope", sans-serif;
-    font-size: 21px;
-    font-weight: 800;
-    color: var(--navy);
-    letter-spacing: 1.2px;
-}
+/* NAVIGATION */
 
 .header-nav {
     display: flex;
@@ -138,12 +117,11 @@ a {
     box-shadow: 0 7px 18px rgba(8, 43, 104, 0.15);
 }
 
-
 /* HERO */
 
 .policy-hero {
-    min-height: 330px;
-    padding: 75px 8%;
+    min-height: 250px;
+    padding: 55px 8%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -199,13 +177,13 @@ a {
     color: var(--white);
 }
 
-
 /* POLICY LAYOUT */
 
 .policy-container {
+    flex: 1 0 auto;
     width: 100%;
     max-width: 1350px;
-    margin: 65px auto;
+    margin: 42px auto;
     padding: 0 7%;
     display: grid;
     grid-template-columns: 270px minmax(0, 1fr);
@@ -213,12 +191,11 @@ a {
     gap: 42px;
 }
 
-
 /* SIDEBAR */
 
 .policy-sidebar {
     position: sticky;
-    top: 115px;
+    top: 105px;
 }
 
 .sidebar-card {
@@ -260,7 +237,6 @@ a {
     border-left-color: var(--blue);
 }
 
-
 /* POLICY CONTENT */
 
 .policy-content {
@@ -276,7 +252,7 @@ a {
     padding: 0 0 34px;
     margin-bottom: 34px;
     border-bottom: 1px solid var(--border);
-    scroll-margin-top: 115px;
+    scroll-margin-top: 105px;
 }
 
 .policy-section:last-of-type {
@@ -329,7 +305,6 @@ a {
     color: var(--blue);
 }
 
-
 /* INLINE LINK */
 
 .inline-link {
@@ -346,7 +321,6 @@ a {
     color: var(--navy-deep);
     border-color: var(--navy-deep);
 }
-
 
 /* CONTACT CARD */
 
@@ -396,7 +370,6 @@ a {
     text-decoration: underline;
 }
 
-
 /* IMPORTANT NOTICE */
 
 .policy-notice {
@@ -421,13 +394,14 @@ a {
     line-height: 1.8;
 }
 
-
 /* FOOTER */
 
 .site-footer {
+    width: 100%;
+    flex-shrink: 0;
     background: var(--navy-deep);
     color: var(--white);
-    padding: 55px 7% 0;
+    padding: 38px 7% 0;
 }
 
 .footer-inner {
@@ -435,26 +409,65 @@ a {
     margin: auto;
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
-    gap: 55px;
-    padding-bottom: 40px;
+    gap: 38px;
+    padding-bottom: 28px;
 }
 
-.footer-brand .brand-name {
-    color: var(--white);
+/* FOOTER LOGO AND NAME */
+
+.footer-brand .brand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    width: auto;
+    max-width: 100%;
+    background: transparent;
 }
 
 .footer-brand .brand-logo {
-    background: var(--white);
-    border-radius: 8px;
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.footer-brand .brand-logo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.footer-brand .logo-fallback {
+    display: none;
+}
+
+.footer-brand .brand-name {
+    display: inline-block;
+    color: var(--white);
+    font-family: "Manrope", sans-serif;
+    font-size: 19px;
+    font-weight: 800;
+    white-space: nowrap;
 }
 
 .footer-brand > p {
     max-width: 300px;
-    margin-top: 17px;
+    margin-top: 12px;
     color: #b7c6dd;
     font-size: 13px;
     line-height: 1.8;
 }
+
+/* FOOTER LINKS */
 
 .footer-links {
     display: flex;
@@ -479,6 +492,8 @@ a {
     padding-left: 4px;
 }
 
+/* COPYRIGHT */
+
 .footer-bottom {
     border-top: 1px solid rgba(255,255,255,0.12);
     padding: 20px 0;
@@ -490,27 +505,25 @@ a {
     font-size: 12px;
 }
 
-
-/* 768px */
+/* TABLET - 768px */
 
 @media (max-width: 768px) {
 
     .header-inner {
         padding: 0 5%;
-        min-height: 76px;
+        min-height: 88px;
+        gap: 15px;
     }
 
     .site-header {
-        min-height: 76px;
+        min-height: 88px;
     }
 
-    .brand-logo {
-        width: 46px;
-        height: 46px;
-    }
-
-    .brand-name {
-        font-size: 18px;
+    .header-brand-area {
+        width: 145px;
+        min-width: 145px;
+        height: 64px;
+        padding: 5px 8px;
     }
 
     .header-nav {
@@ -527,14 +540,14 @@ a {
     }
 
     .policy-hero {
-        min-height: 300px;
-        padding: 65px 6%;
+        min-height: 230px;
+        padding: 45px 6%;
     }
 
     .policy-container {
         grid-template-columns: 1fr;
         gap: 25px;
-        margin: 40px auto;
+        margin: 35px auto;
         padding: 0 5%;
     }
 
@@ -562,33 +575,25 @@ a {
     }
 }
 
-
-/* 425px */
+/* MOBILE - 425px */
 
 @media (max-width: 425px) {
 
     .header-inner {
         padding: 0 5%;
-        min-height: 70px;
+        min-height: 76px;
         gap: 10px;
     }
 
     .site-header {
-        min-height: 70px;
+        min-height: 76px;
     }
 
-    .brand {
-        gap: 6px;
-    }
-
-    .brand-logo {
-        width: 39px;
-        height: 39px;
-    }
-
-    .brand-name {
-        font-size: 15px;
-        letter-spacing: 0.5px;
+    .header-brand-area {
+        width: 118px;
+        min-width: 118px;
+        height: 58px;
+        padding: 4px 5px;
     }
 
     .header-nav {
@@ -601,8 +606,8 @@ a {
     }
 
     .policy-hero {
-        min-height: 270px;
-        padding: 55px 6%;
+        min-height: 220px;
+        padding: 42px 6%;
     }
 
     .hero-label {
@@ -622,7 +627,7 @@ a {
     }
 
     .policy-container {
-        margin: 28px auto;
+        margin: 25px auto;
         padding: 0 4%;
         gap: 18px;
     }
@@ -678,31 +683,38 @@ a {
     }
 
     .site-footer {
-        padding: 40px 6% 0;
+        padding: 32px 6% 0;
     }
 
     .footer-inner {
         grid-template-columns: 1fr 1fr;
-        gap: 30px 20px;
+        gap: 25px 20px;
     }
 
     .footer-brand {
         grid-column: 1 / -1;
     }
+
+    .footer-brand .brand-logo {
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
+    }
+
+    .footer-brand .brand-name {
+        font-size: 16px;
+    }
 }
 
-
-/* 375px */
+/* SMALL MOBILE - 375px */
 
 @media (max-width: 375px) {
 
-    .brand-logo {
-        width: 35px;
-        height: 35px;
-    }
-
-    .brand-name {
-        font-size: 14px;
+    .header-brand-area {
+        width: 108px;
+        min-width: 108px;
+        height: 54px;
+        padding: 3px;
     }
 
     .header-button {
@@ -711,7 +723,7 @@ a {
     }
 
     .policy-hero {
-        padding: 48px 5%;
+        padding: 38px 5%;
     }
 
     .policy-hero h1 {
@@ -740,7 +752,7 @@ a {
     }
 
     .footer-inner {
-        gap: 25px 15px;
+        gap: 22px 15px;
     }
 
     .footer-brand .brand-name {

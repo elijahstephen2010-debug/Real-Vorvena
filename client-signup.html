@@ -1,19 +1,28 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Create your VORVENA client account and connect with talented tech professionals worldwide.">
+
+  <meta name="description"
+    content="Create your VORVENA client account and connect with talented tech professionals worldwide.">
+
   <title>Client Sign Up | VORVENA</title>
 
   <link rel="stylesheet" href="client-signup.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
+
   <link rel="stylesheet" href="vorvena-loader.css">
   <link rel="stylesheet" href="privacy-consent.css">
 
@@ -26,17 +35,25 @@
     <!-- LEFT PANEL -->
     <section class="signup-info">
 
-      <a href="index.html" class="brand">
+      <!-- BRAND LOGO -->
+      <a href="index.html" class="brand" aria-label="VORVENA Home">
+
         <span class="brand-logo-space">
-          <!-- INSERT VORVENA LOGO IMAGE HERE -->
+          <img
+            src="./assets/white .png"
+            alt="VORVENA Logo">
         </span>
-        <span>VORVENA</span>
+
       </a>
 
+      <!-- INFORMATION CONTENT -->
       <div class="info-content">
+
         <span class="eyebrow">WELCOME TO VORVENA</span>
 
-        <h1>Find the right talent. Build something great.</h1>
+        <h1>
+          Find the right talent. Build something great.
+        </h1>
 
         <p>
           Connect with skilled tech professionals from around
@@ -46,140 +63,196 @@
         <div class="benefits">
 
           <div class="benefit">
+
             <span class="benefit-icon">✓</span>
+
             <div>
               <h3>Global Talent</h3>
-              <p>Discover professionals from different countries.</p>
+              <p>
+                Discover professionals from different countries.
+              </p>
             </div>
+
           </div>
 
           <div class="benefit">
+
             <span class="benefit-icon">✓</span>
+
             <div>
               <h3>Secure Payments</h3>
-              <p>Make payments through a protected platform process.</p>
+              <p>
+                Make payments through a protected platform process.
+              </p>
             </div>
+
           </div>
 
           <div class="benefit">
+
             <span class="benefit-icon">✓</span>
+
             <div>
               <h3>Work With Confidence</h3>
-              <p>Manage your projects in one place.</p>
+              <p>
+                Manage your projects in one place.
+              </p>
             </div>
+
           </div>
 
         </div>
+
       </div>
 
+      <!-- LEFT PANEL FOOTER -->
       <p class="panel-footer">
         © <span id="year"></span> VORVENA. All rights reserved.
       </p>
 
     </section>
 
+
     <!-- RIGHT PANEL -->
     <section class="signup-form-section">
 
       <div class="form-wrapper">
 
+        <!-- MOBILE LOGO -->
         <div class="mobile-brand">
-          <a href="index.html" class="brand">
+
+          <a href="index.html" class="brand" aria-label="VORVENA Home">
+
             <span class="brand-logo-space">
-              <!-- INSERT VORVENA LOGO IMAGE HERE -->
+              <img
+                src="./assets/vorvena_logo_transparent.png"
+                alt="VORVENA Logo">
             </span>
-            <span>VORVENA</span>
+
           </a>
+
         </div>
 
+
+        <!-- FORM HEADING -->
         <div class="form-heading">
+
           <span class="form-label">CLIENT ACCOUNT</span>
+
           <h2>Create your account</h2>
-          <p>Enter your details to get started with VORVENA.</p>
+
+          <p>
+            Enter your details to get started with VORVENA.
+          </p>
+
         </div>
 
+
+        <!-- SIGNUP FORM -->
         <form id="clientSignupForm">
 
           <div class="form-group">
+
             <label for="fullName">Full Name</label>
+
             <input
               type="text"
               id="fullName"
               name="fullName"
               placeholder="Enter your full name"
               autocomplete="name"
-              required
-            >
+              required>
+
           </div>
 
+
           <div class="form-group">
+
             <label for="email">Email Address</label>
+
             <input
               type="email"
               id="email"
               name="email"
               placeholder="example@email.com"
               autocomplete="email"
-              required
-            >
+              required>
+
           </div>
 
+
           <div class="form-group">
+
             <label for="country">Country</label>
+
             <input
               type="text"
               id="country"
               name="country"
               placeholder="Select your country below"
               readonly
-              required
-            >
+              required>
+
             <small class="field-hint">
               Select your country from the phone number selector.
             </small>
+
           </div>
 
+
           <div class="form-group">
+
             <label for="phone">Phone Number</label>
+
             <input
               type="tel"
               id="phone"
               name="phone"
               placeholder="Enter your national phone number"
               autocomplete="tel-national"
-              required
-            >
+              required>
+
             <small class="field-hint">
               The country code is added automatically.
             </small>
+
           </div>
 
+
           <div class="form-group">
+
             <label for="region">State / Province / Region</label>
+
             <input
               type="text"
               id="region"
               name="region"
               placeholder="Enter your state or region"
               autocomplete="address-level1"
-              required
-            >
+              required>
+
           </div>
 
+
           <div class="form-group">
+
             <label for="city">City</label>
+
             <input
               type="text"
               id="city"
               name="city"
               placeholder="Enter your city"
               autocomplete="address-level2"
-              required
-            >
+              required>
+
           </div>
 
+
           <div class="form-group">
+
             <label for="password">Password</label>
+
             <input
               type="password"
               id="password"
@@ -187,12 +260,15 @@
               placeholder="Create a strong password"
               autocomplete="new-password"
               minlength="8"
-              required
-            >
+              required>
+
           </div>
 
+
           <div class="form-group">
+
             <label for="confirmPassword">Confirm Password</label>
+
             <input
               type="password"
               id="confirmPassword"
@@ -200,33 +276,62 @@
               placeholder="Confirm your password"
               autocomplete="new-password"
               minlength="8"
-              required
-            >
+              required>
+
           </div>
 
+
+          <!-- TERMS AND PRIVACY -->
           <div class="terms-group">
-            <input type="checkbox" id="terms" name="terms" required>
+
+            <input
+              type="checkbox"
+              id="terms"
+              name="terms"
+              required>
 
             <label for="terms">
+
               I agree to the
-              <a href="terms.html">Terms of Service</a>
+
+              <a href="terms-of-service.html">
+                Terms of Service
+              </a>
+
               and
-              <a href="privacy.html">Privacy Policy</a>.
+
+              <a href="privacy-policy.html">
+                Privacy Policy
+              </a>.
+
             </label>
+
           </div>
 
+
+          <!-- SUBMIT -->
           <button type="submit" class="submit-btn">
+
             Create Client Account
+
             <span>→</span>
+
           </button>
 
         </form>
 
+
+        <!-- LOGIN LINK -->
         <p class="login-text">
+
           Already have an account?
+
           <a href="login.html">Log in</a>
+
         </p>
 
+
+        <!-- HOMEPAGE LINK -->
         <a href="index.html" class="back-home">
           ← Back to homepage
         </a>
@@ -237,113 +342,184 @@
 
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js"></script>
 
- <script>
-  const phoneInput = document.querySelector("#phone");
-  const countryInput = document.querySelector("#country");
-  const signupForm = document.querySelector("#clientSignupForm");
+  <!-- INTERNATIONAL PHONE INPUT -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js">
+  </script>
 
-  const iti = window.intlTelInput(phoneInput, {
-    initialCountry: "ng",
-    separateDialCode: true,
-    nationalMode: true,
-    countrySearch: true,
-    preferredCountries: ["ng", "us", "gb", "ca"],
-    utilsScript:
-      "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
-  });
 
-  function updateCountry() {
-    const selectedCountry = iti.getSelectedCountryData();
-    countryInput.value = selectedCountry.name || "";
-  }
+  <!-- SIGNUP FUNCTIONALITY -->
+  <script>
 
-  updateCountry();
-  phoneInput.addEventListener("countrychange", updateCountry);
+    const phoneInput = document.querySelector("#phone");
+    const countryInput = document.querySelector("#country");
+    const signupForm = document.querySelector("#clientSignupForm");
 
-  document.querySelector("#year").textContent =
-    new Date().getFullYear();
+    const iti = window.intlTelInput(phoneInput, {
+      initialCountry: "ng",
+      separateDialCode: true,
+      nationalMode: true,
+      countrySearch: true,
+      preferredCountries: ["ng", "us", "gb", "ca"],
+      utilsScript:
+        "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
+    });
 
-  signupForm.addEventListener("submit", async function(event) {
-    event.preventDefault();
 
-    const fullName = document.querySelector("#fullName").value.trim();
-    const email = document.querySelector("#email").value.trim();
-    const country = countryInput.value;
-    const region = document.querySelector("#region").value.trim();
-    const city = document.querySelector("#city").value.trim();
-    const password = document.querySelector("#password").value;
-    const confirmPassword =
-      document.querySelector("#confirmPassword").value;
+    function updateCountry() {
 
-    if (password.length < 8) {
-      alert("Your password must contain at least 8 characters.");
-      return;
+      const selectedCountry = iti.getSelectedCountryData();
+
+      countryInput.value = selectedCountry.name || "";
+
     }
 
-    if (password !== confirmPassword) {
-      alert("Your passwords do not match.");
-      return;
-    }
 
-    const selectedCountry = iti.getSelectedCountryData();
+    updateCountry();
 
-    if (!selectedCountry.iso2 || !selectedCountry.dialCode) {
-      alert("Please select your country.");
-      return;
-    }
+    phoneInput.addEventListener("countrychange", updateCountry);
 
-    // Remove spaces, brackets and other non-digit characters.
-    let phoneDigits = phoneInput.value.replace(/\D/g, "");
 
-    // Remove the leading national zero where applicable.
-    if (phoneDigits.startsWith("0")) {
-      phoneDigits = phoneDigits.substring(1);
-    }
+    document.querySelector("#year").textContent =
+      new Date().getFullYear();
 
-    if (phoneDigits.length < 7 || phoneDigits.length > 15) {
-      alert("Please enter a valid phone number.");
-      phoneInput.focus();
-      return;
-    }
 
-    // Build the international number using the selected dialling code.
-    const internationalNumber =
-      "+" + selectedCountry.dialCode + phoneDigits;
+    signupForm.addEventListener("submit", async function(event) {
 
-    try {
-      await iti.promise;
+      event.preventDefault();
 
-      iti.setNumber(internationalNumber);
 
-      if (
-        typeof iti.isPossibleNumber === "function" &&
-        !iti.isPossibleNumber()
-      ) {
-        alert("Please check your phone number and try again.");
-        phoneInput.focus();
+      const fullName =
+        document.querySelector("#fullName").value.trim();
+
+      const email =
+        document.querySelector("#email").value.trim();
+
+      const country = countryInput.value;
+
+      const region =
+        document.querySelector("#region").value.trim();
+
+      const city =
+        document.querySelector("#city").value.trim();
+
+      const password =
+        document.querySelector("#password").value;
+
+      const confirmPassword =
+        document.querySelector("#confirmPassword").value;
+
+
+      if (password.length < 8) {
+
+        alert("Your password must contain at least 8 characters.");
+
         return;
+
       }
-    } catch (error) {
-      alert("Phone validation could not load. Please refresh and try again.");
-      return;
-    }
 
-    // Save signup information.
-    sessionStorage.setItem("vorvenaFullName", fullName);
-    sessionStorage.setItem("vorvenaEmail", email);
-    sessionStorage.setItem("vorvenaPhone", internationalNumber);
-    sessionStorage.setItem("vorvenaCountry", country);
-    sessionStorage.setItem("vorvenaRegion", region);
-    sessionStorage.setItem("vorvenaCity", city);
-    sessionStorage.setItem("vorvenaAccountType", "client");
 
-    window.location.href = "verification.html";
-  });
-</script>
-<script src="vorvena-loader.js" defer></script>
-<script src="privacy-consent.js"></script>
+      if (password !== confirmPassword) {
+
+        alert("Your passwords do not match.");
+
+        return;
+
+      }
+
+
+      const selectedCountry = iti.getSelectedCountryData();
+
+
+      if (!selectedCountry.iso2 || !selectedCountry.dialCode) {
+
+        alert("Please select your country.");
+
+        return;
+
+      }
+
+
+      // Remove spaces, brackets and other non-digit characters.
+      let phoneDigits = phoneInput.value.replace(/\D/g, "");
+
+
+      // Remove the leading national zero where applicable.
+      if (phoneDigits.startsWith("0")) {
+
+        phoneDigits = phoneDigits.substring(1);
+
+      }
+
+
+      if (phoneDigits.length < 7 || phoneDigits.length > 15) {
+
+        alert("Please enter a valid phone number.");
+
+        phoneInput.focus();
+
+        return;
+
+      }
+
+
+      // Build the international number using the selected dialling code.
+      const internationalNumber =
+        "+" + selectedCountry.dialCode + phoneDigits;
+
+
+      try {
+
+        await iti.promise;
+
+        iti.setNumber(internationalNumber);
+
+
+        if (
+          typeof iti.isPossibleNumber === "function" &&
+          !iti.isPossibleNumber()
+        ) {
+
+          alert("Please check your phone number and try again.");
+
+          phoneInput.focus();
+
+          return;
+
+        }
+
+      } catch (error) {
+
+        alert("Phone validation could not load. Please refresh and try again.");
+
+        return;
+
+      }
+
+
+      // Save signup information.
+      sessionStorage.setItem("vorvenaFullName", fullName);
+      sessionStorage.setItem("vorvenaEmail", email);
+      sessionStorage.setItem("vorvenaPhone", internationalNumber);
+      sessionStorage.setItem("vorvenaCountry", country);
+      sessionStorage.setItem("vorvenaRegion", region);
+      sessionStorage.setItem("vorvenaCity", city);
+      sessionStorage.setItem("vorvenaAccountType", "client");
+
+
+      window.location.href = "verification.html";
+
+    });
+
+  </script>
+
+
+  <!-- VORVENA LOADER -->
+  <script src="vorvena-loader.js" defer></script>
+
+  <!-- PRIVACY CONSENT -->
+  <script src="privacy-consent.js"></script>
 
 </body>
 </html>
