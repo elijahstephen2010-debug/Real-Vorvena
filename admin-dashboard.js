@@ -1,11 +1,17 @@
-
 /* =========================================================
    VORVENA ADMIN DASHBOARD
    FRONTEND PREVIEW MODE
    NO BACKEND OR LOGIN REQUIRED
+
+   IMPORTANT: before going live, admin access, user
+   actions, payouts and support tickets must be enforced
+   by the backend. Nothing here is secure on its own.
 ========================================================= */
 
 const ADMIN_PREVIEW_MODE = true;
+
+/* Change these two values to switch currency, e.g. USD / en-US */
+const CURRENCY = { code: "NGN", locale: "en-NG" };
 
 
 /* =========================================================
@@ -316,11 +322,11 @@ function setText(id, value) {
 }
 
 function formatMoney(amount) {
-    return new Intl.NumberFormat("en-US", {
+    return new Intl.NumberFormat(CURRENCY.locale, {
         style: "currency",
-        currency: "USD",
+        currency: CURRENCY.code,
         maximumFractionDigits: 0
-    }).format(amount);
+    }).format(Number(amount) || 0);
 }
 
 function escapeHTML(value) {
@@ -401,26 +407,66 @@ function closeModal(modal) {
 
 
 /* =========================================================
-   3. ADMIN PROFILE
+   3. ADMIN PROFILE (NAME AND PHOTO)
 ========================================================= */
 
+const PROFILE_STORAGE_KEY = "vorvenaAdminProfile";
+
+const MAX_PHOTO_SIZE = 5 * 1024 * 1024;
+
+const ALLOWED_PHOTO_TYPES = [
+    "image/jpeg",
+    "image/png",
+    "image/webp"
+];
+
+/* Built-in default avatar, so no image file is needed */
+const DEFAULT_AVATAR =
+    "data:image/svg+xml," +
+    "%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E" +
+    "%3Crect width='100' height='100' fill='%23eaf1fc'/%3E" +
+    "%3Ccircle cx='50' cy='38' r='18' fill='%23174b9a'/%3E" +
+    "%3Cpath d='M14 100c4-24 20-34 36-34s32 10 36 34z' fill='%23174b9a'/%3E" +
+    "%3C/svg%3E";
+
+const adminProfile = {
+    name: "Platform Administrator",
+    email: "admin@vorvena.com",
+    avatar: ""
+};
+
+
 function loadAdminProfile() {
-    const name = "Platform Administrator";
 
-    setText("adminName", name);
-    setText("sidebarAdminName", name);
-    setText("settingsAdminName", name);
-    setText("settingsAdminEmail", "admin@vorvena.com");
+    try {
 
-    const avatar = "images/default-avatar.png";
+        const saved = JSON.parse(
+            localStorage.getItem(PROFILE_STORAGE_KEY) || "null"
+        );
 
-    ["adminAvatar", "sidebarAdminAvatar"].forEach(id => {
-        const image = document.getElementById(id);
+        if (saved && typeof saved === "object") {
 
-        if (image) {
-            image.src = avatar;
+            if (typeof saved.name === "string" && saved.name.trim()) {
+                adminProfile.name = saved.name.trim().slice(0, 60);
+            }
+
+            /* only accept photos created by this page */
+            if (
+                typeof saved.avatar === "string" &&
+                saved.avatar.startsWith("data:image/jpeg;base64,")
+            ) {
+                adminProfile.avatar = saved.avatar;
+            }
+
         }
-    });
+
+    } catch (error) {
+
+        console.error("Could not load admin profile:", error);
+
+    }
+
+    applyAdminProfile();
 
     setText(
         "adminCurrentDate",
@@ -431,11 +477,295 @@ function loadAdminProfile() {
             year: "numeric"
         }).format(new Date())
     );
+
+}
+
+
+function saveAdminProfile() {
+
+    try {
+
+        localStorage.setItem(
+            PROFILE_STORAGE_KEY,
+            JSON.stringify({
+                name: adminProfile.name,
+                avatar: adminProfile.avatar
+            })
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.error("Could not save admin profile:", error);
+
+        showToast("Could not save your profile. Check browser storage.");
+
+        return false;
+
+    }
+
+}
+
+
+function applyAdminProfile() {
+
+    $$("[data-admin-name]").forEach(element => {
+        element.textContent = adminProfile.name;
+    });
+
+    $$("[data-admin-avatar]").forEach(image => {
+        image.src = adminProfile.avatar || DEFAULT_AVATAR;
+    });
+
+    const nameInput = $("#settingsAdminName");
+
+    if (nameInput) {
+        nameInput.value = adminProfile.name;
+    }
+
+    setText("settingsAdminEmail", "");
+
+    const emailInput = $("#settingsAdminEmail");
+
+    if (emailInput) {
+        emailInput.value = adminProfile.email;
+    }
+
+    const removeButton = $("#adminPhotoRemoveBtn");
+
+    if (removeButton) {
+        removeButton.disabled = !adminProfile.avatar;
+    }
+
+}
+
+
+function showPhotoMessage(message, type = "") {
+
+    const element = $("#adminPhotoMessage");
+
+    if (!element) return;
+
+    element.textContent = message;
+    element.className = "photo-message " + type;
+
+}
+
+
+/* Crop to a square, resize to 256px and re-encode as JPEG.
+   Re-encoding also strips anything unsafe from the file. */
+
+function processAdminPhoto(file) {
+
+    return new Promise((resolve, reject) => {
+
+        const objectUrl = URL.createObjectURL(file);
+
+        const image = new Image();
+
+        image.onload = () => {
+
+            try {
+
+                const size = 256;
+
+                const canvas = document.createElement("canvas");
+                canvas.width = size;
+                canvas.height = size;
+
+                const context = canvas.getContext("2d");
+
+                const side = Math.min(
+                    image.naturalWidth,
+                    image.naturalHeight
+                );
+
+                const startX = (image.naturalWidth - side) / 2;
+                const startY = (image.naturalHeight - side) / 2;
+
+                context.fillStyle = "#ffffff";
+                context.fillRect(0, 0, size, size);
+
+                context.drawImage(
+                    image,
+                    startX, startY, side, side,
+                    0, 0, size, size
+                );
+
+                resolve(canvas.toDataURL("image/jpeg", 0.85));
+
+            } catch (error) {
+
+                reject(error);
+
+            } finally {
+
+                URL.revokeObjectURL(objectUrl);
+
+            }
+
+        };
+
+        image.onerror = () => {
+            URL.revokeObjectURL(objectUrl);
+            reject(new Error("Image could not be read."));
+        };
+
+        image.src = objectUrl;
+
+    });
+
+}
+
+
+function initializeAdminProfile() {
+
+    const input = $("#adminPhotoInput");
+    const uploadButton = $("#adminPhotoUploadBtn");
+    const removeButton = $("#adminPhotoRemoveBtn");
+    const form = $("#adminProfileForm");
+
+    /* clicking the header profile opens Settings */
+    $("#adminProfileBtn")?.addEventListener("click", () => {
+        openSection("settings");
+    });
+
+    uploadButton?.addEventListener("click", () => {
+        input?.click();
+    });
+
+    input?.addEventListener("change", async () => {
+
+        const file = input.files && input.files[0];
+
+        if (!file) return;
+
+        if (!ALLOWED_PHOTO_TYPES.includes(file.type)) {
+            showPhotoMessage(
+                "Please choose a JPG, PNG or WEBP image.",
+                "error"
+            );
+            input.value = "";
+            return;
+        }
+
+        if (file.size > MAX_PHOTO_SIZE) {
+            showPhotoMessage(
+                "That image is too large. The maximum size is 5 MB.",
+                "error"
+            );
+            input.value = "";
+            return;
+        }
+
+        showPhotoMessage("Processing photo...");
+
+        try {
+
+            const previousAvatar = adminProfile.avatar;
+
+            adminProfile.avatar = await processAdminPhoto(file);
+
+            if (!saveAdminProfile()) {
+                adminProfile.avatar = previousAvatar;
+                showPhotoMessage("The photo could not be saved.", "error");
+                return;
+            }
+
+            applyAdminProfile();
+
+            showPhotoMessage("Profile photo updated.", "success");
+
+            showToast("Profile photo updated.");
+
+            logActivity("Updated profile photo", "Admin profile");
+
+        } catch (error) {
+
+            console.error("Photo processing error:", error);
+
+            showPhotoMessage(
+                "That file could not be used. Try a different image.",
+                "error"
+            );
+
+        } finally {
+
+            input.value = "";
+
+        }
+
+    });
+
+    removeButton?.addEventListener("click", () => {
+
+        if (!adminProfile.avatar) return;
+
+        adminProfile.avatar = "";
+
+        if (!saveAdminProfile()) return;
+
+        applyAdminProfile();
+
+        showPhotoMessage("Profile photo removed.", "success");
+
+        showToast("Profile photo removed.");
+
+        logActivity("Removed profile photo", "Admin profile");
+
+    });
+
+    form?.addEventListener("submit", event => {
+
+        event.preventDefault();
+
+        const name = ($("#settingsAdminName")?.value || "").trim();
+
+        if (name.length < 2) {
+            showToast("Please enter a name with at least 2 characters.");
+            $("#settingsAdminName")?.focus();
+            return;
+        }
+
+        adminProfile.name = name.slice(0, 60);
+
+        if (!saveAdminProfile()) return;
+
+        applyAdminProfile();
+
+        showToast("Profile saved.");
+
+        logActivity("Updated admin name", "Admin profile");
+
+    });
+
 }
 
 
 /* =========================================================
-   4. DASHBOARD OVERVIEW
+   4. ACTIVITY LOG HELPER
+========================================================= */
+
+function logActivity(action, target) {
+
+    adminData.activity.unshift({
+        admin: adminProfile.name,
+        action,
+        target,
+        date: "Today, " + new Intl.DateTimeFormat("en", {
+            hour: "numeric",
+            minute: "2-digit"
+        }).format(new Date())
+    });
+
+    renderActivity();
+
+}
+
+
+/* =========================================================
+   5. DASHBOARD OVERVIEW
 ========================================================= */
 
 function loadOverview() {
@@ -443,6 +773,7 @@ function loadOverview() {
     setText("totalProfessionals", adminData.professionals.length);
     setText("totalClients", adminData.clients.length);
 
+    /* sample numbers: replace with real data from the backend */
     setText("onlineProfessionals", 3);
     setText("onlineClients", 2);
 
@@ -513,8 +844,31 @@ function renderRecentNotifications() {
 
 
 /* =========================================================
-   5. NAVIGATION
+   6. NAVIGATION
 ========================================================= */
+
+function showSection(sectionName) {
+
+    const target = document.getElementById(sectionName);
+
+    const link = $(`.admin-nav-link[data-section="${sectionName}"]`);
+
+    if (!target || !link) return false;
+
+    $$(".admin-nav-link").forEach(item =>
+        item.classList.remove("active")
+    );
+
+    $$(".admin-section").forEach(section =>
+        section.classList.remove("active")
+    );
+
+    link.classList.add("active");
+    target.classList.add("active");
+
+    return true;
+}
+
 
 function initializeNavigation() {
 
@@ -526,21 +880,9 @@ function initializeNavigation() {
 
             const sectionName = link.dataset.section;
 
-            $$(".admin-nav-link").forEach(item =>
-                item.classList.remove("active")
-            );
+            if (!showSection(sectionName)) return;
 
-            $$(".admin-section").forEach(section =>
-                section.classList.remove("active")
-            );
-
-            link.classList.add("active");
-
-            const target = document.getElementById(sectionName);
-
-            if (target) {
-                target.classList.add("active");
-            }
+            history.replaceState(null, "", "#" + sectionName);
 
             closeSidebar();
 
@@ -553,13 +895,17 @@ function initializeNavigation() {
 
     });
 
-    const notificationButton = $("#adminNotificationBtn");
+    $("#adminNotificationBtn")?.addEventListener("click", () => {
+        openSection("notifications");
+    });
 
-    if (notificationButton) {
-        notificationButton.addEventListener("click", () => {
-            openSection("notifications");
-        });
+    /* remember the section after a refresh */
+    const startSection = window.location.hash.replace("#", "");
+
+    if (startSection) {
+        showSection(startSection);
     }
+
 }
 
 
@@ -574,7 +920,7 @@ function openSection(sectionName) {
 
 
 /* =========================================================
-   6. MOBILE SIDEBAR
+   7. MOBILE SIDEBAR
 ========================================================= */
 
 function initializeMobileMenu() {
@@ -608,7 +954,7 @@ function closeSidebar() {
 
 
 /* =========================================================
-   7. USER MANAGEMENT
+   8. USER MANAGEMENT
 ========================================================= */
 
 let currentUserType = "clients";
@@ -669,11 +1015,8 @@ function renderUsers() {
 
     });
 
-    const totalClients = adminData.clients.length;
-    const totalProfessionals = adminData.professionals.length;
-
-    setText("clientTabCount", totalClients);
-    setText("professionalTabCount", totalProfessionals);
+    setText("clientTabCount", adminData.clients.length);
+    setText("professionalTabCount", adminData.professionals.length);
 
     if (!users.length) {
         body.innerHTML = `
@@ -705,10 +1048,10 @@ function renderUsers() {
                 </span>
             </td>
 
-            <td>${user.projects}</td>
+            <td>${Number(user.projects) || 0}</td>
 
             <td>
-                <button class="table-action-btn"
+                <button class="table-action-btn" type="button"
                     data-user-id="${escapeHTML(user.id)}">
                     View
                 </button>
@@ -739,6 +1082,19 @@ function findUser(id) {
 }
 
 
+function syncSuspensionDuration() {
+
+    const type = $("#suspensionType")?.value;
+
+    const duration = $("#suspensionDurationGroup");
+
+    if (duration) {
+        duration.style.display = type === "permanent" ? "none" : "flex";
+    }
+
+}
+
+
 function viewUser(id) {
 
     const user = findUser(id);
@@ -750,6 +1106,19 @@ function viewUser(id) {
     const content = $("#userDetailsContent");
 
     if (!content) return;
+
+    const suspensionHTML = user.suspension
+        ? `
+            <p><strong>Suspension:</strong>
+                ${escapeHTML(
+                    user.suspension.type === "permanent"
+                        ? "Permanent"
+                        : `Temporary (${Number(user.suspension.days) || 0} days)`
+                )}
+            </p>
+            <p><strong>Reason:</strong> ${escapeHTML(user.suspension.reason)}</p>
+        `
+        : "";
 
     content.innerHTML = `
 
@@ -765,7 +1134,9 @@ function viewUser(id) {
 
         <p><strong>Status:</strong> ${escapeHTML(statusLabel(user.status))}</p>
 
-        <p><strong>Projects:</strong> ${user.projects}</p>
+        ${suspensionHTML}
+
+        <p><strong>Projects:</strong> ${Number(user.projects) || 0}</p>
 
         ${
             professional
@@ -780,11 +1151,11 @@ function viewUser(id) {
 
         <div class="user-detail-actions">
 
-            <button class="primary-btn" id="demoSuspendButton">
+            <button class="primary-btn" type="button" id="demoSuspendButton">
                 ${user.status === "suspended" ? "Reinstate Account" : "Suspend Account"}
             </button>
 
-            <button class="danger-btn" id="demoDeleteButton">
+            <button class="danger-btn" type="button" id="demoDeleteButton">
                 Delete Account
             </button>
 
@@ -794,13 +1165,19 @@ function viewUser(id) {
 
     showModal("userDetailsModal");
 
+    logActivity("Viewed user account", user.id);
+
     $("#demoSuspendButton")?.addEventListener("click", () => {
 
         if (user.status === "suspended") {
 
             user.status = "active";
 
+            delete user.suspension;
+
             showToast("Preview: account reinstated.");
+
+            logActivity("Reinstated account", user.id);
 
             closeModal($("#userDetailsModal"));
 
@@ -809,7 +1186,13 @@ function viewUser(id) {
             return;
         }
 
+        const form = $("#suspendUserForm");
+
+        form?.reset();
+
         $("#suspendUserId").value = user.id;
+
+        syncSuspensionDuration();
 
         closeModal($("#userDetailsModal"));
 
@@ -831,7 +1214,7 @@ function viewUser(id) {
 
 
 /* =========================================================
-   8. USER SEARCH AND FILTERS
+   9. USER SEARCH AND FILTERS
 ========================================================= */
 
 function initializeUserFilters() {
@@ -844,7 +1227,7 @@ function initializeUserFilters() {
 
 
 /* =========================================================
-   9. SUSPENSION PREVIEW
+   10. SUSPENSION PREVIEW
 ========================================================= */
 
 function initializeSuspension() {
@@ -853,18 +1236,7 @@ function initializeSuspension() {
 
     if (!form) return;
 
-    $("#suspensionType")?.addEventListener("change", () => {
-
-        const temporary =
-            $("#suspensionType").value === "temporary";
-
-        const duration = $("#suspensionDurationGroup");
-
-        if (duration) {
-            duration.style.display = temporary ? "flex" : "none";
-        }
-
-    });
+    $("#suspensionType")?.addEventListener("change", syncSuspensionDuration);
 
     form.addEventListener("submit", event => {
 
@@ -876,13 +1248,36 @@ function initializeSuspension() {
 
         if (!user) return;
 
+        const type = $("#suspensionType").value;
+
+        const reason = $("#suspensionReason").value.trim();
+
+        if (!reason) {
+            showToast("Please enter a reason for the suspension.");
+            $("#suspensionReason").focus();
+            return;
+        }
+
         user.status = "suspended";
+
+        user.suspension = {
+            type,
+            days: type === "temporary"
+                ? Number($("#suspensionDuration").value)
+                : null,
+            reason,
+            date: new Date().toISOString()
+        };
 
         closeModal($("#suspendUserModal"));
 
         form.reset();
 
+        syncSuspensionDuration();
+
         renderUsers();
+
+        logActivity("Suspended account", user.id);
 
         showToast("Preview only: account suspended.");
 
@@ -892,7 +1287,7 @@ function initializeSuspension() {
 
 
 /* =========================================================
-   10. DELETE ACCOUNT PREVIEW
+   11. DELETE ACCOUNT PREVIEW
 ========================================================= */
 
 function initializeDelete() {
@@ -927,6 +1322,10 @@ function initializeDelete() {
 
         loadOverview();
 
+        renderVerification();
+
+        logActivity("Deleted account", id);
+
         showToast("Preview only: sample account removed.");
 
     });
@@ -935,7 +1334,7 @@ function initializeDelete() {
 
 
 /* =========================================================
-   11. PROJECT MANAGEMENT
+   12. PROJECT MANAGEMENT
 ========================================================= */
 
 let currentProjectFilter = "all";
@@ -996,7 +1395,7 @@ function renderProjects() {
             </td>
 
             <td>
-                <button class="table-action-btn"
+                <button class="table-action-btn" type="button"
                     data-project-id="${escapeHTML(project.id)}">
                     Details
                 </button>
@@ -1078,7 +1477,7 @@ function initializeProjectFilters() {
 
 
 /* =========================================================
-   12. PAYOUTS
+   13. PAYOUTS
 ========================================================= */
 
 function loadPayouts() {
@@ -1106,6 +1505,12 @@ function loadPayouts() {
     setText("pendingPayouts", pending);
     setText("payoutAlertCount", pending);
     setText("sidebarPayoutCount", pending);
+
+    const payoutBadge = $("#sidebarPayoutCount");
+
+    if (payoutBadge) {
+        payoutBadge.style.display = pending > 0 ? "inline-flex" : "none";
+    }
 
     const body = $("#payoutsTableBody");
 
@@ -1141,14 +1546,38 @@ function loadPayouts() {
 
 
 /* =========================================================
-   13. NOTIFICATIONS
+   14. NOTIFICATIONS
 ========================================================= */
+
+function updateNotificationIndicator() {
+
+    const indicator = $("#notificationIndicator");
+
+    if (!indicator) return;
+
+    const hasUnread = adminData.notifications.some(
+        item => item.unread
+    );
+
+    indicator.classList.toggle("hidden", !hasUnread);
+
+}
+
 
 function renderNotifications() {
 
     const container = $("#adminNotificationList");
 
+    updateNotificationIndicator();
+
     if (!container) return;
+
+    if (!adminData.notifications.length) {
+        container.innerHTML = `
+            <p class="empty-state">No notifications yet.</p>
+        `;
+        return;
+    }
 
     container.innerHTML = adminData.notifications.map((item, index) => `
 
@@ -1164,7 +1593,7 @@ function renderNotifications() {
 
                 ${
                     item.unread
-                    ? `<button class="table-action-btn"
+                    ? `<button class="table-action-btn" type="button"
                         data-read-index="${index}">
                         Mark as read
                     </button>`
@@ -1214,7 +1643,7 @@ function initializeNotifications() {
 
 
 /* =========================================================
-   14. CONVERSATION MONITORING
+   15. CONVERSATION MONITORING
 ========================================================= */
 
 function renderConversations() {
@@ -1290,7 +1719,7 @@ function openConversation(id) {
 
     container.innerHTML = conversation.messages.map(message => `
 
-        <div class="admin-message ${message.type}">
+        <div class="admin-message ${message.type === "sent" ? "sent" : "received"}">
 
             <strong>${escapeHTML(message.sender)}</strong>
 
@@ -1301,6 +1730,9 @@ function openConversation(id) {
         </div>
 
     `).join("");
+
+    /* every conversation view is recorded */
+    logActivity("Viewed conversation", conversation.id);
 
     showToast("Preview conversation opened.");
 
@@ -1318,7 +1750,7 @@ function initializeConversations() {
 
 
 /* =========================================================
-   15. VERIFICATION
+   16. VERIFICATION
 ========================================================= */
 
 function renderVerification() {
@@ -1372,7 +1804,7 @@ function renderVerification() {
             </td>
 
             <td>
-                <button class="table-action-btn"
+                <button class="table-action-btn" type="button"
                     data-verification-id="${escapeHTML(user.id)}">
                     Review
                 </button>
@@ -1389,6 +1821,8 @@ function renderVerification() {
             const user = findUser(button.dataset.verificationId);
 
             if (!user) return;
+
+            logActivity("Reviewed verification", user.id);
 
             showToast(
                 `Preview: reviewing ${user.name}'s verification.`
@@ -1417,7 +1851,7 @@ function initializeVerification() {
 
 
 /* =========================================================
-   16. ACTIVITY LOGS
+   17. ACTIVITY LOGS
 ========================================================= */
 
 function renderActivity() {
@@ -1470,7 +1904,7 @@ function initializeActivity() {
 
 
 /* =========================================================
-   17. SUPPORT TICKETS
+   18. SUPPORT TICKETS
 ========================================================= */
 
 const SUPPORT_STORAGE_KEY = "vorvenaSupportTickets";
@@ -1557,13 +1991,21 @@ function formatTicketDate(dateValue) {
 }
 
 
+/* NORMALISE STATUS ("In Progress" -> "in-progress") */
+
+function normalizeStatus(status, fallback = "new") {
+
+    return String(status || fallback)
+        .toLowerCase()
+        .trim()
+        .replaceAll(" ", "-");
+
+}
+
+
 /* SUPPORT STATUS CLASS */
 
 function supportStatusClass(status) {
-
-    const normalized = String(status || "new")
-        .toLowerCase()
-        .replaceAll(" ", "-");
 
     const classes = {
         "new": "status-new",
@@ -1571,7 +2013,7 @@ function supportStatusClass(status) {
         "resolved": "status-resolved"
     };
 
-    return classes[normalized] || "status-new";
+    return classes[normalizeStatus(status)] || "status-new";
 
 }
 
@@ -1580,24 +2022,16 @@ function supportStatusClass(status) {
 
 function updateSupportCounts() {
 
-    const total = supportTickets.length;
-
-    const newCount = supportTickets.filter(ticket =>
-        String(ticket.status || "New").toLowerCase() === "new"
+    const countByStatus = status => supportTickets.filter(ticket =>
+        normalizeStatus(ticket.status) === status
     ).length;
 
-    const inProgressCount = supportTickets.filter(ticket =>
-        String(ticket.status || "").toLowerCase() === "in progress"
-    ).length;
+    const newCount = countByStatus("new");
 
-    const resolvedCount = supportTickets.filter(ticket =>
-        String(ticket.status || "").toLowerCase() === "resolved"
-    ).length;
-
-    setText("totalSupportTickets", total);
+    setText("totalSupportTickets", supportTickets.length);
     setText("newSupportTickets", newCount);
-    setText("inProgressSupportTickets", inProgressCount);
-    setText("resolvedSupportTickets", resolvedCount);
+    setText("inProgressSupportTickets", countByStatus("in-progress"));
+    setText("resolvedSupportTickets", countByStatus("resolved"));
 
     setText("supportTicketCount", newCount);
 
@@ -1624,18 +2058,15 @@ function renderSupportTickets() {
         $("#supportTicketSearch")?.value || ""
     ).trim().toLowerCase();
 
-    const filter = (
-        $("#supportTicketStatusFilter")?.value || "all"
-    ).toLowerCase();
+    const filter = normalizeStatus(
+        $("#supportTicketStatusFilter")?.value,
+        "all"
+    );
 
     const filteredTickets = supportTickets.filter(ticket => {
 
-        const status = String(ticket.status || "New")
-            .toLowerCase()
-            .replaceAll(" ", "-");
-
         const matchesStatus =
-            filter === "all" || status === filter;
+            filter === "all" || normalizeStatus(ticket.status) === filter;
 
         const searchableText = [
             ticket.id,
@@ -1647,9 +2078,7 @@ function renderSupportTickets() {
             ticket.message
         ].join(" ").toLowerCase();
 
-        const matchesSearch = searchableText.includes(search);
-
-        return matchesStatus && matchesSearch;
+        return matchesStatus && searchableText.includes(search);
 
     });
 
@@ -1672,6 +2101,9 @@ function renderSupportTickets() {
         return;
     }
 
+    /* column order matches the table header:
+       ID, User, Category, Subject, Date, Status, Action */
+
     body.innerHTML = filteredTickets.map(ticket => {
 
         const status = ticket.status || "New";
@@ -1691,17 +2123,17 @@ function renderSupportTickets() {
                     </div>
                 </td>
 
+                <td>${escapeHTML(ticket.category || "General")}</td>
+
                 <td>${escapeHTML(ticket.subject || "No subject")}</td>
 
-                <td>${escapeHTML(ticket.category || "General")}</td>
+                <td>${escapeHTML(formatTicketDate(ticket.createdAt))}</td>
 
                 <td>
                     <span class="status-badge ${supportStatusClass(status)}">
                         ${escapeHTML(status)}
                     </span>
                 </td>
-
-                <td>${escapeHTML(formatTicketDate(ticket.createdAt))}</td>
 
                 <td>
                     <button
@@ -1738,6 +2170,29 @@ function findSupportTicket(ticketId) {
     return supportTickets.find(ticket =>
         String(ticket.id) === String(ticketId)
     );
+
+}
+
+
+/* FORMAT FILE SIZE */
+
+function formatFileSize(bytes) {
+
+    const size = Number(bytes);
+
+    if (!Number.isFinite(size) || size <= 0) {
+        return "Size unavailable";
+    }
+
+    if (size < 1024) {
+        return `${size} bytes`;
+    }
+
+    if (size < 1024 * 1024) {
+        return `${(size / 1024).toFixed(1)} KB`;
+    }
+
+    return `${(size / (1024 * 1024)).toFixed(2)} MB`;
 
 }
 
@@ -1806,6 +2261,8 @@ function openSupportTicket(ticketId) {
             </p>
         `;
 
+    const currentStatus = normalizeStatus(ticket.status);
+
     content.innerHTML = `
 
         <div class="support-detail-group">
@@ -1856,21 +2313,22 @@ function openSupportTicket(ticketId) {
         </div>
 
         <div class="support-detail-group">
-            <label>Current status</label>
+            <label for="supportTicketStatusUpdate">Current status</label>
 
             <select id="supportTicketStatusUpdate">
-                <option value="New" ${ticket.status === "New" ? "selected" : ""}>New</option>
-                <option value="In Progress" ${ticket.status === "In Progress" ? "selected" : ""}>In Progress</option>
-                <option value="Resolved" ${ticket.status === "Resolved" ? "selected" : ""}>Resolved</option>
+                <option value="New" ${currentStatus === "new" ? "selected" : ""}>New</option>
+                <option value="In Progress" ${currentStatus === "in-progress" ? "selected" : ""}>In Progress</option>
+                <option value="Resolved" ${currentStatus === "resolved" ? "selected" : ""}>Resolved</option>
             </select>
 
-            <button
-                type="button"
-                class="primary-btn"
-                id="saveSupportTicketStatus"
-                style="margin-top: 12px;">
-                Update Status
-            </button>
+            <div>
+                <button
+                    type="button"
+                    class="primary-btn"
+                    id="saveSupportTicketStatus">
+                    Update Status
+                </button>
+            </div>
         </div>
 
         <div class="support-detail-group">
@@ -1879,24 +2337,24 @@ function openSupportTicket(ticketId) {
         </div>
 
         <div class="support-detail-group">
-            <label>Admin reply</label>
+            <label for="supportAdminReply">Admin reply</label>
 
             <textarea
                 id="supportAdminReply"
                 rows="4"
                 maxlength="3000"
-                placeholder="Write a response to this support ticket..."
-                style="width:100%;padding:12px;border:1px solid var(--border);border-radius:9px;resize:vertical;font:inherit;font-size:12px;outline:none;"></textarea>
+                placeholder="Write a response to this support ticket..."></textarea>
 
-            <button
-                type="button"
-                class="primary-btn"
-                id="sendSupportAdminReply"
-                style="margin-top: 12px;">
-                Save Reply
-            </button>
+            <div>
+                <button
+                    type="button"
+                    class="primary-btn"
+                    id="sendSupportAdminReply">
+                    Save Reply
+                </button>
+            </div>
 
-            <p class="settings-note" style="margin-top:12px;">
+            <p class="settings-note">
                 Preview only: this saves the reply in this browser.
                 It does not send an email to the user.
             </p>
@@ -1907,29 +2365,6 @@ function openSupportTicket(ticketId) {
     showModal("supportTicketDetailsModal");
 
     initializeSupportTicketActions(ticketId);
-
-}
-
-
-/* FORMAT FILE SIZE */
-
-function formatFileSize(bytes) {
-
-    const size = Number(bytes);
-
-    if (!Number.isFinite(size) || size <= 0) {
-        return "Size unavailable";
-    }
-
-    if (size < 1024) {
-        return `${size} bytes`;
-    }
-
-    if (size < 1024 * 1024) {
-        return `${(size / 1024).toFixed(1)} KB`;
-    }
-
-    return `${(size / (1024 * 1024)).toFixed(2)} MB`;
 
 }
 
@@ -1957,6 +2392,8 @@ function initializeSupportTicketActions(ticketId) {
         if (!saveSupportTickets()) return;
 
         renderSupportTickets();
+
+        logActivity("Updated ticket status", String(ticket.id));
 
         showToast("Support ticket status updated.");
 
@@ -1999,6 +2436,8 @@ function initializeSupportTicketActions(ticketId) {
         if (!saveSupportTickets()) return;
 
         renderSupportTickets();
+
+        logActivity("Replied to ticket", String(ticket.id));
 
         showToast("Admin reply saved in preview.");
 
@@ -2059,7 +2498,7 @@ function initializeSupportTickets() {
 
 
 /* =========================================================
-   18. MODAL CLOSING
+   19. MODAL CLOSING
 ========================================================= */
 
 function initializeModals() {
@@ -2094,7 +2533,7 @@ function initializeModals() {
 
         if (event.key === "Escape") {
 
-            $$(".admin-modal.active").forEach(closeModal);
+            $$(".admin-modal.active").forEach(modal => closeModal(modal));
 
         }
 
@@ -2104,57 +2543,71 @@ function initializeModals() {
 
 
 /* =========================================================
-   19. INITIALIZE DASHBOARD
+   20. INITIALIZE DASHBOARD
 ========================================================= */
 
 function initializeAdminDashboard() {
 
-    loadAdminProfile();
+    try {
 
-    initializeNavigation();
-    initializeMobileMenu();
+        loadAdminProfile();
+        initializeAdminProfile();
 
-    initializeUserTabs();
-    initializeUserFilters();
+        initializeNavigation();
+        initializeMobileMenu();
 
-    initializeSuspension();
-    initializeDelete();
+        initializeUserTabs();
+        initializeUserFilters();
 
-    initializeProjectFilters();
+        initializeSuspension();
+        initializeDelete();
 
-    initializeNotifications();
-    initializeConversations();
+        initializeProjectFilters();
 
-    initializeVerification();
-    initializeActivity();
+        initializeNotifications();
+        initializeConversations();
 
-    initializeSupportTickets();
+        initializeVerification();
+        initializeActivity();
 
-    initializeModals();
+        initializeSupportTickets();
 
-    loadOverview();
+        initializeModals();
 
-    renderUsers();
-    renderProjects();
-    loadPayouts();
+        loadOverview();
 
-    renderNotifications();
-    renderConversations();
+        renderUsers();
+        renderProjects();
+        loadPayouts();
 
-    renderVerification();
-    renderActivity();
+        renderNotifications();
+        renderConversations();
 
-    hideLoader();
+        renderVerification();
+        renderActivity();
 
-    console.log(
-        "VORVENA Admin Dashboard loaded in frontend preview mode."
-    );
+        syncSuspensionDuration();
+
+        console.log(
+            "VORVENA Admin Dashboard loaded in frontend preview mode."
+        );
+
+    } catch (error) {
+
+        console.error("Admin dashboard failed to start:", error);
+
+    } finally {
+
+        /* the loader always hides, even if something above fails */
+        hideLoader();
+
+    }
 
 }
 
 
 /* =========================================================
-   20. START
+   21. START
 ========================================================= */
 
 if (document.readyState === "loading") {

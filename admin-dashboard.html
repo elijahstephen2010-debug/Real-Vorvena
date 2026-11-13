@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,12 +34,14 @@
 <header class="admin-header">
 
     <div class="admin-brand">
-        <button class="mobile-menu-btn" id="mobileMenuBtn"
-            aria-label="Open navigation">
+        <button class="mobile-menu-btn" id="mobileMenuBtn" type="button"
+            aria-label="Open navigation" aria-controls="adminSidebar">
             <i class="fa-solid fa-bars"></i>
         </button>
 
-        <div class="admin-logo">V</div>
+        <div class="admin-logo">
+    <img src="./assets/vorvena_logo_transparent.png" alt="VORVENA Logo">
+</div>
 
         <div class="admin-brand-text">
             <h2>VORVENA</h2>
@@ -50,7 +51,7 @@
 
     <div class="admin-header-right">
 
-        <button class="header-icon-btn"
+        <button class="header-icon-btn" type="button"
             id="adminNotificationBtn"
             aria-label="Notifications">
             <i class="fa-regular fa-bell"></i>
@@ -58,15 +59,16 @@
                 id="notificationIndicator"></span>
         </button>
 
-        <div class="admin-profile">
-            <img src="images/default-avatar.png"
-                id="adminAvatar" alt="Admin profile">
+        <button class="admin-profile" type="button"
+            id="adminProfileBtn"
+            aria-label="Open admin profile settings">
+            <img data-admin-avatar alt="Admin profile photo">
 
-            <div class="admin-profile-details">
-                <strong id="adminName">Administrator</strong>
+            <span class="admin-profile-details">
+                <strong data-admin-name>Administrator</strong>
                 <span>Platform Admin</span>
-            </div>
-        </div>
+            </span>
+        </button>
 
     </div>
 
@@ -81,11 +83,10 @@
 
         <div class="sidebar-admin-info">
 
-            <img src="images/default-avatar.png"
-                id="sidebarAdminAvatar" alt="Admin">
+            <img data-admin-avatar alt="Admin">
 
             <div>
-                <strong id="sidebarAdminName">Administrator</strong>
+                <strong data-admin-name>Administrator</strong>
                 <span>
                     <i class="admin-status-dot"></i>
                     Administrator
@@ -127,7 +128,6 @@
                 <span>Workspace Monitoring</span>
             </a>
 
-            <!-- SUPPORT TICKETS -->
             <a href="#support"
                 class="admin-nav-link"
                 data-section="support">
@@ -184,7 +184,9 @@
 
 
         <div class="sidebar-footer">
-            <div class="sidebar-footer-logo">V</div>
+           <div class="sidebar-footer-logo">
+    <img src="./assets/vorvena_logo_transparent.png" alt="VORVENA Logo">
+</div>
             <div>
                 <strong>VORVENA</strong>
                 <span>Admin Control Centre</span>
@@ -362,11 +364,11 @@
 
 
             <div class="user-tabs">
-                <button class="user-tab active" data-user-tab="clients">
+                <button class="user-tab active" type="button" data-user-tab="clients">
                     Clients <span id="clientTabCount">0</span>
                 </button>
 
-                <button class="user-tab" data-user-tab="professionals">
+                <button class="user-tab" type="button" data-user-tab="professionals">
                     Professionals <span id="professionalTabCount">0</span>
                 </button>
             </div>
@@ -382,7 +384,7 @@
                             placeholder="Search by name, email or ID...">
                     </div>
 
-                    <select id="userStatusFilter">
+                    <select id="userStatusFilter" aria-label="Filter users by status">
                         <option value="all">All statuses</option>
                         <option value="active">Active</option>
                         <option value="suspended">Suspended</option>
@@ -411,8 +413,6 @@
                     </table>
                 </div>
 
-                <div id="usersPagination"></div>
-
             </div>
 
         </section>
@@ -432,26 +432,29 @@
 
 
             <div class="project-filter-tabs">
-                <button class="project-tab active"
+                <button class="project-tab active" type="button"
                     data-project-filter="all">All</button>
 
-                <button class="project-tab"
+                <button class="project-tab" type="button"
                     data-project-filter="in-progress">In Progress</button>
 
-                <button class="project-tab"
+                <button class="project-tab" type="button"
                     data-project-filter="awaiting-payment">Awaiting Payment</button>
 
-                <button class="project-tab"
+                <button class="project-tab" type="button"
                     data-project-filter="awaiting-approval">Awaiting Approval</button>
 
-                <button class="project-tab"
+                <button class="project-tab" type="button"
+                    data-project-filter="awaiting-payout">Awaiting Payout</button>
+
+                <button class="project-tab" type="button"
                     data-project-filter="completed">Completed</button>
             </div>
 
 
             <div class="admin-panel">
 
-                <div class="admin-search">
+                <div class="admin-search panel-search">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="search" id="projectSearch"
                         placeholder="Search projects...">
@@ -602,7 +605,8 @@
                             placeholder="Search ticket ID, name, email or subject...">
                     </div>
 
-                    <select id="supportTicketStatusFilter">
+                    <select id="supportTicketStatusFilter"
+                        aria-label="Filter tickets by status">
                         <option value="all">All tickets</option>
                         <option value="New">New</option>
                         <option value="In Progress">In Progress</option>
@@ -741,7 +745,7 @@
                     <p>Stay informed about important platform activities.</p>
                 </div>
 
-                <button class="primary-btn"
+                <button class="primary-btn" type="button"
                     id="markAllNotificationsRead">
                     Mark all as read
                 </button>
@@ -779,7 +783,8 @@
                             placeholder="Search verification records...">
                     </div>
 
-                    <select id="verificationFilter">
+                    <select id="verificationFilter"
+                        aria-label="Filter verification records">
                         <option value="all">All requests</option>
                         <option value="pending">Pending</option>
                         <option value="verified">Verified</option>
@@ -825,7 +830,7 @@
 
             <div class="admin-panel">
 
-                <div class="admin-search">
+                <div class="admin-search panel-search">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="search" id="activitySearch"
                         placeholder="Search activity...">
@@ -861,7 +866,7 @@
                 <div>
                     <span class="page-eyebrow">PLATFORM CONFIGURATION</span>
                     <h1>Admin Settings</h1>
-                    <p>View administrative and platform configuration.</p>
+                    <p>Manage your administrator profile and view platform configuration.</p>
                 </div>
             </div>
 
@@ -871,21 +876,74 @@
                 <div class="panel-heading">
                     <div>
                         <h3>Administrator Profile</h3>
-                        <p>Preview administrator account information</p>
+                        <p>Your photo and name appear in the header and sidebar</p>
                     </div>
                 </div>
 
-                <div class="settings-field">
-                    <label>Administrator Name</label>
-                    <input type="text" id="settingsAdminName"
-                        value="Administrator" readonly>
+
+                <!-- ADMIN PHOTO -->
+                <div class="admin-photo-card">
+
+                    <div class="admin-photo-preview">
+                        <img data-admin-avatar alt="Current admin photo">
+                    </div>
+
+                    <div class="admin-photo-info">
+
+                        <h4>Profile photo</h4>
+
+                        <p>
+                            JPG, PNG or WEBP, up to 5 MB.
+                            Your photo is cropped to a square.
+                        </p>
+
+                        <div class="admin-photo-actions">
+
+                            <input type="file" id="adminPhotoInput"
+                                accept="image/png,image/jpeg,image/webp" hidden>
+
+                            <button type="button" class="primary-btn"
+                                id="adminPhotoUploadBtn">
+                                <i class="fa-solid fa-camera"></i>
+                                Upload photo
+                            </button>
+
+                            <button type="button" class="outline-btn"
+                                id="adminPhotoRemoveBtn">
+                                Remove
+                            </button>
+
+                        </div>
+
+                        <small id="adminPhotoMessage" class="photo-message"
+                            role="status" aria-live="polite"></small>
+
+                    </div>
+
                 </div>
 
-                <div class="settings-field">
-                    <label>Administrator Email</label>
-                    <input type="email" id="settingsAdminEmail"
-                        value="admin@vorvena.com" readonly>
-                </div>
+
+                <form id="adminProfileForm" novalidate>
+
+                    <div class="settings-field">
+                        <label for="settingsAdminName">Administrator Name</label>
+                        <input type="text" id="settingsAdminName"
+                            maxlength="60" autocomplete="name"
+                            placeholder="Enter your name">
+                    </div>
+
+                    <div class="settings-field">
+                        <label for="settingsAdminEmail">Administrator Email</label>
+                        <input type="email" id="settingsAdminEmail"
+                            value="admin@vorvena.com" readonly>
+                    </div>
+
+                    <button type="submit" class="primary-btn">
+                        Save profile
+                    </button>
+
+                </form>
+
 
                 <div class="panel-heading settings-subheading">
                     <div>
@@ -911,7 +969,8 @@
 
                 <div class="settings-note">
                     <i class="fa-solid fa-shield-halved"></i>
-                    These are preview settings. Real configuration will be
+                    These are preview settings. Your photo and name are saved
+                    in this browser only. Real configuration will be
                     controlled securely by the backend.
                 </div>
 
@@ -927,14 +986,15 @@
 
 
 <!-- USER DETAILS MODAL -->
-<div class="admin-modal" id="userDetailsModal">
+<div class="admin-modal" id="userDetailsModal"
+    role="dialog" aria-modal="true" aria-label="User details">
 
     <div class="admin-modal-content large-modal">
 
         <div class="modal-heading">
             <h2>User Details</h2>
 
-            <button data-close-modal aria-label="Close">
+            <button type="button" data-close-modal aria-label="Close">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
@@ -948,14 +1008,15 @@
 
 
 <!-- PROJECT DETAILS MODAL -->
-<div class="admin-modal" id="projectDetailsModal">
+<div class="admin-modal" id="projectDetailsModal"
+    role="dialog" aria-modal="true" aria-label="Project details">
 
     <div class="admin-modal-content">
 
         <div class="modal-heading">
             <h2>Project Details</h2>
 
-            <button data-close-modal aria-label="Close">
+            <button type="button" data-close-modal aria-label="Close">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
@@ -969,14 +1030,15 @@
 
 
 <!-- SUPPORT TICKET DETAILS MODAL -->
-<div class="admin-modal" id="supportTicketDetailsModal">
+<div class="admin-modal" id="supportTicketDetailsModal"
+    role="dialog" aria-modal="true" aria-label="Support ticket details">
 
     <div class="admin-modal-content large-modal">
 
         <div class="modal-heading">
             <h2>Support Ticket Details</h2>
 
-            <button data-close-modal aria-label="Close">
+            <button type="button" data-close-modal aria-label="Close">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
@@ -990,14 +1052,15 @@
 
 
 <!-- SUSPENSION MODAL -->
-<div class="admin-modal" id="suspendUserModal">
+<div class="admin-modal" id="suspendUserModal"
+    role="dialog" aria-modal="true" aria-label="Suspend account">
 
     <div class="admin-modal-content">
 
         <div class="modal-heading">
             <h2>Suspend Account</h2>
 
-            <button data-close-modal aria-label="Close">
+            <button type="button" data-close-modal aria-label="Close">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
@@ -1007,7 +1070,7 @@
             <input type="hidden" id="suspendUserId">
 
             <div class="settings-field">
-                <label>Suspension Type</label>
+                <label for="suspensionType">Suspension Type</label>
                 <select id="suspensionType">
                     <option value="temporary">Temporary</option>
                     <option value="permanent">Permanent</option>
@@ -1016,7 +1079,7 @@
 
             <div class="settings-field"
                 id="suspensionDurationGroup">
-                <label>Duration</label>
+                <label for="suspensionDuration">Duration</label>
                 <select id="suspensionDuration">
                     <option value="7">7 days</option>
                     <option value="14">14 days</option>
@@ -1026,7 +1089,7 @@
             </div>
 
             <div class="settings-field">
-                <label>Reason for Suspension</label>
+                <label for="suspensionReason">Reason for Suspension</label>
                 <textarea id="suspensionReason"
                     placeholder="Explain the reason for suspension..."
                     required></textarea>
@@ -1045,14 +1108,15 @@
 
 
 <!-- DELETE USER MODAL -->
-<div class="admin-modal" id="deleteUserModal">
+<div class="admin-modal" id="deleteUserModal"
+    role="dialog" aria-modal="true" aria-label="Delete account">
 
     <div class="admin-modal-content">
 
         <div class="modal-heading">
             <h2>Delete Account</h2>
 
-            <button data-close-modal aria-label="Close">
+            <button type="button" data-close-modal aria-label="Close">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
@@ -1076,7 +1140,7 @@
 
 
 <!-- TOAST -->
-<div class="admin-toast" id="adminToast">
+<div class="admin-toast" id="adminToast" role="status" aria-live="polite">
     <i class="fa-solid fa-circle-check"></i>
     <span id="adminToastMessage"></span>
 </div>

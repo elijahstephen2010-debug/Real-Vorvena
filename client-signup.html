@@ -320,18 +320,10 @@
   </main>
 
   <!-- INTERNATIONAL PHONE INPUT -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInput.min.js">
-  </script>
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInputWithUtils.min.js"></script>
 
   <!-- CLIENT SIGNUP FUNCTIONALITY -->
-
-<!-- CLIENT SIGNUP FUNCTIONALITY -->
-
-
 <script>
-
-
 document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.getElementById("clientSignupForm");
@@ -346,10 +338,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const confirmPasswordInput = document.getElementById("confirmPassword");
   const termsInput = document.getElementById("terms");
 
-  // FOOTER YEAR
   const yearElement = document.getElementById("year");
+
   if (yearElement) {
     yearElement.textContent = new Date().getFullYear();
+  }
+
+  if (!form || !phoneInput || !window.intlTelInput) {
+    alert("Signup service could not load. Please refresh the page.");
+    return;
   }
 
   // INTERNATIONAL PHONE INITIALIZATION
@@ -358,21 +355,20 @@ document.addEventListener("DOMContentLoaded", () => {
     separateDialCode: true,
     nationalMode: true,
     countrySearch: true,
-    preferredCountries: ["ng", "us", "gb", "ca"],
-    utilsScript:
-      "https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/utils.js"
+    countryOrder: ["ng", "us", "gb", "ca"]
   });
 
   // UPDATE COUNTRY
   function updateCountry() {
     const selectedCountry = iti.getSelectedCountryData();
-    countryInput.value = selectedCountry.name || "";
+    countryInput.value = (selectedCountry && selectedCountry.name) || "";
   }
 
   updateCountry();
+
   phoneInput.addEventListener("countrychange", updateCountry);
 
-  // PHONE INPUT: DIGITS ONLY
+  // PHONE INPUT
   phoneInput.addEventListener("input", () => {
     phoneInput.value = phoneInput.value.replace(/\D/g, "");
     phoneInput.setCustomValidity("");
@@ -392,10 +388,8 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-  // PHONE VALIDATION BASED ON SELECTED COUNTRY
+  // PHONE VALIDATION
   async function validatePhoneNumber() {
-
-    // WAIT FOR COUNTRY PHONE VALIDATION DATA
     await iti.promise;
 
     const phoneDigits = phoneInput.value.trim();
@@ -413,7 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return false;
     }
 
-    if (!selectedCountry.iso2 || !selectedCountry.dialCode) {
+    if (!selectedCountry || !selectedCountry.iso2 || !selectedCountry.dialCode) {
       alert("Please select your country.");
       phoneInput.focus();
       return false;
@@ -428,7 +422,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-  // CONVERT PHONE NUMBER TO INTERNATIONAL FORMAT
+  // GET INTERNATIONAL PHONE NUMBER
   async function getInternationalPhone() {
     await iti.promise;
 
@@ -443,6 +437,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // CLIENT SIGNUP
   form.addEventListener("submit", async (event) => {
+
     event.preventDefault();
 
     const fullName = fullNameInput.value.trim();
@@ -493,6 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
+
       const internationalPhone = await getInternationalPhone();
 
       if (!internationalPhone) {
@@ -501,7 +497,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // SAVE SIGNUP DETAILS
+      // SAVE CLIENT DETAILS
       sessionStorage.setItem("vorvenaFullName", fullName);
       sessionStorage.setItem("vorvenaEmail", email);
       sessionStorage.setItem("vorvenaPhone", internationalPhone);
@@ -519,20 +515,19 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "verification.html";
 
     } catch (error) {
+
       console.error("Phone processing error:", error);
+
       alert("We could not process your phone number. Please try again.");
+
     }
+
   });
 
 });
-
 </script>
-
-
   <!-- VORVENA LOADER -->
   <script src="vorvena-loader.js" defer></script>
-
- 
 
 </body>
 </html>
