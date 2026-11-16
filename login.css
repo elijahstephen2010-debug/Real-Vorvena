@@ -39,27 +39,38 @@ body {
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   text-decoration: none;
   color: var(--navy);
   font: 800 1.25rem Manrope, sans-serif;
   letter-spacing: 1px;
 }
 
-.brand-icon {
-  width: 55px;
-  height: 55px;
-  display: grid;
-  place-items: center;
-  background: white;
+.brand-logo-slot {
+  width: 43px;
+  height: 43px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #e6ebf2;
   border-radius: 10px;
   overflow: hidden;
+  box-shadow: 0 3px 10px rgba(8, 43, 104, 0.06);
 }
 
-.brand-icon img {
+.brand-logo-slot img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  padding: 4px;
+}
+
+.brand-name {
+  font-family: "Manrope", sans-serif;
+  font-weight: 800;
+  letter-spacing: 1.4px;
 }
 
 .signup-link {
@@ -90,12 +101,12 @@ body {
 
 .login-card {
   width: 100%;
-  max-width: 470px;
+  max-width: 450px;
   margin: auto;
 }
 
 .welcome {
-  margin-bottom: 28px;
+  margin-bottom: 25px;
 }
 
 .eyebrow {
@@ -106,7 +117,8 @@ body {
 }
 
 .welcome h1 {
-  font: 800 1.8125rem Manrope, sans-serif;
+  font: 800 1.875rem Manrope, sans-serif;
+  letter-spacing: -0.8px;
   color: var(--deep);
   margin: 10px 0;
 }
@@ -115,35 +127,62 @@ body {
   font-size: 0.75rem;
   color: var(--muted);
   line-height: 1.7;
+  max-width: 390px;
 }
 
-/* SOCIAL LOGIN */
+/* SOCIAL LOGIN (Google and Apple) */
 
 .social-login {
   display: grid;
-  gap: 11px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+  margin-top: 25px;
 }
 
 .social-btn {
-  height: 47px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: white;
-  color: var(--ink);
+  min-width: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid #e1e7f0;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #26364c;
+  font-family: "DM Sans", sans-serif;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: 0.2s;
-}
-
-.social-btn i {
-  margin-right: 9px;
-  font-size: 0.9375rem;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .social-btn:hover {
-  border-color: #9bb1d1;
-  background: #f9fbff;
+  border-color: #a9bddb;
+  background: #f8faff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(8, 43, 104, 0.07);
+}
+
+.social-btn:active {
+  transform: translateY(0);
+}
+
+.social-icon {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.apple-icon {
+  width: 20px;
+  height: 20px;
+  color: #111111;
 }
 
 /* DIVIDER */
@@ -152,7 +191,7 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 24px 0;
+  margin: 25px 0;
 }
 
 .divider span {
@@ -171,7 +210,7 @@ body {
 /* FORM */
 
 .form-group {
-  margin-bottom: 19px;
+  margin-bottom: 18px;
 }
 
 .form-group label {
@@ -183,9 +222,9 @@ body {
 }
 
 .input-box {
-  height: 47px;
+  height: 49px;
   border: 1px solid #dfe5ee;
-  border-radius: 8px;
+  border-radius: 9px;
   background: white;
   display: flex;
   align-items: center;
@@ -262,13 +301,14 @@ body {
 
 .login-btn {
   width: 100%;
-  height: 48px;
+  height: 50px;
   border: none;
-  border-radius: 8px;
+  border-radius: 9px;
   background: var(--navy);
   color: white;
   font-size: 0.75rem;
   font-weight: 700;
+  letter-spacing: 0.2px;
   cursor: pointer;
   transition: 0.2s;
 }
@@ -334,141 +374,6 @@ body {
   margin-left: 4px;
 }
 
-/* =========================================
-   VORVENA LOGIN PAGE - DESIGN UPDATE
-========================================= */
-
-/* BRAND AND LOGO SPACE */
-
-.brand {
-  gap: 12px;
-}
-
-.brand-logo-slot {
-  width: 43px;
-  height: 43px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  border: 1px solid #e6ebf2;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 3px 10px rgba(8, 43, 104, 0.06);
-}
-
-.brand-logo-slot img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 4px;
-}
-
-.brand-name {
-  font-family: "Manrope", sans-serif;
-  font-weight: 800;
-  letter-spacing: 1.4px;
-}
-
-/* LOGIN CARD ARRANGEMENT */
-
-.login-card {
-  max-width: 450px;
-}
-
-.welcome {
-  margin-bottom: 25px;
-}
-
-.welcome h1 {
-  font-size: 1.875rem;
-  letter-spacing: -0.8px;
-}
-
-.welcome p {
-  max-width: 390px;
-}
-
-/* GOOGLE AND APPLE BUTTONS */
-
-.social-login {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 13px;
-  margin-top: 25px;
-}
-
-.social-btn {
-  min-width: 0;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border: 1px solid #e1e7f0;
-  border-radius: 9px;
-  background: #ffffff;
-  color: #26364c;
-  font-family: "DM Sans", sans-serif;
-  font-size: 0.75rem;
-  font-weight: 700;
-  transition:
-    border-color 0.25s ease,
-    background 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.social-btn:hover {
-  border-color: #a9bddb;
-  background: #f8faff;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(8, 43, 104, 0.07);
-}
-
-.social-btn:active {
-  transform: translateY(0);
-}
-
-.social-icon {
-  width: 19px;
-  height: 19px;
-  flex-shrink: 0;
-  display: block;
-}
-
-.google-icon {
-  width: 19px;
-  height: 19px;
-}
-
-.apple-icon {
-  width: 20px;
-  height: 20px;
-  color: #111111;
-}
-
-/* FORM SPACING */
-
-.divider {
-  margin: 25px 0;
-}
-
-.form-group {
-  margin-bottom: 18px;
-}
-
-.input-box {
-  height: 49px;
-  border-radius: 9px;
-}
-
-.login-btn {
-  height: 50px;
-  border-radius: 9px;
-  letter-spacing: 0.2px;
-}
-
 /* FOCUS ACCESSIBILITY */
 
 .social-btn:focus-visible,
@@ -479,18 +384,18 @@ body {
 }
 
 /* =========================================
-   RIGHT SIDE VIDEO (laptops and desktops only)
+   RIGHT SIDE VIDEO
 ========================================= */
 
 .side-video {
   width: 100%;
   height: 510px;
-  min-height: 0;
+  min-height: 510px;          /* FIX: stops the box collapsing to 0 height */
   align-self: center;
   border-radius: 17px;
   position: relative;
   overflow: hidden;
-  background: #041b43;
+  background: #041b43;        /* shows while the video loads */
 }
 
 .side-video video,
@@ -503,6 +408,7 @@ body {
   object-fit: cover;
   object-position: center;
   pointer-events: none;
+  z-index: 1;                 /* FIX: keeps the video above the background */
 }
 
 /* =========================================
@@ -511,7 +417,6 @@ body {
    1024px and below : no video, single column
 ========================================= */
 
-/* Below laptop: single column, no video */
 @media (max-width: 1024px) {
   .login-container {
     grid-template-columns: 1fr;
@@ -524,6 +429,8 @@ body {
     max-width: 470px;
   }
 
+  /* To show the video on tablets and phones too, delete this block
+     or change display: none to display: block and set a smaller height */
   .side-video {
     display: none;
   }
@@ -549,10 +456,6 @@ body {
     font-size: 1rem;
   }
 
-  .signup-link {
-    font-size: 0.75rem;
-  }
-
   .login-container {
     min-height: calc(100vh - 65px);
     padding: 35px 18px;
@@ -562,10 +465,6 @@ body {
     font-size: 1.5625rem;
   }
 
-  .welcome p {
-    font-size: 0.75rem;
-  }
-
   .social-login {
     gap: 9px;
   }
@@ -573,7 +472,6 @@ body {
   .social-btn {
     height: 47px;
     gap: 7px;
-    font-size: 0.75rem;
   }
 
   .social-icon {
@@ -598,10 +496,6 @@ body {
     font-size: 0.9375rem;
   }
 
-  .signup-link {
-    font-size: 0.75rem;
-  }
-
   .welcome h1 {
     font-size: 1.4375rem;
   }
@@ -611,23 +505,17 @@ body {
   }
 
   .social-btn {
-    font-size: 0.75rem;
     gap: 6px;
   }
 
   .divider {
     gap: 7px;
   }
-
-  .divider p {
-    font-size: 0.75rem;
-  }
 }
 
 /* =========================================================
-   VORVENA TEXT SCALE
-   All font sizes above are in rem. Phones and tablets stay at
-   the normal 16px; laptops and desktops get larger text.
+   TEXT SCALE
+   Phones and tablets stay at 16px; laptops and desktops get larger text.
 ========================================================= */
 @media (min-width: 1024px) { html { font-size: 106.25%; } }
 @media (min-width: 1280px) { html { font-size: 112.5%; } }
