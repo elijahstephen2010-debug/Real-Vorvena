@@ -66,7 +66,7 @@ button {
 
 .logo {
     font-family: "Manrope", sans-serif;
-    font-size: 27px;
+    font-size: 1.6875rem;
     font-weight: 800;
     letter-spacing: -1.2px;
     color: var(--deep);
@@ -83,7 +83,7 @@ button {
 }
 
 .nav-links > a {
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 600;
     color: #5d687c;
     transition: color 0.2s ease;
@@ -164,7 +164,7 @@ button {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 30px;
     color: rgba(255, 255, 255, 0.85);
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 1.4px;
 }
@@ -195,7 +195,7 @@ button {
     max-width: 620px;
     margin: 0 auto;
     color: rgba(255, 255, 255, 0.76);
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.8;
 }
 
@@ -218,7 +218,7 @@ button {
 
 .search-container > i {
     color: #8a96a9;
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .search-container input {
@@ -229,7 +229,7 @@ button {
     outline: none;
     color: var(--ink);
     background: transparent;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 .search-container input::placeholder {
@@ -243,7 +243,7 @@ button {
     border-radius: 7px;
     background: var(--navy);
     color: var(--white);
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 700;
     transition: background 0.2s ease;
 }
@@ -255,7 +255,7 @@ button {
 .hero-note {
     margin-top: 19px;
     color: rgba(255, 255, 255, 0.7);
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .hero-note i {
@@ -280,7 +280,7 @@ button {
     gap: 11px;
     margin-bottom: 43px;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .breadcrumb a {
@@ -289,7 +289,7 @@ button {
 }
 
 .breadcrumb i {
-    font-size: 9px;
+    font-size: 0.75rem;
     color: #a8b1bf;
 }
 
@@ -309,7 +309,7 @@ button {
     display: inline-block;
     margin-bottom: 10px;
     color: var(--blue);
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 1.5px;
 }
@@ -318,14 +318,14 @@ button {
     margin-bottom: 9px;
     font-family: "Manrope", sans-serif;
     color: var(--deep);
-    font-size: 31px;
+    font-size: 1.9375rem;
     font-weight: 800;
     letter-spacing: -0.8px;
 }
 
 .section-heading p {
     color: var(--muted);
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 .back-link {
@@ -337,7 +337,7 @@ button {
     border: 1px solid var(--line);
     border-radius: 7px;
     color: var(--navy);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
     transition: 0.2s ease;
 }
@@ -387,20 +387,20 @@ button {
     border-radius: 9px;
     background: #edf3fc;
     color: var(--navy);
-    font-size: 18px;
+    font-size: 1.125rem;
 }
 
 .specialty-card h3 {
     margin-bottom: 8px;
     color: var(--deep);
     font-family: "Manrope", sans-serif;
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-weight: 800;
 }
 
 .specialty-card p {
     color: var(--muted);
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 1.7;
 }
 
@@ -415,13 +415,13 @@ button {
 
 .card-bottom span {
     color: var(--blue);
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 700;
 }
 
 .card-bottom i {
     color: var(--blue);
-    font-size: 13px;
+    font-size: 0.8125rem;
     transition: transform 0.2s ease;
 }
 
@@ -456,19 +456,19 @@ button {
     border-radius: 50%;
     background: #eaf0fa;
     color: var(--navy);
-    font-size: 20px;
+    font-size: 1.25rem;
 }
 
 .empty-state h3 {
     margin-bottom: 8px;
     color: var(--deep);
     font-family: "Manrope", sans-serif;
-    font-size: 19px;
+    font-size: 1.1875rem;
 }
 
 .empty-state p {
     color: var(--muted);
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 .empty-state button {
@@ -478,7 +478,7 @@ button {
     border-radius: 6px;
     background: var(--navy);
     color: var(--white);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
 }
 
@@ -507,7 +507,7 @@ button {
     border-radius: 11px;
     background: #e4edfb;
     color: var(--navy);
-    font-size: 23px;
+    font-size: 1.4375rem;
 }
 
 .help-content {
@@ -522,14 +522,14 @@ button {
     margin-bottom: 7px;
     color: var(--deep);
     font-family: "Manrope", sans-serif;
-    font-size: 21px;
+    font-size: 1.3125rem;
     font-weight: 800;
 }
 
 .help-content p {
     max-width: 550px;
     color: var(--muted);
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 .help-button {
@@ -541,7 +541,7 @@ button {
     border-radius: 7px;
     background: var(--navy);
     color: var(--white);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
     transition: background 0.2s ease;
 }
@@ -571,14 +571,14 @@ button {
 .footer-brand .logo {
     display: inline-block;
     color: var(--white);
-    font-size: 26px;
+    font-size: 1.625rem;
 }
 
 .footer-brand p {
     max-width: 280px;
     margin-top: 15px;
     color: rgba(255, 255, 255, 0.6);
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 1.9;
 }
 
@@ -594,13 +594,13 @@ button {
     margin-bottom: 7px;
     color: var(--white);
     font-family: "Manrope", sans-serif;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 800;
 }
 
 .footer-links a {
     color: rgba(255, 255, 255, 0.62);
-    font-size: 12px;
+    font-size: 0.75rem;
     transition: color 0.2s ease;
 }
 
@@ -630,7 +630,7 @@ button {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     color: var(--white);
-    font-size: 14px;
+    font-size: 0.875rem;
     transition: 0.2s ease;
 }
 
@@ -649,7 +649,7 @@ button {
     gap: 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.13);
     color: rgba(255, 255, 255, 0.5);
-    font-size: 11px;
+    font-size: 0.75rem;
 }
 
 .footer-bottom a {
@@ -666,7 +666,7 @@ button {
     }
 
     .nav-links > a {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     .specialties-grid {
@@ -717,7 +717,7 @@ button {
 
     .nav-links > a {
         width: 100%;
-        font-size: 14px;
+        font-size: 0.875rem;
     }
 
     .nav-links .login-btn {
@@ -772,7 +772,7 @@ button {
 
 @media (max-width: 425px) {
     .logo {
-        font-size: 24px;
+        font-size: 1.5rem;
     }
 
     .explore-hero {
@@ -781,12 +781,12 @@ button {
     }
 
     .explore-hero h1 {
-        font-size: 34px;
+        font-size: 2.125rem;
         letter-spacing: -1.2px;
     }
 
     .explore-hero p {
-        font-size: 13px;
+        font-size: 0.8125rem;
     }
 
     .search-container {
@@ -796,17 +796,17 @@ button {
     }
 
     .search-container input {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     .search-container button {
         height: 41px;
         padding: 0 13px;
-        font-size: 11px;
+        font-size: 0.75rem;
     }
 
     .hero-note {
-        font-size: 10px;
+        font-size: 0.75rem;
     }
 
     .explore-section {
@@ -816,15 +816,15 @@ button {
 
     .breadcrumb {
         gap: 7px;
-        font-size: 10px;
+        font-size: 0.75rem;
     }
 
     .section-heading h2 {
-        font-size: 26px;
+        font-size: 1.625rem;
     }
 
     .section-heading p {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     .specialties-grid {
@@ -845,7 +845,7 @@ button {
     .help-icon {
         width: 46px;
         height: 46px;
-        font-size: 19px;
+        font-size: 1.1875rem;
     }
 
     .help-content {
@@ -853,11 +853,11 @@ button {
     }
 
     .help-content h2 {
-        font-size: 17px;
+        font-size: 1.0625rem;
     }
 
     .help-content p {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     .help-button {
@@ -882,11 +882,11 @@ button {
 
 @media (max-width: 375px) {
     .explore-hero h1 {
-        font-size: 30px;
+        font-size: 1.875rem;
     }
 
     .hero-tag {
-        font-size: 9px;
+        font-size: 0.75rem;
     }
 
     .search-container button {
@@ -894,7 +894,7 @@ button {
     }
 
     .section-heading h2 {
-        font-size: 23px;
+        font-size: 1.4375rem;
     }
 
     .footer-main {
@@ -954,7 +954,7 @@ button {
     border-radius: 12px;
     background: linear-gradient(145deg, #edf4ff, #e1ecfc);
     color: #174b9a;
-    font-size: 19px;
+    font-size: 1.1875rem;
     transition: transform 0.3s ease,
                 background 0.3s ease,
                 color 0.3s ease;
@@ -967,7 +967,7 @@ button {
 }
 
 .specialty-card h3 {
-    font-size: 15px;
+    font-size: 0.9375rem;
     line-height: 1.45;
     transition: color 0.2s ease;
 }
@@ -978,7 +978,7 @@ button {
 
 .specialty-card p {
     min-height: 41px;
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .card-bottom {
@@ -988,7 +988,7 @@ button {
 }
 
 .card-bottom span {
-    font-size: 11px;
+    font-size: 0.75rem;
     letter-spacing: 0.1px;
 }
 
@@ -1027,3 +1027,12 @@ button {
     }
 }
 
+/* =========================================================
+   VORVENA TEXT SCALE
+   All font sizes above are in rem. Phones and tablets stay at
+   the normal 16px; laptops and desktops get larger text.
+========================================================= */
+@media (min-width: 1024px) { html { font-size: 106.25%; } }
+@media (min-width: 1280px) { html { font-size: 112.5%; } }
+@media (min-width: 1536px) { html { font-size: 118.75%; } }
+@media (min-width: 1920px) { html { font-size: 131.25%; } }

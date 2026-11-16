@@ -101,12 +101,12 @@ a {
     place-items: center;
     background: var(--navy);
     color: white;
-    font: 800 23px Manrope, sans-serif;
+    font: 800 1.4375rem Manrope, sans-serif;
 }
 
 .brand-name,
 .footer-brand {
-    font: 800 19px Manrope, sans-serif;
+    font: 800 1.1875rem Manrope, sans-serif;
     letter-spacing: 1px;
     color: var(--navy);
 }
@@ -118,7 +118,7 @@ a {
 }
 
 .back-link {
-    font-size: 12px;
+    font-size: 0.75rem;
     color: var(--muted);
     font-weight: 600;
     transition: 0.25s ease;
@@ -137,7 +137,7 @@ a {
     color: white;
     padding: 12px 20px;
     border-radius: 7px;
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 700;
     transition: 0.25s ease;
 }
@@ -187,7 +187,7 @@ a {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-size: 9px;
+    font-size: 0.75rem;
     letter-spacing: 2px;
     font-weight: 800;
     color: #bcd4fa;
@@ -202,7 +202,7 @@ a {
 }
 
 .support-hero h1 {
-    font: 800 43px Manrope, sans-serif;
+    font: 800 2.6875rem Manrope, sans-serif;
     color: white;
     line-height: 1.2;
     margin: 19px 0 15px;
@@ -214,7 +214,7 @@ a {
 
 .hero-content > p {
     color: #d1def2;
-    font-size: 13px;
+    font-size: 0.8125rem;
     line-height: 1.9;
     max-width: 440px;
 }
@@ -228,7 +228,7 @@ a {
     background: white;
     color: var(--navy);
     border-radius: 7px;
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 800;
     transition: 0.25s ease;
 }
@@ -239,7 +239,7 @@ a {
 }
 
 .hero-button span {
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 /* HERO ART */
@@ -301,7 +301,7 @@ a {
     background: var(--blue-light);
     color: var(--navy);
     border-radius: 12px;
-    font: 800 24px Manrope, sans-serif;
+    font: 800 1.5rem Manrope, sans-serif;
     margin-bottom: 15px;
 }
 
@@ -327,7 +327,7 @@ a {
     gap: 6px;
     margin-top: 16px;
     color: var(--green);
-    font-size: 9px;
+    font-size: 0.75rem;
     font-weight: 700;
 }
 
@@ -356,14 +356,14 @@ a {
 }
 
 .section-heading h2 {
-    font: 800 26px Manrope, sans-serif;
+    font: 800 1.625rem Manrope, sans-serif;
     color: var(--navy-deep);
     margin: 12px 0 9px;
 }
 
 .section-heading > p {
     color: var(--muted);
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 1.7;
 }
 
@@ -407,14 +407,14 @@ a {
     gap: 12px;
     text-align: left;
     color: var(--ink);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
     cursor: pointer;
 }
 
 .faq-question span {
     color: var(--blue);
-    font-size: 19px;
+    font-size: 1.1875rem;
     transition: transform 0.25s ease;
 }
 
@@ -431,7 +431,7 @@ a {
 .faq-answer p {
     padding: 0 19px 19px;
     color: var(--muted);
-    font-size: 11px;
+    font-size: 0.75rem;
     line-height: 1.8;
 }
 
@@ -451,7 +451,7 @@ a {
 }
 
 .contact-intro h2 {
-    font: 800 31px Manrope, sans-serif;
+    font: 800 1.9375rem Manrope, sans-serif;
     color: var(--navy-deep);
     line-height: 1.35;
     margin: 17px 0;
@@ -459,7 +459,7 @@ a {
 
 .contact-intro > p {
     color: var(--muted);
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 1.9;
     max-width: 350px;
 }
@@ -492,14 +492,14 @@ a {
 .contact-note strong,
 .response-card strong {
     display: block;
-    font-size: 11px;
+    font-size: 0.75rem;
     color: var(--ink);
     margin-bottom: 5px;
 }
 
 .contact-note p,
 .response-card p {
-    font-size: 10px;
+    font-size: 0.75rem;
     color: var(--muted);
     line-height: 1.7;
 }
@@ -525,14 +525,14 @@ a {
 }
 
 .form-top h3 {
-    font: 800 21px Manrope, sans-serif;
+    font: 800 1.3125rem Manrope, sans-serif;
     color: var(--navy-deep);
     margin-top: 8px;
 }
 
 .required-note {
     color: var(--muted);
-    font-size: 9px;
+    font-size: 0.75rem;
 }
 
 .form-grid {
@@ -551,7 +551,7 @@ a {
 
 .field label {
     display: block;
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 700;
     color: #34435a;
     margin-bottom: 9px;
@@ -575,7 +575,7 @@ a {
     border-radius: 7px;
     outline: none;
     color: var(--ink);
-    font-size: 11px;
+    font-size: 0.75rem;
     padding: 13px;
     transition: 0.2s ease;
 }
@@ -610,7 +610,7 @@ a {
     gap: 10px;
     margin-top: 8px;
     color: var(--muted);
-    font-size: 9px;
+    font-size: 0.75rem;
     line-height: 1.5;
 }
 
@@ -618,7 +618,7 @@ a {
     display: block;
     margin-top: 7px;
     color: var(--muted);
-    font-size: 9px;
+    font-size: 0.75rem;
 }
 
 .consent {
@@ -627,7 +627,7 @@ a {
     gap: 9px;
     margin: 23px 0;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
     line-height: 1.7;
     cursor: pointer;
 }
@@ -645,7 +645,7 @@ a {
     border-radius: 7px;
     background: var(--navy);
     color: white;
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 700;
     cursor: pointer;
     transition: 0.25s ease;
@@ -653,7 +653,7 @@ a {
 
 .submit-button span {
     margin-left: 9px;
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .submit-button:hover {
@@ -672,7 +672,7 @@ a {
     margin-top: 14px;
     padding: 12px;
     border-radius: 7px;
-    font-size: 11px;
+    font-size: 0.75rem;
     line-height: 1.6;
 }
 
@@ -704,13 +704,13 @@ a {
 
 .footer-brand {
     color: white;
-    font-size: 17px;
+    font-size: 1.0625rem;
 }
 
 .site-footer p,
 .site-footer > span {
     color: #b9c9df;
-    font-size: 10px;
+    font-size: 0.75rem;
 }
 
 /* =========================================
@@ -729,7 +729,7 @@ a {
     }
 
     .support-hero h1 {
-        font-size: 35px;
+        font-size: 2.1875rem;
     }
 
     .hero-art {
@@ -786,7 +786,7 @@ a {
     }
 
     .brand-name {
-        font-size: 15px;
+        font-size: 0.9375rem;
     }
 
     .header-actions {
@@ -794,12 +794,12 @@ a {
     }
 
     .back-link {
-        font-size: 10px;
+        font-size: 0.75rem;
     }
 
     .header-cta {
         padding: 10px 12px;
-        font-size: 9px;
+        font-size: 0.75rem;
     }
 
     .support-hero {
@@ -808,11 +808,11 @@ a {
     }
 
     .support-hero h1 {
-        font-size: 29px;
+        font-size: 1.8125rem;
     }
 
     .hero-content > p {
-        font-size: 11px;
+        font-size: 0.75rem;
     }
 
     .hero-art {
@@ -824,11 +824,11 @@ a {
     }
 
     .section-heading h2 {
-        font-size: 21px;
+        font-size: 1.3125rem;
     }
 
     .section-heading > p {
-        font-size: 11px;
+        font-size: 0.75rem;
     }
 
     .faq-grid {
@@ -838,11 +838,11 @@ a {
 
     .faq-question {
         padding: 16px;
-        font-size: 11px;
+        font-size: 0.75rem;
     }
 
     .contact-intro h2 {
-        font-size: 26px;
+        font-size: 1.625rem;
     }
 
     .support-form {
@@ -856,7 +856,7 @@ a {
     }
 
     .form-top h3 {
-        font-size: 19px;
+        font-size: 1.1875rem;
     }
 
     .form-grid {
@@ -869,7 +869,7 @@ a {
     }
 
     .field-foot {
-        font-size: 8px;
+        font-size: 0.75rem;
     }
 
     .site-footer {
@@ -895,7 +895,7 @@ a {
     }
 
     .brand-name {
-        font-size: 13px;
+        font-size: 0.8125rem;
     }
 
     .header-actions {
@@ -903,12 +903,12 @@ a {
     }
 
     .back-link {
-        font-size: 9px;
+        font-size: 0.75rem;
     }
 
     .header-cta {
         padding: 9px 10px;
-        font-size: 8px;
+        font-size: 0.75rem;
     }
 
     .support-hero {
@@ -916,7 +916,7 @@ a {
     }
 
     .support-hero h1 {
-        font-size: 26px;
+        font-size: 1.625rem;
     }
 
     .section-wrap {
@@ -924,11 +924,11 @@ a {
     }
 
     .section-heading h2 {
-        font-size: 19px;
+        font-size: 1.1875rem;
     }
 
     .contact-intro h2 {
-        font-size: 23px;
+        font-size: 1.4375rem;
     }
 
     .support-form {
@@ -938,7 +938,7 @@ a {
     .field input,
     .field select,
     .field textarea {
-        font-size: 10px;
+        font-size: 0.75rem;
     }
 
     .field-foot {
@@ -952,134 +952,144 @@ a {
 ========================================= */
 
 .brand-name {
-    font-size: 21px;
+    font-size: 1.3125rem;
 }
 
 .back-link {
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 .header-cta {
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .eyebrow {
-    font-size: 10px;
+    font-size: 0.75rem;
 }
 
 .hero-content > p {
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 .hero-button {
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .section-heading h2 {
-    font-size: 29px;
+    font-size: 1.8125rem;
 }
 
 .section-heading > p {
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 .faq-question {
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 .faq-answer p {
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .contact-intro h2 {
-    font-size: 34px;
+    font-size: 2.125rem;
 }
 
 .contact-intro > p {
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 .contact-note strong,
 .response-card strong {
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .contact-note p,
 .response-card p {
-    font-size: 11px;
+    font-size: 0.75rem;
 }
 
 .form-top h3 {
-    font-size: 23px;
+    font-size: 1.4375rem;
 }
 
 .required-note {
-    font-size: 10px;
+    font-size: 0.75rem;
 }
 
 .field label {
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .field input,
 .field select,
 .field textarea {
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .consent {
-    font-size: 11px;
+    font-size: 0.75rem;
 }
 
 .submit-button {
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .site-footer p,
 .site-footer > span {
-    font-size: 11px;
+    font-size: 0.75rem;
 }
 
 /* Keep mobile text readable */
 
 @media (max-width: 425px) {
     .support-hero h1 {
-        font-size: 30px;
+        font-size: 1.875rem;
     }
 
     .section-heading h2 {
-        font-size: 23px;
+        font-size: 1.4375rem;
     }
 
     .faq-question {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     .contact-intro h2 {
-        font-size: 27px;
+        font-size: 1.6875rem;
     }
 
     .field label {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     .field input,
     .field select,
     .field textarea {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 }
 
 @media (max-width: 375px) {
     .support-hero h1 {
-        font-size: 27px;
+        font-size: 1.6875rem;
     }
 
     .section-heading h2 {
-        font-size: 21px;
+        font-size: 1.3125rem;
     }
 
     .contact-intro h2 {
-        font-size: 24px;
+        font-size: 1.5rem;
     }
 }
+
+/* =========================================================
+   VORVENA TEXT SCALE
+   All font sizes above are in rem. Phones and tablets stay at
+   the normal 16px; laptops and desktops get larger text.
+========================================================= */
+@media (min-width: 1024px) { html { font-size: 106.25%; } }
+@media (min-width: 1280px) { html { font-size: 112.5%; } }
+@media (min-width: 1536px) { html { font-size: 118.75%; } }
+@media (min-width: 1920px) { html { font-size: 131.25%; } }

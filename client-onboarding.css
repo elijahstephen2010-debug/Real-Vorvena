@@ -6,7 +6,7 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     background: #f5f7fb;
     color: #17233c;
     min-height: 100vh;
@@ -24,7 +24,7 @@ body {
 /* LOGO */
 
 .logo {
-    font-size: 25px;
+    font-size: 1.5625rem;
     font-weight: 800;
     color: #142d59;
     text-decoration: none;
@@ -38,7 +38,7 @@ body {
 }
 
 .heading h1 {
-    font-size: 28px;
+    font-size: 1.75rem;
     margin-bottom: 10px;
     font-weight: 800;
     color: #142d59;
@@ -47,7 +47,7 @@ body {
 .heading p {
     color: #718096;
     line-height: 1.6;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 /* PROGRESS BAR */
@@ -81,7 +81,7 @@ body {
 /* SECTION TITLE */
 
 .section-title {
-    font-size: 17px;
+    font-size: 1.0625rem;
     font-weight: 700;
     margin-bottom: 20px;
     color: #142d59;
@@ -107,7 +107,7 @@ body {
 
 label {
     display: block;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 600;
     margin-bottom: 9px;
     color: #34435a;
@@ -124,7 +124,7 @@ textarea {
     border-radius: 8px;
     outline: none;
     font-family: inherit;
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: #17233c;
     background: #fff;
     transition: .2s;
@@ -146,7 +146,7 @@ textarea {
 
 .hint {
     color: #8994a5;
-    font-size: 11px;
+    font-size: 0.75rem;
     margin-top: 7px;
 }
 
@@ -157,7 +157,7 @@ textarea {
     border-radius: 9px;
     padding: 15px;
     margin-bottom: 24px;
-    font-size: 13px;
+    font-size: 0.8125rem;
     line-height: 1.8;
     color: #718096;
 }
@@ -169,7 +169,7 @@ textarea {
 /* MESSAGE */
 
 .message {
-    font-size: 13px;
+    font-size: 0.8125rem;
     margin-bottom: 15px;
 }
 
@@ -183,7 +183,7 @@ textarea {
     background: #2864dc;
     color: white;
     font-family: inherit;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 700;
     cursor: pointer;
     transition: .2s;
@@ -207,7 +207,7 @@ textarea {
 .footer {
     text-align: center;
     color: #8994a5;
-    font-size: 12px;
+    font-size: 0.75rem;
     margin-top: 25px;
 }
 
@@ -236,7 +236,7 @@ textarea {
     }
 
     .heading h1 {
-        font-size: 24px;
+        font-size: 1.5rem;
     }
 
     .form-card {
@@ -248,15 +248,25 @@ textarea {
 
 @media (max-width: 375px) {
     .heading h1 {
-        font-size: 22px;
+        font-size: 1.375rem;
     }
 
     .logo {
-        font-size: 22px;
+        font-size: 1.375rem;
     }
 
     .account-info {
-        font-size: 12px;
+        font-size: 0.75rem;
         padding: 12px;
     }
 }
+
+/* =========================================================
+   VORVENA TEXT SCALE
+   All font sizes above are in rem. Phones and tablets stay at
+   the normal 16px; laptops and desktops get larger text.
+========================================================= */
+@media (min-width: 1024px) { html { font-size: 106.25%; } }
+@media (min-width: 1280px) { html { font-size: 112.5%; } }
+@media (min-width: 1536px) { html { font-size: 118.75%; } }
+@media (min-width: 1920px) { html { font-size: 131.25%; } }

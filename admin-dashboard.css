@@ -96,7 +96,7 @@ img {
     display: grid;
     place-items: center;
     font-family: "Manrope", sans-serif;
-    font-size: 38px;
+    font-size: 2.375rem;
     font-weight: 800;
 }
 
@@ -111,7 +111,7 @@ img {
 }
 
 .loader-content p {
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: rgba(255, 255, 255, .7);
 }
 
@@ -158,21 +158,21 @@ img {
     color: var(--navy);
     font-family: "Manrope", sans-serif;
     font-weight: 800;
-    font-size: 27px;
+    font-size: 1.6875rem;
     background: white;
 }
 
 .admin-brand-text h2 {
     font-family: "Manrope", sans-serif;
     color: var(--navy);
-    font-size: 19px;
+    font-size: 1.1875rem;
     font-weight: 800;
     letter-spacing: 1px;
 }
 
 .admin-brand-text span {
     color: var(--muted);
-    font-size: 9px;
+    font-size: 0.75rem;
     letter-spacing: 2px;
     font-weight: 700;
 }
@@ -189,7 +189,7 @@ img {
     background: white;
     color: var(--navy);
     position: relative;
-    font-size: 17px;
+    font-size: 1.0625rem;
     transition: .25s;
 }
 
@@ -244,12 +244,12 @@ img {
 }
 
 .admin-profile-details strong {
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 700;
 }
 
 .admin-profile-details span {
-    font-size: 11px;
+    font-size: 0.75rem;
     color: var(--muted);
 }
 
@@ -261,7 +261,7 @@ img {
     background: white;
     color: var(--navy);
     border-radius: 10px;
-    font-size: 17px;
+    font-size: 1.0625rem;
 }
 
 
@@ -316,7 +316,7 @@ img {
 }
 
 .sidebar-admin-info strong {
-    font-size: 12px;
+    font-size: 0.75rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -324,7 +324,7 @@ img {
 
 .sidebar-admin-info span {
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
 }
 
 .admin-status-dot {
@@ -343,7 +343,7 @@ img {
 
 .sidebar-label {
     color: #a0aabc;
-    font-size: 9px;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 1.5px;
     padding: 0 12px;
@@ -362,7 +362,7 @@ img {
     gap: 13px;
     border-radius: 9px;
     color: #64738b;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 600;
     margin-bottom: 5px;
     transition: .25s ease;
@@ -371,7 +371,7 @@ img {
 .admin-nav-link i {
     width: 17px;
     text-align: center;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 .admin-nav-link:hover {
@@ -390,7 +390,7 @@ img {
     margin-left: auto;
     background: #fce8e9;
     color: var(--red);
-    font-size: 10px;
+    font-size: 0.75rem;
     padding: 3px 7px;
     border-radius: 20px;
     font-weight: 800;
@@ -423,12 +423,12 @@ img {
 }
 
 .sidebar-footer strong {
-    font-size: 11px;
+    font-size: 0.75rem;
     color: var(--navy);
 }
 
 .sidebar-footer span {
-    font-size: 9px;
+    font-size: 0.75rem;
     color: var(--muted);
 }
 
@@ -472,28 +472,28 @@ img {
 
 .page-eyebrow {
     color: var(--blue);
-    font-size: 9px;
+    font-size: 0.75rem;
     letter-spacing: 2px;
     font-weight: 800;
 }
 
 .page-heading h1 {
     font-family: "Manrope", sans-serif;
-    font-size: 27px;
+    font-size: 1.6875rem;
     color: var(--navy-deep);
     margin-top: 7px;
     font-weight: 800;
 }
 
 .page-heading p {
-    font-size: 12px;
+    font-size: 0.75rem;
     color: var(--muted);
     margin-top: 7px;
 }
 
 .page-date {
     color: var(--muted);
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 600;
     padding: 10px 13px;
     background: white;
@@ -539,13 +539,13 @@ img {
 
 .stat-card span {
     color: var(--muted);
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 600;
 }
 
 .stat-card h2 {
     font-family: "Manrope", sans-serif;
-    font-size: 27px;
+    font-size: 1.6875rem;
     font-weight: 800;
     color: var(--navy);
     margin-top: 9px;
@@ -553,7 +553,7 @@ img {
 }
 
 .stat-card > p {
-    font-size: 10px;
+    font-size: 0.75rem;
     color: var(--muted);
     margin-top: 15px;
 }
@@ -561,7 +561,7 @@ img {
 .stat-card small {
     display: block;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
     margin-top: 8px;
 }
 
@@ -572,7 +572,7 @@ img {
     display: grid;
     place-items: center;
     border-radius: 12px;
-    font-size: 17px;
+    font-size: 1.0625rem;
 }
 
 .stat-icon.blue {
@@ -614,12 +614,12 @@ img {
 
 .section-heading h2 {
     font-family: "Manrope", sans-serif;
-    font-size: 17px;
+    font-size: 1.0625rem;
     color: var(--navy-deep);
 }
 
 .section-heading p {
-    font-size: 11px;
+    font-size: 0.75rem;
     color: var(--muted);
     margin-top: 5px;
 }
@@ -633,7 +633,7 @@ img {
 }
 
 .project-stats .stat-card h2 {
-    font-size: 25px;
+    font-size: 1.5625rem;
 }
 
 
@@ -665,18 +665,18 @@ img {
 .panel-heading h3 {
     color: var(--navy-deep);
     font-family: "Manrope", sans-serif;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 .panel-heading p {
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
     margin-top: 5px;
 }
 
 .panel-heading > i {
     color: var(--blue);
-    font-size: 17px;
+    font-size: 1.0625rem;
 }
 
 
@@ -712,14 +712,14 @@ img {
 
 .recent-project-item strong,
 .recent-notification-item strong {
-    font-size: 11px;
+    font-size: 0.75rem;
     color: var(--text);
 }
 
 .recent-project-item small,
 .recent-notification-item small {
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
 }
 
 .recent-notification-item {
@@ -728,7 +728,7 @@ img {
 
 .recent-notification-item p {
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
     margin: 6px 0;
     line-height: 1.6;
 }
@@ -737,7 +737,7 @@ img {
     padding: 25px 10px;
     color: var(--muted);
     text-align: center;
-    font-size: 11px;
+    font-size: 0.75rem;
 }
 
 
@@ -749,7 +749,7 @@ img {
     justify-content: center;
     padding: 5px 9px;
     border-radius: 20px;
-    font-size: 9px;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: capitalize;
     white-space: nowrap;
@@ -803,7 +803,7 @@ img {
     background: transparent;
     padding: 12px 2px;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
     position: relative;
 }
@@ -814,7 +814,7 @@ img {
     padding: 3px 7px;
     border-radius: 20px;
     margin-left: 5px;
-    font-size: 9px;
+    font-size: 0.75rem;
 }
 
 .user-tab.active {
@@ -859,7 +859,7 @@ img {
 
 .admin-search i {
     color: #9aa6b8;
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 .admin-search input {
@@ -869,7 +869,7 @@ img {
     min-width: 0;
     color: var(--text);
     background: transparent;
-    font-size: 11px;
+    font-size: 0.75rem;
 }
 
 .panel-search {
@@ -885,7 +885,7 @@ img {
     padding: 0 12px;
     border-radius: 9px;
     outline: none;
-    font-size: 11px;
+    font-size: 0.75rem;
 }
 
 .user-toolbar select {
@@ -915,7 +915,7 @@ img {
     padding: 14px 12px;
     background: #f7f9fc;
     color: #8190a5;
-    font-size: 9px;
+    font-size: 0.75rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: .7px;
@@ -925,7 +925,7 @@ img {
 .admin-table td {
     padding: 15px 12px;
     border-bottom: 1px solid #eef1f6;
-    font-size: 10px;
+    font-size: 0.75rem;
     color: #56657b;
     white-space: nowrap;
     vertical-align: middle;
@@ -950,11 +950,11 @@ img {
 }
 
 .table-user strong {
-    font-size: 11px;
+    font-size: 0.75rem;
 }
 
 .table-user small {
-    font-size: 9px;
+    font-size: 0.75rem;
     color: var(--muted);
 }
 
@@ -964,7 +964,7 @@ img {
     border: 0;
     padding: 7px 12px;
     border-radius: 7px;
-    font-size: 10px;
+    font-size: 0.75rem;
     font-weight: 700;
     white-space: nowrap;
     transition: .2s;
@@ -995,7 +995,7 @@ img {
     background: white;
     border-radius: 8px;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
     font-weight: 600;
     transition: .2s;
 }
@@ -1046,12 +1046,12 @@ img {
 }
 
 .conversation-item strong {
-    font-size: 11px;
+    font-size: 0.75rem;
     color: var(--navy);
 }
 
 .conversation-item span {
-    font-size: 10px;
+    font-size: 0.75rem;
     color: var(--muted);
 }
 
@@ -1068,13 +1068,13 @@ img {
 
 .message-viewer-header h3 {
     font-family: "Manrope", sans-serif;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--navy);
 }
 
 .message-viewer-header p {
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
     margin-top: 5px;
 }
 
@@ -1085,7 +1085,7 @@ img {
     border-radius: 6px;
     color: var(--blue);
     background: var(--blue-light);
-    font-size: 9px;
+    font-size: 0.75rem;
     font-weight: 800;
 }
 
@@ -1111,19 +1111,19 @@ img {
 }
 
 .admin-message strong {
-    font-size: 10px;
+    font-size: 0.75rem;
     color: var(--navy);
 }
 
 .admin-message p {
-    font-size: 11px;
+    font-size: 0.75rem;
     line-height: 1.6;
     margin: 5px 0;
     overflow-wrap: anywhere;
 }
 
 .admin-message small {
-    font-size: 9px;
+    font-size: 0.75rem;
     color: var(--muted);
 }
 
@@ -1132,7 +1132,7 @@ img {
     border-radius: 8px;
     background: #f7f9fc;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
     line-height: 1.6;
 }
 
@@ -1163,18 +1163,18 @@ img {
     border-radius: 11px;
     display: grid;
     place-items: center;
-    font-size: 18px;
+    font-size: 1.125rem;
     flex-shrink: 0;
 }
 
 .payout-alert-panel h3 {
     color: #98651a;
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .payout-alert-panel p {
     color: #9b7a48;
-    font-size: 10px;
+    font-size: 0.75rem;
     margin-top: 5px;
 }
 
@@ -1187,7 +1187,7 @@ img {
     border: 0;
     border-radius: 8px;
     padding: 11px 17px;
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 700;
     transition: .25s;
 }
@@ -1263,12 +1263,12 @@ img {
 }
 
 .notification-content strong {
-    font-size: 12px;
+    font-size: 0.75rem;
     color: var(--navy);
 }
 
 .notification-content p {
-    font-size: 11px;
+    font-size: 0.75rem;
     color: var(--muted);
     margin: 6px 0;
     line-height: 1.6;
@@ -1277,7 +1277,7 @@ img {
 .notification-content small {
     display: block;
     color: #9aa6b8;
-    font-size: 9px;
+    font-size: 0.75rem;
     margin-bottom: 8px;
 }
 
@@ -1296,7 +1296,7 @@ img {
 }
 
 .settings-field label {
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 700;
     color: var(--text);
 }
@@ -1310,7 +1310,7 @@ img {
     outline: none;
     border-radius: 8px;
     color: var(--text);
-    font-size: 11px;
+    font-size: 0.75rem;
 }
 
 .settings-field input[readonly] {
@@ -1338,7 +1338,7 @@ img {
     padding: 13px;
     background: var(--blue-light);
     color: var(--blue);
-    font-size: 10px;
+    font-size: 0.75rem;
     border-radius: 8px;
     line-height: 1.6;
 }
@@ -1381,12 +1381,12 @@ img {
 
 .admin-photo-info h4 {
     font-family: "Manrope", sans-serif;
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--navy-deep);
 }
 
 .admin-photo-info p {
-    font-size: 10px;
+    font-size: 0.75rem;
     color: var(--muted);
     line-height: 1.6;
     margin: 5px 0 13px;
@@ -1402,7 +1402,7 @@ img {
     display: block;
     min-height: 14px;
     margin-top: 10px;
-    font-size: 10px;
+    font-size: 0.75rem;
     color: var(--muted);
 }
 
@@ -1475,7 +1475,7 @@ img {
 
 .modal-heading h2 {
     font-family: "Manrope", sans-serif;
-    font-size: 17px;
+    font-size: 1.0625rem;
     color: var(--navy);
 }
 
@@ -1490,7 +1490,7 @@ img {
 
 #userDetailsContent p,
 #projectDetailsContent p {
-    font-size: 11px;
+    font-size: 0.75rem;
     color: var(--muted);
     padding: 10px 0;
     border-bottom: 1px solid var(--border);
@@ -1505,7 +1505,7 @@ img {
 }
 
 .admin-modal-content > p {
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 1.7;
     color: var(--muted);
 }
@@ -1532,7 +1532,7 @@ img {
     display: block;
     margin-bottom: 6px;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: .6px;
@@ -1540,7 +1540,7 @@ img {
 
 .support-detail-group p {
     color: var(--text);
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 1.7;
     overflow-wrap: anywhere;
 }
@@ -1552,7 +1552,7 @@ img {
     border-radius: 8px;
     background: white;
     color: var(--text);
-    font-size: 11px;
+    font-size: 0.75rem;
     outline: none;
 }
 
@@ -1567,7 +1567,7 @@ img {
     border: 1px solid var(--border);
     border-radius: 9px;
     resize: vertical;
-    font-size: 12px;
+    font-size: 0.75rem;
     outline: none;
 }
 
@@ -1585,7 +1585,7 @@ img {
     border: 1px solid var(--border);
     border-radius: 9px;
     color: var(--text);
-    font-size: 12px;
+    font-size: 0.75rem;
     line-height: 1.8;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
@@ -1607,7 +1607,7 @@ img {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 11px;
+    font-size: 0.75rem;
     opacity: 0;
     visibility: hidden;
     transform: translateY(15px);
@@ -1691,11 +1691,11 @@ img {
     }
 
     .admin-brand-text h2 {
-        font-size: 16px;
+        font-size: 1rem;
     }
 
     .admin-brand-text span {
-        font-size: 8px;
+        font-size: 0.75rem;
     }
 
     .message-monitor-layout {
@@ -1743,11 +1743,11 @@ img {
     .admin-logo {
         width: 36px;
         height: 36px;
-        font-size: 23px;
+        font-size: 1.4375rem;
     }
 
     .admin-brand-text h2 {
-        font-size: 14px;
+        font-size: 0.875rem;
     }
 
     .admin-main {
@@ -1761,16 +1761,16 @@ img {
     }
 
     .page-heading h1 {
-        font-size: 22px;
+        font-size: 1.375rem;
     }
 
     .page-heading p {
-        font-size: 10px;
+        font-size: 0.75rem;
         line-height: 1.6;
     }
 
     .page-date {
-        font-size: 9px;
+        font-size: 0.75rem;
     }
 
     .stats-grid {
@@ -1783,23 +1783,23 @@ img {
     }
 
     .stat-card span {
-        font-size: 9px;
+        font-size: 0.75rem;
     }
 
     .stat-card h2 {
-        font-size: 22px;
+        font-size: 1.375rem;
     }
 
     .stat-icon {
         width: 33px;
         height: 33px;
-        font-size: 13px;
+        font-size: 0.8125rem;
         border-radius: 9px;
     }
 
     .stat-card > p,
     .stat-card small {
-        font-size: 9px;
+        font-size: 0.75rem;
         line-height: 1.5;
     }
 
@@ -1808,7 +1808,7 @@ img {
     }
 
     .panel-heading h3 {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     .project-filter-tabs {
@@ -1816,7 +1816,7 @@ img {
     }
 
     .project-tab {
-        font-size: 9px;
+        font-size: 0.75rem;
         padding: 8px 10px;
     }
 
@@ -1825,7 +1825,7 @@ img {
     }
 
     .user-tab {
-        font-size: 10px;
+        font-size: 0.75rem;
     }
 
     .admin-modal-content,
@@ -1877,7 +1877,7 @@ img {
     }
 
     .admin-brand-text h2 {
-        font-size: 13px;
+        font-size: 0.8125rem;
     }
 
     .admin-header-right {
@@ -1887,7 +1887,7 @@ img {
     .header-icon-btn {
         width: 35px;
         height: 35px;
-        font-size: 14px;
+        font-size: 0.875rem;
     }
 
     .admin-profile img {
@@ -1904,7 +1904,7 @@ img {
     }
 
     .stat-card h2 {
-        font-size: 19px;
+        font-size: 1.1875rem;
     }
 
     .stat-card-top {
@@ -1914,11 +1914,11 @@ img {
     .stat-icon {
         width: 29px;
         height: 29px;
-        font-size: 11px;
+        font-size: 0.75rem;
     }
 
     .page-heading h1 {
-        font-size: 20px;
+        font-size: 1.25rem;
     }
 
     .admin-panel {
@@ -1934,7 +1934,7 @@ img {
     }
 
     .support-detail-group p {
-        font-size: 11px;
+        font-size: 0.75rem;
     }
 
 }
@@ -1960,3 +1960,13 @@ textarea:focus-visible {
         scroll-behavior: auto !important;
     }
 }
+
+/* =========================================================
+   VORVENA TEXT SCALE
+   All font sizes above are in rem. Phones and tablets stay at
+   the normal 16px; laptops and desktops get larger text.
+========================================================= */
+@media (min-width: 1024px) { html { font-size: 106.25%; } }
+@media (min-width: 1280px) { html { font-size: 112.5%; } }
+@media (min-width: 1536px) { html { font-size: 118.75%; } }
+@media (min-width: 1920px) { html { font-size: 131.25%; } }

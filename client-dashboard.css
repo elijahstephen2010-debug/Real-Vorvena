@@ -89,7 +89,7 @@ textarea {
     gap: 11px;
     padding: 0 10px 30px;
     font-family: 'Manrope', sans-serif;
-    font-size: 21px;
+    font-size: 1.3125rem;
     font-weight: 800;
     letter-spacing: -0.5px;
 }
@@ -105,12 +105,12 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 19px;
+    font-size: 1.1875rem;
 }
 
 .side-label {
     color: #8995b2;
-    font-size: 10px;
+    font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 1.5px;
     padding: 0 12px;
@@ -134,7 +134,7 @@ textarea {
 
 .user strong {
     display: block;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
     color: white;
     overflow: hidden;
@@ -144,7 +144,7 @@ textarea {
 
 .user small {
     display: block;
-    font-size: 11px;
+    font-size: 0.75rem;
     color: #aab4cb;
     margin-top: 4px;
 }
@@ -161,7 +161,7 @@ textarea {
     justify-content: center;
     overflow: hidden;
     font-weight: 700;
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .avatar img {
@@ -193,14 +193,14 @@ textarea {
     padding: 13px 14px;
     border-radius: 9px;
     text-align: left;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 600;
     transition: 0.2s ease;
 }
 
 .nav i {
     width: 18px;
-    font-size: 15px;
+    font-size: 0.9375rem;
     flex-shrink: 0;
 }
 
@@ -220,7 +220,7 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    font-size: 0.75rem;
     font-weight: 700;
 }
 
@@ -238,20 +238,20 @@ textarea {
 
 .help b {
     display: block;
-    font-size: 12px;
+    font-size: 0.75rem;
     margin-bottom: 7px;
 }
 
 .help p {
     color: #aab4cb;
-    font-size: 11px;
+    font-size: 0.75rem;
     line-height: 1.6;
     margin-bottom: 9px;
 }
 
 .help a {
     color: #a9bdff;
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 700;
 }
 
@@ -265,7 +265,7 @@ textarea {
     gap: 12px;
     padding: 13px 14px;
     border-radius: 9px;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 600;
     transition: 0.2s ease;
 }
@@ -299,7 +299,7 @@ main {
 
 .crumb {
     color: var(--muted);
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .crumb b {
@@ -311,7 +311,7 @@ main {
     display: flex;
     align-items: center;
     gap: 11px;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 700;
 }
 
@@ -320,7 +320,7 @@ main {
     border: 0;
     background: transparent;
     color: var(--navy);
-    font-size: 21px;
+    font-size: 1.3125rem;
 }
 
 .content {
@@ -355,7 +355,7 @@ main {
 .eyebrow {
     display: inline-block;
     color: var(--blue);
-    font-size: 10px;
+    font-size: 0.75rem;
     font-weight: 800;
     letter-spacing: 1.3px;
     text-transform: uppercase;
@@ -369,7 +369,7 @@ main {
 .heading h1,
 .welcome h1 {
     font-family: 'Manrope', sans-serif;
-    font-size: 25px;
+    font-size: 1.5625rem;
     font-weight: 800;
     color: var(--ink);
     line-height: 1.35;
@@ -378,7 +378,7 @@ main {
 .heading p,
 .welcome p {
     color: var(--muted);
-    font-size: 13px;
+    font-size: 0.8125rem;
     line-height: 1.7;
     margin-top: 7px;
 }
@@ -405,7 +405,7 @@ main {
 }
 
 .welcome h1 {
-    font-size: 24px;
+    font-size: 1.5rem;
 }
 
 .welcome h1 span {
@@ -426,7 +426,7 @@ main {
     border: 0;
     border-radius: 9px;
     padding: 12px 18px;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
     display: inline-flex;
     align-items: center;
@@ -488,7 +488,7 @@ main {
 .stats article span {
     display: block;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 600;
     margin-bottom: 13px;
 }
@@ -496,7 +496,7 @@ main {
 .stats article b {
     display: block;
     font-family: 'Manrope', sans-serif;
-    font-size: 25px;
+    font-size: 1.5625rem;
     font-weight: 800;
     color: var(--navy);
     overflow-wrap: anywhere;
@@ -505,7 +505,7 @@ main {
 .stats article small {
     display: block;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
     margin-top: 7px;
 }
 
@@ -545,13 +545,13 @@ main {
 
 .panel-head h2 {
     font-family: 'Manrope', sans-serif;
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-weight: 800;
 }
 
 .panel-head p {
     color: var(--muted);
-    font-size: 11px;
+    font-size: 0.75rem;
     margin-top: 5px;
 }
 
@@ -559,7 +559,7 @@ main {
     border: 0;
     background: transparent;
     color: var(--blue);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
     white-space: nowrap;
 }
@@ -591,7 +591,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 17px;
+    font-size: 1.0625rem;
 }
 
 .project-icon.purple {
@@ -607,7 +607,7 @@ main {
 .project .grow b,
 .offer .grow b {
     display: block;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
 }
 
@@ -615,7 +615,7 @@ main {
 .offer .grow small {
     display: block;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
     margin-top: 5px;
 }
 
@@ -640,7 +640,7 @@ main {
     background: #edf9f3;
     padding: 6px 9px;
     border-radius: 20px;
-    font-size: 9px;
+    font-size: 0.75rem;
     font-weight: 700;
     font-style: normal;
     white-space: nowrap;
@@ -693,13 +693,13 @@ main {
 
 .quick span b {
     display: block;
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .quick span small {
     display: block;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
     margin-top: 5px;
 }
 
@@ -733,7 +733,7 @@ main {
 }
 
 .offer > b {
-    font-size: 13px;
+    font-size: 0.8125rem;
     white-space: nowrap;
 }
 
@@ -743,7 +743,7 @@ main {
     background: #fff7e8;
     padding: 6px 9px;
     border-radius: 20px;
-    font-size: 9px;
+    font-size: 0.75rem;
     font-weight: 700;
     white-space: nowrap;
 }
@@ -768,7 +768,7 @@ main {
     border-radius: 9px;
     background: white;
     color: var(--ink);
-    font-size: 12px;
+    font-size: 0.75rem;
     outline: none;
 }
 
@@ -814,7 +814,7 @@ main {
 .talent-avatar {
     width: 65px;
     height: 65px;
-    font-size: 19px;
+    font-size: 1.1875rem;
     background: var(--blue-light);
     color: var(--blue);
 }
@@ -834,13 +834,13 @@ main {
     background: #edf9f3;
     padding: 5px 9px;
     border-radius: 20px;
-    font-size: 9px;
+    font-size: 0.75rem;
     font-weight: 700;
 }
 
 .talent h3 {
     font-family: 'Manrope', sans-serif;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: 800;
     margin-bottom: 5px;
 }
@@ -848,14 +848,14 @@ main {
 .talent label {
     display: block;
     color: var(--blue);
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 700;
     margin-bottom: 10px;
 }
 
 .talent p {
     color: var(--muted);
-    font-size: 11px;
+    font-size: 0.75rem;
     line-height: 1.7;
     min-height: 38px;
 }
@@ -874,13 +874,13 @@ main {
     color: var(--blue);
     padding: 5px 8px;
     border-radius: 20px;
-    font-size: 9px;
+    font-size: 0.75rem;
     font-weight: 700;
 }
 
 .rating {
     color: #d99a22;
-    font-size: 11px;
+    font-size: 0.75rem;
     font-weight: 700;
     margin: 12px 0;
 }
@@ -899,7 +899,7 @@ main {
 .note {
     display: block;
     color: var(--muted);
-    font-size: 11px;
+    font-size: 0.75rem;
     line-height: 1.7;
     margin-top: 16px;
 }
@@ -920,14 +920,14 @@ main {
 
 .project-box h2 {
     font-family: 'Manrope', sans-serif;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 800;
     margin-bottom: 9px;
 }
 
 .project-box > p {
     color: var(--muted);
-    font-size: 12px;
+    font-size: 0.75rem;
     margin-bottom: 18px;
 }
 
@@ -938,7 +938,7 @@ main {
     gap: 12px;
     padding: 11px 0;
     border-top: 1px solid var(--line);
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .line span {
@@ -952,7 +952,7 @@ main {
 .project-box > small {
     display: block;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
     margin-top: 9px;
 }
 
@@ -982,7 +982,7 @@ td {
     padding: 15px 13px;
     border-bottom: 1px solid var(--line);
     text-align: left;
-    font-size: 11px;
+    font-size: 0.75rem;
 }
 
 th {
@@ -1023,20 +1023,20 @@ tr:last-child td {
 
 .notice b {
     display: block;
-    font-size: 13px;
+    font-size: 0.8125rem;
     margin-bottom: 6px;
 }
 
 .notice p {
     color: var(--muted);
-    font-size: 11px;
+    font-size: 0.75rem;
     line-height: 1.7;
 }
 
 .notice small {
     display: block;
     color: #9aa3b5;
-    font-size: 10px;
+    font-size: 0.75rem;
     margin-top: 9px;
 }
 
@@ -1046,7 +1046,7 @@ tr:last-child td {
 
 .settings h2 {
     font-family: 'Manrope', sans-serif;
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 800;
     margin-bottom: 18px;
 }
@@ -1063,7 +1063,7 @@ tr:last-child td {
     flex-direction: column;
     gap: 8px;
     color: var(--ink);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 700;
 }
 
@@ -1076,7 +1076,7 @@ tr:last-child td {
     border-radius: 9px;
     background: white;
     color: var(--ink);
-    font-size: 12px;
+    font-size: 0.75rem;
     outline: none;
 }
 
@@ -1105,7 +1105,7 @@ tr:last-child td {
 
 .settings > p {
     color: var(--muted);
-    font-size: 12px;
+    font-size: 0.75rem;
     margin: -7px 0 15px;
 }
 
@@ -1165,7 +1165,7 @@ tr:last-child td {
     border-radius: 8px;
     background: #f3f5fa;
     color: var(--muted);
-    font-size: 21px;
+    font-size: 1.3125rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1178,14 +1178,14 @@ tr:last-child td {
 
 .modal h2 {
     font-family: 'Manrope', sans-serif;
-    font-size: 21px;
+    font-size: 1.3125rem;
     font-weight: 800;
     margin-bottom: 8px;
 }
 
 .modal > p {
     color: var(--blue);
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 600;
     margin-bottom: 22px;
 }
@@ -1228,7 +1228,7 @@ tr:last-child td {
     color: white;
     padding: 14px 20px;
     border-radius: 10px;
-    font-size: 12px;
+    font-size: 0.75rem;
     font-weight: 600;
     box-shadow: var(--shadow);
     z-index: 300;
@@ -1313,7 +1313,7 @@ tr:last-child td {
     }
 
     .crumb {
-        font-size: 10px;
+        font-size: 0.75rem;
     }
 
     .top-user {
@@ -1340,7 +1340,7 @@ tr:last-child td {
     }
 
     .welcome h1 {
-        font-size: 21px;
+        font-size: 1.3125rem;
     }
 
     .welcome .primary {
@@ -1348,7 +1348,7 @@ tr:last-child td {
     }
 
     .heading h1 {
-        font-size: 21px;
+        font-size: 1.3125rem;
     }
 
     .stats {
@@ -1365,7 +1365,7 @@ tr:last-child td {
     }
 
     .stats article b {
-        font-size: 21px;
+        font-size: 1.3125rem;
     }
 
     .panel {
@@ -1447,11 +1447,11 @@ tr:last-child td {
     }
 
     .welcome h1 {
-        font-size: 19px;
+        font-size: 1.1875rem;
     }
 
     .heading h1 {
-        font-size: 19px;
+        font-size: 1.1875rem;
     }
 
     .stats {
@@ -1482,7 +1482,7 @@ tr:last-child td {
 
 .payment-modal > p {
     color: var(--muted);
-    font-size: 13px;
+    font-size: 0.8125rem;
     line-height: 1.6;
     margin-bottom: 20px;
 }
@@ -1500,19 +1500,19 @@ tr:last-child td {
 
 .payment-project small {
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 1px;
 }
 
 .payment-project strong {
     color: var(--ink);
-    font-size: 15px;
+    font-size: 0.9375rem;
 }
 
 .payment-project span {
     color: var(--muted);
-    font-size: 12px;
+    font-size: 0.75rem;
 }
 
 .payment-breakdown {
@@ -1527,7 +1527,7 @@ tr:last-child td {
     align-items: center;
     gap: 12px;
     margin-bottom: 15px;
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 .payment-row:last-child {
@@ -1547,7 +1547,7 @@ tr:last-child td {
     border-top: 1px solid var(--line);
     padding-top: 15px;
     margin-top: 15px;
-    font-size: 15px;
+    font-size: 0.9375rem;
 }
 
 .payment-total span,
@@ -1560,7 +1560,7 @@ tr:last-child td {
     background: var(--blue-light);
     border-radius: 9px;
     padding: 12px;
-    font-size: 11px !important;
+    font-size: 0.75rem !important;
     margin: 16px 0 !important;
 }
 
@@ -1573,7 +1573,7 @@ tr:last-child td {
     display: block;
     text-align: center;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 0.75rem;
     line-height: 1.5;
     margin-top: 12px;
 }
@@ -1590,10 +1590,20 @@ tr:last-child td {
     }
 
     .payment-row {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     .payment-action {
         width: 100%;
     }
 }
+
+/* =========================================================
+   VORVENA TEXT SCALE
+   All font sizes above are in rem. Phones and tablets stay at
+   the normal 16px; laptops and desktops get larger text.
+========================================================= */
+@media (min-width: 1024px) { html { font-size: 106.25%; } }
+@media (min-width: 1280px) { html { font-size: 112.5%; } }
+@media (min-width: 1536px) { html { font-size: 118.75%; } }
+@media (min-width: 1920px) { html { font-size: 131.25%; } }

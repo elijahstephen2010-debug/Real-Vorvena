@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | VORVENA</title>
+    <link rel="icon" type="image/png" href="./assets/favicon.png">
+    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+    <meta name="description" content="Sign in to your VORVENA account.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="VORVENA">
+    <meta property="og:title" content="Login | VORVENA">
+    <meta property="og:description" content="Sign in to your VORVENA account.">
 
     <link rel="stylesheet" href="login.css">
 
@@ -243,11 +250,9 @@
         <!-- RIGHT SIDE VIDEO -->
         <aside class="side-video">
 
-            <img
-                src="./assets/Woman_knocking_on_office_door_1449ab1c.gif"
-                alt="Woman knocking on an office door"
-                style="position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:cover; object-position:center; pointer-events:none;"
-            >
+            <video autoplay muted loop playsinline preload="metadata" poster="./assets/office-door-poster.jpg" aria-hidden="true">
+                <source src="./assets/office-door.mp4" type="video/mp4">
+            </video>
 
         </aside>
 
@@ -454,7 +459,6 @@
     });
 
     </script>
-    <script src="privacy-consent.js"></script>
     <script src="vorvena-loader.js" defer></script>
 
 </body>

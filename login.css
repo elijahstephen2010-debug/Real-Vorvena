@@ -42,7 +42,7 @@ body {
   gap: 10px;
   text-decoration: none;
   color: var(--navy);
-  font: 800 20px Manrope, sans-serif;
+  font: 800 1.25rem Manrope, sans-serif;
   letter-spacing: 1px;
 }
 
@@ -65,7 +65,7 @@ body {
 .signup-link {
   color: var(--muted);
   text-decoration: none;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .signup-link strong {
@@ -100,19 +100,19 @@ body {
 
 .eyebrow {
   color: #5478ae;
-  font-size: 10px;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 2px;
 }
 
 .welcome h1 {
-  font: 800 29px Manrope, sans-serif;
+  font: 800 1.8125rem Manrope, sans-serif;
   color: var(--deep);
   margin: 10px 0;
 }
 
 .welcome p {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--muted);
   line-height: 1.7;
 }
@@ -130,7 +130,7 @@ body {
   border-radius: 8px;
   background: white;
   color: var(--ink);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   transition: 0.2s;
@@ -138,7 +138,7 @@ body {
 
 .social-btn i {
   margin-right: 9px;
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 .social-btn:hover {
@@ -162,7 +162,7 @@ body {
 }
 
 .divider p {
-  font-size: 9px;
+  font-size: 0.75rem;
   color: #9aa5b5;
   letter-spacing: 1px;
   white-space: nowrap;
@@ -176,7 +176,7 @@ body {
 
 .form-group label {
   display: block;
-  font-size: 11px;
+  font-size: 0.75rem;
   font-weight: 700;
   margin-bottom: 8px;
   color: #34435a;
@@ -201,7 +201,7 @@ body {
 
 .input-box > i {
   color: #8795a9;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 .input-box input {
@@ -211,7 +211,7 @@ body {
   outline: none;
   background: transparent;
   color: var(--ink);
-  font-size: 11px;
+  font-size: 0.75rem;
 }
 
 .input-box input::placeholder {
@@ -225,7 +225,7 @@ body {
 }
 
 .password-label a {
-  font-size: 10px;
+  font-size: 0.75rem;
   color: var(--blue);
   text-decoration: none;
   margin-bottom: 8px;
@@ -236,7 +236,7 @@ body {
   background: transparent;
   color: #8795a9;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 /* REMEMBER ME */
@@ -249,7 +249,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 10px;
+  font-size: 0.75rem;
   color: var(--muted);
   cursor: pointer;
 }
@@ -267,7 +267,7 @@ body {
   border-radius: 8px;
   background: var(--navy);
   color: white;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
   cursor: pointer;
   transition: 0.2s;
@@ -286,7 +286,7 @@ body {
 
 .message {
   display: none;
-  font-size: 11px;
+  font-size: 0.75rem;
   line-height: 1.6;
   margin-top: 13px;
   padding: 10px;
@@ -313,7 +313,7 @@ body {
   align-items: center;
   gap: 8px;
   color: #8795a9;
-  font-size: 10px;
+  font-size: 0.75rem;
   margin: 24px 0;
 }
 
@@ -323,7 +323,7 @@ body {
 
 .bottom-text {
   text-align: center;
-  font-size: 11px;
+  font-size: 0.75rem;
   color: var(--muted);
 }
 
@@ -382,7 +382,7 @@ body {
 }
 
 .welcome h1 {
-  font-size: 30px;
+  font-size: 1.875rem;
   letter-spacing: -0.8px;
 }
 
@@ -410,7 +410,7 @@ body {
   background: #ffffff;
   color: #26364c;
   font-family: "DM Sans", sans-serif;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
   transition:
     border-color 0.25s ease,
@@ -546,11 +546,11 @@ body {
   }
 
   .brand-name {
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   .signup-link {
-    font-size: 10px;
+    font-size: 0.75rem;
   }
 
   .login-container {
@@ -559,11 +559,11 @@ body {
   }
 
   .welcome h1 {
-    font-size: 25px;
+    font-size: 1.5625rem;
   }
 
   .welcome p {
-    font-size: 11px;
+    font-size: 0.75rem;
   }
 
   .social-login {
@@ -573,7 +573,7 @@ body {
   .social-btn {
     height: 47px;
     gap: 7px;
-    font-size: 11px;
+    font-size: 0.75rem;
   }
 
   .social-icon {
@@ -595,15 +595,15 @@ body {
   }
 
   .brand-name {
-    font-size: 15px;
+    font-size: 0.9375rem;
   }
 
   .signup-link {
-    font-size: 9px;
+    font-size: 0.75rem;
   }
 
   .welcome h1 {
-    font-size: 23px;
+    font-size: 1.4375rem;
   }
 
   .social-login {
@@ -611,7 +611,7 @@ body {
   }
 
   .social-btn {
-    font-size: 10px;
+    font-size: 0.75rem;
     gap: 6px;
   }
 
@@ -620,6 +620,16 @@ body {
   }
 
   .divider p {
-    font-size: 8px;
+    font-size: 0.75rem;
   }
 }
+
+/* =========================================================
+   VORVENA TEXT SCALE
+   All font sizes above are in rem. Phones and tablets stay at
+   the normal 16px; laptops and desktops get larger text.
+========================================================= */
+@media (min-width: 1024px) { html { font-size: 106.25%; } }
+@media (min-width: 1280px) { html { font-size: 112.5%; } }
+@media (min-width: 1536px) { html { font-size: 118.75%; } }
+@media (min-width: 1920px) { html { font-size: 131.25%; } }

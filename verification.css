@@ -67,7 +67,7 @@ a {
 
 .brand {
   font-family: "Manrope", sans-serif;
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: 800;
   letter-spacing: 2px;
   color: var(--navy);
@@ -125,7 +125,7 @@ a {
 }
 
 .verification-icon span {
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 1;
 }
 
@@ -142,7 +142,7 @@ a {
   background: #eef3fc;
   padding: 4px 11px;
   border-radius: 20px;
-  font-size: 10px;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 1.5px;
   margin-bottom: 10px;
@@ -151,7 +151,7 @@ a {
 .verification-card h1 {
   font-family: "Manrope", sans-serif;
   color: var(--navy-dark);
-  font-size: 23px;
+  font-size: 1.4375rem;
   font-weight: 800;
   line-height: 1.3;
   margin-bottom: 8px;
@@ -159,7 +159,7 @@ a {
 
 .description {
   color: var(--muted);
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.6;
   margin: 0 auto 16px;
   max-width: 360px;
@@ -177,7 +177,7 @@ a {
   border: 1px solid var(--border);
   border-radius: 10px;
   margin-bottom: 18px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   text-align: left;
 }
 
@@ -193,7 +193,7 @@ a {
   background: none;
   color: var(--blue);
   font-family: inherit;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
   cursor: pointer;
   flex-shrink: 0;
@@ -212,7 +212,7 @@ a {
 
 .verification-step form label {
   display: block;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 700;
   margin-bottom: 10px;
   color: #26364f;
@@ -235,7 +235,7 @@ a {
   outline: none;
   text-align: center;
   font-family: inherit;
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--navy);
   background: #fbfcfe;
@@ -267,7 +267,7 @@ a {
 .message,
 .resend-message {
   min-height: 16px;
-  font-size: 12px;
+  font-size: 0.75rem;
   margin-bottom: 8px;
   color: var(--error);
   text-align: center;
@@ -293,7 +293,7 @@ a {
   background: var(--navy);
   color: var(--white);
   font-family: inherit;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 700;
   cursor: pointer;
   display: flex;
@@ -316,7 +316,7 @@ a {
 }
 
 .verify-btn span {
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 /* RESEND */
@@ -327,7 +327,7 @@ a {
 
 .resend-section p {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 0.75rem;
   margin-bottom: 4px;
 }
 
@@ -337,7 +337,7 @@ a {
 }
 
 .resend-section button {
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 .resend-section button:disabled {
@@ -352,7 +352,7 @@ a {
   display: inline-block;
   margin-top: 12px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 0.75rem;
   transition: 0.2s ease;
 }
 
@@ -369,7 +369,7 @@ a {
   background: #f5f8fd;
   color: var(--navy);
   font-family: inherit;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   transition: 0.25s ease;
@@ -384,7 +384,7 @@ a {
 .footer {
   margin-top: 14px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 0.75rem;
   text-align: center;
   flex-shrink: 0;
 }
@@ -393,16 +393,16 @@ a {
 
 @media (max-height: 760px) {
   .verification-container { padding: 10px 20px; }
-  .brand { font-size: 19px; margin-bottom: 10px; }
+  .brand { font-size: 1.1875rem; margin-bottom: 10px; }
   .verification-card { padding: 20px 28px 16px; }
   .progress { margin-bottom: 14px; }
   .verification-icon { width: 44px; height: 44px; margin-bottom: 10px; border-radius: 13px; }
-  .verification-icon span { font-size: 20px; }
+  .verification-icon span { font-size: 1.25rem; }
   .eyebrow { margin-bottom: 8px; }
-  .verification-card h1 { font-size: 20px; margin-bottom: 6px; }
-  .description { font-size: 12px; margin-bottom: 12px; }
+  .verification-card h1 { font-size: 1.25rem; margin-bottom: 6px; }
+  .description { font-size: 0.75rem; margin-bottom: 12px; }
   .email-display { margin-bottom: 12px; padding: 8px 12px; }
-  .otp-inputs input { height: 46px; width: 44px; font-size: 18px; }
+  .otp-inputs input { height: 46px; width: 44px; font-size: 1.125rem; }
   .verify-btn { height: 44px; }
   .resend-section { margin-top: 10px; }
   .footer { margin-top: 10px; }
@@ -429,14 +429,14 @@ a {
     border-radius: 16px;
   }
 
-  .verification-card h1 { font-size: 20px; }
+  .verification-card h1 { font-size: 1.25rem; }
 
   .otp-inputs { gap: 7px; }
 
   .otp-inputs input {
     width: 42px;
     height: 50px;
-    font-size: 18px;
+    font-size: 1.125rem;
   }
 }
 
@@ -445,16 +445,16 @@ a {
 @media (max-width: 375px) {
   .verification-card { padding: 20px 14px 14px; }
 
-  .brand { font-size: 18px; }
+  .brand { font-size: 1.125rem; }
 
-  .description { font-size: 12px; }
+  .description { font-size: 0.75rem; }
 
   .otp-inputs { gap: 5px; }
 
   .otp-inputs input {
     width: 39px;
     height: 48px;
-    font-size: 17px;
+    font-size: 1.0625rem;
   }
 }
 
@@ -466,3 +466,13 @@ a {
     animation: none !important;
   }
 }
+
+/* =========================================================
+   VORVENA TEXT SCALE
+   All font sizes above are in rem. Phones and tablets stay at
+   the normal 16px; laptops and desktops get larger text.
+========================================================= */
+@media (min-width: 1024px) { html { font-size: 106.25%; } }
+@media (min-width: 1280px) { html { font-size: 112.5%; } }
+@media (min-width: 1536px) { html { font-size: 118.75%; } }
+@media (min-width: 1920px) { html { font-size: 131.25%; } }

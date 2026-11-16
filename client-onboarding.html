@@ -5,46 +5,54 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Client Onboarding | VORVENA</title>
+    <link rel="icon" type="image/png" href="./assets/favicon.png">
+    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+    <meta name="description" content="Set up your VORVENA client profile.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="VORVENA">
+    <meta property="og:title" content="Client Onboarding | VORVENA">
+    <meta property="og:description" content="Set up your VORVENA client profile.">
+    <meta name="robots" content="noindex, nofollow">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <link rel="stylesheet" href="vorvena-loader.css">
 <script src="vorvena-loader.js" defer></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Inter,sans-serif;background:#f5f7fb;color:#17233c;min-height:100vh}
+body{font-family:'DM Sans',sans-serif;background:#f5f7fb;color:#17233c;min-height:100vh}
 .page{width:100%;max-width:850px;margin:auto;padding:35px 20px}
-.logo{font-size:25px;font-weight:800;color:#142d59;text-decoration:none;letter-spacing:-1px}
+.logo{font-size:1.5625rem;font-weight:800;color:#142d59;text-decoration:none;letter-spacing:-1px}
 .heading{margin:35px 0 25px}
-.heading h1{font-size:28px;margin-bottom:10px}
-.heading p{color:#718096;line-height:1.6;font-size:14px}
+.heading h1{font-size:1.75rem;margin-bottom:10px}
+.heading p{color:#718096;line-height:1.6;font-size:0.875rem}
 .progress{height:6px;background:#e3e9f2;border-radius:20px;margin-top:22px;overflow:hidden}
 .progress span{display:block;width:100%;height:100%;background:#2864dc;border-radius:20px}
 .form-card{background:#fff;border:1px solid #e8edf5;border-radius:15px;padding:30px;box-shadow:0 8px 30px rgba(20,45,89,.04)}
-.section-title{font-size:17px;font-weight:700;margin-bottom:20px}
+.section-title{font-size:1.0625rem;font-weight:700;margin-bottom:20px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .form-group{margin-bottom:20px}
 .form-group.full{grid-column:1/-1}
-label{display:block;font-size:13px;font-weight:600;margin-bottom:9px}
-input,select,textarea{width:100%;padding:13px 14px;border:1px solid #dce3ee;border-radius:8px;outline:none;font-family:inherit;font-size:13px;color:#17233c;background:#fff;transition:.2s}
+label{display:block;font-size:0.8125rem;font-weight:600;margin-bottom:9px}
+input,select,textarea{width:100%;padding:13px 14px;border:1px solid #dce3ee;border-radius:8px;outline:none;font-family:inherit;font-size:0.8125rem;color:#17233c;background:#fff;transition:.2s}
 input:focus,select:focus,textarea:focus{border-color:#2864dc;box-shadow:0 0 0 3px rgba(40,100,220,.09)}
 textarea{resize:vertical;min-height:110px}
-.account-info{background:#f4f7fc;border-radius:9px;padding:15px;margin-bottom:24px;font-size:13px;line-height:1.8}
+.account-info{background:#f4f7fc;border-radius:9px;padding:15px;margin-bottom:24px;font-size:0.8125rem;line-height:1.8}
 .account-info strong{color:#142d59}
 .profile-photo{display:flex;align-items:center;gap:18px;margin-bottom:25px}
-.photo-preview{width:90px;height:90px;border-radius:50%;background:#edf2fa;border:2px dashed #b9c9e3;display:flex;align-items:center;justify-content:center;overflow:hidden;color:#718096;font-size:28px;flex-shrink:0}
+.photo-preview{width:90px;height:90px;border-radius:50%;background:#edf2fa;border:2px dashed #b9c9e3;display:flex;align-items:center;justify-content:center;overflow:hidden;color:#718096;font-size:1.75rem;flex-shrink:0}
 .photo-preview img{width:100%;height:100%;object-fit:cover}
 .photo-upload{flex:1}
 .photo-upload input{padding:10px}
-.photo-upload small{display:block;margin-top:7px;color:#8994a5;font-size:11px}
-.hint{color:#8994a5;font-size:11px;margin-top:7px}
-.message{font-size:13px;margin-bottom:15px}
-.submit-btn{width:100%;padding:15px;border:none;border-radius:8px;background:#2864dc;color:white;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;transition:.2s}
+.photo-upload small{display:block;margin-top:7px;color:#8994a5;font-size:0.75rem}
+.hint{color:#8994a5;font-size:0.75rem;margin-top:7px}
+.message{font-size:0.8125rem;margin-bottom:15px}
+.submit-btn{width:100%;padding:15px;border:none;border-radius:8px;background:#2864dc;color:white;font-family:inherit;font-size:0.875rem;font-weight:700;cursor:pointer;transition:.2s}
 .submit-btn:hover{background:#194fb9}
 .submit-btn:disabled{opacity:.6;cursor:not-allowed}
-.footer{text-align:center;color:#8994a5;font-size:12px;margin-top:25px}
+.footer{text-align:center;color:#8994a5;font-size:0.75rem;margin-top:25px}
 
 @media(max-width:768px){
 .page{padding:25px 16px}
@@ -53,14 +61,19 @@ textarea{resize:vertical;min-height:110px}
 @media(max-width:425px){
 .form-grid{grid-template-columns:1fr;gap:0}
 .form-group.full{grid-column:auto}
-.heading h1{font-size:24px}
+.heading h1{font-size:1.5rem}
 .form-card{padding:19px}
 }
 @media(max-width:375px){
-.heading h1{font-size:22px}
-.logo{font-size:22px}
+.heading h1{font-size:1.375rem}
+.logo{font-size:1.375rem}
 .profile-photo{align-items:flex-start;flex-direction:column}
 }
+
+@media (min-width:1024px){html{font-size:106.25%}}
+@media (min-width:1280px){html{font-size:112.5%}}
+@media (min-width:1536px){html{font-size:118.75%}}
+@media (min-width:1920px){html{font-size:131.25%}}
 </style>
 </head>
 
