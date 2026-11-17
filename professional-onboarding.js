@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let assessmentPassed = false;
   let assessmentCompleted = false;
   let currentQuestion = 0;
-  let selectedDocument = null;
 
   $("year").textContent = new Date().getFullYear();
 
@@ -96,12 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       question: "What does HTML mainly define?",
-      options: [
-        "Website structure",
-        "Database security",
-        "Server hardware",
-        "Network speed"
-      ],
+      options: ["Website structure", "Database security", "Server hardware", "Network speed"],
       answer: 0
     },
     {
@@ -141,12 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       question: "What does UX stand for?",
-      options: [
-        "User Experience",
-        "Universal Extension",
-        "User Execution",
-        "Unified Exchange"
-      ],
+      options: ["User Experience", "Universal Extension", "User Execution", "Unified Exchange"],
       answer: 0
     },
     {
@@ -182,18 +171,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderQuestion() {
     const question = questionBank[currentQuestion];
 
-    $("questionCounter").textContent =
-      `Question ${currentQuestion + 1} of ${questionBank.length}`;
-
-    $("assessmentScore").textContent =
-      `${Object.keys(assessmentAnswers).length} answered`;
-
-    $("assessmentProgress").style.width =
-      `${((currentQuestion + 1) / questionBank.length) * 100}%`;
-
+    $("questionCounter").textContent = `Question ${currentQuestion + 1} of ${questionBank.length}`;
+    $("assessmentScore").textContent = `${Object.keys(assessmentAnswers).length} answered`;
+    $("assessmentProgress").style.width = `${((currentQuestion + 1) / questionBank.length) * 100}%`;
     $("questionText").textContent = question.question;
     $("assessmentError").textContent = "";
-
     $("answerOptions").innerHTML = "";
 
     question.options.forEach((option, index) => {
@@ -223,9 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $("previousQuestion").disabled = currentQuestion === 0;
 
     $("nextQuestion").textContent =
-      currentQuestion === questionBank.length - 1
-        ? "Finish assessment"
-        : "Next question →";
+      currentQuestion === questionBank.length - 1 ? "Finish assessment" : "Next question →";
   }
 
   $("previousQuestion").addEventListener("click", () => {
@@ -284,48 +264,234 @@ document.addEventListener("DOMContentLoaded", () => {
     $("assessmentIntro").hidden = false;
   });
 
-  // IDENTITY DOCUMENT
-  $("documentType").addEventListener("change", () => {
-    $("ninField").hidden = $("documentType").value !== "NIN";
-  });
+  /* ============================================================
+     IDENTITY DOCUMENT: front + back, upload or live capture
+  ============================================================ */
+
+  const MAX_DOC_SIZE = 5 * 1024 * 1024;
+  const DOC_TYPES = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
+
+  const docs = { front: null, back: null };
+  const docUrls = { front: "", back: "" };
+
+  // BACKEND PLACEHOLDER: send the image to your verification service here.
+  // Real checks (is it a real NIN card? does the face/name match?) must run on the server.
+  // POST /api/identity/documents   multipart: { type, side, file }
+  const IdentityAPI = {
+    async uploadDocument(type, side, file) {
+      await new Promise((r) => setTimeout(r, 300));
+      return { ok: true };
+    }
+  };
+
+  function needsBack() {
+    return $("documentType").value !== "Passport";
+  }
+
+  function sidesRequired() {
+    return needsBack() ? ["front", "back"] : ["front"];
+  }
+
+  function updateDocumentType() {
+    const type = $("documentType").value;
+
+    $("ninField").hidden = type !== "NIN";
+    $("docSides").hidden = !type;
+    $("backCard").hidden = !needsBack();
+
+    $("frontTitle").textContent =
+      type === "Passport" ? "Photo page of passport" : "Front of document";
+
+    $("docHint").textContent =
+      type === "Passport"
+        ? "Add a clear photo of the page with your picture and details."
+        : "Add a clear photo of the front and the back. Make sure all four corners and all text are visible.";
+  }
+
+  function renderSide(side) {
+    const file = docs[side];
+    const preview = $(`${side}Preview`);
+    const card = preview.closest(".doc-card");
+
+    preview.replaceChildren();
+
+    if (!file) {
+      const empty = document.createElement("div");
+      empty.className = "doc-empty";
+      empty.innerHTML = '<span class="doc-empty-icon">🪪</span><small>No image yet</small>';
+      preview.appendChild(empty);
+    } else if (file.type === "application/pdf") {
+      const box = document.createElement("div");
+      box.className = "doc-pdf";
+      const label = document.createElement("strong");
+      label.textContent = "PDF";
+      const name = document.createElement("small");
+      name.textContent = file.name;
+      box.append(label, name);
+      preview.appendChild(box);
+    } else {
+      const img = document.createElement("img");
+      img.src = docUrls[side];
+      img.alt = `${side} of identity document`;
+      preview.appendChild(img);
+    }
+
+    card.classList.toggle("has-file", Boolean(file));
+    $(`${side}Status`).textContent = file ? "Added ✓" : "Required";
+    $(`${side}Actions`).hidden = Boolean(file);
+    $(`${side}Done`).hidden = !file;
+  }
+
+  function clearSide(side) {
+    if (docUrls[side]) URL.revokeObjectURL(docUrls[side]);
+    docUrls[side] = "";
+    docs[side] = null;
+    $(`${side}File`).value = "";
+    $(`${side}Error`).textContent = "";
+    renderSide(side);
+  }
+
+  async function setSide(side, file) {
+    $(`${side}Error`).textContent = "";
+
+    if (!DOC_TYPES.includes(file.type)) {
+      $(`${side}Error`).textContent = "Choose an image or PDF document.";
+      return false;
+    }
+
+    if (file.size > MAX_DOC_SIZE) {
+      $(`${side}Error`).textContent = "The file must be smaller than 5MB.";
+      return false;
+    }
+
+    if (docUrls[side]) URL.revokeObjectURL(docUrls[side]);
+
+    docs[side] = file;
+    docUrls[side] = URL.createObjectURL(file);
+    renderSide(side);
+
+    // Placeholder call so the backend hook is ready
+    await IdentityAPI.uploadDocument($("documentType").value, side, file);
+    return true;
+  }
+
+  $("documentType").addEventListener("change", updateDocumentType);
 
   $("ninNumber").addEventListener("input", (event) => {
     event.target.value = event.target.value.replace(/\D/g, "").slice(0, 11);
   });
 
-  $("documentUpload").addEventListener("click", () => {
-    $("identityFile").click();
+  ["front", "back"].forEach((side) => {
+    $(`${side}File`).addEventListener("change", async () => {
+      const file = $(`${side}File`).files[0];
+      if (!file) return;
+      const ok = await setSide(side, file);
+      if (!ok) $(`${side}File`).value = "";
+    });
   });
 
-  $("identityFile").addEventListener("change", () => {
-    const file = $("identityFile").files[0];
+  $("docSides").addEventListener("click", (event) => {
+    const button = event.target.closest("[data-action]");
+    if (!button) return;
 
-    $("documentError").textContent = "";
+    const side = button.dataset.side;
 
-    if (!file) return;
+    if (button.dataset.action === "upload") $(`${side}File`).click();
+    if (button.dataset.action === "capture") openCamera(side);
+    if (button.dataset.action === "remove") clearSide(side);
+  });
 
-    const allowedTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/webp",
-      "application/pdf"
-    ];
+  // LIVE CAMERA CAPTURE
+  let camStream = null;
+  let camSide = null;
 
-    if (!allowedTypes.includes(file.type)) {
-      $("documentError").textContent = "Choose an image or PDF document.";
-      $("identityFile").value = "";
+  function showCamError(message) {
+    $("camError").textContent = message;
+    $("camError").hidden = false;
+    $("camSnap").disabled = true;
+  }
+
+  async function openCamera(side) {
+    camSide = side;
+
+    const label = side === "front"
+      ? ($("documentType").value === "Passport" ? "photo page" : "front of document")
+      : "back of document";
+
+    $("camTitle").textContent = `Capture ${label}`;
+    $("camError").hidden = true;
+    $("camSnap").disabled = false;
+    $("camOverlay").hidden = false;
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.isSecureContext) {
+      showCamError("Live capture needs a secure page (https or localhost). Please use Upload instead.");
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      $("documentError").textContent = "The document must be smaller than 5MB.";
-      $("identityFile").value = "";
+    try {
+      camStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } },
+        audio: false
+      });
+
+      $("camVideo").srcObject = camStream;
+      await $("camVideo").play().catch(() => {});
+    } catch (error) {
+      if (error.name === "NotAllowedError" || error.name === "SecurityError") {
+        showCamError("Camera access was denied. Allow camera permission in your browser settings, or use Upload instead.");
+      } else if (error.name === "NotFoundError" || error.name === "OverconstrainedError") {
+        showCamError("No camera was found on this device. Please use Upload instead.");
+      } else if (error.name === "NotReadableError") {
+        showCamError("The camera is being used by another app. Close it and try again.");
+      } else {
+        showCamError("Could not start the camera. Please use Upload instead.");
+      }
+    }
+  }
+
+  function closeCamera() {
+    if (camStream) camStream.getTracks().forEach((track) => track.stop());
+    camStream = null;
+    $("camVideo").srcObject = null;
+    $("camOverlay").hidden = true;
+    camSide = null;
+  }
+
+  $("camSnap").addEventListener("click", () => {
+    const video = $("camVideo");
+
+    if (!camStream || !video.videoWidth) {
+      showCamError("The camera is not ready yet. Please wait a moment.");
       return;
     }
 
-    selectedDocument = file;
-    $("documentFileName").textContent = file.name;
+    const canvas = $("camCanvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    const side = camSide;
+
+    canvas.toBlob(async (blob) => {
+      if (!blob) {
+        showCamError("Could not capture the photo. Please try again.");
+        return;
+      }
+
+      const file = new File([blob], `${side}-capture.jpg`, { type: "image/jpeg" });
+      closeCamera();
+      await setSide(side, file);
+    }, "image/jpeg", 0.92);
   });
+
+  $("camClose").addEventListener("click", closeCamera);
+  $("camCancel").addEventListener("click", closeCamera);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !$("camOverlay").hidden) closeCamera();
+  });
+
+  window.addEventListener("pagehide", closeCamera);
 
   // VALIDATION
   function validUrl(value) {
@@ -366,8 +532,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (step === 2) {
-      if (!validUrl($("portfolio").value) ||
-          !validUrl($("socialLink").value)) {
+      if (!validUrl($("portfolio").value) || !validUrl($("socialLink").value)) {
         alert("Please enter valid website links beginning with http:// or https://.");
         return false;
       }
@@ -379,17 +544,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (step === 4) {
-      if (!$("identityFile").files.length) {
-        $("documentError").textContent = "Please choose an identity document.";
-        return false;
-      }
-
-      if ($("documentType").value === "NIN" &&
-          $("ninNumber").value.length !== 11) {
+      if ($("documentType").value === "NIN" && $("ninNumber").value.length !== 11) {
         alert("Please enter an 11-digit NIN for this demo.");
         $("ninNumber").focus();
         return false;
       }
+
+      let missing = false;
+
+      sidesRequired().forEach((side) => {
+        if (!docs[side]) {
+          $(`${side}Error`).textContent =
+            side === "front" && !needsBack()
+              ? "Please add the photo page of your passport."
+              : `Please add the ${side} of your document.`;
+          missing = true;
+        }
+      });
+
+      if (missing) return false;
 
       if (!$("identityConsent").checked) {
         alert("Please confirm that your identity information is accurate.");
@@ -417,7 +590,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .split(/\s+/)
       .filter(Boolean)
       .slice(0, 2)
-      .map(part => part[0].toUpperCase())
+      .map((part) => part[0].toUpperCase())
       .join("");
 
     $("reviewInitials").textContent = initials || "VP";
@@ -430,6 +603,10 @@ document.addEventListener("DOMContentLoaded", () => {
       $("reviewPhoto").hidden = true;
       $("reviewInitials").hidden = false;
     }
+
+    const docSummary = needsBack()
+      ? `${$("documentType").value} (front and back added)`
+      : `${$("documentType").value} (photo page added)`;
 
     const rows = [
       ["Email", $("email").value],
@@ -444,7 +621,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ["Portfolio", $("portfolio").value || "Not provided"],
       ["Social link", $("socialLink").value],
       ["SkillProof", "Passed demo assessment"],
-      ["Identity document", $("documentType").value]
+      ["Identity document", docSummary]
     ];
 
     $("reviewList").innerHTML = "";
@@ -506,7 +683,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentStep > 0) showStep(currentStep - 1);
   });
 
-  // Allow users to return to earlier steps from the progress menu.
   stepButtons.forEach((button, index) => {
     button.addEventListener("click", () => {
       if (index < currentStep) showStep(index);
@@ -531,12 +707,17 @@ document.addEventListener("DOMContentLoaded", () => {
       socialLink: $("socialLink").value.trim(),
       skillProofPassed: assessmentPassed,
       identityDocumentType: $("documentType").value,
+      identityDocumentSides: sidesRequired(),
       onboardingStatus: "demo-completed"
     };
 
-    // Demo only: do not store identity documents or NIN in browser storage.
+    // Demo only: identity images and the NIN are never stored in the browser.
     sessionStorage.setItem("vorvenaProfessionalProfile", JSON.stringify(profileData));
     sessionStorage.setItem("vorvenaOnboardingComplete", "true");
+
+    ["front", "back"].forEach((side) => {
+      if (docUrls[side]) URL.revokeObjectURL(docUrls[side]);
+    });
 
     $("onboardingForm").hidden = true;
     $("completionScreen").hidden = false;

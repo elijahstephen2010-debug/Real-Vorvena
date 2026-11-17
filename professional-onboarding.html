@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="vorvena-loader.css">
-
 </head>
 <body>
 
@@ -278,7 +277,7 @@
           </div>
         </section>
 
-        <!-- STEP 5 -->
+        <!-- STEP 5: IDENTITY -->
         <section class="form-step" data-page="4">
           <span class="step-tag">STEP 05 / 06</span>
           <h2>Verify your identity.</h2>
@@ -301,21 +300,74 @@
           </div>
 
           <div class="field" id="ninField" hidden>
-            <label for="ninNumber">NIN number</label>
+            <label for="ninNumber">NIN number <b>*</b></label>
             <input id="ninNumber" type="password" inputmode="numeric" maxlength="11" placeholder="Enter 11-digit NIN">
             <small class="helper">Demo only. Do not enter your real NIN before secure backend verification is implemented.</small>
           </div>
 
-          <div class="field">
-            <label>Identity document file <b>*</b></label>
-            <button type="button" class="file-upload" id="documentUpload">
-              <span class="upload-symbol">↑</span>
-              <strong>Choose your document</strong>
-              <small>Image or PDF · Maximum 5MB</small>
-              <span id="documentFileName" class="file-name">No file selected</span>
-            </button>
-            <input type="file" id="identityFile" accept="image/png,image/jpeg,image/webp,application/pdf" hidden>
-            <p class="error-text" id="documentError"></p>
+          <div id="docSides" hidden>
+            <p class="doc-hint" id="docHint">Add a clear photo of each side. Make sure all four corners and all text are visible.</p>
+
+            <div class="doc-grid">
+
+              <!-- FRONT -->
+              <div class="doc-card" data-side="front">
+                <div class="doc-head">
+                  <strong id="frontTitle">Front of document</strong>
+                  <span class="doc-status" id="frontStatus">Required</span>
+                </div>
+
+                <div class="doc-preview" id="frontPreview">
+                  <div class="doc-empty">
+                    <span class="doc-empty-icon">🪪</span>
+                    <small>No image yet</small>
+                  </div>
+                </div>
+
+                <div class="doc-actions" id="frontActions">
+                  <button type="button" class="doc-btn" data-action="upload" data-side="front">↑ Upload</button>
+                  <button type="button" class="doc-btn doc-btn-primary" data-action="capture" data-side="front">◉ Capture live</button>
+                </div>
+
+                <div class="doc-actions" id="frontDone" hidden>
+                  <button type="button" class="doc-btn" data-action="capture" data-side="front">↻ Retake</button>
+                  <button type="button" class="doc-btn doc-btn-danger" data-action="remove" data-side="front">Remove</button>
+                </div>
+
+                <input type="file" id="frontFile" accept="image/png,image/jpeg,image/webp,application/pdf" hidden>
+                <p class="error-text" id="frontError"></p>
+              </div>
+
+              <!-- BACK -->
+              <div class="doc-card" data-side="back" id="backCard">
+                <div class="doc-head">
+                  <strong>Back of document</strong>
+                  <span class="doc-status" id="backStatus">Required</span>
+                </div>
+
+                <div class="doc-preview" id="backPreview">
+                  <div class="doc-empty">
+                    <span class="doc-empty-icon">🪪</span>
+                    <small>No image yet</small>
+                  </div>
+                </div>
+
+                <div class="doc-actions" id="backActions">
+                  <button type="button" class="doc-btn" data-action="upload" data-side="back">↑ Upload</button>
+                  <button type="button" class="doc-btn doc-btn-primary" data-action="capture" data-side="back">◉ Capture live</button>
+                </div>
+
+                <div class="doc-actions" id="backDone" hidden>
+                  <button type="button" class="doc-btn" data-action="capture" data-side="back">↻ Retake</button>
+                  <button type="button" class="doc-btn doc-btn-danger" data-action="remove" data-side="back">Remove</button>
+                </div>
+
+                <input type="file" id="backFile" accept="image/png,image/jpeg,image/webp,application/pdf" hidden>
+                <p class="error-text" id="backError"></p>
+              </div>
+
+            </div>
+            <small class="helper">Image or PDF · Maximum 5MB each. Camera capture works on https or localhost.</small>
           </div>
 
           <label class="check-row">
@@ -369,6 +421,30 @@
 
   <footer class="footer">© <span id="year"></span> VORVENA. All rights reserved.</footer>
 </main>
+
+<!-- LIVE CAMERA CAPTURE -->
+<div class="cam-overlay" id="camOverlay" hidden>
+  <div class="cam-modal" role="dialog" aria-modal="true" aria-labelledby="camTitle">
+    <div class="cam-top">
+      <strong id="camTitle">Capture front of document</strong>
+      <button type="button" class="cam-close" id="camClose" aria-label="Close camera">✕</button>
+    </div>
+
+    <div class="cam-stage" id="camStage">
+      <video id="camVideo" playsinline muted autoplay></video>
+      <div class="cam-frame"><span class="scan-line"></span></div>
+    </div>
+
+    <p class="cam-error" id="camError" hidden></p>
+    <p class="cam-tip" id="camTip">Place the document inside the frame, keep it flat and well lit.</p>
+
+    <div class="cam-controls">
+      <button type="button" class="secondary-button" id="camCancel">Cancel</button>
+      <button type="button" class="primary-button" id="camSnap">◉ Take photo</button>
+    </div>
+  </div>
+  <canvas id="camCanvas" hidden></canvas>
+</div>
 
 <script src="professional-onboarding.js"></script>
 <script src="vorvena-loader.js" defer></script>
