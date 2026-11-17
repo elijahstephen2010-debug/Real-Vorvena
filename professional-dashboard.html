@@ -1103,24 +1103,12 @@ const SettingsAPI = {
 /* ---------- PIN POPUP (create / verify / change / forgot) ---------- */
 (function () {
     const $ = id => document.getElementById(id);
-    const WEAK = ["123456", "654321", "000000", "111111", "696969", "112233", "159753", "007007", "121212", "123123"];
     const RESEND_SECONDS = 60;
 
     let mode = null;      // "create" | "verify" | "change" | "forgot"
     let step = null;      // "enter" | "code" | "new"
     let onDone = null;
     let timer = null;
-
-    function isWeak(pin) {
-        if (WEAK.includes(pin)) return true;
-        if (/^(\d)\1{5}$/.test(pin)) return true;           // 444444
-        if (/^(\d\d)\1\1$/.test(pin)) return true;          // 121212
-        if (/^(\d\d\d)\1$/.test(pin)) return true;          // 123123
-        const d = [...pin].map(Number);
-        const up = d.every((n, i) => i === 0 || n === (d[i - 1] + 1) % 10);
-        const down = d.every((n, i) => i === 0 || n === (d[i - 1] + 9) % 10);
-        return up || down;                                  // 234567, 987654
-    }
 
     function maskTarget() {
         const email = profile.email || "";
@@ -1159,8 +1147,8 @@ const SettingsAPI = {
             new: {
                 title: mode === "create" ? "Create your Security PIN" : "Choose a new PIN",
                 message: mode === "create"
-                    ? "Before you continue, create a 6-digit PIN. You'll use it to confirm changes to your email, phone number and password. Avoid easy PINs like 123456."
-                    : "Choose a new 6-digit PIN. Avoid easy PINs like 123456.",
+                    ? "Before you continue, create a 6-digit PIN. You'll use it to confirm changes to your email, phone number and password."
+                    : "Choose a new 6-digit PIN.",
                 button: mode === "create" ? "Create PIN" : "Save new PIN"
             }
         }[name];
@@ -1268,7 +1256,6 @@ const SettingsAPI = {
                 const confirm = $("pinConfirm").value;
 
                 if (pin.length !== 6) return setError("Your PIN must be 6 digits.");
-                if (isWeak(pin)) return setError("That PIN is too easy to guess. Choose a harder one.");
                 if (pin !== confirm) return setError("The PINs do not match.");
 
                 const created = mode === "create";

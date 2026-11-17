@@ -1,27 +1,61 @@
+
 document.addEventListener("DOMContentLoaded", () => {
   const $ = (id) => document.getElementById(id);
 
   const form = $("onboardingForm");
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+  });
+
   const pages = [...document.querySelectorAll(".form-step")];
   const stepButtons = [...document.querySelectorAll(".step-item")];
+
+  const PASS_MARK = 70;
 
   let currentStep = 0;
   let profileImageUrl = "";
   let assessmentAnswers = {};
   let assessmentPassed = false;
   let assessmentCompleted = false;
+  let assessedRole = "";
   let currentQuestion = 0;
+  let quiz = [];
+  let finished = false;
+
+  const readStore = (key) => {
+    try {
+      return sessionStorage.getItem(key) || "";
+    } catch {
+      return "";
+    }
+  };
+
+  const writeStore = (key, value) => {
+    try {
+      sessionStorage.setItem(key, value);
+    } catch {
+      // Demo continues if browser storage is unavailable.
+    }
+  };
+
+  const scrollBehavior = () =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ? "auto"
+      : "smooth";
 
   $("year").textContent = new Date().getFullYear();
 
   // PREFILL DETAILS FROM SIGNUP
-  $("fullName").value = sessionStorage.getItem("vorvenaFullName") || "";
-  $("email").value = sessionStorage.getItem("vorvenaEmail") || "";
-  $("phone").value = sessionStorage.getItem("vorvenaPhone") || "";
-  $("country").value = sessionStorage.getItem("vorvenaCountry") || "";
-  $("city").value = sessionStorage.getItem("vorvenaCity") || "";
+
+  $("fullName").value = readStore("vorvenaFullName");
+  $("email").value = readStore("vorvenaEmail");
+  $("phone").value = readStore("vorvenaPhone");
+  $("country").value = readStore("vorvenaCountry");
+  $("city").value = readStore("vorvenaCity");
 
   // PROFILE PHOTO
+
   const pictureInput = $("profilePicture");
 
   function choosePicture() {
@@ -33,25 +67,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   pictureInput.addEventListener("change", () => {
     const file = pictureInput.files[0];
+
     $("photoError").textContent = "";
 
     if (!file) return;
 
-    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ];
 
     if (!allowedTypes.includes(file.type)) {
-      $("photoError").textContent = "Please select a JPG, PNG or WEBP image.";
+      $("photoError").textContent =
+        "Please select a JPG, PNG or WEBP image.";
+
       pictureInput.value = "";
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      $("photoError").textContent = "Image must be smaller than 5MB.";
+      $("photoError").textContent =
+        "Image must be smaller than 5MB.";
+
       pictureInput.value = "";
       return;
     }
 
-    if (profileImageUrl) URL.revokeObjectURL(profileImageUrl);
+    if (profileImageUrl) {
+      URL.revokeObjectURL(profileImageUrl);
+    }
 
     profileImageUrl = URL.createObjectURL(file);
 
@@ -61,10 +106,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $("removePhoto").addEventListener("click", () => {
-    if (profileImageUrl) URL.revokeObjectURL(profileImageUrl);
+    if (profileImageUrl) {
+      URL.revokeObjectURL(profileImageUrl);
+    }
 
     profileImageUrl = "";
     pictureInput.value = "";
+
     $("profilePreview").src = "";
     $("profilePreview").hidden = true;
     $("avatarPlaceholder").hidden = false;
@@ -72,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ASSESSMENT QUESTIONS
+
   const questionBank = [
     {
       question: "Which language is primarily used to add interactivity to web pages?",
@@ -95,7 +144,12 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       question: "What does HTML mainly define?",
-      options: ["Website structure", "Database security", "Server hardware", "Network speed"],
+      options: [
+        "Website structure",
+        "Database security",
+        "Server hardware",
+        "Network speed"
+      ],
       answer: 0
     },
     {
@@ -135,7 +189,12 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       question: "What does UX stand for?",
-      options: ["User Experience", "Universal Extension", "User Execution", "Unified Exchange"],
+      options: [
+        "User Experience",
+        "Universal Extension",
+        "User Execution",
+        "Unified Exchange"
+      ],
       answer: 0
     },
     {
@@ -150,14 +209,61 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   ];
 
+  function shuffled(list) {
+    const copy = [...list];
+
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+
+    return copy;
+  }
+
+  function buildQuiz() {
+    return questionBank.map((item) => {
+      const options = shuffled(
+        item.options.map((text, index) => ({
+          text,
+          correct: index === item.answer
+        }))
+      );
+
+      return {
+        question: item.question,
+        options: options.map((option) => option.text),
+        answer: options.findIndex((option) => option.correct)
+      };
+    });
+  }
+
+  function resetAssessment() {
+    quiz = [];
+    assessmentAnswers = {};
+    assessmentCompleted = false;
+    assessmentPassed = false;
+    assessedRole = "";
+    currentQuestion = 0;
+
+    $("assessmentArea").hidden = true;
+    $("assessmentResult").hidden = true;
+    $("assessmentIntro").hidden = false;
+  }
+
   function startAssessment() {
     if (!$("role").value) {
       alert("Please select your professional role first.");
       return;
     }
 
-    currentQuestion = 0;
+    quiz = buildQuiz();
+    assessedRole = $("role").value;
+
     assessmentAnswers = {};
+    assessmentCompleted = false;
+    assessmentPassed = false;
+    currentQuestion = 0;
 
     $("assessmentIntro").hidden = true;
     $("assessmentResult").hidden = true;
@@ -168,44 +274,74 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("startAssessment").addEventListener("click", startAssessment);
 
-  function renderQuestion() {
-    const question = questionBank[currentQuestion];
+  $("role").addEventListener("change", () => {
+    if (quiz.length || assessmentCompleted) {
+      resetAssessment();
+    }
+  });
 
-    $("questionCounter").textContent = `Question ${currentQuestion + 1} of ${questionBank.length}`;
-    $("assessmentScore").textContent = `${Object.keys(assessmentAnswers).length} answered`;
-    $("assessmentProgress").style.width = `${((currentQuestion + 1) / questionBank.length) * 100}%`;
+  function renderQuestion() {
+    const question = quiz[currentQuestion];
+
+    $("questionCounter").textContent =
+      `Question ${currentQuestion + 1} of ${quiz.length}`;
+
+    $("assessmentScore").textContent =
+      `${Object.keys(assessmentAnswers).length} answered`;
+
+    $("assessmentProgress").style.width =
+      `${((currentQuestion + 1) / quiz.length) * 100}%`;
+
     $("questionText").textContent = question.question;
     $("assessmentError").textContent = "";
     $("answerOptions").innerHTML = "";
 
     question.options.forEach((option, index) => {
       const label = document.createElement("label");
+
       label.className = "answer-option";
 
       const radio = document.createElement("input");
+
       radio.type = "radio";
       radio.name = "skillAnswer";
       radio.value = index;
       radio.checked = assessmentAnswers[currentQuestion] === index;
 
       const text = document.createElement("span");
+
       text.textContent = option;
 
-      if (radio.checked) label.classList.add("selected");
+      if (radio.checked) {
+        label.classList.add("selected");
+      }
 
       radio.addEventListener("change", () => {
         assessmentAnswers[currentQuestion] = index;
-        renderQuestion();
+
+        $("assessmentError").textContent = "";
+
+        $("assessmentScore").textContent =
+          `${Object.keys(assessmentAnswers).length} answered`;
+
+        $("answerOptions")
+          .querySelectorAll(".answer-option")
+          .forEach((item, i) => {
+            item.classList.toggle("selected", i === index);
+          });
       });
 
       label.append(radio, text);
+
       $("answerOptions").appendChild(label);
     });
 
     $("previousQuestion").disabled = currentQuestion === 0;
 
     $("nextQuestion").textContent =
-      currentQuestion === questionBank.length - 1 ? "Finish assessment" : "Next question →";
+      currentQuestion === quiz.length - 1
+        ? "Finish assessment"
+        : "Next question →";
   }
 
   $("previousQuestion").addEventListener("click", () => {
@@ -217,11 +353,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   $("nextQuestion").addEventListener("click", () => {
     if (assessmentAnswers[currentQuestion] === undefined) {
-      $("assessmentError").textContent = "Please select an answer.";
+      $("assessmentError").textContent =
+        "Please select an answer.";
+
       return;
     }
 
-    if (currentQuestion < questionBank.length - 1) {
+    if (currentQuestion < quiz.length - 1) {
       currentQuestion++;
       renderQuestion();
     } else {
@@ -232,13 +370,17 @@ document.addEventListener("DOMContentLoaded", () => {
   function finishAssessment() {
     let score = 0;
 
-    questionBank.forEach((question, index) => {
-      if (assessmentAnswers[index] === question.answer) score++;
+    quiz.forEach((question, index) => {
+      if (assessmentAnswers[index] === question.answer) {
+        score++;
+      }
     });
 
-    const percentage = Math.round((score / questionBank.length) * 100);
+    const percentage = Math.round(
+      (score / quiz.length) * 100
+    );
 
-    assessmentPassed = percentage >= 70;
+    assessmentPassed = percentage >= PASS_MARK;
     assessmentCompleted = true;
 
     $("assessmentArea").hidden = true;
@@ -252,55 +394,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
     $("resultDescription").textContent = assessmentPassed
       ? "You reached the proposed SkillProof pass mark."
-      : "You did not reach the proposed 70% pass mark. You can retake this demo assessment.";
+      : `You did not reach the proposed ${PASS_MARK}% pass mark. You can retake this demo assessment.`;
 
     $("resultIcon").textContent = assessmentPassed ? "✓" : "↻";
   }
 
-  $("retakeAssessment").addEventListener("click", () => {
-    assessmentCompleted = false;
-    assessmentPassed = false;
-    $("assessmentResult").hidden = true;
-    $("assessmentIntro").hidden = false;
-  });
+  $("retakeAssessment").addEventListener(
+    "click",
+    resetAssessment
+  );
 
-  /* ============================================================
-     IDENTITY DOCUMENT: front + back, upload or live capture
-  ============================================================ */
+  // IDENTITY DOCUMENT
 
   const MAX_DOC_SIZE = 5 * 1024 * 1024;
-  const DOC_TYPES = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
 
-  const docs = { front: null, back: null };
-  const docUrls = { front: "", back: "" };
+  const DOC_TYPES = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "application/pdf"
+  ];
 
-  // BACKEND PLACEHOLDER: send the image to your verification service here.
-  // Real checks (is it a real NIN card? does the face/name match?) must run on the server.
-  // POST /api/identity/documents   multipart: { type, side, file }
-  const IdentityAPI = {
-    async uploadDocument(type, side, file) {
-      await new Promise((r) => setTimeout(r, 300));
-      return { ok: true };
-    }
+  const docs = {
+    front: null,
+    back: null
   };
+
+  const docUrls = {
+    front: "",
+    back: ""
+  };
+
+  let lastDocType = "";
 
   function needsBack() {
     return $("documentType").value !== "Passport";
   }
 
   function sidesRequired() {
-    return needsBack() ? ["front", "back"] : ["front"];
+    return needsBack()
+      ? ["front", "back"]
+      : ["front"];
   }
 
   function updateDocumentType() {
     const type = $("documentType").value;
+
+    if (type !== lastDocType) {
+      clearSide("front");
+      clearSide("back");
+
+      $("ninNumber").value = "";
+      $("identityConsent").checked = false;
+
+      lastDocType = type;
+    }
 
     $("ninField").hidden = type !== "NIN";
     $("docSides").hidden = !type;
     $("backCard").hidden = !needsBack();
 
     $("frontTitle").textContent =
-      type === "Passport" ? "Photo page of passport" : "Front of document";
+      type === "Passport"
+        ? "Photo page of passport"
+        : "Front of document";
 
     $("docHint").textContent =
       type === "Passport"
@@ -310,6 +467,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderSide(side) {
     const file = docs[side];
+
     const preview = $(`${side}Preview`);
     const card = preview.closest(".doc-card");
 
@@ -317,93 +475,146 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!file) {
       const empty = document.createElement("div");
+
       empty.className = "doc-empty";
-      empty.innerHTML = '<span class="doc-empty-icon">🪪</span><small>No image yet</small>';
+
+      const icon = document.createElement("span");
+      icon.className = "doc-empty-icon";
+      icon.textContent = "🪪";
+
+      const message = document.createElement("small");
+      message.textContent = "No image yet";
+
+      empty.append(icon, message);
       preview.appendChild(empty);
     } else if (file.type === "application/pdf") {
       const box = document.createElement("div");
+
       box.className = "doc-pdf";
+
       const label = document.createElement("strong");
       label.textContent = "PDF";
+
       const name = document.createElement("small");
       name.textContent = file.name;
+
       box.append(label, name);
       preview.appendChild(box);
     } else {
       const img = document.createElement("img");
+
       img.src = docUrls[side];
       img.alt = `${side} of identity document`;
+
       preview.appendChild(img);
     }
 
     card.classList.toggle("has-file", Boolean(file));
-    $(`${side}Status`).textContent = file ? "Added ✓" : "Required";
+
+    $(`${side}Status`).textContent =
+      file ? "Added ✓" : "Required";
+
     $(`${side}Actions`).hidden = Boolean(file);
     $(`${side}Done`).hidden = !file;
   }
 
   function clearSide(side) {
-    if (docUrls[side]) URL.revokeObjectURL(docUrls[side]);
+    if (docUrls[side]) {
+      URL.revokeObjectURL(docUrls[side]);
+    }
+
     docUrls[side] = "";
     docs[side] = null;
+
     $(`${side}File`).value = "";
     $(`${side}Error`).textContent = "";
+
     renderSide(side);
   }
 
-  async function setSide(side, file) {
+  function setSide(side, file) {
     $(`${side}Error`).textContent = "";
 
     if (!DOC_TYPES.includes(file.type)) {
-      $(`${side}Error`).textContent = "Choose an image or PDF document.";
+      $(`${side}Error`).textContent =
+        "Choose an image or PDF document.";
+
       return false;
     }
 
     if (file.size > MAX_DOC_SIZE) {
-      $(`${side}Error`).textContent = "The file must be smaller than 5MB.";
+      $(`${side}Error`).textContent =
+        "The file must be smaller than 5MB.";
+
       return false;
     }
 
-    if (docUrls[side]) URL.revokeObjectURL(docUrls[side]);
+    if (docUrls[side]) {
+      URL.revokeObjectURL(docUrls[side]);
+    }
 
     docs[side] = file;
     docUrls[side] = URL.createObjectURL(file);
+
     renderSide(side);
 
-    // Placeholder call so the backend hook is ready
-    await IdentityAPI.uploadDocument($("documentType").value, side, file);
     return true;
   }
 
-  $("documentType").addEventListener("change", updateDocumentType);
+  $("documentType").addEventListener(
+    "change",
+    updateDocumentType
+  );
+
+  // Initialize document fields immediately.
+  updateDocumentType();
 
   $("ninNumber").addEventListener("input", (event) => {
-    event.target.value = event.target.value.replace(/\D/g, "").slice(0, 11);
+    event.target.value = event.target.value
+      .replace(/\D/g, "")
+      .slice(0, 11);
   });
 
   ["front", "back"].forEach((side) => {
-    $(`${side}File`).addEventListener("change", async () => {
+    $(`${side}File`).addEventListener("change", () => {
       const file = $(`${side}File`).files[0];
+
       if (!file) return;
-      const ok = await setSide(side, file);
-      if (!ok) $(`${side}File`).value = "";
+
+      const ok = setSide(side, file);
+
+      if (!ok) {
+        $(`${side}File`).value = "";
+      }
     });
   });
 
   $("docSides").addEventListener("click", (event) => {
     const button = event.target.closest("[data-action]");
+
     if (!button) return;
 
     const side = button.dataset.side;
 
-    if (button.dataset.action === "upload") $(`${side}File`).click();
-    if (button.dataset.action === "capture") openCamera(side);
-    if (button.dataset.action === "remove") clearSide(side);
+    if (button.dataset.action === "upload") {
+      $(`${side}File`).click();
+    }
+
+    if (button.dataset.action === "capture") {
+      openCamera(side);
+    }
+
+    if (button.dataset.action === "remove") {
+      clearSide(side);
+    }
   });
 
   // LIVE CAMERA CAPTURE
+
   let camStream = null;
   let camSide = null;
+  let camRequest = 0;
+  let camTrigger = null;
 
   function showCamError(message) {
     $("camError").textContent = message;
@@ -413,9 +624,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function openCamera(side) {
     camSide = side;
+    camTrigger = document.activeElement;
+
+    const request = ++camRequest;
 
     const label = side === "front"
-      ? ($("documentType").value === "Passport" ? "photo page" : "front of document")
+      ? (
+          $("documentType").value === "Passport"
+            ? "photo page"
+            : "front of document"
+        )
       : "back of document";
 
     $("camTitle").textContent = `Capture ${label}`;
@@ -423,64 +641,142 @@ document.addEventListener("DOMContentLoaded", () => {
     $("camSnap").disabled = false;
     $("camOverlay").hidden = false;
 
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.isSecureContext) {
-      showCamError("Live capture needs a secure page (https or localhost). Please use Upload instead.");
+    $("camCancel").focus();
+
+    if (
+      !navigator.mediaDevices ||
+      !navigator.mediaDevices.getUserMedia ||
+      !window.isSecureContext
+    ) {
+      showCamError(
+        "Live capture needs a secure page (https or localhost). Please use Upload instead."
+      );
+
       return;
     }
 
     try {
-      camStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } },
-        audio: false
-      });
+      const stream =
+        await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: { ideal: "environment" },
+            width: { ideal: 1920 },
+            height: { ideal: 1080 }
+          },
+          audio: false
+        });
 
-      $("camVideo").srcObject = camStream;
+      if (request !== camRequest) {
+        stream.getTracks().forEach((track) => track.stop());
+        return;
+      }
+
+      camStream = stream;
+
+      $("camVideo").srcObject = stream;
+
       await $("camVideo").play().catch(() => {});
     } catch (error) {
-      if (error.name === "NotAllowedError" || error.name === "SecurityError") {
-        showCamError("Camera access was denied. Allow camera permission in your browser settings, or use Upload instead.");
-      } else if (error.name === "NotFoundError" || error.name === "OverconstrainedError") {
-        showCamError("No camera was found on this device. Please use Upload instead.");
+      if (request !== camRequest) return;
+
+      if (
+        error.name === "NotAllowedError" ||
+        error.name === "SecurityError"
+      ) {
+        showCamError(
+          "Camera access was denied. Allow camera permission in your browser settings, or use Upload instead."
+        );
+      } else if (
+        error.name === "NotFoundError" ||
+        error.name === "OverconstrainedError"
+      ) {
+        showCamError(
+          "No camera was found on this device. Please use Upload instead."
+        );
       } else if (error.name === "NotReadableError") {
-        showCamError("The camera is being used by another app. Close it and try again.");
+        showCamError(
+          "The camera is being used by another app. Close it and try again."
+        );
       } else {
-        showCamError("Could not start the camera. Please use Upload instead.");
+        showCamError(
+          "Could not start the camera. Please use Upload instead."
+        );
       }
     }
   }
 
   function closeCamera() {
-    if (camStream) camStream.getTracks().forEach((track) => track.stop());
+    camRequest++;
+
+    if (camStream) {
+      camStream.getTracks().forEach((track) => track.stop());
+    }
+
     camStream = null;
+
     $("camVideo").srcObject = null;
     $("camOverlay").hidden = true;
+
     camSide = null;
+
+    if (camTrigger && document.contains(camTrigger)) {
+      camTrigger.focus();
+    }
+
+    camTrigger = null;
   }
 
   $("camSnap").addEventListener("click", () => {
     const video = $("camVideo");
 
     if (!camStream || !video.videoWidth) {
-      showCamError("The camera is not ready yet. Please wait a moment.");
+      showCamError(
+        "The camera is not ready yet. Please wait a moment."
+      );
+
       return;
     }
 
     const canvas = $("camCanvas");
+
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-    canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    const context = canvas.getContext("2d");
+
+    if (!context) {
+      showCamError("Could not capture the photo. Please try again.");
+      return;
+    }
+
+    context.drawImage(
+      video,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
 
     const side = camSide;
 
     canvas.toBlob(async (blob) => {
       if (!blob) {
-        showCamError("Could not capture the photo. Please try again.");
+        showCamError(
+          "Could not capture the photo. Please try again."
+        );
+
         return;
       }
 
-      const file = new File([blob], `${side}-capture.jpg`, { type: "image/jpeg" });
+      const file = new File(
+        [blob],
+        `${side}-capture.jpg`,
+        { type: "image/jpeg" }
+      );
+
       closeCamera();
-      await setSide(side, file);
+
+      setSide(side, file);
     }, "image/jpeg", 0.92);
   });
 
@@ -488,18 +784,60 @@ document.addEventListener("DOMContentLoaded", () => {
   $("camCancel").addEventListener("click", closeCamera);
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !$("camOverlay").hidden) closeCamera();
+    if ($("camOverlay").hidden) return;
+
+    if (event.key === "Escape") {
+      closeCamera();
+      return;
+    }
+
+    if (event.key !== "Tab") return;
+
+    const items = [
+      ...$("camOverlay").querySelectorAll(
+        "button:not([disabled])"
+      )
+    ];
+
+    if (!items.length) return;
+
+    const first = items[0];
+    const last = items[items.length - 1];
+
+    const outside = !$("camOverlay").contains(
+      document.activeElement
+    );
+
+    if (
+      outside ||
+      (event.shiftKey && document.activeElement === first)
+    ) {
+      event.preventDefault();
+
+      (event.shiftKey ? last : first).focus();
+    } else if (
+      !event.shiftKey &&
+      document.activeElement === last
+    ) {
+      event.preventDefault();
+      first.focus();
+    }
   });
 
   window.addEventListener("pagehide", closeCamera);
 
   // VALIDATION
+
   function validUrl(value) {
     if (!value.trim()) return true;
 
     try {
       const url = new URL(value);
-      return url.protocol === "https:" || url.protocol === "http:";
+
+      return (
+        url.protocol === "https:" ||
+        url.protocol === "http:"
+      );
     } catch {
       return false;
     }
@@ -507,11 +845,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function validateStep(step) {
     const requiredIds = {
-      0: ["fullName", "email", "phone", "country", "city", "bio"],
-      1: ["role", "experience"],
-      2: ["skills", "socialLink"],
+      0: [
+        "fullName",
+        "email",
+        "phone",
+        "country",
+        "city",
+        "bio"
+      ],
+      1: [
+        "role",
+        "experience"
+      ],
+      2: [
+        "skills",
+        "socialLink"
+      ],
       3: [],
-      4: ["documentType"],
+      4: [
+        "documentType"
+      ],
       5: []
     };
 
@@ -520,33 +873,83 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!field.value.trim()) {
         field.focus();
-        alert("Please complete all required fields before continuing.");
+
+        alert(
+          "Please complete all required fields before continuing."
+        );
+
         return false;
       }
 
       if (!field.checkValidity()) {
         field.focus();
         field.reportValidity();
+
+        return false;
+      }
+    }
+
+    if (step === 0) {
+      const digits = $("phone").value.replace(/\D/g, "").length;
+
+      if (digits < 7 || digits > 15) {
+        $("phone").focus();
+
+        alert("Please enter a valid phone number.");
+
         return false;
       }
     }
 
     if (step === 2) {
-      if (!validUrl($("portfolio").value) || !validUrl($("socialLink").value)) {
-        alert("Please enter valid website links beginning with http:// or https://.");
+      if (
+        !$("skills").value
+          .split(",")
+          .some((skill) => skill.trim())
+      ) {
+        $("skills").focus();
+
+        alert("Please add at least one skill.");
+
+        return false;
+      }
+
+      if (
+        !validUrl($("portfolio").value) ||
+        !validUrl($("socialLink").value)
+      ) {
+        alert(
+          "Please enter valid website links beginning with http:// or https://."
+        );
+
         return false;
       }
     }
 
-    if (step === 3 && (!assessmentCompleted || !assessmentPassed)) {
-      alert("Please complete and pass the SkillProof demo assessment before continuing.");
+    if (
+      step === 3 &&
+      (
+        !assessmentCompleted ||
+        !assessmentPassed ||
+        assessedRole !== $("role").value
+      )
+    ) {
+      alert(
+        "Please complete and pass the SkillProof demo assessment before continuing."
+      );
+
       return false;
     }
 
     if (step === 4) {
-      if ($("documentType").value === "NIN" && $("ninNumber").value.length !== 11) {
+      if (
+        $("documentType").value === "NIN" &&
+        $("ninNumber").value.length !== 11
+      ) {
         alert("Please enter an 11-digit NIN for this demo.");
+
         $("ninNumber").focus();
+
         return false;
       }
 
@@ -558,6 +961,7 @@ document.addEventListener("DOMContentLoaded", () => {
             side === "front" && !needsBack()
               ? "Please add the photo page of your passport."
               : `Please add the ${side} of your document.`;
+
           missing = true;
         }
       });
@@ -565,13 +969,17 @@ document.addEventListener("DOMContentLoaded", () => {
       if (missing) return false;
 
       if (!$("identityConsent").checked) {
-        alert("Please confirm that your identity information is accurate.");
+        alert(
+          "Please confirm that your identity information is accurate."
+        );
+
         return false;
       }
     }
 
     if (step === 5 && !$("finalConsent").checked) {
       alert("Please confirm your profile information.");
+
       return false;
     }
 
@@ -579,9 +987,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // REVIEW DETAILS
+
   function updateReview() {
-    const name = $("fullName").value.trim() || "Your name";
-    const role = $("role").value || "Your professional role";
+    const name =
+      $("fullName").value.trim() || "Your name";
+
+    const role =
+      $("role").value || "Your professional role";
 
     $("reviewName").textContent = name;
     $("reviewRole").textContent = role;
@@ -611,14 +1023,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const rows = [
       ["Email", $("email").value],
       ["Phone", $("phone").value],
-      ["Location", `${$("city").value}, ${$("country").value}`],
+      [
+        "Location",
+        `${$("city").value}, ${$("country").value}`
+      ],
       ["Bio", $("bio").value],
       ["Role", $("role").value],
       ["Experience", $("experience").value],
       ["Years", $("years").value || "Not provided"],
-      ["Specialization", $("specialization").value || "Not provided"],
+      [
+        "Specialization",
+        $("specialization").value || "Not provided"
+      ],
       ["Skills", $("skills").value],
-      ["Portfolio", $("portfolio").value || "Not provided"],
+      [
+        "Portfolio",
+        $("portfolio").value || "Not provided"
+      ],
       ["Social link", $("socialLink").value],
       ["SkillProof", "Passed demo assessment"],
       ["Identity document", docSummary]
@@ -628,6 +1049,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     rows.forEach(([label, value]) => {
       const row = document.createElement("div");
+
       row.className = "review-item";
 
       const labelElement = document.createElement("span");
@@ -637,12 +1059,14 @@ document.addEventListener("DOMContentLoaded", () => {
       valueElement.textContent = value || "Not provided";
 
       row.append(labelElement, valueElement);
+
       $("reviewList").appendChild(row);
     });
   }
 
   // PAGE NAVIGATION
-  function showStep(step) {
+
+  function showStep(step, scroll = true) {
     currentStep = step;
 
     pages.forEach((page, index) => {
@@ -652,9 +1076,17 @@ document.addEventListener("DOMContentLoaded", () => {
     stepButtons.forEach((button, index) => {
       button.classList.toggle("active", index === step);
       button.classList.toggle("completed", index < step);
+
+      if (index === step) {
+        button.setAttribute("aria-current", "step");
+      } else {
+        button.removeAttribute("aria-current");
+      }
     });
 
-    const percentage = Math.round(((step + 1) / pages.length) * 100);
+    const percentage = Math.round(
+      (step / pages.length) * 100
+    );
 
     $("progressFill").style.width = `${percentage}%`;
     $("progressPercent").textContent = `${percentage}%`;
@@ -662,11 +1094,20 @@ document.addEventListener("DOMContentLoaded", () => {
     $("backButton").disabled = step === 0;
 
     $("continueButton").textContent =
-      step === pages.length - 1 ? "Complete setup →" : "Continue →";
+      step === pages.length - 1
+        ? "Complete setup →"
+        : "Continue →";
 
-    if (step === 5) updateReview();
+    if (step === 5) {
+      updateReview();
+    }
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (scroll) {
+      window.scrollTo({
+        top: 0,
+        behavior: scrollBehavior()
+      });
+    }
   }
 
   $("continueButton").addEventListener("click", () => {
@@ -680,16 +1121,21 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $("backButton").addEventListener("click", () => {
-    if (currentStep > 0) showStep(currentStep - 1);
+    if (currentStep > 0) {
+      showStep(currentStep - 1);
+    }
   });
 
   stepButtons.forEach((button, index) => {
     button.addEventListener("click", () => {
-      if (index < currentStep) showStep(index);
+      if (!finished && index < currentStep) {
+        showStep(index);
+      }
     });
   });
 
   // COMPLETE DEMO ONBOARDING
+
   function completeOnboarding() {
     const profileData = {
       fullName: $("fullName").value.trim(),
@@ -711,19 +1157,50 @@ document.addEventListener("DOMContentLoaded", () => {
       onboardingStatus: "demo-completed"
     };
 
-    // Demo only: identity images and the NIN are never stored in the browser.
-    sessionStorage.setItem("vorvenaProfessionalProfile", JSON.stringify(profileData));
-    sessionStorage.setItem("vorvenaOnboardingComplete", "true");
+    // Demo only: identity images and NIN are not stored in browser storage.
+
+    writeStore(
+      "vorvenaProfessionalProfile",
+      JSON.stringify(profileData)
+    );
+
+    writeStore("vorvenaOnboardingComplete", "true");
+
+    if (profileImageUrl) {
+      URL.revokeObjectURL(profileImageUrl);
+      profileImageUrl = "";
+    }
 
     ["front", "back"].forEach((side) => {
-      if (docUrls[side]) URL.revokeObjectURL(docUrls[side]);
+      if (docUrls[side]) {
+        URL.revokeObjectURL(docUrls[side]);
+      }
+
+      docUrls[side] = "";
+      docs[side] = null;
     });
+
+    finished = true;
+
+    stepButtons.forEach((button) => {
+      button.classList.remove("active");
+      button.classList.add("completed");
+      button.removeAttribute("aria-current");
+    });
+
+    $("progressFill").style.width = "100%";
+    $("progressPercent").textContent = "100%";
 
     $("onboardingForm").hidden = true;
     $("completionScreen").hidden = false;
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({
+      top: 0,
+      behavior: scrollBehavior()
+    });
   }
 
-  showStep(0);
+  // INITIAL PAGE
+
+  showStep(0, false);
 });
