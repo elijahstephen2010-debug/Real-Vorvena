@@ -6,9 +6,10 @@
     <title>VORVENA | Professional Dashboard</title>
 
     <link rel="stylesheet" href="professional-dashboard.css">
+    <link rel="icon" type="image/png" href="assets/vorvena_logo_transparent.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="vorvena-loader.css">
@@ -19,9 +20,7 @@
 <!-- TOP LOGO BAR: the VORVENA logo sits here, top-left, same size and spot on every device -->
 <header class="brand-bar">
     <a href="#" class="brand-logo" data-page="overview" aria-label="VORVENA home">
-        <!-- To use an image logo instead, replace the text with:
-             <img src="images/vorvena-logo.png" alt="VORVENA"> -->
-        VORVENA<span>.</span>
+        <img src="assets/vorvena_logo_transparent.png" alt="VORVENA">
     </a>
     <span class="brand-tag">Professional</span>
     <span class="bar-spacer"></span>
@@ -210,29 +209,6 @@
                 <div class="stat-card"><span>VORVENA Commission</span><h2>15%</h2></div>
             </div>
 
-            <div class="content-card payout-card">
-                <div class="card-heading"><h3>Payout Details</h3></div>
-                <div class="payout-status" id="payoutStatus"></div>
-
-                <div class="payout-grid">
-                    <div class="form-group full">
-                        <label for="payBank">Bank</label>
-                        <select id="payBank"><option value="">Select your bank</option></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="payNumber">Account number</label>
-                        <input type="text" id="payNumber" inputmode="numeric" maxlength="10" autocomplete="off" placeholder="10-digit account number">
-                    </div>
-                    <div class="form-group">
-                        <label for="payName">Account name</label>
-                        <input type="text" id="payName" readonly placeholder="Filled in automatically">
-                    </div>
-                </div>
-
-                <p class="payout-note">The account name comes from your bank and must match your verified name.</p>
-                <p class="payout-error" id="payError"></p>
-                <button type="button" class="primary-btn" id="paySave" disabled>Save payout details</button>
-            </div>
 
             <div class="content-card payout-card">
                 <div class="card-heading"><h3>Request Withdrawal</h3></div>
@@ -365,6 +341,32 @@
 
             <h2 class="page-title">Settings</h2>
             <p class="page-description">Manage your account preferences. Click the edit icon to make changes.</p>
+
+            <!-- Payment details are managed here in Settings. Existing secure PIN flow is retained. -->
+            <div class="content-card payout-card settings-payout-card">
+                <div class="card-heading"><h3>Payment &amp; Withdrawal Details</h3></div>
+                <div class="payout-status" id="payoutStatus"></div>
+
+                <div class="payout-grid">
+                    <div class="form-group full">
+                        <label for="payBank">Bank</label>
+                        <select id="payBank"><option value="">Select your bank</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="payNumber">Account number</label>
+                        <input type="text" id="payNumber" inputmode="numeric" maxlength="10" autocomplete="off" placeholder="10-digit account number">
+                    </div>
+                    <div class="form-group">
+                        <label for="payName">Account name</label>
+                        <input type="text" id="payName" readonly placeholder="Filled in automatically">
+                    </div>
+                </div>
+
+                <p class="payout-note">The account name comes from your bank and must match your verified name.</p>
+                <p class="payout-error" id="payError"></p>
+                <button type="button" class="primary-btn" id="paySave" disabled>Save payout details</button>
+            </div>
+
 
             <div class="content-card settings-card" id="settingsCard">
 
