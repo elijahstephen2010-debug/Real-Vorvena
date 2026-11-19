@@ -75,6 +75,7 @@ textarea{resize:vertical;min-height:110px}
 @media (min-width:1536px){html{font-size:118.75%}}
 @media (min-width:1920px){html{font-size:131.25%}}
 </style>
+<script src="vorvena-auth.js"></script>
 </head>
 
 <body>
@@ -193,6 +194,14 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
+    // Only verified accounts can complete onboarding
+    const account = VorvenaAuth.getAccount(email);
+
+    if (!account || !account.emailVerified || !account.phoneVerified) {
+        window.location.href = "verification.html";
+        return;
+    }
+
     document.getElementById("clientEmail").textContent = email;
     document.getElementById("clientPhone").textContent = phone || "Not available";
 
@@ -291,6 +300,9 @@ document.addEventListener("DOMContentLoaded", function () {
             sessionStorage.setItem("vorvenaFullName", profile.fullName);
             sessionStorage.setItem("vorvenaClientOnboardingComplete", "true");
             localStorage.setItem("vorvenaClientOnboardingComplete", "true");
+
+            // Mark this account as onboarded so login lets it in
+            VorvenaAuth.completeOnboarding(email, profile, profileImage);
 
             submitBtn.disabled = true;
             submitBtn.textContent = "Profile completed...";

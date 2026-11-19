@@ -61,6 +61,8 @@
             margin-top: 7px
         }
     </style>
+<script src="vorvena-auth.js"></script>
+<script>VorvenaAuth.restoreSession();</script>
 </head>
 
 <body>
@@ -503,6 +505,8 @@
     <div class="toast" id="toast"></div>
 
     <script>
+        if (!VorvenaAuth.guard('client')) throw new Error('Client login required.');
+
         const pages = ['overview', 'discover', 'offers', 'projects', 'payments', 'notifications', 'settings'];
 
         const SHARED_OFFERS_KEY = 'vorvenaSharedOffers';
@@ -1050,6 +1054,7 @@
                 sessionStorage.removeItem('vorvenaLoggedIn');
                 sessionStorage.removeItem('vorvenaLoggedInEmail');
                 sessionStorage.removeItem('vorvenaLoggedInRole');
+                localStorage.removeItem('vorvenaRemembered');
 
                 location.href = 'login.html';
             }

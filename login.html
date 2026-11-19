@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
     <link rel="stylesheet" href="vorvena-loader.css">
+<script src="vorvena-auth.js"></script>
 </head>
 
 <body>
@@ -33,7 +34,7 @@
             <span class="brand-name">VORVENA</span>
         </a>
 
-        <a href="professional-signup.html" class="signup-link">
+        <a href="signup.html" class="signup-link">
             Don't have an account?
             <strong>Sign up</strong>
         </a>
@@ -136,7 +137,7 @@
 
             <p class="bottom-text">
                 New to VORVENA?
-                <a href="professional-signup.html">Create an account</a>
+                <a href="signup.html">Create an account</a>
             </p>
 
         </section>
@@ -163,11 +164,39 @@
         const loginMessage = document.getElementById("loginMessage");
         const loginButton = document.getElementById("loginButton");
         const togglePassword = document.getElementById("togglePassword");
+        const rememberMe = document.getElementById("rememberMe");
+
+        const buttonHTML = loginButton.innerHTML;
 
         // DISPLAY MESSAGE
         function showMessage(message, type = "error") {
             loginMessage.textContent = message;
             loginMessage.className = "message " + type;
+        }
+
+        function resetButton() {
+            loginButton.disabled = false;
+            loginButton.innerHTML = buttonHTML;
+        }
+
+        // SHOW A LINK THAT CONTINUES AN UNFINISHED SIGNUP
+        function showSetupLink(message, linkText, account, next) {
+            showMessage(message);
+
+            const link = document.createElement("a");
+            link.href = next;
+            link.textContent = linkText;
+            link.style.fontWeight = "700";
+            link.style.textDecoration = "underline";
+            link.style.color = "inherit";
+
+            link.addEventListener("click", function (event) {
+                event.preventDefault();
+                VorvenaAuth.resumeSetup(account);
+                window.location.href = next;
+            });
+
+            loginMessage.append(" ", link);
         }
 
         // SHOW / HIDE PASSWORD
@@ -183,7 +212,9 @@
         });
 
         // LOGIN
-        loginForm.addEventListener("submit", function (event) {
+        // PROTOTYPE: accounts live in this browser (see vorvena-auth.js).
+        // BACKEND: replace VorvenaAuth.login with  POST /api/auth/login.
+        loginForm.addEventListener("submit", async function (event) {
 
             event.preventDefault();
 
@@ -195,97 +226,56 @@
                 return;
             }
 
-            const savedEmail = sessionStorage.getItem("vorvenaEmail");
-            const accountType = sessionStorage.getItem("vorvenaAccountType");
-
-            if (!savedEmail || !accountType) {
-                showMessage("No registered account found. Please sign up first.");
-                return;
-            }
-
-            if (email !== savedEmail.trim().toLowerCase()) {
-                showMessage("This email does not match your registered account.");
-                return;
-            }
-
-            // CHECK VERIFICATION
-            if (
-                sessionStorage.getItem("vorvenaEmailVerified") !== "true" ||
-                sessionStorage.getItem("vorvenaPhoneVerified") !== "true"
-            ) {
-                showMessage("Please complete your email and phone verification first.");
-                return;
-            }
-
-            let profile;
-            let dashboard;
-
-            // PROFESSIONAL ACCOUNT
-            if (accountType === "professional") {
-
-                try {
-                    profile = JSON.parse(
-                        sessionStorage.getItem("vorvenaProfessionalProfile") ||
-                        localStorage.getItem("vorvenaProfessionalProfile") ||
-                        "null"
-                    );
-                } catch (error) {
-                    showMessage("Could not load your professional profile.");
-                    return;
-                }
-
-                if (!profile || profile.onboardingStatus !== "demo-completed") {
-                    showMessage("Please complete your professional onboarding first.");
-                    return;
-                }
-
-                dashboard = "professional-dashboard.html";
-
-            }
-
-            // CLIENT ACCOUNT
-            else if (accountType === "client") {
-
-                try {
-                    profile = JSON.parse(
-                        sessionStorage.getItem("vorvenaClientProfile") || "null"
-                    );
-                } catch (error) {
-                    showMessage("Could not load your client profile.");
-                    return;
-                }
-
-                if (
-                    !profile ||
-                    profile.onboardingStatus !== "demo-completed" ||
-                    sessionStorage.getItem("vorvenaClientOnboardingComplete") !== "true"
-                ) {
-                    showMessage("Please complete your client onboarding first.");
-                    return;
-                }
-
-                dashboard = "client-dashboard.html";
-
-            }
-
-            else {
-                showMessage("Invalid account type. Please sign up again.");
-                return;
-            }
-
-            // SAVE LOGIN SESSION
-            sessionStorage.setItem("vorvenaLoggedIn", "true");
-            sessionStorage.setItem("vorvenaLoggedInEmail", email);
-            sessionStorage.setItem("vorvenaLoggedInRole", accountType);
-
             loginButton.disabled = true;
             loginButton.innerHTML = 'Signing in <i class="fa-solid fa-spinner fa-spin"></i>';
 
-            showMessage("Login successful. Redirecting...", "success");
+            let result;
 
-            setTimeout(function () {
-                window.location.href = dashboard;
-            }, 700);
+            try {
+                result = await VorvenaAuth.login(email, password, rememberMe.checked);
+            } catch (error) {
+                console.error("Login error:", error);
+                result = { ok: false, reason: "error" };
+            }
+
+            // SUCCESS: go to the dashboard for the registered role
+            if (result.ok) {
+                showMessage("Login successful. Redirecting...", "success");
+
+                setTimeout(function () {
+                    window.location.href = result.dashboard;
+                }, 700);
+
+                return;
+            }
+
+            resetButton();
+
+            if (result.reason === "invalid") {
+                showMessage("Incorrect email or password. If you are new, please create an account.");
+            }
+            else if (result.reason === "disabled") {
+                showMessage("This account is not active. Please contact support.");
+            }
+            else if (result.reason === "unverified") {
+                showSetupLink(
+                    "Your email and phone verification is not complete.",
+                    "Continue verification",
+                    result.account,
+                    result.next
+                );
+            }
+            else if (result.reason === "onboarding") {
+                showSetupLink(
+                    "Please complete your onboarding before you sign in.",
+                    "Continue onboarding",
+                    result.account,
+                    result.next
+                );
+            }
+            else {
+                showMessage("Something went wrong. Please try again.");
+            }
 
         });
 

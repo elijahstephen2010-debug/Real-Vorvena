@@ -15,6 +15,7 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
   <link rel="stylesheet" href="vorvena-loader.css">
+<script src="vorvena-auth.js"></script>
 </head>
 
 <body>
@@ -368,6 +369,25 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!internationalPhone) {
         alert("Please check your phone number and try again.");
         phoneInput.focus();
+        return;
+      }
+
+      // CREATE THE ACCOUNT (role, phone and a hashed password)
+      const registration = await VorvenaAuth.register({
+        fullName,
+        email,
+        phone: internationalPhone,
+        country: iti.getSelectedCountryData().name || "",
+        region,
+        city,
+        role: "professional",
+        password
+      });
+
+      if (!registration.ok) {
+        alert(registration.reason === "exists"
+          ? "An account with this email already exists. Please log in."
+          : "We could not save your account. Please try again.");
         return;
       }
 

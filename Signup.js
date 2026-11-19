@@ -8,6 +8,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // SELECT ACCOUNT ROLE
     window.selectRole = function (role) {
 
+        // The real signup pages create the account, so send people there
+        window.location.href = role === "professional"
+            ? "professional-signup.html"
+            : "client-signup.html";
+        return;
+
         roleSelection.hidden = true;
 
         if (role === "client") {

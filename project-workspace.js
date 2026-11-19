@@ -177,6 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ===================================================== */
 
     const loggedIn = sessionStorage.getItem("vorvenaLoggedIn");
+
     const currentRole = (
         sessionStorage.getItem("vorvenaLoggedInRole") || ""
     ).toLowerCase();
@@ -338,7 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentUserRole = isClient ? "Client" : "Professional";
     const otherUserRole = isClient ? "Professional" : "Client";
 
-    const defaultAvatar = "images/default-avatar.png";
+    const defaultAvatar = "assets/VORVENA Logo Badge.png";
 
     setText("currentUserName", currentUserName);
     setText("currentUserRole", currentUserRole);
@@ -408,7 +409,10 @@ document.addEventListener("DOMContentLoaded", () => {
     setText("projectDeadline", formatDate(projectDeadline));
     setText("projectStartDate", formatDate(projectStartDate));
 
-    setText("headerProjectStatus", "In Progress");
+    // Preserve the status-dot element in the supplied HTML; update only its text label.
+    const headerStatusText = $("#headerProjectStatus span:last-child");
+    if (headerStatusText) headerStatusText.textContent = "In Progress";
+
     setText("projectStatusBadge", "In Progress");
 
     setText("deadlineDisplay", formatDate(projectDeadline));
@@ -597,7 +601,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const backButton = $("#backToDashboard");
 
     if (backButton) {
-        backButton.addEventListener("click", () => {
+        backButton.addEventListener("click", event => {
+            event.preventDefault();
+
             window.location.href = isClient
                 ? "client-dashboard.html"
                 : "professional-dashboard.html";

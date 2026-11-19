@@ -1,10 +1,10 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-  const savedEmail =
+  let savedEmail =
     sessionStorage.getItem("vorvenaEmail") ||
     localStorage.getItem("vorvenaEmail");
 
-  const savedPhone =
+  let savedPhone =
     sessionStorage.getItem("vorvenaPhone") ||
     localStorage.getItem("vorvenaPhone");
 
@@ -48,6 +48,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   sessionStorage.removeItem("vorvenaEmailVerified");
   sessionStorage.removeItem("vorvenaPhoneVerified");
+
+  // The account must exist, and steps already finished are remembered
+  const account = VorvenaAuth.getAccount(savedEmail);
+
+  if (!account) {
+    alert("Your signup information could not be found. Please sign up again.");
+
+    window.location.href =
+      accountType === "professional"
+        ? "professional-signup.html"
+        : "client-signup.html";
+
+    return;
+  }
+
+  if (account.emailVerified) {
+    emailVerified = true;
+    sessionStorage.setItem("vorvenaEmailVerified", "true");
+
+    if (emailStep) emailStep.style.display = "none";
+    if (phoneStep) phoneStep.style.display = "block";
+  }
+
+  if (account.emailVerified && account.phoneVerified) {
+    phoneVerified = true;
+    sessionStorage.setItem("vorvenaPhoneVerified", "true");
+
+    if (phoneStep) phoneStep.style.display = "none";
+    if (successStep) successStep.style.display = "block";
+  }
 
   function showMessage(element, message, type = "error") {
     if (!element) return;
@@ -152,6 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       emailVerified = true;
       sessionStorage.setItem("vorvenaEmailVerified", "true");
+      VorvenaAuth.setVerified(savedEmail, "email");
 
       showMessage(
         emailMessage,
@@ -181,6 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       phoneVerified = true;
       sessionStorage.setItem("vorvenaPhoneVerified", "true");
+      VorvenaAuth.setVerified(savedEmail, "phone");
 
       showMessage(
         phoneMessage,
@@ -217,6 +249,19 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Please enter a valid email address.");
         return;
       }
+
+      const changed = VorvenaAuth.changeEmail(savedEmail, cleanedEmail);
+
+      if (!changed.ok) {
+        alert(
+          changed.reason === "exists"
+            ? "That email is already registered. Please use a different one."
+            : "Could not update your email. Please try again."
+        );
+        return;
+      }
+
+      savedEmail = cleanedEmail;
 
       sessionStorage.setItem("vorvenaEmail", cleanedEmail);
       localStorage.setItem("vorvenaEmail", cleanedEmail);
@@ -258,6 +303,9 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Please enter a valid international phone number.");
         return;
       }
+
+      VorvenaAuth.changePhone(savedEmail, cleanedPhone);
+      savedPhone = cleanedPhone;
 
       sessionStorage.setItem("vorvenaPhone", cleanedPhone);
       localStorage.setItem("vorvenaPhone", cleanedPhone);

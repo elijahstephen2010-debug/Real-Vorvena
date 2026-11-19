@@ -219,7 +219,6 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================================== */
 
   const loginLink = navLinks?.querySelector(".login-link");
-  const signupLink = navLinks?.querySelector(".nav-cta");
 
   let accountContainer = null;
   let accountToggle = null;
@@ -346,10 +345,6 @@ document.addEventListener("DOMContentLoaded", () => {
       loginLink.style.display = showAccount ? "none" : "";
     }
 
-    if (signupLink) {
-      signupLink.style.display = showAccount ? "none" : "";
-    }
-
     if (showAccount) {
 
       createAccountDropdown();
@@ -393,6 +388,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.removeItem("vorvenaLoggedInEmail");
     sessionStorage.removeItem("vorvenaFullName");
     sessionStorage.removeItem("vorvenaEmail");
+    localStorage.removeItem("vorvenaRemembered");
 
     closeAccountDropdown();
     closeMenu();
@@ -536,27 +532,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =====================================
-     10. ROLE-BASED SIGNUP
-  ===================================== */
-
-  window.VORVENA.openSignup = function (role) {
-
-    const signupPages = {
-      client: "client-signup.html",
-      professional: "professional-signup.html"
-    };
-
-    if (!signupPages[role]) {
-      console.error("VORVENA: Invalid signup role.");
-      return;
-    }
-
-    window.location.href = signupPages[role];
-  };
-
-
-  /* =====================================
-     11. LOGIN NAVIGATION
+     10. LOGIN NAVIGATION
   ===================================== */
 
   window.VORVENA.openLogin = function () {
@@ -565,7 +541,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =====================================
-     12. WHATSAPP COMMUNITY LINK
+     11. WHATSAPP COMMUNITY LINK
   ===================================== */
 
   const whatsappLink = document.querySelector(
@@ -579,7 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =====================================
-     13. BACK TO TOP
+     12. BACK TO TOP
   ===================================== */
 
   document.querySelectorAll('a[href="#home"]').forEach(link => {
@@ -588,7 +564,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =====================================
-     14. IMAGE FALLBACK
+     13. IMAGE FALLBACK
   ===================================== */
 
   document.querySelectorAll("img").forEach(image => {
@@ -601,7 +577,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =====================================
-     15. INITIALIZATION
+     14. INITIALIZATION
   ===================================== */
 
   console.log("VORVENA frontend initialized.");

@@ -43,6 +43,20 @@ document.addEventListener("DOMContentLoaded", () => {
     reader.readAsDataURL(file);
   }
 
+  // Only verified professional accounts can use onboarding
+  const signupEmail = sessionStorage.getItem("vorvenaEmail") || "";
+  const signupAccount = VorvenaAuth.getAccount(signupEmail);
+
+  if (!signupAccount || signupAccount.role !== "professional") {
+    window.location.href = "professional-signup.html";
+    return;
+  }
+
+  if (!signupAccount.emailVerified || !signupAccount.phoneVerified) {
+    window.location.href = "verification.html";
+    return;
+  }
+
   // PREFILL DETAILS FROM SIGNUP
   $("fullName").value = sessionStorage.getItem("vorvenaFullName") || "";
   $("email").value = sessionStorage.getItem("vorvenaEmail") || "";
@@ -809,6 +823,9 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("vorvenaProfessionalProfile", saved);
       if (profilePhotoData) localStorage.setItem("vorvenaProfileImage", profilePhotoData);
     } catch (error) { /* storage full */ }
+
+    // Mark this account as onboarded so login lets it in
+    VorvenaAuth.completeOnboarding(signupEmail, profileData, profilePhotoData);
 
     publishToDirectory(profileData, professionalId);
 

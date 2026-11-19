@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#082b68">
 
     <title>Project Workspace | VORVENA</title>
-    <link rel="icon" type="image/png" href="./assets/favicon.png">
-    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="VORVENA">
     <meta property="og:title" content="Project Workspace | VORVENA">
@@ -30,6 +29,8 @@
      <link rel="stylesheet" href="vorvena-loader.css">
 <script src="vorvena-loader.js" defer></script>
 
+<script src="vorvena-auth.js"></script>
+<script>VorvenaAuth.restoreSession();</script>
 </head>
 
 <body>
@@ -41,7 +42,7 @@
 <div class="workspace-loader" id="workspaceLoader">
     <div class="loader-logo">
         <!-- INSERT VORVENA LOGO IMAGE HERE -->
-        <img src="images/vorvena-logo.png" alt="VORVENA Logo">
+        <img src="assets/vorvena_logo_transparent.png" alt="VORVENA Logo">
     </div>
 
     <div class="loader-spinner"></div>
@@ -57,11 +58,11 @@
 
     <div class="header-left">
 
-        <a href="#" class="workspace-brand">
+        <a href="index.html" class="workspace-brand" aria-label="VORVENA Home">
 
             <div class="workspace-logo">
                 <!-- INSERT VORVENA LOGO IMAGE HERE -->
-                <img src="images/vorvena-logo.png" alt="VORVENA">
+                <img src="assets/vorvena_logo_transparent.png" alt="VORVENA">
             </div>
 
         </a>
@@ -83,7 +84,7 @@
             <span>In Progress</span>
         </div>
 
-        <button class="header-icon-btn" id="workspaceNotifications" aria-label="Notifications">
+        <button type="button" class="header-icon-btn" id="workspaceNotifications" aria-label="Notifications">
             <i class="fa-regular fa-bell"></i>
             <span class="notification-indicator"></span>
         </button>
@@ -91,7 +92,7 @@
         <div class="header-user">
 
             <img
-                src="images/default-avatar.png"
+                src="assets/VORVENA Logo Badge.png"
                 alt="Your profile picture"
                 id="currentUserAvatar"
             >
@@ -142,38 +143,38 @@
 
             <span class="sidebar-heading">WORKSPACE</span>
 
-            <button class="sidebar-link active" data-section="overview">
+            <button type="button" class="sidebar-link active" data-section="overview" aria-current="page">
                 <i class="fa-solid fa-table-columns"></i>
                 <span>Overview</span>
             </button>
 
-            <button class="sidebar-link" data-section="messages">
+            <button type="button" class="sidebar-link" data-section="messages">
                 <i class="fa-regular fa-comments"></i>
                 <span>Messages</span>
                 <span class="sidebar-count" id="messageCount">0</span>
             </button>
 
-            <button class="sidebar-link" data-section="files">
+            <button type="button" class="sidebar-link" data-section="files">
                 <i class="fa-regular fa-folder-open"></i>
                 <span>Project Files</span>
             </button>
 
-            <button class="sidebar-link" data-section="milestones">
+            <button type="button" class="sidebar-link" data-section="milestones">
                 <i class="fa-solid fa-list-check"></i>
                 <span>Milestones</span>
             </button>
 
-            <button class="sidebar-link" data-section="submissions">
+            <button type="button" class="sidebar-link" data-section="submissions">
                 <i class="fa-solid fa-cloud-arrow-up"></i>
                 <span>Submissions</span>
             </button>
 
-            <button class="sidebar-link" data-section="revisions">
+            <button type="button" class="sidebar-link" data-section="revisions">
                 <i class="fa-solid fa-rotate"></i>
                 <span>Revisions</span>
             </button>
 
-            <button class="sidebar-link" data-section="activity">
+            <button type="button" class="sidebar-link" data-section="activity">
                 <i class="fa-solid fa-clock-rotate-left"></i>
                 <span>Activity History</span>
             </button>
@@ -228,7 +229,7 @@
                     <p>Everything you need to manage this project is right here.</p>
                 </div>
 
-                <button class="primary-button" data-open-section="messages">
+                <button type="button" class="primary-button" data-open-section="messages">
                     <i class="fa-regular fa-comments"></i>
                     Open Messages
                 </button>
@@ -304,7 +305,7 @@
                     <div class="participant-item">
 
                         <img
-                            src="images/default-avatar.png"
+                            src="assets/VORVENA Logo Badge.png"
                             alt="Client profile"
                             id="clientAvatar"
                         >
@@ -322,7 +323,7 @@
                     <div class="participant-item">
 
                         <img
-                            src="images/default-avatar.png"
+                            src="assets/VORVENA Logo Badge.png"
                             alt="Professional profile"
                             id="professionalAvatar"
                         >
@@ -397,7 +398,7 @@
                         <p>Latest updates from this project.</p>
                     </div>
 
-                    <button class="text-button" data-open-section="activity">
+                    <button type="button" class="text-button" data-open-section="activity">
                         View All
                     </button>
                 </div>
@@ -446,7 +447,7 @@
                         <div class="message-partner">
 
                             <img
-                                src="images/default-avatar.png"
+                                src="assets/VORVENA Logo Badge.png"
                                 alt="Project partner"
                                 id="messagePartnerAvatar"
                             >
@@ -460,7 +461,7 @@
 
                         <div class="message-header-actions">
 
-                            <button class="header-icon-btn" aria-label="Conversation information">
+                            <button type="button" class="header-icon-btn" aria-label="Conversation information">
                                 <i class="fa-solid fa-circle-info"></i>
                             </button>
 
@@ -566,7 +567,7 @@
                         <h3>Project Partner</h3>
 
                         <img
-                            src="images/default-avatar.png"
+                            src="assets/VORVENA Logo Badge.png"
                             alt="Project partner"
                             id="chatInfoAvatar"
                         >
@@ -594,7 +595,7 @@
 
                         <div class="card-heading">
                             <h3>Shared Files</h3>
-                            <button class="text-button" data-open-section="files">View All</button>
+                            <button type="button" class="text-button" data-open-section="files">View All</button>
                         </div>
 
                         <div id="chatSharedFiles">
@@ -630,7 +631,7 @@
                     <p>Share documents, resources and deliverables with your project partner.</p>
                 </div>
 
-                <button class="primary-button" id="openFileUpload">
+                <button type="button" class="primary-button" id="openFileUpload">
                     <i class="fa-solid fa-cloud-arrow-up"></i>
                     Upload Files
                 </button>
@@ -711,7 +712,7 @@
                     <p>Follow the stages and important deadlines of your project.</p>
                 </div>
 
-                <button class="primary-button" id="addMilestoneButton">
+                <button type="button" class="primary-button" id="addMilestoneButton">
                     <i class="fa-solid fa-plus"></i>
                     Add Milestone
                 </button>
@@ -778,7 +779,7 @@
                     <p>Submit completed work and review project deliverables.</p>
                 </div>
 
-                <button class="primary-button" id="openSubmissionModal">
+                <button type="button" class="primary-button" id="openSubmissionModal">
                     <i class="fa-solid fa-cloud-arrow-up"></i>
                     Submit Work
                 </button>
@@ -913,7 +914,7 @@
 
     <div class="modal-content">
 
-        <button class="modal-close" data-close-modal="fileUploadModal" aria-label="Close">
+        <button type="button" class="modal-close" data-close-modal="fileUploadModal" aria-label="Close">
             <i class="fa-solid fa-xmark"></i>
         </button>
 
@@ -939,7 +940,7 @@
 
         <div id="modalSelectedFiles" class="selected-files"></div>
 
-        <button class="primary-button full-button" id="confirmFileUpload">
+        <button type="button" class="primary-button full-button" id="confirmFileUpload">
             Upload Selected Files
         </button>
 
@@ -959,7 +960,7 @@
 
     <div class="modal-content">
 
-        <button class="modal-close" data-close-modal="milestoneModal" aria-label="Close">
+        <button type="button" class="modal-close" data-close-modal="milestoneModal" aria-label="Close">
             <i class="fa-solid fa-xmark"></i>
         </button>
 
@@ -1013,7 +1014,7 @@
 
     <div class="modal-content">
 
-        <button class="modal-close" data-close-modal="submissionModal" aria-label="Close">
+        <button type="button" class="modal-close" data-close-modal="submissionModal" aria-label="Close">
             <i class="fa-solid fa-xmark"></i>
         </button>
 
