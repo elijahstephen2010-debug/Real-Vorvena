@@ -102,7 +102,7 @@
                 <div class="form-group">
                     <div class="password-label">
                         <label for="password">Password</label>
-                        <a href="#" id="forgotPassword">Forgot password?</a>
+                        <a href="forgot-password.html" id="forgotPassword">Forgot password?</a>
                     </div>
                     <div class="input-box">
                         <i class="fa-solid fa-lock"></i>
@@ -280,10 +280,32 @@
         });
 
         // FORGOT PASSWORD
-        document.getElementById("forgotPassword").addEventListener("click", function (event) {
-            event.preventDefault();
-            showMessage("Password recovery will be available when the backend is connected.");
+        // Opens the reset page. If an email is already typed, it is
+        // passed along so the user does not have to type it again.
+        document.getElementById("forgotPassword").addEventListener("click", function () {
+            const typed = emailInput.value.trim();
+
+            this.href = typed
+                ? "forgot-password.html?email=" + encodeURIComponent(typed)
+                : "forgot-password.html";
         });
+
+        // AFTER A SUCCESSFUL PASSWORD RESET
+        // forgot-password.js leaves a note here so this page can say so.
+        try {
+            const resetEmail = sessionStorage.getItem("vorvenaPasswordResetDone");
+
+            if (resetEmail !== null) {
+                sessionStorage.removeItem("vorvenaPasswordResetDone");
+
+                if (resetEmail) emailInput.value = resetEmail;
+
+                showMessage("Your password has been updated. Log in with your new password.", "success");
+                passwordInput.focus();
+            }
+        } catch (error) {
+            // Storage blocked: the login page simply shows no notice.
+        }
 
         // GOOGLE LOGIN
         document.getElementById("googleLogin").addEventListener("click", function () {
