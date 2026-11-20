@@ -1,4 +1,3 @@
-
 /* =========================================
    VORVENA - REUSABLE CIRCULAR LOADER
 ========================================= */
@@ -46,6 +45,21 @@
     window.VORVENA = window.VORVENA || {};
     window.VORVENA.showLoader = showLoader;
     window.VORVENA.hideLoader = hideLoader;
+
+    // ENTRANCE SCREEN: ONLY ON THE FIRST PAGE OF A VISIT
+    // The big entrance loader (#intro) plays once when someone enters
+    // the site. On every other page, only the small page loader is used.
+    try {
+        const intro = document.getElementById("intro");
+
+        if (sessionStorage.getItem("vorvenaIntroSeen") === "true") {
+            if (intro) intro.style.display = "none";
+        } else {
+            sessionStorage.setItem("vorvenaIntroSeen", "true");
+        }
+    } catch (error) {
+        // If storage is blocked, the entrance screen just plays as normal.
+    }
 
     // DETECT BROWSER HISTORY NAVIGATION
     const navigationEntry =
