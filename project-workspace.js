@@ -58,6 +58,26 @@ document.addEventListener("DOMContentLoaded", () => {
         })[character]);
     };
 
+    /* Links: only a downloadable data: URL (made by this page when a file is
+       uploaded) is allowed. Anything else, such as a javascript: link placed in
+       storage, becomes "#" and does nothing. */
+    const safeDownloadUrl = (value = "") => {
+        const url = String(value).trim();
+        return /^data:/i.test(url) ? url : "#";
+    };
+
+    /* Images: an uploaded image (data:image) or a normal relative file path.
+       Anything with another scheme (javascript:, http:, and so on) is rejected. */
+    const safeImageSrc = (value = "") => {
+        const url = String(value).trim();
+
+        if (/^data:image\/(png|jpe?g|webp|gif);base64,/i.test(url)) return url;
+
+        if (url && !/^[a-z][a-z0-9+.-]*:/i.test(url) && !url.startsWith("//")) return url;
+
+        return "";
+    };
+
     const formatDate = value => {
         if (!value) return "Not specified";
 
@@ -130,7 +150,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const setImage = (id, src) => {
         const element = document.getElementById(id);
-        if (element && src) element.src = src;
+        const safeSrc = safeImageSrc(src);
+        if (element && safeSrc) element.src = safeSrc;
     };
 
     const showElement = element => {
@@ -521,7 +542,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p>${escapeHTML(item.description)}</p>
                         <small>
                             ${escapeHTML(item.user || "Workspace member")}
-                            · ${formatDateTime(item.createdAt)}
+                            · ${escapeHTML(formatDateTime(item.createdAt))}
                         </small>
                     </div>
                 </div>
@@ -680,7 +701,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="message-item ${ownMessage ? "own-message" : "received-message"}">
                         <div class="message-avatar">
                             <img
-                                src="${escapeHTML(message.avatar || defaultAvatar)}"
+                                src="${escapeHTML(safeImageSrc(message.avatar) || defaultAvatar)}"
                                 alt=""
                             >
                         </div>
@@ -688,7 +709,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div class="message-body">
                             <div class="message-meta">
                                 <strong>${escapeHTML(message.senderName)}</strong>
-                                <small>${formatDateTime(message.createdAt)}</small>
+                                <small>${escapeHTML(formatDateTime(message.createdAt))}</small>
                             </div>
 
                             ${message.text ? `
@@ -698,7 +719,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             ${message.attachment ? `
                                 <a
                                     class="message-attachment"
-                                    href="${escapeHTML(message.attachment.data)}"
+                                    href="${escapeHTML(safeDownloadUrl(message.attachment.data))}"
                                     download="${escapeHTML(message.attachment.name)}"
                                 >
                                     <i class="fa-solid fa-paperclip"></i>
@@ -978,7 +999,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 <a
                     class="file-download"
-                    href="${escapeHTML(file.data)}"
+                    href="${escapeHTML(safeDownloadUrl(file.data))}"
                     download="${escapeHTML(file.name)}"
                     title="Download file"
                 >
@@ -1012,7 +1033,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         container.innerHTML = recentFiles.map(file => `
             <a
-                href="${escapeHTML(file.data)}"
+                href="${escapeHTML(safeDownloadUrl(file.data))}"
                 download="${escapeHTML(file.name)}"
                 class="shared-file-item"
             >
@@ -1126,7 +1147,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <strong>${escapeHTML(milestone.title)}</strong>
                     <p>${escapeHTML(milestone.description || "")}</p>
                     <small>
-                        Deadline: ${formatDate(milestone.deadline)}
+                        Deadline: ${escapeHTML(formatDate(milestone.deadline))}
                     </small>
                 </div>
 
@@ -1210,7 +1231,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="selected-file">
                 <i class="fa-solid fa-file"></i>
                 ${escapeHTML(file.name)}
-                <small>${formatFileSize(file.size)}</small>
+                <small>${escapeHTML(formatFileSize(file.size))}</small>
             </div>
         `).join("");
     }
@@ -1327,7 +1348,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const attachments = (submission.attachments || []).map(file => `
                 <a
                     class="submission-attachment"
-                    href="${escapeHTML(file.data)}"
+                    href="${escapeHTML(safeDownloadUrl(file.data))}"
                     download="${escapeHTML(file.name)}"
                 >
                     <i class="fa-solid fa-download"></i>
@@ -1343,7 +1364,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             <h3>${escapeHTML(submission.title)}</h3>
                             <small>
                                 Submitted by ${escapeHTML(submission.submittedBy)}
-                                · ${formatDateTime(submission.createdAt)}
+                                · ${escapeHTML(formatDateTime(submission.createdAt))}
                             </small>
                         </div>
 
@@ -1493,7 +1514,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p>${escapeHTML(revision.feedback)}</p>
                     <small>
                         Requested by ${escapeHTML(revision.requestedBy)}
-                        · ${formatDateTime(revision.createdAt)}
+                        · ${escapeHTML(formatDateTime(revision.createdAt))}
                     </small>
                 </div>
             </div>

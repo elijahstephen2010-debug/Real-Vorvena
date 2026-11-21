@@ -813,28 +813,6 @@ function updateProfileCompletion() {
     document.getElementById("completionProgress").style.width = percentage + "%";
 }
 
-// DEMO OFFERS
-const demoOffers = [
-    {
-        id: "demo-offer-1",
-        title: "Website Development",
-        description: "A client is looking for a developer to build a responsive business website.",
-        budget: "₦250,000",
-        deadline: "14 days",
-        status: "pending",
-        isDemo: true
-    },
-    {
-        id: "demo-offer-2",
-        title: "UI/UX Design Project",
-        description: "A client needs a designer for a mobile application interface.",
-        budget: "₦180,000",
-        deadline: "10 days",
-        status: "pending",
-        isDemo: true
-    }
-];
-
 // PROFESSIONAL IDENTITY
 function getProfessionalIdentity() {
     return {
@@ -876,6 +854,8 @@ function readSharedOffers() {
 }
 
 // READ ALL OFFERS
+// Only real offers sent by clients are shown. Sample offers that older versions
+// of this page saved in the browser are dropped here.
 function readOffers() {
     let localOffers = [];
 
@@ -884,13 +864,11 @@ function readOffers() {
 
         if (saved !== null) {
             const parsed = JSON.parse(saved);
-            localOffers = Array.isArray(parsed) ? parsed : [];
-        } else {
-            localOffers = demoOffers.map(offer => ({ ...offer }));
+            localOffers = Array.isArray(parsed) ? parsed.filter(offer => !offer.isDemo) : [];
         }
     } catch (error) {
         console.error("Could not load local offers:", error);
-        localOffers = demoOffers.map(offer => ({ ...offer }));
+        localOffers = [];
     }
 
     return [...localOffers.filter(offer => !offer.isShared), ...readSharedOffers()];
@@ -1777,12 +1755,85 @@ function updatePinStatus() {
 
     const needsPin = c => "email" in c || "phone" in c || "password" in c;
 
+    // Things saved under the old email (payout summary, withdrawals, hiring alerts,
+    // Security PIN, photo) move to the new email so nothing is lost after the change.
+    function moveEmailKeys(oldKey, newKey) {
+        if (!oldKey || oldKey === newKey) return;
+
+        [
+            "vorvenaPayoutSummary:",
+            "vorvenaWithdrawals:",
+            NOTIFICATIONS_KEY_PREFIX,
+            "vorvenaSecurityPin:",
+            "vorvenaAccountImage:"
+        ].forEach(prefix => {
+            try {
+                const value = localStorage.getItem(prefix + oldKey);
+
+                if (value !== null) {
+                    localStorage.setItem(prefix + newKey, value);
+                    localStorage.removeItem(prefix + oldKey);
+                }
+            } catch (error) { /* ignore */ }
+        });
+    }
+
+    // Keeps this login session and "Remember me" pointing at the new email
+    function switchSessionEmail(oldKey, newKey, newEmail) {
+        sessionStorage.setItem("vorvenaLoggedInEmail", newKey);
+        sessionStorage.setItem("vorvenaEmail", newEmail);
+
+        try {
+            const remembered = JSON.parse(localStorage.getItem("vorvenaRemembered") || "null");
+
+            if (remembered && remembered.email === oldKey) {
+                remembered.email = newKey;
+                localStorage.setItem("vorvenaRemembered", JSON.stringify(remembered));
+            }
+        } catch (error) { /* ignore */ }
+    }
+
     async function applyChanges(changes) {
         const result = await SettingsAPI.updateAccount(changes);
 
         if (!result.ok) {
             notify("Could not save your changes. Please try again.");
             return false;
+        }
+
+        const oldKey = VorvenaAuth.normalizeEmail(sessionStorage.getItem("vorvenaLoggedInEmail"));
+        let accountKey = oldKey;
+        let emailChanged = false;
+
+        // Move the stored account to the new email, so the new email can log in.
+        if ("email" in changes) {
+            const newKey = VorvenaAuth.normalizeEmail(changes.email);
+            const moved = VorvenaAuth.changeEmail(oldKey, changes.email);
+
+            // "no-account" only happens for demo data without a registered account
+            if (!moved.ok && moved.reason !== "no-account") {
+                $("errEmail").textContent = moved.reason === "exists"
+                    ? "This email is already used by another account."
+                    : "Could not update your email. Please try again.";
+                return false;
+            }
+
+            if (moved.ok) {
+                moveEmailKeys(oldKey, newKey);
+                switchSessionEmail(oldKey, newKey, changes.email);
+            }
+
+            accountKey = newKey;
+            emailChanged = true;
+        }
+
+        // Keep the stored account's phone number in step too
+        if ("phone" in changes) {
+            const phoneResult = VorvenaAuth.changePhone(accountKey, changes.phone);
+            if (!phoneResult.ok && phoneResult.reason !== "no-account") {
+                notify("Could not update your phone number. Please try again.");
+                return false;
+            }
         }
 
         // The password is never kept in the browser.
@@ -1794,6 +1845,11 @@ function updatePinStatus() {
         renderProfile();
         setEditing(false);
         notify("Settings updated successfully.");
+
+        // A new email changes the keys this page uses for the PIN, alerts and payouts,
+        // so reload once to start cleanly on the new email.
+        if (emailChanged) setTimeout(() => window.location.reload(), 1400);
+
         return true;
     }
 

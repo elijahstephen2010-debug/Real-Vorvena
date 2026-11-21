@@ -1,386 +1,109 @@
-
 /* =========================================
    VORVENA PROFESSIONALS PAGE
    FRONTEND DEMO VERSION
    =========================================
 
    IMPORTANT:
-   Profiles are demo data, not real registered users.
-   Authentication, hiring and payments must be
-   validated by the backend in production.
+   Sample profiles are demo data, not real registered users.
+   Login, hiring offers and payments are demo-only here
+   (they live in this browser's storage). In production they
+   must be validated and stored by the backend.
 */
 
 
 // =========================================
 // 1. SPECIALTY DATA
 // =========================================
+// The category names below match the six groups on the Explore page and in
+// the professional onboarding role dropdown.
 
 const specialties = {
-    "fullstack-developer": {
-        title: "Full Stack Developers",
-        category: "Dev & IT",
-        description: "Find professionals skilled in building complete web applications."
-    },
-    "frontend-developer": {
-        title: "Frontend Developers",
-        category: "Dev & IT",
-        description: "Discover developers who create beautiful and responsive interfaces."
-    },
-    "backend-developer": {
-        title: "Backend Developers",
-        category: "Dev & IT",
-        description: "Find experts who build powerful server-side applications."
-    },
-    "mobile-app-developer": {
-        title: "Mobile App Developers",
-        category: "Dev & IT",
-        description: "Discover developers who build mobile applications."
-    },
-    "wordpress-developer": {
-        title: "WordPress Developers",
-        category: "Dev & IT",
-        description: "Find professionals who build and manage WordPress websites."
-    },
-    "web-developer": {
-        title: "Web Developers",
-        category: "Dev & IT",
-        description: "Find professionals who build and maintain websites and web applications."
-    },
-    "qa-engineer": {
-        title: "QA Engineers",
-        category: "Dev & IT",
-        description: "Find professionals who test software and help ensure product quality."
-    },
-    "software-engineer": {
-        title: "Software Engineers",
-        category: "Dev & IT",
-        description: "Explore professionals who develop software solutions."
-    },
-    "cybersecurity-specialist": {
-        title: "Cybersecurity Specialists",
-        category: "Dev & IT",
-        description: "Find experts who help protect digital systems."
-    },
-    "devops-engineer": {
-        title: "DevOps Engineers",
-        category: "Dev & IT",
-        description: "Discover professionals who manage deployment and infrastructure."
-    },
+    "fullstack-developer": { title: "Full Stack Developers", category: "Development & IT", description: "Find professionals skilled in building complete web applications." },
+    "frontend-developer": { title: "Frontend Developers", category: "Development & IT", description: "Discover developers who create beautiful and responsive interfaces." },
+    "backend-developer": { title: "Backend Developers", category: "Development & IT", description: "Find experts who build powerful server-side applications." },
+    "mobile-app-developer": { title: "Mobile App Developers", category: "Development & IT", description: "Discover developers who build mobile applications." },
+    "wordpress-developer": { title: "WordPress Developers", category: "Development & IT", description: "Find professionals who build and manage WordPress websites." },
+    "web-developer": { title: "Web Developers", category: "Development & IT", description: "Find professionals who build and maintain websites and web applications." },
+    "qa-engineer": { title: "QA Engineers", category: "Development & IT", description: "Find professionals who test software and help ensure product quality." },
+    "software-engineer": { title: "Software Engineers", category: "Development & IT", description: "Explore professionals who develop software solutions." },
+    "cybersecurity-specialist": { title: "Cybersecurity Specialists", category: "Development & IT", description: "Find experts who help protect digital systems." },
+    "devops-engineer": { title: "DevOps Engineers", category: "Development & IT", description: "Discover professionals who manage deployment and infrastructure." },
 
-    "ui-ux-designer": {
-        title: "UI/UX Designers",
-        category: "Design & Creative",
-        description: "Find designers who create intuitive digital experiences."
-    },
-    "graphic-designer": {
-        title: "Graphic Designers",
-        category: "Design & Creative",
-        description: "Discover creative professionals for your visual projects."
-    },
-    "brand-designer": {
-        title: "Brand Designers",
-        category: "Design & Creative",
-        description: "Find designers who create memorable brand identities."
-    },
-    "motion-designer": {
-        title: "Motion Designers",
-        category: "Design & Creative",
-        description: "Explore professionals who create animated visual content."
-    },
-    "video-editor": {
-        title: "Video Editors",
-        category: "Design & Creative",
-        description: "Find skilled video editors for your projects."
-    },
-    "3d-designer": {
-        title: "3D Designers",
-        category: "Design & Creative",
-        description: "Discover professionals who create three-dimensional designs."
-    },
-    "product-designer": {
-        title: "Product Designers",
-        category: "Design & Creative",
-        description: "Find designers who shape digital and physical products."
-    },
-    "illustrator": {
-        title: "Illustrators",
-        category: "Design & Creative",
-        description: "Explore creative illustrators for your next project."
-    },
+    "ui-ux-designer": { title: "UI/UX Designers", category: "Design & Creative", description: "Find designers who create intuitive digital experiences." },
+    "graphic-designer": { title: "Graphic Designers", category: "Design & Creative", description: "Discover creative professionals for your visual projects." },
+    "brand-designer": { title: "Brand Designers", category: "Design & Creative", description: "Find designers who create memorable brand identities." },
+    "motion-designer": { title: "Motion Designers", category: "Design & Creative", description: "Explore professionals who create animated visual content." },
+    "video-editor": { title: "Video Editors", category: "Design & Creative", description: "Find skilled video editors for your projects." },
+    "3d-designer": { title: "3D Designers", category: "Design & Creative", description: "Discover professionals who create three-dimensional designs." },
+    "product-designer": { title: "Product Designers", category: "Design & Creative", description: "Find designers who shape digital and physical products." },
+    "illustrator": { title: "Illustrators", category: "Design & Creative", description: "Explore creative illustrators for your next project." },
 
-    "data-analyst": {
-        title: "Data Analysts",
-        category: "Data & AI",
-        description: "Find professionals who turn data into useful insights."
-    },
-    "data-scientist": {
-        title: "Data Scientists",
-        category: "Data & AI",
-        description: "Discover experts in data science and predictive analysis."
-    },
-    "machine-learning-engineer": {
-        title: "Machine Learning Engineers",
-        category: "Data & AI",
-        description: "Find engineers who build machine learning solutions."
-    },
-    "ai-engineer": {
-        title: "AI Engineers",
-        category: "Data & AI",
-        description: "Find engineers who build practical artificial intelligence solutions."
-    },
-    "data-engineer": {
-        title: "Data Engineers",
-        category: "Data & AI",
-        description: "Find professionals who build data systems and pipelines."
-    },
-    "business-intelligence-analyst": {
-        title: "Business Intelligence Analysts",
-        category: "Data & AI",
-        description: "Discover analysts who turn business data into insights."
-    },
-    "prompt-engineer": {
-        title: "Prompt Engineers",
-        category: "Data & AI",
-        description: "Find specialists who design and improve prompts for AI tools."
-    },
+    "data-analyst": { title: "Data Analysts", category: "Data & Analytics", description: "Find professionals who turn data into useful insights." },
+    "data-scientist": { title: "Data Scientists", category: "Data & Analytics", description: "Discover experts in data science and predictive analysis." },
+    "machine-learning-engineer": { title: "Machine Learning Engineers", category: "AI & Automation", description: "Find engineers who build machine learning solutions." },
+    "ai-engineer": { title: "AI Engineers", category: "AI & Automation", description: "Find engineers who build practical artificial intelligence solutions." },
+    "data-engineer": { title: "Data Engineers", category: "Data & Analytics", description: "Find professionals who build data systems and pipelines." },
+    "business-intelligence-analyst": { title: "Business Intelligence Analysts", category: "Data & Analytics", description: "Discover analysts who turn business data into insights." },
+    "prompt-engineer": { title: "Prompt Engineers", category: "AI & Automation", description: "Find specialists who design and improve prompts for AI tools." },
 
-    "digital-marketer": {
-        title: "Digital Marketers",
-        category: "Digital & Growth",
-        description: "Find professionals who grow businesses online."
-    },
-    "seo-specialist": {
-        title: "SEO Specialists",
-        category: "Digital & Growth",
-        description: "Discover experts who improve website search visibility."
-    },
-    "social-media-manager": {
-        title: "Social Media Managers",
-        category: "Digital & Growth",
-        description: "Find professionals who manage and grow social media accounts."
-    },
-    "content-strategist": {
-        title: "Content Strategists",
-        category: "Digital & Growth",
-        description: "Find specialists who plan and create effective content strategies."
-    },
-    "copywriter": {
-        title: "Copywriters",
-        category: "Digital & Growth",
-        description: "Find writers who create persuasive marketing copy."
-    },
-    "email-marketing-specialist": {
-        title: "Email Marketing Specialists",
-        category: "Digital & Growth",
-        description: "Discover professionals who build effective email campaigns."
-    },
-    "growth-marketer": {
-        title: "Growth Marketers",
-        category: "Digital & Growth",
-        description: "Find experts who help businesses grow."
-    },
+    "digital-marketer": { title: "Digital Marketers", category: "Digital & Growth", description: "Find professionals who grow businesses online." },
+    "seo-specialist": { title: "SEO Specialists", category: "Digital & Growth", description: "Discover experts who improve website search visibility." },
+    "social-media-manager": { title: "Social Media Managers", category: "Digital & Growth", description: "Find professionals who manage and grow social media accounts." },
+    "content-strategist": { title: "Content Strategists", category: "Digital & Growth", description: "Find specialists who plan and create effective content strategies." },
+    "copywriter": { title: "Copywriters", category: "Digital & Growth", description: "Find writers who create persuasive marketing copy." },
+    "email-marketing-specialist": { title: "Email Marketing Specialists", category: "Digital & Growth", description: "Discover professionals who build effective email campaigns." },
+    "growth-marketer": { title: "Growth Marketers", category: "Digital & Growth", description: "Find experts who help businesses grow." },
 
-    "shopify-developer": {
-        title: "Shopify Developers",
-        category: "Dev & IT",
-        description: "Find professionals who build and customise Shopify stores."
-    },
+    "shopify-developer": { title: "Shopify Developers", category: "Development & IT", description: "Find professionals who build and customise Shopify stores." },
+    "webflow-developer": { title: "Webflow Developers", category: "Development & IT", description: "Discover developers who build custom-quality sites in Webflow." },
 
-    "webflow-developer": {
-        title: "Webflow Developers",
-        category: "Dev & IT",
-        description: "Discover developers who build custom-quality sites in Webflow."
-    },
+    "chatbot-developer": { title: "Chatbot Developers", category: "AI & Automation", description: "Find developers who build support and sales chatbots." },
+    "ai-integration-developer": { title: "AI Integration Developers", category: "AI & Automation", description: "Discover developers who add AI to the tools you already use." },
+    "automation-expert": { title: "Automation Experts", category: "AI & Automation", description: "Find experts who remove repetitive work with automation." },
+    "workflow-automation-expert": { title: "n8n & Zapier Experts", category: "AI & Automation", description: "Discover experts who build workflows in n8n, Zapier and similar tools." },
+    "ai-video-creator": { title: "AI Video Creators", category: "AI & Automation", description: "Find creators who produce AI-assisted video and edits." },
+    "vibe-coder": { title: "Vibe Coders", category: "AI & Automation", description: "Discover builders who ship products fast with AI-assisted coding." },
+    "ai-consultant": { title: "AI Consultants", category: "AI & Automation", description: "Find consultants who guide AI strategy and adoption." },
 
-    "chatbot-developer": {
-        title: "Chatbot Developers",
-        category: "Data & AI",
-        description: "Find developers who build support and sales chatbots."
-    },
+    "data-visualization-specialist": { title: "Data Visualization Specialists", category: "Data & Analytics", description: "Discover specialists who turn data into clear charts and stories." },
+    "power-bi-specialist": { title: "Power BI Specialists", category: "Data & Analytics", description: "Find specialists who build reports and dashboards in Power BI." },
+    "business-analyst": { title: "Business Analysts", category: "Data & Analytics", description: "Discover analysts who turn business requirements into results." },
+    "database-administrator": { title: "Database Administrators", category: "Data & Analytics", description: "Find administrators who keep databases fast, safe and reliable." },
+    "web-scraping-expert": { title: "Web Scraping Experts", category: "Data & Analytics", description: "Discover experts who collect data from the web at scale." },
+    "quantitative-researcher": { title: "Quantitative Researchers", category: "Data & Analytics", description: "Find researchers who apply statistics to complex problems." },
 
-    "ai-integration-developer": {
-        title: "AI Integration Developers",
-        category: "Data & AI",
-        description: "Discover developers who add AI to the tools you already use."
-    },
+    "prototyping-specialist": { title: "Prototyping Specialists", category: "Design & Creative", description: "Discover specialists who build clickable prototypes." },
+    "presentation-designer": { title: "Presentation Designers", category: "Design & Creative", description: "Find designers who create presentations that persuade." },
 
-    "automation-expert": {
-        title: "Automation Experts",
-        category: "Data & AI",
-        description: "Find experts who remove repetitive work with automation."
-    },
+    "google-ads-expert": { title: "Google Ads Experts", category: "Digital & Growth", description: "Discover experts who run paid search campaigns that convert." },
+    "meta-ads-specialist": { title: "Meta Ads Specialists", category: "Digital & Growth", description: "Find specialists who run Facebook and Instagram ad campaigns." },
+    "marketing-automation-consultant": { title: "Marketing Automation Consultants", category: "Digital & Growth", description: "Discover consultants who nurture leads with marketing automation." },
+    "lead-generation-specialist": { title: "Lead Generation Specialists", category: "Digital & Growth", description: "Find specialists who fill your sales pipeline." },
+    "marketing-strategist": { title: "Marketing Strategists", category: "Digital & Growth", description: "Discover strategists who shape positioning and marketing plans." },
 
-    "workflow-automation-expert": {
-        title: "n8n & Zapier Experts",
-        category: "Data & AI",
-        description: "Discover experts who build workflows in n8n, Zapier and similar tools."
-    },
-
-    "ai-video-creator": {
-        title: "AI Video Creators",
-        category: "Data & AI",
-        description: "Find creators who produce AI-assisted video and edits."
-    },
-
-    "vibe-coder": {
-        title: "Vibe Coders",
-        category: "Data & AI",
-        description: "Discover builders who ship products fast with AI-assisted coding."
-    },
-
-    "ai-consultant": {
-        title: "AI Consultants",
-        category: "Data & AI",
-        description: "Find consultants who guide AI strategy and adoption."
-    },
-
-    "data-visualization-specialist": {
-        title: "Data Visualization Specialists",
-        category: "Data & AI",
-        description: "Discover specialists who turn data into clear charts and stories."
-    },
-
-    "power-bi-specialist": {
-        title: "Power BI Specialists",
-        category: "Data & AI",
-        description: "Find specialists who build reports and dashboards in Power BI."
-    },
-
-    "business-analyst": {
-        title: "Business Analysts",
-        category: "Data & AI",
-        description: "Discover analysts who turn business requirements into results."
-    },
-
-    "database-administrator": {
-        title: "Database Administrators",
-        category: "Data & AI",
-        description: "Find administrators who keep databases fast, safe and reliable."
-    },
-
-    "web-scraping-expert": {
-        title: "Web Scraping Experts",
-        category: "Data & AI",
-        description: "Discover experts who collect data from the web at scale."
-    },
-
-    "quantitative-researcher": {
-        title: "Quantitative Researchers",
-        category: "Data & AI",
-        description: "Find researchers who apply statistics to complex problems."
-    },
-
-    "prototyping-specialist": {
-        title: "Prototyping Specialists",
-        category: "Design & Creative",
-        description: "Discover specialists who build clickable prototypes."
-    },
-
-    "presentation-designer": {
-        title: "Presentation Designers",
-        category: "Design & Creative",
-        description: "Find designers who create presentations that persuade."
-    },
-
-    "google-ads-expert": {
-        title: "Google Ads Experts",
-        category: "Digital & Growth",
-        description: "Discover experts who run paid search campaigns that convert."
-    },
-
-    "meta-ads-specialist": {
-        title: "Meta Ads Specialists",
-        category: "Digital & Growth",
-        description: "Find specialists who run Facebook and Instagram ad campaigns."
-    },
-
-    "marketing-automation-consultant": {
-        title: "Marketing Automation Consultants",
-        category: "Digital & Growth",
-        description: "Discover consultants who nurture leads with marketing automation."
-    },
-
-    "lead-generation-specialist": {
-        title: "Lead Generation Specialists",
-        category: "Digital & Growth",
-        description: "Find specialists who fill your sales pipeline."
-    },
-
-    "marketing-strategist": {
-        title: "Marketing Strategists",
-        category: "Digital & Growth",
-        description: "Discover strategists who shape positioning and marketing plans."
-    },
-
-    "virtual-assistant": {
-        title: "Virtual Assistants",
-        category: "Admin & Support",
-        description: "Find assistants who handle day-to-day business support."
-    },
-
-    "data-entry-specialist": {
-        title: "Data Entry Specialists",
-        category: "Admin & Support",
-        description: "Discover specialists who provide fast, accurate data entry."
-    },
-
-    "bookkeeper": {
-        title: "Bookkeepers",
-        category: "Admin & Support",
-        description: "Find bookkeepers who keep your financial records in order."
-    },
-
-    "excel-expert": {
-        title: "Excel Experts",
-        category: "Admin & Support",
-        description: "Discover experts in Excel formulas, models and reports."
-    },
-
-    "customer-service-representative": {
-        title: "Customer Service Representatives",
-        category: "Admin & Support",
-        description: "Find representatives who give customers friendly, quick replies."
-    },
-
-    "appointment-setter": {
-        title: "Appointment Setters",
-        category: "Admin & Support",
-        description: "Discover appointment setters who fill your calendar."
-    },
-
-    "personal-assistant": {
-        title: "Personal Assistants",
-        category: "Admin & Support",
-        description: "Find assistants who manage schedules and errands."
-    },
-
-    "powerpoint-expert": {
-        title: "PowerPoint Experts",
-        category: "Admin & Support",
-        description: "Discover experts who build clean, professional slides."
-    },
-
-    "quickbooks-consultant": {
-        title: "QuickBooks Consultants",
-        category: "Admin & Support",
-        description: "Find consultants who set up and manage QuickBooks accounting."
-    },
-
-    "project-manager": {
-        title: "Project Managers",
-        category: "Admin & Support",
-        description: "Discover project managers who keep work on track."
-    }
+    "virtual-assistant": { title: "Virtual Assistants", category: "Admin & Support", description: "Find assistants who handle day-to-day business support." },
+    "data-entry-specialist": { title: "Data Entry Specialists", category: "Admin & Support", description: "Discover specialists who provide fast, accurate data entry." },
+    "bookkeeper": { title: "Bookkeepers", category: "Admin & Support", description: "Find bookkeepers who keep your financial records in order." },
+    "excel-expert": { title: "Excel Experts", category: "Admin & Support", description: "Discover experts in Excel formulas, models and reports." },
+    "customer-service-representative": { title: "Customer Service Representatives", category: "Admin & Support", description: "Find representatives who give customers friendly, quick replies." },
+    "appointment-setter": { title: "Appointment Setters", category: "Admin & Support", description: "Discover appointment setters who fill your calendar." },
+    "personal-assistant": { title: "Personal Assistants", category: "Admin & Support", description: "Find assistants who manage schedules and errands." },
+    "powerpoint-expert": { title: "PowerPoint Experts", category: "Admin & Support", description: "Discover experts who build clean, professional slides." },
+    "quickbooks-consultant": { title: "QuickBooks Consultants", category: "Admin & Support", description: "Find consultants who set up and manage QuickBooks accounting." },
+    "project-manager": { title: "Project Managers", category: "Admin & Support", description: "Discover project managers who keep work on track." }
 };
 
 
 // =========================================
-// 2. DEMO PROFILE DATA
+// 2. SAMPLE PROFILE DATA
 // =========================================
+// Sample profiles are clearly labelled "Sample profile" on the page. They
+// have no rating, no job count and no verified tick, so they can never look
+// like real professional records.
 
-// Every demo profile gets its own name, so no person repeats across
-// sub-categories. 24 first names x 8 surnames, picked with a fixed step so
-// all 192 (64 sub-categories x 3) combinations are different.
+// Every sample profile gets its own name, so no person repeats across
+// sub-categories. 24 first names x 8 surnames = 192 different names, enough
+// for 64 sub-categories x 3 profiles.
 const demoFirstNames = [
     "Alex", "Samuel", "Sarah", "Michael", "James", "Grace",
     "Daniel", "Olivia", "David", "Amara", "Chidi", "Fatima",
@@ -394,9 +117,8 @@ const demoLastNames = [
 ];
 
 function getDemoName(profileNumber) {
-    // profileNumber is 0-191. 192 = 24 x 8, and 24 and 8 share a factor,
-    // so the surname moves by one every full cycle of first names to keep
-    // every pair different.
+    // profileNumber is 0-191. 24 is a multiple of 8, so the surname moves
+    // by one every full cycle of first names to keep every pair different.
     const first = demoFirstNames[profileNumber % demoFirstNames.length];
     const cycle = Math.floor(profileNumber / demoFirstNames.length);
     const last = demoLastNames[(profileNumber + cycle) % demoLastNames.length];
@@ -420,18 +142,6 @@ const experienceLevels = [
     "expert",
     "intermediate",
     "entry"
-];
-
-const ratings = [
-    4.9,
-    4.7,
-    4.6
-];
-
-const completedJobs = [
-    48,
-    31,
-    12
 ];
 
 const skillLibrary = {
@@ -506,8 +216,8 @@ const skillLibrary = {
 };
 
 
-// Generate exactly 3 demo profiles per specialty (the starter profiles that
-// keep every sub-category looking the same until real professionals join).
+// Generate exactly 3 sample profiles per specialty (the starter profiles that
+// keep every sub-category from looking empty until real professionals join).
 
 const DEMO_PROFILES_PER_SPECIALTY = 3;
 
@@ -530,9 +240,10 @@ Object.keys(specialties).forEach((specialty, specialtyIndex) => {
             role,
             specialty,
             country: countries[(specialtyIndex + i) % countries.length],
-            rating: ratings[i],
-            jobs: completedJobs[i],
-            verified: i !== 2,
+            rating: 0,
+            jobs: 0,
+            verified: false,
+            isDemo: true,
             experience: experienceLevels[i],
             bio: demoBioTemplates[i](role),
             skills: skillLibrary[specialty] || ["Communication", "Problem Solving"],
@@ -600,7 +311,7 @@ let selectedProfessional = null;
 // When a professional finishes onboarding, a safe public card is saved in
 // "vorvenaProfessionalDirectory" (see professional-onboarding.js). This reads
 // those cards and shows each one under the sub-category the professional
-// picked, ahead of the demo profiles.
+// picked, ahead of the sample profiles.
 // BACKEND: replace with  GET /api/professionals?specialty=<slug>
 
 const DIRECTORY_KEY = "vorvenaProfessionalDirectory";
@@ -643,8 +354,8 @@ function getSuspendedProfessionalIds() {
 }
 
 // Turns one saved record (a directory card, or a finished professional
-// account) into the same profile shape the demo profiles use, so a real
-// professional's card looks exactly like every other card.
+// account) into the same profile shape the sample profiles use, so a real
+// professional's card looks like every other card.
 function buildRegisteredProfile(card, photo) {
 
     const name = String(card.name).trim();
@@ -777,24 +488,27 @@ function getRegisteredProfessionals() {
 
 }
 
-// What each sub-category shows: real professionals first, then starter
+// What each sub-category shows: real professionals first, then sample
 // profiles only as needed so the sub-category always has at least 3 people.
-// 1 real professional + 2 starters, 2 real + 1 starter, 3 or more real and no
-// starters. Real professionals are never hidden.
-function getAllProfessionals() {
+// 1 real professional + 2 samples, 2 real + 1 sample, 3 or more real and no
+// samples. Real professionals are never hidden.
+// Pass a specialty slug to build the list for that one specialty only.
+function getAllProfessionals(onlySpecialty) {
 
     const registered = getRegisteredProfessionals();
     const pool = [];
 
-    Object.keys(specialties).forEach(specialty => {
+    const slugs = onlySpecialty ? [onlySpecialty] : Object.keys(specialties);
+
+    slugs.forEach(specialty => {
 
         const real = registered.filter(person => person.specialty === specialty);
 
-        const starters = professionals
+        const samples = professionals
             .filter(person => person.specialty === specialty)
             .slice(0, Math.max(0, DEMO_PROFILES_PER_SPECIALTY - real.length));
 
-        pool.push(...real, ...starters);
+        pool.push(...real, ...samples);
 
     });
 
@@ -816,20 +530,44 @@ function ratingText(person) {
     return person.rating > 0 ? person.rating.toFixed(1) : "New";
 }
 
-// Adds a country to the filter if a registered professional is from somewhere not listed.
+// Countries that are always in the filter (the ones written in the page HTML).
+const baseCountryValues = new Set([...countryFilter.options].map(option => option.value));
+
+// Keeps the country filter in step with the registered professionals: adds a
+// country when someone from there joins, and removes it again when nobody
+// from there is left.
 function syncCountryOptions() {
 
-    const known = new Set([...countryFilter.options].map(option => option.value));
+    const needed = new Set(
+        getRegisteredProfessionals()
+            .map(person => person.country)
+            .filter(Boolean)
+    );
 
-    getRegisteredProfessionals().forEach(person => {
+    [...countryFilter.options].forEach(option => {
 
-        if (person.country && !known.has(person.country)) {
+        if (!baseCountryValues.has(option.value) && !needed.has(option.value)) {
+
+            if (countryFilter.value === option.value) {
+                countryFilter.value = "all";
+            }
+
+            option.remove();
+
+        }
+
+    });
+
+    const present = new Set([...countryFilter.options].map(option => option.value));
+
+    needed.forEach(country => {
+
+        if (!present.has(country)) {
 
             const option = document.createElement("option");
-            option.value = person.country;
-            option.textContent = person.country;
+            option.value = country;
+            option.textContent = country;
             countryFilter.appendChild(option);
-            known.add(person.country);
 
         }
 
@@ -841,6 +579,8 @@ function syncCountryOptions() {
 // =========================================
 // 5. AUTHENTICATION
 // =========================================
+// Demo only: the login session lives in this browser's sessionStorage.
+// BACKEND: replace with a real, server-checked session.
 
 function readStoredObject(key) {
 
@@ -907,22 +647,8 @@ function getCurrentUser() {
 
     }
 
-    // Fallback for existing user-object authentication.
-
-    const possibleKeys = [
-        "vorvenaUser",
-        "currentUser",
-        "user"
-    ];
-
-    for (const key of possibleKeys) {
-
-        const user = readStoredObject(key);
-
-        if (user) return user;
-
-    }
-
+    // No valid login session. Old user objects saved in storage are
+    // deliberately NOT trusted, because anyone can create them.
     return null;
 
 }
@@ -954,18 +680,10 @@ function isLoggedIn() {
         return false;
     }
 
-    // A valid VORVENA login session is the primary authentication check.
-    const validSession =
-        sessionStorage.getItem("vorvenaLoggedIn") === "true" &&
-        sessionStorage.getItem("vorvenaLoggedInRole") === role;
-
-    if (validSession) return true;
-
-    // Fallback for user objects used by earlier frontend pages.
+    // Only a valid VORVENA login session counts as logged in.
     return (
-        user.isVerified !== false &&
-        user.emailVerified !== false &&
-        user.phoneVerified !== false
+        sessionStorage.getItem("vorvenaLoggedIn") === "true" &&
+        sessionStorage.getItem("vorvenaLoggedInRole") === role
     );
 
 }
@@ -1081,8 +799,17 @@ function updateCategoryHeading() {
 
             emptyState.classList.add("show");
 
-            emptyState.textContent =
-                "No specialty selected. Return to Explore and choose a professional category.";
+            // Change only the words, so the icon and the Clear filters
+            // button inside the empty state are kept.
+            const emptyTitle = emptyState.querySelector("h3");
+            const emptyText = emptyState.querySelector("p");
+
+            if (emptyTitle) emptyTitle.textContent = "No specialty selected";
+
+            if (emptyText) {
+                emptyText.textContent =
+                    "Return to Explore and choose a professional category.";
+            }
 
         }
 
@@ -1105,9 +832,7 @@ function getFilteredProfessionals() {
 
     if (!currentSpecialty) return [];
 
-    let filtered = getAllProfessionals().filter(person =>
-        person.specialty === selectedSpecialty
-    );
+    let filtered = getAllProfessionals(selectedSpecialty);
 
     const searchTerm = professionalSearch.value.trim().toLowerCase();
 
@@ -1202,6 +927,22 @@ function renderProfessionals() {
 
         emptyState.classList.add("show");
 
+        if (currentSpecialty) {
+
+            const emptyTitle = emptyState.querySelector("h3");
+            const emptyText = emptyState.querySelector("p");
+            const term = professionalSearch.value.trim();
+
+            if (emptyTitle) emptyTitle.textContent = "No professionals found";
+
+            if (emptyText) {
+                emptyText.textContent = term
+                    ? `No ${currentSpecialty.title} match "${term}" with your current filters. Try a different search or clear the filters.`
+                    : `No ${currentSpecialty.title} match your current filters. Try adjusting or clearing them.`;
+            }
+
+        }
+
         return;
 
     }
@@ -1215,10 +956,25 @@ function renderProfessionals() {
         card.className = "professional-card";
 
         const verificationBadge = person.verified
-            ? `<span class="verified-badge" title="${person.isRegistered ? "SkillProof passed" : "Demo verified status"}">
+            ? `<span class="verified-badge" title="SkillProof passed">
                     <i class="fas fa-check"></i>
                </span>`
             : "";
+
+        const statsHTML = person.isDemo
+            ? `<span class="professional-stat">
+                    <i class="fas fa-flask"></i>
+                    Sample profile
+               </span>`
+            : `<span class="professional-stat">
+                    <i class="fas fa-star"></i>
+                    ${ratingText(person)}
+               </span>
+
+               <span class="professional-stat">
+                    <i class="fas fa-briefcase"></i>
+                    ${person.jobs} jobs
+               </span>`;
 
         card.innerHTML = `
             <div class="professional-card-top">
@@ -1253,15 +1009,7 @@ function renderProfessionals() {
 
             <div class="professional-stats">
 
-                <span class="professional-stat">
-                    <i class="fas fa-star"></i>
-                    ${ratingText(person)}
-                </span>
-
-                <span class="professional-stat">
-                    <i class="fas fa-briefcase"></i>
-                    ${person.jobs} jobs
-                </span>
+                ${statsHTML}
 
             </div>
 
@@ -1289,30 +1037,41 @@ function renderProfessionals() {
 }
 
 
-// =========================================
-// 10. FORMAT EXPERIENCE
-// =========================================
 
 function formatExperience(experience) {
-
     const labels = {
         entry: "Entry Level",
         intermediate: "Intermediate",
         expert: "Expert"
     };
 
-    return labels[experience] || experience;
-
+    return escapeHTML(labels[experience] || experience || "Not specified");
 }
 
 
 // =========================================
-// 11. OPEN PROFESSIONAL PROFILE
+// 11. CHECK REGISTERED PROFESSIONAL
+// =========================================
+
+function isRegisteredProfessional(person) {
+    if (!person || person.isDemo === true || person.demo === true) {
+        return false;
+    }
+
+    return Boolean(
+        person.professionalId ||
+        person.userId ||
+        person.email
+    );
+}
+
+
+// =========================================
+// 12. OPEN PROFESSIONAL PROFILE
 // =========================================
 
 function openProfile(professionalId) {
-
-    const person = getAllProfessionals().find(
+    const person = getAllProfessionals(selectedSpecialty).find(
         item => String(item.id) === String(professionalId)
     );
 
@@ -1326,9 +1085,31 @@ function openProfile(professionalId) {
            </span>`
         : "";
 
-    const skillsHTML = person.skills.map(skill =>
-        `<span class="experience-tag">${escapeHTML(skill)}</span>`
-    ).join("");
+    const skillsHTML = (Array.isArray(person.skills) ? person.skills : [])
+        .map(skill =>
+            `<span class="experience-tag">${escapeHTML(skill)}</span>`
+        )
+        .join("");
+
+    const rating = Number(person.rating);
+    const jobs = Number(person.jobs);
+
+    const statsHTML = person.isDemo
+        ? `<span class="professional-stat">
+                <i class="fas fa-flask"></i>
+                Sample profile, not a real professional
+           </span>`
+        : `<span class="professional-stat">
+                <i class="fas fa-star"></i>
+                ${Number.isFinite(rating) && rating > 0
+                    ? rating.toFixed(1) + " Rating"
+                    : "New on VORVENA"}
+           </span>
+
+           <span class="professional-stat">
+                <i class="fas fa-briefcase"></i>
+                ${Number.isFinite(jobs) ? jobs : 0} Completed Jobs
+           </span>`;
 
     modalProfileContent.innerHTML = `
         <div class="professional-avatar modal-avatar">
@@ -1340,7 +1121,9 @@ function openProfile(professionalId) {
             ${verificationBadge}
         </h2>
 
-        <p class="professional-role">${escapeHTML(person.role)}</p>
+        <p class="professional-role">
+            ${escapeHTML(person.role)}
+        </p>
 
         <p class="professional-location">
             <i class="fas fa-map-marker-alt"></i>
@@ -1349,22 +1132,14 @@ function openProfile(professionalId) {
 
         <div class="professional-stats">
 
-            <span class="professional-stat">
-                <i class="fas fa-star"></i>
-                ${person.rating > 0 ? person.rating.toFixed(1) + " Rating" : "New on VORVENA"}
-            </span>
-
-            <span class="professional-stat">
-                <i class="fas fa-briefcase"></i>
-                ${person.jobs} Completed Jobs
-            </span>
+            ${statsHTML}
 
         </div>
 
         <h3 class="modal-section-title">About Me</h3>
 
         <p class="professional-bio modal-bio">
-            ${escapeHTML(person.bio)}
+            ${escapeHTML(person.bio || "No biography provided yet.")}
         </p>
 
         <h3 class="modal-section-title">Skills</h3>
@@ -1384,17 +1159,14 @@ function openProfile(professionalId) {
 
     profileModal.classList.add("show");
     document.body.classList.add("modal-open");
-
 }
 
 
 // =========================================
-// 12. CONTROL PROFILE ACCESS
+// 13. CONTROL PROFILE ACCESS
 // =========================================
 
 function updateProfileAccess() {
-
-    // Visitor: can view profiles but must sign in to hire.
 
     if (!isLoggedIn()) {
 
@@ -1409,13 +1181,8 @@ function updateProfileAccess() {
             </p>
 
             <a href="${getPageLink("signup.html")}" class="auth-option">
-                <i class="fab fa-google"></i>
-                Continue with Google
-            </a>
-
-            <a href="${getPageLink("signup.html")}" class="auth-option">
-                <i class="fab fa-apple"></i>
-                Continue with Apple
+                <i class="fas fa-user-plus"></i>
+                Create an Account
             </a>
 
             <a href="${getPageLink("client-signup.html")}" class="auth-option">
@@ -1430,13 +1197,26 @@ function updateProfileAccess() {
         `;
 
         return;
-
     }
 
 
-    // Client: can hire professionals.
-
     if (isClient()) {
+
+        if (!isRegisteredProfessional(selectedProfessional)) {
+
+            authContent.innerHTML = `
+                <span class="auth-label">SAMPLE PROFILE</span>
+
+                <h2>Preview profile</h2>
+
+                <p>
+                    This is a sample profile, not a real professional.
+                    Hiring is unavailable for this profile.
+                </p>
+            `;
+
+            return;
+        }
 
         authContent.innerHTML = `
             <span class="auth-label">READY TO START?</span>
@@ -1466,11 +1246,8 @@ function updateProfileAccess() {
             .addEventListener("click", openHiringForm);
 
         return;
-
     }
 
-
-    // Professional: can view profiles but cannot hire.
 
     if (isProfessional()) {
 
@@ -1491,12 +1268,11 @@ function updateProfileAccess() {
         `;
 
     }
-
 }
 
 
 // =========================================
-// 13. CLOSE PROFILE MODAL
+// 14. CLOSE PROFILE MODAL
 // =========================================
 
 function closeProfileModal() {
@@ -1514,7 +1290,7 @@ modalOverlay.addEventListener("click", closeProfileModal);
 
 
 // =========================================
-// 14. OPEN HIRING FORM
+// 15. OPEN HIRING FORM
 // =========================================
 
 function openHiringForm() {
@@ -1526,10 +1302,16 @@ function openHiringForm() {
         window.location.href = getPageLink("login.html");
 
         return;
-
     }
 
     if (!selectedProfessional) return;
+
+    if (!isRegisteredProfessional(selectedProfessional)) {
+
+        alert("Hiring is unavailable for sample profiles.");
+
+        return;
+    }
 
     profileModal.classList.remove("show");
 
@@ -1554,10 +1336,17 @@ hireOverlay.addEventListener("click", closeHiringForm);
 
 
 // =========================================
-// 15. SHARED HIRING OFFERS
+// 16. SHARED HIRING OFFERS
 // =========================================
+// Demo only: offers are saved in this browser's localStorage, so they are
+// NOT secure and are NOT really shared between different people or devices.
+// BACKEND: replace with  POST /api/offers  (validated and stored on the server).
 
 const SHARED_OFFERS_KEY = "vorvenaSharedOffers";
+
+// Change this one value to change the currency shown on new offers
+// (for example "₦"). Check that the dashboards read it the same way.
+const CURRENCY_SYMBOL = "$";
 
 
 function getSharedOffers() {
@@ -1632,10 +1421,10 @@ function getClientDetails() {
 
 
 // =========================================
-// 16. HIRING FORM SUBMISSION
+// 17. HIRING FORM SUBMISSION
 // =========================================
 
-hireForm.addEventListener("submit", function(event) {
+hireForm.addEventListener("submit", function (event) {
 
     event.preventDefault();
 
@@ -1646,7 +1435,6 @@ hireForm.addEventListener("submit", function(event) {
         window.location.href = getPageLink("login.html");
 
         return;
-
     }
 
     if (!selectedProfessional) {
@@ -1654,7 +1442,15 @@ hireForm.addEventListener("submit", function(event) {
         alert("Please select a professional first.");
 
         return;
+    }
 
+    if (!isRegisteredProfessional(selectedProfessional)) {
+
+        alert("You cannot send hiring offers to sample profiles.");
+
+        closeHiringForm();
+
+        return;
     }
 
     const projectTitle =
@@ -1681,23 +1477,22 @@ hireForm.addEventListener("submit", function(event) {
         alert("Please complete all project details.");
 
         return;
-
     }
 
-
-    // Do not allow a deadline in the past.
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     const selectedDate = new Date(`${projectDeadline}T00:00:00`);
 
-    if (selectedDate < today) {
+    if (
+        Number.isNaN(selectedDate.getTime()) ||
+        selectedDate < today
+    ) {
 
-        alert("Please choose a future project deadline.");
+        alert("Please choose a valid future project deadline.");
 
         return;
-
     }
 
 
@@ -1710,9 +1505,8 @@ hireForm.addEventListener("submit", function(event) {
         professionalName: selectedProfessional.name,
         professionalRole: selectedProfessional.role,
 
-        // Demo profiles do not have registered account emails or IDs.
-        // These fields will be populated when real profiles come from the backend.
         professionalEmail: selectedProfessional.email || "",
+
         professionalId:
             selectedProfessional.professionalId ||
             selectedProfessional.userId ||
@@ -1722,7 +1516,7 @@ hireForm.addEventListener("submit", function(event) {
         professionalSpecialty: selectedProfessional.specialty,
 
         title: projectTitle,
-        budget: `$${projectBudget.toLocaleString("en-US")}`,
+        budget: `${CURRENCY_SYMBOL}${projectBudget.toLocaleString("en-US")}`,
         deadline: projectDeadline,
         description: projectDescription,
 
@@ -1735,11 +1529,9 @@ hireForm.addEventListener("submit", function(event) {
     };
 
 
-    const sharedOffers = getSharedOffers();
+    const previousSharedOffers = getSharedOffers();
 
-    sharedOffers.unshift(newOffer);
-
-    const saved = saveSharedOffers(sharedOffers);
+    const saved = saveSharedOffers([newOffer, ...previousSharedOffers]);
 
     if (!saved) {
 
@@ -1748,11 +1540,11 @@ hireForm.addEventListener("submit", function(event) {
         );
 
         return;
-
     }
 
 
-    // Keep the client dashboard offer list in sync.
+    // The client's own offer list must update too. If that fails, undo the
+    // shared offer so the two lists never disagree.
 
     try {
 
@@ -1773,8 +1565,16 @@ hireForm.addEventListener("submit", function(event) {
 
     } catch (error) {
 
-        console.warn("The shared offer was saved, but the client offer list could not be updated.", error);
+        console.error("Could not update the client offer list.", error);
 
+        saveSharedOffers(previousSharedOffers);
+
+        alert(
+            "Your offer could not be completed, so nothing was sent. " +
+            "Please check your browser storage and try again."
+        );
+
+        return;
     }
 
 
@@ -1782,7 +1582,7 @@ hireForm.addEventListener("submit", function(event) {
         `Hiring offer submitted successfully!\n\n` +
         `Professional: ${selectedProfessional.name}\n` +
         `Project: ${projectTitle}\n` +
-        `Budget: $${projectBudget.toLocaleString("en-US")}\n` +
+        `Budget: ${CURRENCY_SYMBOL}${projectBudget.toLocaleString("en-US")}\n` +
         `Deadline: ${projectDeadline}\n\n` +
         `Your offer has been saved.`
     );
@@ -1795,14 +1595,14 @@ hireForm.addEventListener("submit", function(event) {
 
 
 // =========================================
-// 17. SEARCH EVENTS
+// 17B. SEARCH EVENTS
 // =========================================
 
 professionalSearch.addEventListener("input", renderProfessionals);
 
 searchButton.addEventListener("click", renderProfessionals);
 
-professionalSearch.addEventListener("keydown", function(event) {
+professionalSearch.addEventListener("keydown", function (event) {
 
     if (event.key === "Enter") {
         renderProfessionals();
@@ -1857,7 +1657,7 @@ clearFilters.addEventListener("click", clearAllFilters);
 // 20. PROFILE BUTTON EVENTS
 // =========================================
 
-professionalsGrid.addEventListener("click", function(event) {
+professionalsGrid.addEventListener("click", function (event) {
 
     const button = event.target.closest(".view-profile-btn");
 
@@ -1872,7 +1672,7 @@ professionalsGrid.addEventListener("click", function(event) {
 // 21. MOBILE NAVIGATION
 // =========================================
 
-menuToggle.addEventListener("click", function() {
+menuToggle.addEventListener("click", function () {
 
     navLinks.classList.toggle("show");
 
@@ -1893,7 +1693,7 @@ menuToggle.addEventListener("click", function() {
 
 document.querySelectorAll("#navLinks a").forEach(link => {
 
-    link.addEventListener("click", function() {
+    link.addEventListener("click", function () {
 
         navLinks.classList.remove("show");
 
@@ -1915,7 +1715,7 @@ document.querySelectorAll("#navLinks a").forEach(link => {
 // 22. MODAL KEYBOARD SUPPORT
 // =========================================
 
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", function (event) {
 
     if (event.key === "Escape") {
 
@@ -1934,7 +1734,7 @@ document.addEventListener("keydown", function(event) {
 
 // Update navigation if login state changes in another tab.
 
-window.addEventListener("storage", function(event) {
+window.addEventListener("storage", function (event) {
 
     if (
         event.key === "vorvenaSharedOffers" ||
@@ -1956,7 +1756,7 @@ window.addEventListener("storage", function(event) {
 
 // Recheck authentication when the user returns to this page.
 
-window.addEventListener("focus", function() {
+window.addEventListener("focus", function () {
 
     updateNavigation();
 
@@ -1974,7 +1774,7 @@ window.addEventListener("focus", function() {
 // A professional who joins or edits their profile in another tab, or whose
 // account status changes, shows up here without needing a manual reload.
 
-window.addEventListener("storage", function(event) {
+window.addEventListener("storage", function (event) {
 
     if (
         event.key === DIRECTORY_KEY ||
@@ -1989,7 +1789,7 @@ window.addEventListener("storage", function(event) {
 
 });
 
-window.addEventListener("pageshow", function(event) {
+window.addEventListener("pageshow", function (event) {
 
     if (event.persisted) {
 
@@ -2022,4 +1822,4 @@ syncCountryOptions();
 
 renderProfessionals();
 
-console.log(`VORVENA profiles loaded: ${professionals.length} demo, ${getRegisteredProfessionals().length} registered`);
+console.log(`VORVENA profiles loaded: ${professionals.length} sample, ${getRegisteredProfessionals().length} registered`);

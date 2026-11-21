@@ -614,7 +614,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ]
       },
       {
-        name: "AI & Automation", icon: "fa-robot", all: "data-ai",
+        name: "AI & Automation", icon: "fa-robot", all: "ai-automation",
         desc: "Add intelligence to your product and remove repetitive work with practical, working AI solutions.",
         hint: "Great for smart features, chatbots and automating the tasks your team repeats every week.",
         items: [
@@ -631,7 +631,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ]
       },
       {
-        name: "Data & Analytics", icon: "fa-chart-pie", all: "data-ai",
+       name: "Data & Analytics", icon: "fa-chart-pie", all: "data-analytics",
         desc: "Turn raw data into decisions with analysts and engineers who make numbers easy to act on.",
         hint: "Great for reporting, forecasting and dashboards your whole team can read.",
         items: [
@@ -684,7 +684,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ]
       },
       {
-        name: "Admin & Support", icon: "fa-headset", all: "",
+     name: "Admin & Support", icon: "fa-headset", all: "admin-support",
         desc: "Keep the business running smoothly with reliable people for day-to-day operations and customers.",
         hint: "Great for freeing up your time, keeping records tidy and looking after your customers.",
         items: [
