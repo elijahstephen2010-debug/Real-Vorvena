@@ -178,6 +178,198 @@ const specialties = {
         title: "Growth Marketers",
         category: "Digital & Growth",
         description: "Find experts who help businesses grow."
+    },
+
+    "shopify-developer": {
+        title: "Shopify Developers",
+        category: "Dev & IT",
+        description: "Find professionals who build and customise Shopify stores."
+    },
+
+    "webflow-developer": {
+        title: "Webflow Developers",
+        category: "Dev & IT",
+        description: "Discover developers who build custom-quality sites in Webflow."
+    },
+
+    "chatbot-developer": {
+        title: "Chatbot Developers",
+        category: "Data & AI",
+        description: "Find developers who build support and sales chatbots."
+    },
+
+    "ai-integration-developer": {
+        title: "AI Integration Developers",
+        category: "Data & AI",
+        description: "Discover developers who add AI to the tools you already use."
+    },
+
+    "automation-expert": {
+        title: "Automation Experts",
+        category: "Data & AI",
+        description: "Find experts who remove repetitive work with automation."
+    },
+
+    "workflow-automation-expert": {
+        title: "n8n & Zapier Experts",
+        category: "Data & AI",
+        description: "Discover experts who build workflows in n8n, Zapier and similar tools."
+    },
+
+    "ai-video-creator": {
+        title: "AI Video Creators",
+        category: "Data & AI",
+        description: "Find creators who produce AI-assisted video and edits."
+    },
+
+    "vibe-coder": {
+        title: "Vibe Coders",
+        category: "Data & AI",
+        description: "Discover builders who ship products fast with AI-assisted coding."
+    },
+
+    "ai-consultant": {
+        title: "AI Consultants",
+        category: "Data & AI",
+        description: "Find consultants who guide AI strategy and adoption."
+    },
+
+    "data-visualization-specialist": {
+        title: "Data Visualization Specialists",
+        category: "Data & AI",
+        description: "Discover specialists who turn data into clear charts and stories."
+    },
+
+    "power-bi-specialist": {
+        title: "Power BI Specialists",
+        category: "Data & AI",
+        description: "Find specialists who build reports and dashboards in Power BI."
+    },
+
+    "business-analyst": {
+        title: "Business Analysts",
+        category: "Data & AI",
+        description: "Discover analysts who turn business requirements into results."
+    },
+
+    "database-administrator": {
+        title: "Database Administrators",
+        category: "Data & AI",
+        description: "Find administrators who keep databases fast, safe and reliable."
+    },
+
+    "web-scraping-expert": {
+        title: "Web Scraping Experts",
+        category: "Data & AI",
+        description: "Discover experts who collect data from the web at scale."
+    },
+
+    "quantitative-researcher": {
+        title: "Quantitative Researchers",
+        category: "Data & AI",
+        description: "Find researchers who apply statistics to complex problems."
+    },
+
+    "prototyping-specialist": {
+        title: "Prototyping Specialists",
+        category: "Design & Creative",
+        description: "Discover specialists who build clickable prototypes."
+    },
+
+    "presentation-designer": {
+        title: "Presentation Designers",
+        category: "Design & Creative",
+        description: "Find designers who create presentations that persuade."
+    },
+
+    "google-ads-expert": {
+        title: "Google Ads Experts",
+        category: "Digital & Growth",
+        description: "Discover experts who run paid search campaigns that convert."
+    },
+
+    "meta-ads-specialist": {
+        title: "Meta Ads Specialists",
+        category: "Digital & Growth",
+        description: "Find specialists who run Facebook and Instagram ad campaigns."
+    },
+
+    "marketing-automation-consultant": {
+        title: "Marketing Automation Consultants",
+        category: "Digital & Growth",
+        description: "Discover consultants who nurture leads with marketing automation."
+    },
+
+    "lead-generation-specialist": {
+        title: "Lead Generation Specialists",
+        category: "Digital & Growth",
+        description: "Find specialists who fill your sales pipeline."
+    },
+
+    "marketing-strategist": {
+        title: "Marketing Strategists",
+        category: "Digital & Growth",
+        description: "Discover strategists who shape positioning and marketing plans."
+    },
+
+    "virtual-assistant": {
+        title: "Virtual Assistants",
+        category: "Admin & Support",
+        description: "Find assistants who handle day-to-day business support."
+    },
+
+    "data-entry-specialist": {
+        title: "Data Entry Specialists",
+        category: "Admin & Support",
+        description: "Discover specialists who provide fast, accurate data entry."
+    },
+
+    "bookkeeper": {
+        title: "Bookkeepers",
+        category: "Admin & Support",
+        description: "Find bookkeepers who keep your financial records in order."
+    },
+
+    "excel-expert": {
+        title: "Excel Experts",
+        category: "Admin & Support",
+        description: "Discover experts in Excel formulas, models and reports."
+    },
+
+    "customer-service-representative": {
+        title: "Customer Service Representatives",
+        category: "Admin & Support",
+        description: "Find representatives who give customers friendly, quick replies."
+    },
+
+    "appointment-setter": {
+        title: "Appointment Setters",
+        category: "Admin & Support",
+        description: "Discover appointment setters who fill your calendar."
+    },
+
+    "personal-assistant": {
+        title: "Personal Assistants",
+        category: "Admin & Support",
+        description: "Find assistants who manage schedules and errands."
+    },
+
+    "powerpoint-expert": {
+        title: "PowerPoint Experts",
+        category: "Admin & Support",
+        description: "Discover experts who build clean, professional slides."
+    },
+
+    "quickbooks-consultant": {
+        title: "QuickBooks Consultants",
+        category: "Admin & Support",
+        description: "Find consultants who set up and manage QuickBooks accounting."
+    },
+
+    "project-manager": {
+        title: "Project Managers",
+        category: "Admin & Support",
+        description: "Discover project managers who keep work on track."
     }
 };
 
@@ -186,10 +378,35 @@ const specialties = {
 // 2. DEMO PROFILE DATA
 // =========================================
 
-const demoNames = [
-    ["Alex Morgan", "Michael Adams", "Daniel Smith"],
-    ["Samuel Okafor", "James Wilson", "David Chen"],
-    ["Sarah Johnson", "Grace Williams", "Olivia Brown"]
+// Every demo profile gets its own name, so no person repeats across
+// sub-categories. 24 first names x 8 surnames, picked with a fixed step so
+// all 192 (64 sub-categories x 3) combinations are different.
+const demoFirstNames = [
+    "Alex", "Samuel", "Sarah", "Michael", "James", "Grace",
+    "Daniel", "Olivia", "David", "Amara", "Chidi", "Fatima",
+    "Liam", "Sophia", "Emeka", "Hannah", "Noah", "Zainab",
+    "Ethan", "Ngozi", "Lucas", "Maya", "Tunde", "Chloe"
+];
+
+const demoLastNames = [
+    "Morgan", "Okafor", "Johnson", "Adams", "Wilson", "Williams",
+    "Chen", "Brown"
+];
+
+function getDemoName(profileNumber) {
+    // profileNumber is 0-191. 192 = 24 x 8, and 24 and 8 share a factor,
+    // so the surname moves by one every full cycle of first names to keep
+    // every pair different.
+    const first = demoFirstNames[profileNumber % demoFirstNames.length];
+    const cycle = Math.floor(profileNumber / demoFirstNames.length);
+    const last = demoLastNames[(profileNumber + cycle) % demoLastNames.length];
+    return first + " " + last;
+}
+
+const demoBioTemplates = [
+    role => `${role} with years of hands-on experience delivering polished, reliable work for clients around the world.`,
+    role => `${role} who enjoys turning clear briefs into practical results, with steady communication from start to finish.`,
+    role => `${role} building a track record on VORVENA with careful, on-time work and a focus on what clients need.`
 ];
 
 const countries = [
@@ -252,11 +469,47 @@ const skillLibrary = {
     "content-strategist": ["Blog Writing", "Research", "Editing"],
     "copywriter": ["Copywriting", "Advertising", "Brand Messaging"],
     "email-marketing-specialist": ["Email Campaigns", "Mailchimp", "Automation"],
-    "growth-marketer": ["Growth Strategy", "Analytics", "Marketing"]
+    "growth-marketer": ["Growth Strategy", "Analytics", "Marketing"],
+
+    "shopify-developer": ["Shopify", "Liquid", "E-commerce", "Theme Customisation"],
+    "webflow-developer": ["Webflow", "CMS", "Responsive Design", "Interactions"],
+    "chatbot-developer": ["Chatbots", "Conversational AI", "APIs", "Automation"],
+    "ai-integration-developer": ["AI APIs", "Python", "JavaScript", "Integrations"],
+    "automation-expert": ["Automation", "APIs", "Scripting", "Workflows"],
+    "workflow-automation-expert": ["n8n", "Zapier", "Make", "Workflows"],
+    "ai-video-creator": ["AI Video Tools", "Video Editing", "Storytelling"],
+    "vibe-coder": ["AI Coding Tools", "Prototyping", "JavaScript", "Rapid Building"],
+    "ai-consultant": ["AI Strategy", "Process Automation", "Training", "Research"],
+    "data-visualization-specialist": ["Tableau", "Data Storytelling", "Charts", "Dashboards"],
+    "power-bi-specialist": ["Power BI", "DAX", "Data Modelling", "Reports"],
+    "business-analyst": ["Requirements Analysis", "Process Mapping", "Excel", "Documentation"],
+    "database-administrator": ["SQL", "Database Tuning", "Backups", "Security"],
+    "web-scraping-expert": ["Python", "Web Scraping", "Data Cleaning", "APIs"],
+    "quantitative-researcher": ["Statistics", "Python", "R", "Research"],
+    "prototyping-specialist": ["Figma", "Prototyping", "User Flows", "Usability Testing"],
+    "presentation-designer": ["PowerPoint", "Keynote", "Slide Design", "Storytelling"],
+    "google-ads-expert": ["Google Ads", "Keyword Research", "Conversion Tracking", "Analytics"],
+    "meta-ads-specialist": ["Meta Ads", "Audience Targeting", "Ad Creative", "Analytics"],
+    "marketing-automation-consultant": ["HubSpot", "Email Flows", "Lead Nurturing", "CRM"],
+    "lead-generation-specialist": ["Lead Generation", "Outreach", "CRM", "Prospecting"],
+    "marketing-strategist": ["Marketing Strategy", "Positioning", "Market Research", "Planning"],
+    "virtual-assistant": ["Scheduling", "Email Management", "Research", "Communication"],
+    "data-entry-specialist": ["Data Entry", "Accuracy", "Excel", "Typing Speed"],
+    "bookkeeper": ["Bookkeeping", "Reconciliation", "Invoicing", "Excel"],
+    "excel-expert": ["Excel", "Formulas", "Pivot Tables", "Financial Models"],
+    "customer-service-representative": ["Customer Support", "Live Chat", "Email Support", "Communication"],
+    "appointment-setter": ["Cold Calling", "Scheduling", "CRM", "Communication"],
+    "personal-assistant": ["Calendar Management", "Travel Planning", "Organisation", "Communication"],
+    "powerpoint-expert": ["PowerPoint", "Slide Design", "Presentations", "Infographics"],
+    "quickbooks-consultant": ["QuickBooks", "Bookkeeping", "Accounting Set-up", "Reporting"],
+    "project-manager": ["Project Planning", "Agile", "Team Coordination", "Risk Management"]
 };
 
 
-// Generate exactly 3 demo profiles per specialty.
+// Generate exactly 3 demo profiles per specialty (the starter profiles that
+// keep every sub-category looking the same until real professionals join).
+
+const DEMO_PROFILES_PER_SPECIALTY = 3;
 
 const professionals = [];
 
@@ -267,9 +520,9 @@ Object.keys(specialties).forEach((specialty, specialtyIndex) => {
     const specialtyInfo = specialties[specialty];
     const role = specialtyInfo.title.replace(/s$/, "");
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < DEMO_PROFILES_PER_SPECIALTY; i++) {
 
-        const name = demoNames[i][specialtyIndex % 3];
+        const name = getDemoName(specialtyIndex * DEMO_PROFILES_PER_SPECIALTY + i);
 
         professionals.push({
             id: profileId++,
@@ -281,7 +534,7 @@ Object.keys(specialties).forEach((specialty, specialtyIndex) => {
             jobs: completedJobs[i],
             verified: i !== 2,
             experience: experienceLevels[i],
-            bio: `${role} with experience in delivering professional projects and creating practical solutions for clients.`,
+            bio: demoBioTemplates[i](role),
             skills: skillLibrary[specialty] || ["Communication", "Problem Solving"],
             initials: name.split(" ").map(part => part[0]).join("")
         });
@@ -339,6 +592,250 @@ const selectedSpecialty = (urlParams.get("category") || "").trim().toLowerCase()
 const currentSpecialty = specialties[selectedSpecialty] || null;
 
 let selectedProfessional = null;
+
+
+// =========================================
+// 4B. REGISTERED PROFESSIONALS
+// =========================================
+// When a professional finishes onboarding, a safe public card is saved in
+// "vorvenaProfessionalDirectory" (see professional-onboarding.js). This reads
+// those cards and shows each one under the sub-category the professional
+// picked, ahead of the demo profiles.
+// BACKEND: replace with  GET /api/professionals?specialty=<slug>
+
+const DIRECTORY_KEY = "vorvenaProfessionalDirectory";
+
+function escapeHTML(value) {
+    return String(value === null || value === undefined ? "" : value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function getSuspendedProfessionalIds() {
+
+    const blocked = new Set();
+
+    try {
+
+        const accounts = JSON.parse(localStorage.getItem("vorvenaAccounts") || "{}") || {};
+
+        Object.values(accounts).forEach(account => {
+
+            if (
+                account &&
+                account.status &&
+                account.status !== "active" &&
+                account.profile &&
+                account.profile.professionalId
+            ) {
+                blocked.add(account.profile.professionalId);
+            }
+
+        });
+
+    } catch (error) { /* ignore */ }
+
+    return blocked;
+
+}
+
+// Turns one saved record (a directory card, or a finished professional
+// account) into the same profile shape the demo profiles use, so a real
+// professional's card looks exactly like every other card.
+function buildRegisteredProfile(card, photo) {
+
+    const name = String(card.name).trim();
+
+    const rawSkills = Array.isArray(card.skills)
+        ? card.skills
+        : String(card.skills || "").split(",");
+
+    const skills = rawSkills
+        .map(skill => String(skill).trim())
+        .filter(Boolean)
+        .slice(0, 8);
+
+    const rawExperience = String(card.experience || "").toLowerCase();
+
+    const experience =
+        rawExperience === "expert" || rawExperience === "experienced"
+            ? "expert"
+            : rawExperience === "intermediate"
+                ? "intermediate"
+                : "entry";
+
+    return {
+        id: card.professionalId,
+        professionalId: card.professionalId,
+        name,
+        role: card.role || specialties[card.specialty].title.replace(/s$/, ""),
+        specialty: card.specialty,
+        country: card.country || "",
+        rating: 0,
+        jobs: 0,
+        verified: Boolean(card.skillProofPassed),
+        experience,
+        bio: card.bio || "New professional on VORVENA.",
+        skills: skills.length ? skills : (skillLibrary[card.specialty] || ["Communication", "Problem Solving"]),
+        initials: name.split(" ").filter(Boolean).slice(0, 2).map(part => part[0]).join("").toUpperCase(),
+        photo: typeof photo === "string" && photo.indexOf("data:image/") === 0 ? photo : "",
+        isRegistered: true
+    };
+
+}
+
+function getRegisteredProfessionals() {
+
+    let directory = [];
+
+    try {
+        directory = JSON.parse(localStorage.getItem(DIRECTORY_KEY) || "[]");
+    } catch (error) {
+        directory = [];
+    }
+
+    if (!Array.isArray(directory)) directory = [];
+
+    const blocked = getSuspendedProfessionalIds();
+    const seen = new Set();
+    const registered = [];
+
+    // 1. Public cards saved when a professional finished onboarding.
+    directory.forEach(card => {
+
+        if (
+            !card ||
+            !card.professionalId ||
+            !card.name ||
+            !specialties[card.specialty] ||
+            blocked.has(card.professionalId) ||
+            seen.has(card.professionalId)
+        ) {
+            return;
+        }
+
+        seen.add(card.professionalId);
+        registered.push(buildRegisteredProfile(card, card.photo));
+
+    });
+
+    // 2. Safety net: a professional who finished onboarding always appears
+    //    under the sub-category they picked, even if their public card was
+    //    lost (for example after clearing part of the browser storage).
+    try {
+
+        const accounts = JSON.parse(localStorage.getItem("vorvenaAccounts") || "{}") || {};
+
+        Object.keys(accounts).forEach(email => {
+
+            const account = accounts[email];
+            const profile = account && account.profile;
+
+            if (
+                !account ||
+                account.role !== "professional" ||
+                !account.onboardingComplete ||
+                (account.status && account.status !== "active") ||
+                !profile ||
+                !profile.professionalId ||
+                !(profile.fullName || account.fullName) ||
+                !specialties[profile.specialty] ||
+                blocked.has(profile.professionalId) ||
+                seen.has(profile.professionalId)
+            ) {
+                return;
+            }
+
+            seen.add(profile.professionalId);
+
+            let photo = "";
+
+            try {
+                photo = localStorage.getItem("vorvenaAccountImage:" + email) || "";
+            } catch (error) { /* ignore */ }
+
+            registered.push(buildRegisteredProfile({
+                professionalId: profile.professionalId,
+                name: profile.fullName || account.fullName,
+                specialty: profile.specialty,
+                role: profile.role,
+                country: profile.country,
+                bio: profile.bio,
+                skills: profile.skills,
+                experience: profile.experience,
+                skillProofPassed: profile.skillProofPassed
+            }, photo));
+
+        });
+
+    } catch (error) { /* ignore */ }
+
+    return registered;
+
+}
+
+// What each sub-category shows: real professionals first, then starter
+// profiles only as needed so the sub-category always has at least 3 people.
+// 1 real professional + 2 starters, 2 real + 1 starter, 3 or more real and no
+// starters. Real professionals are never hidden.
+function getAllProfessionals() {
+
+    const registered = getRegisteredProfessionals();
+    const pool = [];
+
+    Object.keys(specialties).forEach(specialty => {
+
+        const real = registered.filter(person => person.specialty === specialty);
+
+        const starters = professionals
+            .filter(person => person.specialty === specialty)
+            .slice(0, Math.max(0, DEMO_PROFILES_PER_SPECIALTY - real.length));
+
+        pool.push(...real, ...starters);
+
+    });
+
+    return pool;
+
+}
+
+function avatarHTML(person) {
+
+    if (person.photo) {
+        return `<img src="${escapeHTML(person.photo)}" alt="${escapeHTML(person.name)}">`;
+    }
+
+    return escapeHTML(person.initials);
+
+}
+
+function ratingText(person) {
+    return person.rating > 0 ? person.rating.toFixed(1) : "New";
+}
+
+// Adds a country to the filter if a registered professional is from somewhere not listed.
+function syncCountryOptions() {
+
+    const known = new Set([...countryFilter.options].map(option => option.value));
+
+    getRegisteredProfessionals().forEach(person => {
+
+        if (person.country && !known.has(person.country)) {
+
+            const option = document.createElement("option");
+            option.value = person.country;
+            option.textContent = person.country;
+            countryFilter.appendChild(option);
+            known.add(person.country);
+
+        }
+
+    });
+
+}
 
 
 // =========================================
@@ -608,7 +1105,7 @@ function getFilteredProfessionals() {
 
     if (!currentSpecialty) return [];
 
-    let filtered = professionals.filter(person =>
+    let filtered = getAllProfessionals().filter(person =>
         person.specialty === selectedSpecialty
     );
 
@@ -718,7 +1215,7 @@ function renderProfessionals() {
         card.className = "professional-card";
 
         const verificationBadge = person.verified
-            ? `<span class="verified-badge" title="Demo verified status">
+            ? `<span class="verified-badge" title="${person.isRegistered ? "SkillProof passed" : "Demo verified status"}">
                     <i class="fas fa-check"></i>
                </span>`
             : "";
@@ -727,18 +1224,18 @@ function renderProfessionals() {
             <div class="professional-card-top">
 
                 <div class="professional-avatar">
-                    ${person.initials}
+                    ${avatarHTML(person)}
                 </div>
 
                 <div class="professional-info">
 
                     <h3>
-                        ${person.name}
+                        ${escapeHTML(person.name)}
                         ${verificationBadge}
                     </h3>
 
                     <span class="professional-role">
-                        ${person.role}
+                        ${escapeHTML(person.role)}
                     </span>
 
                 </div>
@@ -747,18 +1244,18 @@ function renderProfessionals() {
 
             <div class="professional-location">
                 <i class="fas fa-map-marker-alt"></i>
-                ${person.country}
+                ${escapeHTML(person.country || "Location not shared")}
             </div>
 
             <p class="professional-bio">
-                ${person.bio}
+                ${escapeHTML(person.bio)}
             </p>
 
             <div class="professional-stats">
 
                 <span class="professional-stat">
                     <i class="fas fa-star"></i>
-                    ${person.rating.toFixed(1)}
+                    ${ratingText(person)}
                 </span>
 
                 <span class="professional-stat">
@@ -777,7 +1274,7 @@ function renderProfessionals() {
                 <button
                     class="view-profile-btn"
                     type="button"
-                    data-profile-id="${person.id}"
+                    data-profile-id="${escapeHTML(person.id)}"
                 >
                     View Profile
                 </button>
@@ -815,8 +1312,8 @@ function formatExperience(experience) {
 
 function openProfile(professionalId) {
 
-    const person = professionals.find(
-        item => item.id === Number(professionalId)
+    const person = getAllProfessionals().find(
+        item => String(item.id) === String(professionalId)
     );
 
     if (!person) return;
@@ -830,31 +1327,31 @@ function openProfile(professionalId) {
         : "";
 
     const skillsHTML = person.skills.map(skill =>
-        `<span class="experience-tag">${skill}</span>`
+        `<span class="experience-tag">${escapeHTML(skill)}</span>`
     ).join("");
 
     modalProfileContent.innerHTML = `
         <div class="professional-avatar modal-avatar">
-            ${person.initials}
+            ${avatarHTML(person)}
         </div>
 
         <h2>
-            ${person.name}
+            ${escapeHTML(person.name)}
             ${verificationBadge}
         </h2>
 
-        <p class="professional-role">${person.role}</p>
+        <p class="professional-role">${escapeHTML(person.role)}</p>
 
         <p class="professional-location">
             <i class="fas fa-map-marker-alt"></i>
-            ${person.country}
+            ${escapeHTML(person.country || "Location not shared")}
         </p>
 
         <div class="professional-stats">
 
             <span class="professional-stat">
                 <i class="fas fa-star"></i>
-                ${person.rating.toFixed(1)} Rating
+                ${person.rating > 0 ? person.rating.toFixed(1) + " Rating" : "New on VORVENA"}
             </span>
 
             <span class="professional-stat">
@@ -867,7 +1364,7 @@ function openProfile(professionalId) {
         <h3 class="modal-section-title">About Me</h3>
 
         <p class="professional-bio modal-bio">
-            ${person.bio}
+            ${escapeHTML(person.bio)}
         </p>
 
         <h3 class="modal-section-title">Skills</h3>
@@ -1471,6 +1968,41 @@ window.addEventListener("focus", function() {
 
 
 // =========================================
+// 23B. REFRESH THE LIST WHEN PROFESSIONALS CHANGE
+// =========================================
+
+// A professional who joins or edits their profile in another tab, or whose
+// account status changes, shows up here without needing a manual reload.
+
+window.addEventListener("storage", function(event) {
+
+    if (
+        event.key === DIRECTORY_KEY ||
+        event.key === "vorvenaAccounts"
+    ) {
+
+        syncCountryOptions();
+
+        renderProfessionals();
+
+    }
+
+});
+
+window.addEventListener("pageshow", function(event) {
+
+    if (event.persisted) {
+
+        syncCountryOptions();
+
+        renderProfessionals();
+
+    }
+
+});
+
+
+// =========================================
 // 24. FOOTER YEAR
 // =========================================
 
@@ -1486,6 +2018,8 @@ updateNavigation();
 
 updateCategoryHeading();
 
+syncCountryOptions();
+
 renderProfessionals();
 
-console.log(`VORVENA demo profiles loaded: ${professionals.length}`);
+console.log(`VORVENA profiles loaded: ${professionals.length} demo, ${getRegisteredProfessionals().length} registered`);

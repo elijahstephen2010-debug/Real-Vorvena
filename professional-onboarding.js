@@ -743,11 +743,19 @@ document.addEventListener("DOMContentLoaded", () => {
     return "expert";
   }
 
-  // Keeps the same permanent ID if this professional already has one
+  // Keeps the same permanent ID if THIS account already has one. The browser can hold
+  // the profile of a different professional who used it before, so an ID is only reused
+  // when it belongs to the same email. Otherwise every new signup gets its own card.
   function getProfessionalId() {
+    if (signupAccount && signupAccount.profile && signupAccount.profile.professionalId) {
+      return signupAccount.profile.professionalId;
+    }
+
     try {
       const saved = JSON.parse(localStorage.getItem("vorvenaProfessionalProfile") || "{}");
-      if (saved && saved.professionalId) return saved.professionalId;
+      const sameAccount = saved && saved.email &&
+        String(saved.email).trim().toLowerCase() === signupEmail.trim().toLowerCase();
+      if (sameAccount && saved.professionalId) return saved.professionalId;
     } catch (error) { /* ignore */ }
 
     const random = (window.crypto && crypto.randomUUID)
@@ -821,7 +829,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       localStorage.setItem("vorvenaProfessionalProfile", saved);
+      // A new professional without a photo must not inherit the previous person's photo.
       if (profilePhotoData) localStorage.setItem("vorvenaProfileImage", profilePhotoData);
+      else localStorage.removeItem("vorvenaProfileImage");
     } catch (error) { /* storage full */ }
 
     // Mark this account as onboarded so login lets it in

@@ -727,17 +727,51 @@ const DIRECTORY_KEY = "vorvenaProfessionalDirectory";
 function syncDirectory() {
     if (!profile.professionalId) return;
 
+    // Same levels the onboarding page uses. Free text such as "3 years" is not a level,
+    // so it returns "" and the card keeps the level it already has.
+    const cardExperience = value => {
+        const level = String(value || "").trim().toLowerCase();
+        if (level === "beginner" || level === "entry") return "entry";
+        if (level === "intermediate") return "intermediate";
+        if (level === "experienced" || level === "expert") return "expert";
+        return "";
+    };
+
     const write = photo => {
         try {
             const list = JSON.parse(localStorage.getItem(DIRECTORY_KEY) || "[]");
             const directory = Array.isArray(list) ? list : [];
-            const card = directory.find(item => item.professionalId === profile.professionalId);
-            if (!card) return;
+            let card = directory.find(item => item.professionalId === profile.professionalId);
+
+            // The card is missing (for example after clearing part of the storage):
+            // publish it again under the sub-category chosen during onboarding.
+            if (!card) {
+                if (!profile.specialty || !(profile.fullName || profile.name)) return;
+                card = {
+                    professionalId: profile.professionalId,
+                    name: profile.fullName || profile.name,
+                    specialty: profile.specialty,
+                    role: profile.role || "",
+                    country: profile.country || "",
+                    bio: profile.bio || "",
+                    skills: [],
+                    experience: cardExperience(profile.experience) || "entry",
+                    photo: "",
+                    skillProofPassed: Boolean(profile.skillProofPassed)
+                };
+                directory.unshift(card);
+            }
+
+            const skills = Array.isArray(profile.skills)
+                ? profile.skills
+                : String(profile.skills || "").split(",").map(s => s.trim()).filter(Boolean);
 
             card.name = profile.fullName || card.name;
             card.bio = profile.bio || card.bio;
-            card.skills = profile.skills.slice(0, 8);
+            card.skills = skills.slice(0, 8);
             if (profile.role) card.role = profile.role;
+            if (cardExperience(profile.experience)) card.experience = cardExperience(profile.experience);
+            if (profile.country) card.country = profile.country;
             if (photo !== null) card.photo = photo;
             card.updatedAt = new Date().toISOString();
 
