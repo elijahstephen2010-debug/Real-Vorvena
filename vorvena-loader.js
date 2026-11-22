@@ -3,7 +3,12 @@
 ========================================= */
 
 (() => {
-    const LOGO_PATH = "assets/vorvena_logo_transparent.png";
+    // Same logo file the navbar uses. If it is not found,
+    // the loader tries the next one in this list.
+    const LOGO_PATHS = [
+        "assets/vorvena_logo_transparent (1).png",
+        "assets/vorvena_logo_transparent.png"
+    ];
 
     let loader;
     let hideTimer;
@@ -19,9 +24,23 @@
         loader.innerHTML = `
             <div class="vorvena-loader-ring"></div>
             <div class="vorvena-loader-logo">
-                <img src="${LOGO_PATH}" alt="VORVENA">
+                <img alt="VORVENA" loading="eager" decoding="sync">
             </div>
         `;
+
+        // SET THE LOGO WITH A FALLBACK IF THE FIRST FILE IS MISSING
+        const logoImg = loader.querySelector("img");
+        let logoIndex = 0;
+
+        logoImg.addEventListener("error", () => {
+            logoIndex += 1;
+
+            if (logoIndex < LOGO_PATHS.length) {
+                logoImg.src = encodeURI(LOGO_PATHS[logoIndex]);
+            }
+        });
+
+        logoImg.src = encodeURI(LOGO_PATHS[0]);
 
         document.body.appendChild(loader);
     }

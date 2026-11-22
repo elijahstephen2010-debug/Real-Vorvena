@@ -20,14 +20,17 @@ body {
   min-height: 100vh;
 }
 
-/* NAVBAR */
+/* NAVBAR
+   Logo: same size (150 x 60), same spot and no box, exactly like the landing page.
+   Navbar height and side spacing match the landing page navbar on all devices. */
 
 .navbar {
-  height: 75px;
-  padding: 0 7%;
+  height: 82px;
+  padding: 0 max(5%, calc((100% - 1200px) / 2));
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   background: white;
   border-bottom: 1px solid var(--line);
   position: sticky;
@@ -39,6 +42,7 @@ body {
 .brand {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   gap: 12px;
   text-decoration: none;
   color: var(--navy);
@@ -47,30 +51,30 @@ body {
 }
 
 .brand-logo-slot {
-  width: 43px;
-  height: 43px;
+  width: 150px;
+  min-width: 150px;
+  height: 60px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  border: 1px solid #e6ebf2;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 3px 10px rgba(8, 43, 104, 0.06);
+  justify-content: flex-start;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
 }
 
 .brand-logo-slot img {
-  width: 100%;
-  height: 100%;
+  width: 150px;
+  height: 60px;
   object-fit: contain;
-  padding: 4px;
+  object-position: left center;
+  padding: 0;
 }
 
 .brand-name {
-  font-family: "Manrope", sans-serif;
-  font-weight: 800;
-  letter-spacing: 1.4px;
+  display: none;
 }
 
 .signup-link {
@@ -88,7 +92,7 @@ body {
 
 .login-container {
   max-width: 1150px;
-  min-height: calc(100vh - 75px);
+  min-height: calc(100vh - 82px);
   margin: auto;
   padding: 45px 30px;
   display: grid;
@@ -436,28 +440,11 @@ body {
   }
 }
 
-/* 425px: phones */
+/* 425px: phones
+   The navbar and logo keep the same size and spot as every other screen. */
 @media (max-width: 425px) {
-  .navbar {
-    height: 65px;
-    padding: 0 17px;
-  }
-
-  .brand {
-    gap: 8px;
-  }
-
-  .brand-logo-slot {
-    width: 36px;
-    height: 36px;
-  }
-
-  .brand-name {
-    font-size: 1rem;
-  }
-
   .login-container {
-    min-height: calc(100vh - 65px);
+    min-height: calc(100vh - 82px);
     padding: 35px 18px;
   }
 
@@ -487,15 +474,6 @@ body {
 
 /* 375px: small phones */
 @media (max-width: 375px) {
-  .navbar {
-    padding-left: 13px;
-    padding-right: 13px;
-  }
-
-  .brand-name {
-    font-size: 0.9375rem;
-  }
-
   .welcome h1 {
     font-size: 1.4375rem;
   }
