@@ -5,8 +5,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Client Onboarding | VORVENA</title>
-    <link rel="icon" type="image/png" href="./assets/favicon.png">
-    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="./assets/vorvena_logo_transparent.png">
+    <link rel="apple-touch-icon" href="./assets/vorvena_logo_transparent.png">
     <meta name="description" content="Set up your VORVENA client profile.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="VORVENA">
@@ -24,7 +24,12 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'DM Sans',sans-serif;background:#f5f7fb;color:#17233c;min-height:100vh}
 .page{width:100%;max-width:850px;margin:auto;padding:35px 20px}
-.logo{font-size:1.5625rem;font-weight:800;color:#142d59;text-decoration:none;letter-spacing:-1px}
+/* VORVENA LOGO - same size on every page: 150x55 desktop, 160x60 tablet, 145x54 mobile, 135x50 small mobile */
+.logo { display: block; width: 150px; height: 55px; flex-shrink: 0; line-height: 0;  }
+.logo img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: left center; }
+@media (max-width: 768px) { .logo { width: 160px; height: 60px; } }
+@media (max-width: 425px) { .logo { width: 145px; height: 54px; } }
+@media (max-width: 375px) { .logo { width: 135px; height: 50px; } }
 .heading{margin:35px 0 25px}
 .heading h1{font-size:1.75rem;margin-bottom:10px}
 .heading p{color:#718096;line-height:1.6;font-size:0.875rem}
@@ -66,7 +71,7 @@ textarea{resize:vertical;min-height:110px}
 }
 @media(max-width:375px){
 .heading h1{font-size:1.375rem}
-.logo{font-size:1.375rem}
+
 .profile-photo{align-items:flex-start;flex-direction:column}
 }
 
@@ -81,7 +86,7 @@ textarea{resize:vertical;min-height:110px}
 <body>
 <main class="page">
 
-<a href="index.html" class="logo">VORVENA</a>
+<a href="index.html" class="logo" aria-label="VORVENA Home"><img src="./assets/vorvena_logo_transparent.png" alt="VORVENA Logo"></a>
 
 <div class="heading">
 <h1>Set up your client profile</h1>

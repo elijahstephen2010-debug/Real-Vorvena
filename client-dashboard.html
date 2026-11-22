@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Client Dashboard | VORVENA</title>
-    <link rel="icon" type="image/png" href="./assets/favicon.png">
-    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="./assets/vorvena_logo_transparent.png">
+    <link rel="apple-touch-icon" href="./assets/vorvena_logo_transparent.png">
     <meta name="description" content="Find, hire and manage tech professionals on VORVENA.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="VORVENA">
@@ -68,7 +68,7 @@
 <body>
 
     <aside class="sidebar" id="sidebar">
-        <a class="brand" href="index.html"><b>V</b> VORVENA</a>
+        <a class="brand" href="index.html" aria-label="VORVENA Home"><img src="./assets/white .png" alt="VORVENA Logo"></a>
         <p class="side-label">CLIENT WORKSPACE</p>
 
         <div class="user">
@@ -772,15 +772,32 @@
                     card.append(avatar, details, budget, status);
 
                     if (offer.status === 'Accepted' || offer.status === 'accepted') {
-                        const paymentButton = document.createElement('button');
-                        paymentButton.className = 'primary-btn payment-action';
-                        paymentButton.textContent = 'Proceed to Payment';
+                        const paymentState = String(offer.paymentStatus || '').toLowerCase();
+                        const paymentVerified = offer.paymentVerified === true ||
+                            offer.paid === true ||
+                            ['paid', 'verified', 'success'].includes(paymentState);
 
-                        paymentButton.addEventListener('click', () => {
-                            openPaymentModal(offer);
-                        });
+                        if (paymentVerified && offer.id) {
+                            const workspaceLink = document.createElement('a');
+                            workspaceLink.className = 'primary-btn payment-action';
+                            workspaceLink.href = 'project-workspace.html?projectId=' + encodeURIComponent(offer.id);
+                            workspaceLink.textContent = 'Open Workspace';
+                            workspaceLink.style.textDecoration = 'none';
+                            workspaceLink.style.display = 'inline-flex';
+                            workspaceLink.style.alignItems = 'center';
+                            workspaceLink.style.justifyContent = 'center';
+                            card.appendChild(workspaceLink);
+                        } else {
+                            const paymentButton = document.createElement('button');
+                            paymentButton.className = 'primary-btn payment-action';
+                            paymentButton.textContent = 'Proceed to Payment';
 
-                        card.appendChild(paymentButton);
+                            paymentButton.addEventListener('click', () => {
+                                openPaymentModal(offer);
+                            });
+
+                            card.appendChild(paymentButton);
+                        }
                     }
 
                     container.appendChild(card);
@@ -950,6 +967,9 @@
 
                 const shared = sharedOffers.find(item => item.id === offer.id);
                 if (!shared) return;
+
+                offer.paymentStatus = shared.paymentStatus || (shared.payment && shared.payment.status) || offer.paymentStatus || '';
+                offer.paymentVerified = shared.paymentVerified === true || shared.paid === true;
 
                 if (shared.status === 'accepted') {
                     offer.status = 'Accepted';

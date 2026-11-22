@@ -1607,3 +1607,9 @@ tr:last-child td {
 @media (min-width: 1280px) { html { font-size: 112.5%; } }
 @media (min-width: 1536px) { html { font-size: 118.75%; } }
 @media (min-width: 1920px) { html { font-size: 131.25%; } }
+
+/* VORVENA LOGO - same size on every page: 150x55 desktop, 160x60 tablet, 145x54 mobile, 135x50 small mobile */
+.brand img { display: block; width: 150px; height: 55px; object-fit: contain; object-position: left center; }
+@media (max-width: 768px) { .brand img { width: 160px; height: 60px; } }
+@media (max-width: 425px) { .brand img { width: 145px; height: 54px; } }
+@media (max-width: 375px) { .brand img { width: 135px; height: 50px; } }

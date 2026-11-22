@@ -358,11 +358,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const fullName =
         sessionStorage.getItem("vorvenaFullName") || "";
 
-      const firstLetter = fullName.trim()
-        ? fullName.trim().charAt(0).toUpperCase()
-        : '<i class="fa-solid fa-user"></i>';
+      accountToggle.replaceChildren();
 
-      accountToggle.innerHTML = firstLetter;
+      if (fullName.trim()) {
+        accountToggle.textContent = fullName.trim().charAt(0).toUpperCase();
+      } else {
+        const userIcon = document.createElement("i");
+        userIcon.className = "fa-solid fa-user";
+        accountToggle.appendChild(userIcon);
+      }
 
       accountToggle.setAttribute(
         "aria-label",

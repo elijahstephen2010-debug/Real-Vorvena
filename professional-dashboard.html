@@ -970,7 +970,16 @@ function createOfferCard(offer) {
 
         content.append(heading, message);
         paymentStatus.append(icon, content);
-        card.appendChild(paymentStatus);
+
+        if (isPaymentVerified(offer)) {
+            heading.textContent = "Payment Confirmed";
+            message.textContent = "The client's payment is confirmed. Your project workspace is open.";
+            icon.className = "fa-solid fa-circle-check";
+            card.appendChild(paymentStatus);
+            card.appendChild(createWorkspaceLink(offer));
+        } else {
+            card.appendChild(paymentStatus);
+        }
 
     } else if (offer.status === "declined") {
         const status = document.createElement("p");
@@ -1057,8 +1066,38 @@ function renderProjects() {
         content.append(statusTitle, statusMessage);
         status.append(icon, content);
         project.append(projectTitle, projectDescription, status);
+
+        if (isPaymentVerified(offer)) {
+            projectDescription.textContent = "Payment confirmed. This project is active.";
+            statusTitle.textContent = "Workspace Open";
+            statusMessage.textContent = "The client's payment is verified. You can now work in the project workspace.";
+            icon.className = "fa-solid fa-circle-check";
+            project.appendChild(createWorkspaceLink(offer));
+        }
         projectCard.appendChild(project);
     });
+}
+
+// WORKSPACE ACCESS (opens only after payment is verified)
+function isPaymentVerified(offer) {
+    const paymentState = String(
+        offer.paymentStatus || (offer.payment && offer.payment.status) || ""
+    ).toLowerCase();
+
+    return offer.paymentVerified === true ||
+        offer.paid === true ||
+        ["paid", "verified", "success"].includes(paymentState);
+}
+
+function createWorkspaceLink(offer) {
+    const link = document.createElement("a");
+    link.className = "primary-btn";
+    link.href = "project-workspace.html?projectId=" + encodeURIComponent(offer.id);
+    link.textContent = "Open Project Workspace";
+    link.style.display = "inline-block";
+    link.style.marginTop = "12px";
+    link.style.textDecoration = "none";
+    return link;
 }
 
 // ACCEPT OR DECLINE OFFER

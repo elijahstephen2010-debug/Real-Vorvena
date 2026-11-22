@@ -99,13 +99,12 @@
             outline-offset: 2px;
         }
 
-        .brand {
-            margin-top: 3rem;
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            color: #9aa5b8;
-        }
+        /* VORVENA LOGO - same size on every page: 150x55 desktop, 160x60 tablet, 145x54 mobile, 135x50 small mobile */
+        .brand { display: block; width: 150px; height: 55px; margin-bottom: 2rem; line-height: 0; }
+        .brand img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
+        @media (max-width: 768px) { .brand { width: 160px; height: 60px; } }
+        @media (max-width: 425px) { .brand { width: 145px; height: 54px; } }
+        @media (max-width: 375px) { .brand { width: 135px; height: 50px; } }
 
         @media (prefers-reduced-motion: reduce) {
             * { transition: none !important; }
@@ -113,6 +112,8 @@
     </style>
 </head>
 <body>
+
+    <a href="/index.html" class="brand" aria-label="VORVENA Home"><img src="/assets/vorvena_logo_transparent.png" alt="VORVENA Logo"></a>
 
     <main class="notice">
 
@@ -135,7 +136,6 @@
 
     </main>
 
-    <div class="brand">VORVENA.</div>
-
+    
 </body>
 </html>
