@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Client Onboarding | VORVENA</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Client Onboarding | VORVENA</title>
     <link rel="icon" type="image/png" href="./assets/vorvena_logo_transparent.png">
     <link rel="apple-touch-icon" href="./assets/vorvena_logo_transparent.png">
     <meta name="description" content="Set up your VORVENA client profile.">
@@ -14,319 +14,577 @@
     <meta property="og:description" content="Set up your VORVENA client profile.">
     <meta name="robots" content="noindex, nofollow">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-<link rel="stylesheet" href="vorvena-loader.css">
-<script src="vorvena-loader.js" defer></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:#f5f7fb;color:#17233c;min-height:100vh}
-.page{width:100%;max-width:850px;margin:auto;padding:35px 20px}
-/* VORVENA LOGO - same size on every page: 150x55 desktop, 160x60 tablet, 145x54 mobile, 135x50 small mobile */
-.logo { display: block; width: 150px; height: 55px; flex-shrink: 0; line-height: 0;  }
-.logo img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: left center; }
-@media (max-width: 768px) { .logo { width: 160px; height: 60px; } }
-@media (max-width: 425px) { .logo { width: 145px; height: 54px; } }
-@media (max-width: 375px) { .logo { width: 135px; height: 50px; } }
-.heading{margin:35px 0 25px}
-.heading h1{font-size:1.75rem;margin-bottom:10px}
-.heading p{color:#718096;line-height:1.6;font-size:0.875rem}
-.progress{height:6px;background:#e3e9f2;border-radius:20px;margin-top:22px;overflow:hidden}
-.progress span{display:block;width:100%;height:100%;background:#2864dc;border-radius:20px}
-.form-card{background:#fff;border:1px solid #e8edf5;border-radius:15px;padding:30px;box-shadow:0 8px 30px rgba(20,45,89,.04)}
-.section-title{font-size:1.0625rem;font-weight:700;margin-bottom:20px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.form-group{margin-bottom:20px}
-.form-group.full{grid-column:1/-1}
-label{display:block;font-size:0.8125rem;font-weight:600;margin-bottom:9px}
-input,select,textarea{width:100%;padding:13px 14px;border:1px solid #dce3ee;border-radius:8px;outline:none;font-family:inherit;font-size:0.8125rem;color:#17233c;background:#fff;transition:.2s}
-input:focus,select:focus,textarea:focus{border-color:#2864dc;box-shadow:0 0 0 3px rgba(40,100,220,.09)}
-textarea{resize:vertical;min-height:110px}
-.account-info{background:#f4f7fc;border-radius:9px;padding:15px;margin-bottom:24px;font-size:0.8125rem;line-height:1.8}
-.account-info strong{color:#142d59}
-.profile-photo{display:flex;align-items:center;gap:18px;margin-bottom:25px}
-.photo-preview{width:90px;height:90px;border-radius:50%;background:#edf2fa;border:2px dashed #b9c9e3;display:flex;align-items:center;justify-content:center;overflow:hidden;color:#718096;font-size:1.75rem;flex-shrink:0}
-.photo-preview img{width:100%;height:100%;object-fit:cover}
-.photo-upload{flex:1}
-.photo-upload input{padding:10px}
-.photo-upload small{display:block;margin-top:7px;color:#8994a5;font-size:0.75rem}
-.hint{color:#8994a5;font-size:0.75rem;margin-top:7px}
-.message{font-size:0.8125rem;margin-bottom:15px}
-.submit-btn{width:100%;padding:15px;border:none;border-radius:8px;background:#2864dc;color:white;font-family:inherit;font-size:0.875rem;font-weight:700;cursor:pointer;transition:.2s}
-.submit-btn:hover{background:#194fb9}
-.submit-btn:disabled{opacity:.6;cursor:not-allowed}
-.footer{text-align:center;color:#8994a5;font-size:0.75rem;margin-top:25px}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="vorvena-loader.css">
+    <script src="vorvena-loader.js" defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
 
-@media(max-width:768px){
-.page{padding:25px 16px}
-.form-card{padding:23px}
-}
-@media(max-width:425px){
-.form-grid{grid-template-columns:1fr;gap:0}
-.form-group.full{grid-column:auto}
-.heading h1{font-size:1.5rem}
-.form-card{padding:19px}
-}
-@media(max-width:375px){
-.heading h1{font-size:1.375rem}
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f5f7fb;
+            color: #17233c;
+            min-height: 100vh
+        }
 
-.profile-photo{align-items:flex-start;flex-direction:column}
-}
+        .page {
+            width: 100%;
+            max-width: 850px;
+            margin: auto;
+            padding: 35px 20px
+        }
 
-@media (min-width:1024px){html{font-size:106.25%}}
-@media (min-width:1280px){html{font-size:112.5%}}
-@media (min-width:1536px){html{font-size:118.75%}}
-@media (min-width:1920px){html{font-size:131.25%}}
-</style>
-<script src="vorvena-auth.js"></script>
+        /* VORVENA LOGO - same size on every page: 150x55 desktop, 160x60 tablet, 145x54 mobile, 135x50 small mobile */
+        .logo {
+            display: block;
+            width: 150px;
+            height: 55px;
+            flex-shrink: 0;
+            line-height: 0;
+        }
+
+        .logo img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: left center;
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                width: 160px;
+                height: 60px;
+            }
+        }
+
+        @media (max-width: 425px) {
+            .logo {
+                width: 145px;
+                height: 54px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .logo {
+                width: 135px;
+                height: 50px;
+            }
+        }
+
+        .heading {
+            margin: 35px 0 25px
+        }
+
+        .heading h1 {
+            font-size: 1.75rem;
+            margin-bottom: 10px
+        }
+
+        .heading p {
+            color: #718096;
+            line-height: 1.6;
+            font-size: 0.875rem
+        }
+
+        .progress {
+            height: 6px;
+            background: #e3e9f2;
+            border-radius: 20px;
+            margin-top: 22px;
+            overflow: hidden
+        }
+
+        .progress span {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: #2864dc;
+            border-radius: 20px
+        }
+
+        .form-card {
+            background: #fff;
+            border: 1px solid #e8edf5;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(20, 45, 89, .04)
+        }
+
+        .section-title {
+            font-size: 1.0625rem;
+            font-weight: 700;
+            margin-bottom: 20px
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px
+        }
+
+        .form-group {
+            margin-bottom: 20px
+        }
+
+        .form-group.full {
+            grid-column: 1/-1
+        }
+
+        label {
+            display: block;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            margin-bottom: 9px
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #dce3ee;
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+            font-size: 0.8125rem;
+            color: #17233c;
+            background: #fff;
+            transition: .2s
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2864dc;
+            box-shadow: 0 0 0 3px rgba(40, 100, 220, .09)
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px
+        }
+
+        .account-info {
+            background: #f4f7fc;
+            border-radius: 9px;
+            padding: 15px;
+            margin-bottom: 24px;
+            font-size: 0.8125rem;
+            line-height: 1.8
+        }
+
+        .account-info strong {
+            color: #142d59
+        }
+
+        .profile-photo {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 25px
+        }
+
+        .photo-preview {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #edf2fa;
+            border: 2px dashed #b9c9e3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: #718096;
+            font-size: 1.75rem;
+            flex-shrink: 0
+        }
+
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .photo-upload {
+            flex: 1
+        }
+
+        .photo-upload input {
+            padding: 10px
+        }
+
+        .photo-upload small {
+            display: block;
+            margin-top: 7px;
+            color: #8994a5;
+            font-size: 0.75rem
+        }
+
+        .hint {
+            color: #8994a5;
+            font-size: 0.75rem;
+            margin-top: 7px
+        }
+
+        .message {
+            font-size: 0.8125rem;
+            margin-bottom: 15px
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #2864dc;
+            color: white;
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .submit-btn:hover {
+            background: #194fb9
+        }
+
+        .submit-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed
+        }
+
+        .footer {
+            text-align: center;
+            color: #8994a5;
+            font-size: 0.75rem;
+            margin-top: 25px
+        }
+
+        @media(max-width:768px) {
+            .page {
+                padding: 25px 16px
+            }
+
+            .form-card {
+                padding: 23px
+            }
+        }
+
+        @media(max-width:425px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 0
+            }
+
+            .form-group.full {
+                grid-column: auto
+            }
+
+            .heading h1 {
+                font-size: 1.5rem
+            }
+
+            .form-card {
+                padding: 19px
+            }
+        }
+
+        @media(max-width:375px) {
+            .heading h1 {
+                font-size: 1.375rem
+            }
+
+            .profile-photo {
+                align-items: flex-start;
+                flex-direction: column
+            }
+        }
+
+        @media (min-width:1024px) {
+            html {
+                font-size: 106.25%
+            }
+        }
+
+        @media (min-width:1280px) {
+            html {
+                font-size: 112.5%
+            }
+        }
+
+        @media (min-width:1536px) {
+            html {
+                font-size: 118.75%
+            }
+        }
+
+        @media (min-width:1920px) {
+            html {
+                font-size: 131.25%
+            }
+        }
+    </style>
+    <script src="vorvena-auth.js"></script>
 </head>
 
 <body>
-<main class="page">
+    <main class="page">
 
-<a href="index.html" class="logo" aria-label="VORVENA Home"><img src="./assets/vorvena_logo_transparent.png" alt="VORVENA Logo"></a>
+        <a href="index.html" class="logo" aria-label="VORVENA Home"><img src="./assets/vorvena_logo_transparent (1).png"
+                alt="VORVENA Logo"></a>
 
-<div class="heading">
-<h1>Set up your client profile</h1>
-<p>Tell us a little about yourself so we can personalise your VORVENA experience.</p>
-<div class="progress"><span></span></div>
-</div>
+        <div class="heading">
+            <h1>Set up your client profile</h1>
+            <p>Tell us a little about yourself so we can personalise your VORVENA experience.</p>
+            <div class="progress"><span></span></div>
+        </div>
 
-<form class="form-card" id="clientOnboardingForm">
+        <form class="form-card" id="clientOnboardingForm">
 
-<h2 class="section-title">Personal information</h2>
+            <h2 class="section-title">Personal information</h2>
 
-<div class="account-info">
-<div><strong>Email:</strong> <span id="clientEmail">Not available</span></div>
-<div><strong>Phone:</strong> <span id="clientPhone">Not available</span></div>
-</div>
+            <div class="account-info">
+                <div><strong>Email:</strong> <span id="clientEmail">Not available</span></div>
+                <div><strong>Phone:</strong> <span id="clientPhone">Not available</span></div>
+            </div>
 
-<div class="profile-photo">
-<div class="photo-preview" id="photoPreview">
-<i class="fa-solid fa-camera"></i>
-</div>
-<div class="photo-upload">
-<label for="profilePicture">Profile picture</label>
-<input type="file" id="profilePicture" accept="image/png,image/jpeg,image/webp">
-<small>JPG, PNG or WebP. Maximum size: 2MB.</small>
-</div>
-</div>
+            <div class="profile-photo">
+                <div class="photo-preview" id="photoPreview">
+                    <i class="fa-solid fa-camera"></i>
+                </div>
+                <div class="photo-upload">
+                    <label for="profilePicture">Profile picture</label>
+                    <input type="file" id="profilePicture" accept="image/png,image/jpeg,image/webp">
+                    <small>JPG, PNG or WebP. Maximum size: 2MB.</small>
+                </div>
+            </div>
 
-<div class="form-grid">
+            <div class="form-grid">
 
-<div class="form-group">
-<label for="fullName">Full name *</label>
-<input type="text" id="fullName" required placeholder="Enter your full name">
-</div>
+                <div class="form-group">
+                    <label for="fullName">Full name *</label>
+                    <input type="text" id="fullName" required placeholder="Enter your full name">
+                </div>
 
-<div class="form-group">
-<label for="companyName">Company / Organisation</label>
-<input type="text" id="companyName" placeholder="Company name (optional)">
-</div>
+                <div class="form-group">
+                    <label for="companyName">Company / Organisation</label>
+                    <input type="text" id="companyName" placeholder="Company name (optional)">
+                </div>
 
-<div class="form-group">
-<label for="country">Country *</label>
-<input type="text" id="country" required placeholder="Your country">
-</div>
+                <div class="form-group">
+                    <label for="country">Country *</label>
+                    <input type="text" id="country" required placeholder="Your country">
+                </div>
 
-<div class="form-group">
-<label for="city">City *</label>
-<input type="text" id="city" required placeholder="Your city">
-</div>
+                <div class="form-group">
+                    <label for="city">City *</label>
+                    <input type="text" id="city" required placeholder="Your city">
+                </div>
 
-<div class="form-group">
-<label for="industry">Industry *</label>
-<select id="industry" required>
-<option value="">Select your industry</option>
-<option>Technology</option>
-<option>Education</option>
-<option>Finance</option>
-<option>Healthcare</option>
-<option>E-commerce</option>
-<option>Media and Entertainment</option>
-<option>Marketing</option>
-<option>Other</option>
-</select>
-</div>
+                <div class="form-group">
+                    <label for="industry">Industry *</label>
+                    <select id="industry" required>
+                        <option value="">Select your industry</option>
+                        <option>Technology</option>
+                        <option>Education</option>
+                        <option>Finance</option>
+                        <option>Healthcare</option>
+                        <option>E-commerce</option>
+                        <option>Media and Entertainment</option>
+                        <option>Marketing</option>
+                        <option>Other</option>
+                    </select>
+                </div>
 
-<div class="form-group">
-<label for="clientType">Client type *</label>
-<select id="clientType" required>
-<option value="">Select account type</option>
-<option value="individual">Individual</option>
-<option value="startup">Startup</option>
-<option value="small-business">Small business</option>
-<option value="company">Established company</option>
-<option value="organisation">Organisation</option>
-</select>
-</div>
+                <div class="form-group">
+                    <label for="clientType">Client type *</label>
+                    <select id="clientType" required>
+                        <option value="">Select account type</option>
+                        <option value="individual">Individual</option>
+                        <option value="startup">Startup</option>
+                        <option value="small-business">Small business</option>
+                        <option value="company">Established company</option>
+                        <option value="organisation">Organisation</option>
+                    </select>
+                </div>
 
-<div class="form-group full">
-<label for="about">About you or your organisation</label>
-<textarea id="about" placeholder="Briefly tell us about yourself or your organisation..."></textarea>
-</div>
+                <div class="form-group full">
+                    <label for="about">About you or your organisation</label>
+                    <textarea id="about"
+                        placeholder="Briefly tell us about yourself or your organisation..."></textarea>
+                </div>
 
-</div>
+            </div>
 
-<p class="message" id="formMessage" role="alert"></p>
+            <p class="message" id="formMessage" role="alert"></p>
 
-<button type="submit" class="submit-btn" id="submitBtn">
-Complete Profile <i class="fa-solid fa-arrow-right"></i>
-</button>
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Complete Profile <i class="fa-solid fa-arrow-right"></i>
+            </button>
 
-</form>
+        </form>
 
-<p class="footer">© 2026 VORVENA. All rights reserved.</p>
-</main>
+        <p class="footer">© 2026 VORVENA. All rights reserved.</p>
+    </main>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
 
-    const form = document.getElementById("clientOnboardingForm");
-    const message = document.getElementById("formMessage");
-    const submitBtn = document.getElementById("submitBtn");
-    const photoInput = document.getElementById("profilePicture");
-    const photoPreview = document.getElementById("photoPreview");
+            const form = document.getElementById("clientOnboardingForm");
+            const message = document.getElementById("formMessage");
+            const submitBtn = document.getElementById("submitBtn");
+            const photoInput = document.getElementById("profilePicture");
+            const photoPreview = document.getElementById("photoPreview");
 
-    const email = sessionStorage.getItem("vorvenaEmail") || "";
-    const phone = sessionStorage.getItem("vorvenaPhone") || "";
-    const accountType = sessionStorage.getItem("vorvenaAccountType");
+            const email = sessionStorage.getItem("vorvenaEmail") || "";
+            const phone = sessionStorage.getItem("vorvenaPhone") || "";
+            const accountType = sessionStorage.getItem("vorvenaAccountType");
 
-    if (!email || accountType !== "client") {
-        window.location.href = "client-signup.html";
-        return;
-    }
+            if (!email || accountType !== "client") {
+                window.location.href = "client-signup.html";
+                return;
+            }
 
-    // Only verified accounts can complete onboarding
-    const account = VorvenaAuth.getAccount(email);
+            // Only verified accounts can complete onboarding
+            const account = VorvenaAuth.getAccount(email);
 
-    if (!account || !account.emailVerified || !account.phoneVerified) {
-        window.location.href = "verification.html";
-        return;
-    }
+            if (!account || !account.emailVerified || !account.phoneVerified) {
+                window.location.href = "verification.html";
+                return;
+            }
 
-    document.getElementById("clientEmail").textContent = email;
-    document.getElementById("clientPhone").textContent = phone || "Not available";
+            document.getElementById("clientEmail").textContent = email;
+            document.getElementById("clientPhone").textContent = phone || "Not available";
 
-    document.getElementById("fullName").value =
-        sessionStorage.getItem("vorvenaFullName") || "";
+            document.getElementById("fullName").value =
+                sessionStorage.getItem("vorvenaFullName") || "";
 
-    document.getElementById("country").value =
-        sessionStorage.getItem("vorvenaCountry") || "";
+            document.getElementById("country").value =
+                sessionStorage.getItem("vorvenaCountry") || "";
 
-    document.getElementById("city").value =
-        sessionStorage.getItem("vorvenaCity") || "";
+            document.getElementById("city").value =
+                sessionStorage.getItem("vorvenaCity") || "";
 
-    let profileImage = "";
+            let profileImage = "";
 
-    function showMessage(text, color = "#d93025") {
-        message.textContent = text;
-        message.style.color = color;
-    }
+            function showMessage(text, color = "#d93025") {
+                message.textContent = text;
+                message.style.color = color;
+            }
 
-    function showPhoto(image) {
-        photoPreview.replaceChildren();
+            function showPhoto(image) {
+                photoPreview.replaceChildren();
 
-        if (image) {
-            const img = document.createElement("img");
-            img.src = image;
-            img.alt = "Client profile picture";
-            photoPreview.appendChild(img);
-        } else {
-            const icon = document.createElement("i");
-            icon.className = "fa-solid fa-camera";
-            photoPreview.appendChild(icon);
-        }
-    }
+                if (image) {
+                    const img = document.createElement("img");
+                    img.src = image;
+                    img.alt = "Client profile picture";
+                    photoPreview.appendChild(img);
+                } else {
+                    const icon = document.createElement("i");
+                    icon.className = "fa-solid fa-camera";
+                    photoPreview.appendChild(icon);
+                }
+            }
 
-    photoInput.addEventListener("change", function () {
-        const file = this.files[0];
-        if (!file) return;
+            photoInput.addEventListener("change", function () {
+                const file = this.files[0];
+                if (!file) return;
 
-        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-            showMessage("Please select a JPG, PNG or WebP image.");
-            this.value = "";
-            return;
-        }
+                if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+                    showMessage("Please select a JPG, PNG or WebP image.");
+                    this.value = "";
+                    return;
+                }
 
-        if (file.size > 2 * 1024 * 1024) {
-            showMessage("Your image must not exceed 2MB.");
-            this.value = "";
-            return;
-        }
+                if (file.size > 2 * 1024 * 1024) {
+                    showMessage("Your image must not exceed 2MB.");
+                    this.value = "";
+                    return;
+                }
 
-        const reader = new FileReader();
+                const reader = new FileReader();
 
-        reader.onload = function () {
-            profileImage = reader.result;
-            showPhoto(profileImage);
-            showMessage("");
-        };
+                reader.onload = function () {
+                    profileImage = reader.result;
+                    showPhoto(profileImage);
+                    showMessage("");
+                };
 
-        reader.onerror = function () {
-            showMessage("Could not read this image. Please try another.");
-        };
+                reader.onerror = function () {
+                    showMessage("Could not read this image. Please try another.");
+                };
 
-        reader.readAsDataURL(file);
-    });
+                reader.readAsDataURL(file);
+            });
 
-    form.addEventListener("submit", function (event) {
-        event.preventDefault();
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
 
-        const profile = {
-            fullName: document.getElementById("fullName").value.trim(),
-            email,
-            phone,
-            companyName: document.getElementById("companyName").value.trim(),
-            country: document.getElementById("country").value.trim(),
-            city: document.getElementById("city").value.trim(),
-            industry: document.getElementById("industry").value,
-            clientType: document.getElementById("clientType").value,
-            about: document.getElementById("about").value.trim(),
-            profileImage,
-            onboardingStatus: "demo-completed"
-        };
+                const profile = {
+                    fullName: document.getElementById("fullName").value.trim(),
+                    email,
+                    phone,
+                    companyName: document.getElementById("companyName").value.trim(),
+                    country: document.getElementById("country").value.trim(),
+                    city: document.getElementById("city").value.trim(),
+                    industry: document.getElementById("industry").value,
+                    clientType: document.getElementById("clientType").value,
+                    about: document.getElementById("about").value.trim(),
+                    profileImage,
+                    onboardingStatus: "demo-completed"
+                };
 
-        if (!profile.fullName || !profile.country || !profile.city ||
-            !profile.industry || !profile.clientType) {
-            showMessage("Please complete all required fields.");
-            return;
-        }
+                if (!profile.fullName || !profile.country || !profile.city ||
+                    !profile.industry || !profile.clientType) {
+                    showMessage("Please complete all required fields.");
+                    return;
+                }
 
-        try {
-            const savedProfile = JSON.stringify(profile);
+                try {
+                    const savedProfile = JSON.stringify(profile);
 
-            sessionStorage.setItem("vorvenaClientProfile", savedProfile);
-            localStorage.setItem("vorvenaClientProfile", savedProfile);
-            localStorage.setItem("vorvenaClientProfileImage", profileImage);
+                    sessionStorage.setItem("vorvenaClientProfile", savedProfile);
+                    localStorage.setItem("vorvenaClientProfile", savedProfile);
+                    localStorage.setItem("vorvenaClientProfileImage", profileImage);
 
-            sessionStorage.setItem("vorvenaFullName", profile.fullName);
-            sessionStorage.setItem("vorvenaClientOnboardingComplete", "true");
-            localStorage.setItem("vorvenaClientOnboardingComplete", "true");
+                    sessionStorage.setItem("vorvenaFullName", profile.fullName);
+                    sessionStorage.setItem("vorvenaClientOnboardingComplete", "true");
+                    localStorage.setItem("vorvenaClientOnboardingComplete", "true");
 
-            // Mark this account as onboarded so login lets it in
-            VorvenaAuth.completeOnboarding(email, profile, profileImage);
+                    // Mark this account as onboarded so login lets it in
+                    VorvenaAuth.completeOnboarding(email, profile, profileImage);
 
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Profile completed...";
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = "Profile completed...";
 
-            showMessage("Your profile has been saved. Redirecting...", "#16803c");
+                    showMessage("Your profile has been saved. Redirecting...", "#16803c");
 
-            setTimeout(function () {
-                window.location.href = "login.html";
-            }, 900);
+                    setTimeout(function () {
+                        window.location.href = "login.html";
+                    }, 900);
 
-        } catch (error) {
-            showMessage("Could not save your profile. Try a smaller image.");
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Complete Profile <i class="fa-solid fa-arrow-right"></i>';
-        }
-    });
+                } catch (error) {
+                    showMessage("Could not save your profile. Try a smaller image.");
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Complete Profile <i class="fa-solid fa-arrow-right"></i>';
+                }
+            });
 
-});
-</script>
+        });
+    </script>
 
 </body>
+
 </html>
