@@ -359,7 +359,7 @@
     }
 
     // "Remember me": signs the person back in on this browser until the date passes
-    function restoreSession() {
+    function restoreRemembered() {
         if (sessionStorage.getItem("vorvenaLoggedIn") === "true") return;
 
         // A signup is in progress in this tab: never replace it with a remembered account
@@ -386,14 +386,137 @@
         try { localStorage.removeItem(REMEMBER_KEY); } catch (error) { /* ignore */ }
     }
 
-    // Use at the top of a protected page: VorvenaAuth.guard("client")
-    function guard(role) {
-        const ok = sessionStorage.getItem("vorvenaLoggedIn") === "true" &&
-            sessionStorage.getItem("vorvenaLoggedInRole") === role;
+    /* ---------- PAGE PROTECTION ----------
+       Every protected page stays hidden until its check has passed, so nobody
+       sees a page they are not allowed to open (not even for a second).
+       The page is recognised by its file name, with or without .html, so the
+       pages themselves need no extra code.
 
-        if (!ok) window.location.replace("login.html");
-        return ok;
+         client / professional dashboards : logged in with the matching role
+         project workspace                : logged in (client or professional)
+         verification                     : a signup must exist and not be finished
+         client / professional onboarding : signup done, email and phone verified,
+                                            onboarding not finished, right role
+
+       Anyone who lands on the wrong step is sent to the step they should be on. */
+
+    const stripExt = file => String(file || "").replace(/\.html$/, "");
+
+    function currentPageName() {
+        return stripExt(window.location.pathname.split("/").filter(Boolean).pop() || "");
     }
+
+    const hidePage = () => { document.documentElement.style.visibility = "hidden"; };
+    const revealPage = () => { document.documentElement.style.visibility = ""; };
+
+    function leaveTo(url) {
+        window.location.replace(url);
+        return false;
+    }
+
+    const isLoggedIn = () => sessionStorage.getItem("vorvenaLoggedIn") === "true";
+    const loggedInRole = () => sessionStorage.getItem("vorvenaLoggedInRole");
+
+    // A dashboard: logged in with the right role. The other role goes to its own dashboard.
+    function guard(role) {
+        hidePage();
+
+        const current = loggedInRole();
+
+        if (isLoggedIn() && current === role) {
+            revealPage();
+            return true;
+        }
+
+        return leaveTo(isLoggedIn() && DASHBOARDS[current] ? DASHBOARDS[current] : "login.html");
+    }
+
+    // Any logged-in client or professional (used by the project workspace)
+    function guardAnyRole() {
+        hidePage();
+
+        if (isLoggedIn() && DASHBOARDS[loggedInRole()]) {
+            revealPage();
+            return true;
+        }
+
+        return leaveTo("login.html");
+    }
+
+    const signupPageFor = type =>
+        type === "professional" ? "professional-signup.html" : "client-signup.html";
+
+    // Where an account should be right now
+    function nextStepFor(account) {
+        if (!account.emailVerified || !account.phoneVerified) return "verification.html";
+        if (!account.onboardingComplete) return ONBOARDING[account.role] || "login.html";
+        return isLoggedIn() && DASHBOARDS[account.role] ? DASHBOARDS[account.role] : "login.html";
+    }
+
+    // Verification and onboarding pages: only reachable in the right order
+    function guardSetupStep(kind, role) {
+        hidePage();
+
+        const email = sessionStorage.getItem("vorvenaEmail");
+        const account = email ? getAccount(email) : null;
+
+        // No signup in this browser tab: start again from the signup page
+        if (!account) {
+            return leaveTo(signupPageFor(sessionStorage.getItem("vorvenaAccountType")));
+        }
+
+        // Setup already finished: nothing left to do here
+        if (account.onboardingComplete) {
+            return leaveTo(nextStepFor(account));
+        }
+
+        if (kind === "onboarding") {
+            // The other role's onboarding page: go to the step this account is on
+            if (account.role !== role) return leaveTo(nextStepFor(account));
+
+            // Email and phone must be verified first
+            if (!account.emailVerified || !account.phoneVerified) return leaveTo("verification.html");
+        }
+
+        revealPage();
+        return true;
+    }
+
+    // Finds the check that belongs to this page (null for open pages such as the landing page)
+    function checkForThisPage() {
+        const page = currentPageName();
+
+        const dashboardRole = Object.keys(DASHBOARDS).find(role => stripExt(DASHBOARDS[role]) === page);
+        if (dashboardRole) return () => guard(dashboardRole);
+
+        const onboardingRole = Object.keys(ONBOARDING).find(role => stripExt(ONBOARDING[role]) === page);
+        if (onboardingRole) return () => guardSetupStep("onboarding", onboardingRole);
+
+        if (page === "verification") return () => guardSetupStep("verification");
+        if (page === "project-workspace") return guardAnyRole;
+
+        return null;
+    }
+
+    function protectThisPage() {
+        const check = checkForThisPage();
+        return check ? check() : true;
+    }
+
+    // Called at the top of a page: restores "Remember me", then protects the page
+    function restoreSession() {
+        restoreRemembered();
+        protectThisPage();
+    }
+
+    // Protected pages are checked the moment this file loads, before anything is drawn
+    if (checkForThisPage()) restoreSession();
+
+    // Back or forward button: a page shown from the browser's memory is checked again,
+    // so a logged-out person cannot reopen a dashboard with the Back button
+    window.addEventListener("pageshow", event => {
+        if (event.persisted) protectThisPage();
+    });
 
     global.VorvenaAuth = {
         normalizeEmail,

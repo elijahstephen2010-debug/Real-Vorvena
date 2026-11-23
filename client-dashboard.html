@@ -60,6 +60,49 @@
             font-size: 0.75rem;
             margin-top: 7px
         }
+
+        /* Logo in the top bar. The sidebar logo is hidden on tablets and phones until the
+           menu is opened, so this keeps the logo always visible and always a link to the
+           landing page. Same sizes as the sidebar logo: 160x60 tablet, 145x54 mobile,
+           135x50 small mobile. Not shown on desktop, where the sidebar logo is visible. */
+        .top-brand {
+            display: none
+        }
+
+        @media (max-width: 768px) {
+            .top-brand {
+                display: flex;
+                align-items: center;
+                flex-shrink: 0
+            }
+
+            .top-brand img {
+                display: block;
+                width: 160px;
+                height: 60px;
+                object-fit: contain;
+                object-position: left center
+            }
+        }
+
+        @media (max-width: 425px) {
+            .top-brand img {
+                width: 145px;
+                height: 54px
+            }
+
+            /* Makes room for the logo on phones */
+            .crumb {
+                display: none
+            }
+        }
+
+        @media (max-width: 375px) {
+            .top-brand img {
+                width: 135px;
+                height: 50px
+            }
+        }
     </style>
 <script src="vorvena-auth.js"></script>
 <script>VorvenaAuth.restoreSession();</script>
@@ -106,6 +149,7 @@
     <main>
         <header class="topbar">
             <button id="menu" class="menu" aria-label="Open menu"><i class="fa fa-bars"></i></button>
+            <a class="top-brand" href="index.html" aria-label="VORVENA Home"><img src="./assets/vorvena_logo_transparent (1).png" alt="VORVENA Logo"></a>
             <div class="crumb">Workspace / <b id="pageName">Overview</b></div>
             <div class="top-user">
                 <span id="topName">Client</span>
