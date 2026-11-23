@@ -1,2126 +1,2172 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VORVENA | Professional Dashboard</title>
 
     <link rel="stylesheet" href="professional-dashboard.css">
-    <link rel="icon" type="image/png" href="assets/vorvena_logo_transparent.png">
+    <link rel="icon" type="image/png" href="./assets/vorvena_logo_transparent%20(1).png">
+
+    <link rel="apple-touch-icon" href="./assets/vorvena_logo_transparent%20(1).png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="vorvena-loader.css">
-<script src="vorvena-auth.js"></script>
-<script>VorvenaAuth.restoreSession();</script>
+    <script src="vorvena-auth.js"></script>
+    <script>VorvenaAuth.restoreSession();</script>
 </head>
 
 <body>
 
-<!-- TOP LOGO BAR: the VORVENA logo sits here, top-left, same size and spot on every device.
+    <!-- TOP LOGO BAR: the VORVENA logo sits here, top-left, same size and spot on every device.
      Clicking the logo takes the user to the landing page. -->
-<header class="brand-bar">
-    <a href="index.html" class="brand-logo" aria-label="VORVENA home">
-        <img src="assets/white.png" alt="VORVENA">
-    </a>
-    <span class="brand-tag">Professional</span>
-    <span class="bar-spacer"></span>
-    <button type="button" class="bar-menu" id="barMenu" aria-label="Open menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
-</header>
+    <header class="brand-bar">
+        <a href="index.html" class="brand-logo" aria-label="VORVENA home">
+            <img src="assets/white.png" alt="VORVENA">
+        </a>
+        <span class="brand-tag">Professional</span>
+        <span class="bar-spacer"></span>
+        <button type="button" class="bar-menu" id="barMenu" aria-label="Open menu" aria-expanded="false"><i
+                class="fa-solid fa-bars"></i></button>
+    </header>
 
-<div class="dashboard-layout">
+    <div class="dashboard-layout">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
 
-        <div class="sidebar-profile">
-            <div class="profile-avatar" id="sidebarAvatar"><i class="fa-solid fa-user"></i></div>
-            <div class="profile-info">
-                <h4 id="sidebarName">Your Name</h4>
-                <p>Professional Account</p>
+            <div class="sidebar-profile">
+                <div class="profile-avatar" id="sidebarAvatar"><i class="fa-solid fa-user"></i></div>
+                <div class="profile-info">
+                    <h4 id="sidebarName">Your Name</h4>
+                    <p>Professional Account</p>
+                </div>
             </div>
-        </div>
 
-        <p class="nav-heading">WORKSPACE</p>
+            <p class="nav-heading">WORKSPACE</p>
 
-        <nav class="sidebar-nav">
-            <a href="#" class="nav-link active" data-page="overview"><i class="fa-solid fa-house"></i><span>Overview</span></a>
-            <a href="#" class="nav-link" data-page="offers"><i class="fa-solid fa-envelope-open-text"></i><span>Hiring Offers</span></a>
-            <a href="#" class="nav-link" data-page="projects"><i class="fa-solid fa-folder-open"></i><span>My Projects</span></a>
-            <a href="#" class="nav-link" data-page="earnings"><i class="fa-solid fa-wallet"></i><span>Earnings</span></a>
-            <a href="#" class="nav-link" data-page="profile"><i class="fa-solid fa-user"></i><span>My Profile</span></a>
-            <a href="#" class="nav-link" data-page="notifications">
-                <i class="fa-solid fa-bell"></i><span>Notifications</span>
-                <em class="nav-badge" id="navNotifBadge" hidden>0</em>
-            </a>
-            <a href="#" class="nav-link" data-page="settings"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
-        </nav>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-link active" data-page="overview"><i
+                        class="fa-solid fa-house"></i><span>Overview</span></a>
+                <a href="#" class="nav-link" data-page="offers"><i
+                        class="fa-solid fa-envelope-open-text"></i><span>Hiring Offers</span></a>
+                <a href="#" class="nav-link" data-page="projects"><i class="fa-solid fa-folder-open"></i><span>My
+                        Projects</span></a>
+                <a href="#" class="nav-link" data-page="earnings"><i
+                        class="fa-solid fa-wallet"></i><span>Earnings</span></a>
+                <a href="#" class="nav-link" data-page="profile"><i class="fa-solid fa-user"></i><span>My
+                        Profile</span></a>
+                <a href="#" class="nav-link" data-page="notifications">
+                    <i class="fa-solid fa-bell"></i><span>Notifications</span>
+                    <em class="nav-badge" id="navNotifBadge" hidden>0</em>
+                </a>
+                <a href="#" class="nav-link" data-page="settings"><i
+                        class="fa-solid fa-gear"></i><span>Settings</span></a>
+            </nav>
 
-        <div class="sidebar-bottom">
-            <button class="logout-btn" id="logoutBtn">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Log Out</span>
-            </button>
-        </div>
-
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <main class="main-content">
-
-        <header class="topbar">
-            <div class="topbar-right">
-                <button class="notification-btn" type="button" aria-label="Notifications" onclick="showPage('notifications')">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="notification-dot" id="notificationBadge" hidden>0</span>
+            <div class="sidebar-bottom">
+                <button class="logout-btn" id="logoutBtn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Log Out</span>
                 </button>
-
-                <div class="top-profile">
-                    <div class="small-avatar" id="topAvatar"><i class="fa-solid fa-user"></i></div>
-                    <span id="topName">Your Name</span>
-                </div>
-            </div>
-        </header>
-
-        <!-- OVERVIEW -->
-        <section class="dashboard-section active" id="overview">
-
-            <div class="welcome-section">
-                <div>
-                    <h1>Welcome back, <span id="welcomeName">Professional</span> 👋</h1>
-                    <p>Here's what's happening with your VORVENA account.</p>
-                </div>
-                <span class="current-date" id="todayDate"></span>
             </div>
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon"><i class="fa-solid fa-naira-sign"></i></div>
-                        <span>Total Earnings</span>
-                    </div>
-                    <h2>₦0.00</h2>
-                    <p>Your total released earnings</p>
-                </div>
+        </aside>
 
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon"><i class="fa-solid fa-briefcase"></i></div>
-                        <span>Active Projects</span>
-                    </div>
-                    <h2>0</h2>
-                    <p>Projects currently in progress</p>
-                </div>
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
 
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon"><i class="fa-solid fa-envelope"></i></div>
-                        <span>Pending Offers</span>
-                    </div>
-                    <h2 id="offerCount">0</h2>
-                    <p>Offers waiting for your response</p>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
-                        <span>Completed Projects</span>
-                    </div>
-                    <h2>0</h2>
-                    <p>Projects successfully delivered</p>
-                </div>
-            </div>
-
-            <div class="overview-grid">
-
-                <div class="content-card">
-                    <div class="card-heading">
-                        <h3>Recent Hiring Offers</h3>
-                        <a href="#" onclick="showPage('offers'); return false;">View All</a>
-                    </div>
-                    <div id="overviewOffers"></div>
-                </div>
-
-                <div class="content-card profile-completion">
-                    <div class="card-heading">
-                        <h3>Profile Completion</h3>
-                        <strong id="completionPercentage">0%</strong>
-                    </div>
-
-                    <p>Complete your professional profile to build trust and improve your chances of getting hired.</p>
-
-                    <div class="progress-track">
-                        <div class="progress-fill" id="completionProgress"></div>
-                    </div>
-
-                    <p>Keep your skills, portfolio and experience up to date.</p>
-
-                    <div class="verification-status">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        Verification Status:
-                        <strong id="identityStatus">Pending</strong>
-                    </div>
-
-                    <button class="primary-btn" onclick="showPage('profile')">Complete Profile</button>
-                </div>
-
-            </div>
-
-            <div class="content-card recent-projects">
-                <div class="card-heading">
-                    <h3>Recent Projects</h3>
-                    <a href="#" onclick="showPage('projects'); return false;">View All</a>
-                </div>
-                <div class="empty-state">
-                    Your projects will appear here when you accept a hiring offer and client payment is confirmed.
-                </div>
-            </div>
-
-        </section>
-
-        <!-- HIRING OFFERS -->
-        <section class="dashboard-section" id="offers">
-            <h2 class="page-title">Hiring Offers</h2>
-            <p class="page-description">Review offers from clients and decide which projects to take.</p>
-            <div class="content-card" id="allOffers"></div>
-        </section>
-
-        <!-- PROJECTS -->
-        <section class="dashboard-section" id="projects">
-            <h2 class="page-title">My Projects</h2>
-            <p class="page-description">Manage your active and completed projects.</p>
-
-            <div class="content-card">
-                <div class="card-heading"><h3>Project Overview</h3></div>
-                <div class="empty-state">
-                    No projects yet. Accepted offers will appear here after the client's payment is confirmed.
-                </div>
-            </div>
-        </section>
-
-        <!-- EARNINGS -->
-        <section class="dashboard-section" id="earnings">
-            <h2 class="page-title">Earnings & Payments</h2>
-            <p class="page-description">Track your earnings, pending payments and transactions.</p>
-
-            <div class="stats-grid">
-                <div class="stat-card"><span>Total Earnings</span><h2>₦0.00</h2></div>
-                <div class="stat-card"><span>Available Balance</span><h2 id="availableBalance">₦0.00</h2></div>
-                <div class="stat-card"><span>Pending Payments</span><h2>₦0.00</h2></div>
-                <div class="stat-card"><span>VORVENA Commission</span><h2>15%</h2></div>
-            </div>
-
-
-            <div class="content-card payout-card">
-                <div class="card-heading"><h3>Request Withdrawal</h3></div>
-                <p class="payout-note" id="wdInfo"></p>
-
-                <div class="form-group">
-                    <label for="wdAmount">Amount (₦)</label>
-                    <input type="text" id="wdAmount" inputmode="decimal" autocomplete="off" placeholder="0.00">
-                </div>
-
-                <p class="payout-error" id="wdError"></p>
-                <button type="button" class="primary-btn" id="wdBtn" disabled>Request withdrawal</button>
-                <p class="payout-note" id="wdLast"></p>
-            </div>
-
-            <div class="content-card">
-                <div class="card-heading"><h3>Transaction History</h3></div>
-                <div class="empty-state">Your payment transactions will appear here.</div>
-            </div>
-        </section>
-
-        <!-- PROFESSIONAL PROFILE -->
-        <section class="dashboard-section" id="profile">
-
-            <h2 class="page-title">My Professional Profile</h2>
-            <p class="page-description">Manage your public professional information.</p>
-
-            <div class="profile-layout">
-
-                <div class="content-card profile-photo-card">
-                    <div class="large-avatar" id="largeAvatar"><i class="fa-solid fa-user"></i></div>
-
-                    <h3 id="profileDisplayName">Your Name</h3>
-                    <p id="profileDisplayRole">Professional Account</p>
-
-                    <label for="photoInput" class="upload-photo-btn">
-                        <i class="fa-solid fa-camera"></i> Upload Profile Picture
-                    </label>
-                    <input type="file" id="photoInput" accept="image/*">
-
-                    <div class="verification-status">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        Identity Verification:
-                        <strong id="profileIdentityStatus">Pending</strong>
-                    </div>
-
-                    <div class="verification-status">
-                        <i class="fa-solid fa-award"></i>
-                        SkillProof:
-                        <strong id="skillProofStatus">Not Completed</strong>
-                    </div>
-                </div>
-
-                <div class="content-card">
-                    <div class="card-heading"><h3>Personal Information</h3></div>
-
-                    <form id="profileForm">
-                        <div class="form-group">
-                            <label for="fullName">Full Name</label>
-                            <input type="text" id="fullName" placeholder="Enter your full name">
-                        </div>
-                        <div class="form-group">
-                            <label for="profileRole">Professional Role</label>
-                            <input type="text" id="profileRole" placeholder="e.g. Full-stack Developer">
-                        </div>
-                        <div class="form-group">
-                            <label for="profileExperience">Experience</label>
-                            <input type="text" id="profileExperience" placeholder="e.g. 3 years">
-                        </div>
-                        <div class="form-group">
-                            <label for="profileSkills">Skills</label>
-                            <input type="text" id="profileSkills" placeholder="e.g. HTML, CSS, JavaScript">
-                        </div>
-                        <div class="form-group">
-                            <label for="profilePortfolio">Portfolio Link</label>
-                            <input type="url" id="profilePortfolio" placeholder="https://yourportfolio.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="profileSocialLink">Social Media Link</label>
-                            <input type="url" id="profileSocialLink" placeholder="https://...">
-                        </div>
-                        <div class="form-group">
-                            <label for="profileBio">Professional Bio</label>
-                            <textarea id="profileBio" placeholder="Tell clients about your experience and skills"></textarea>
-                        </div>
-                        <button type="submit" class="primary-btn">Save Profile</button>
-                    </form>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- NOTIFICATIONS -->
-        <section class="dashboard-section" id="notifications">
-            <h2 class="page-title">Notifications</h2>
-            <p class="page-description">Stay updated on your account and projects.</p>
-
-            <!-- HIRING ALERTS: filled by JavaScript when a client hires this professional -->
-            <div class="content-card">
-                <div class="card-heading">
-                    <h3>Hiring Alerts</h3>
-                    <button type="button" class="link-btn" id="markAllRead">Mark all as read</button>
-                </div>
-                <div id="hireNotifications"></div>
-            </div>
-
-            <div class="content-card">
-                <div class="card-heading"><h3>Account</h3></div>
-
-                <div class="notification-item">
-                    <i class="fa-solid fa-envelope"></i>
-                    <div>
-                        <h4>Welcome to VORVENA</h4>
-                        <p>Your professional dashboard is ready. Complete your profile to get started.</p>
-                    </div>
-                </div>
-
-                <div class="notification-item">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    <div>
-                        <h4>Complete Your Verification</h4>
-                        <p>Complete your identity verification to qualify for paid projects.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SETTINGS -->
-        <section class="dashboard-section" id="settings">
-
-            <h2 class="page-title">Settings</h2>
-            <p class="page-description">Manage your account preferences. Click the edit icon to make changes.</p>
-
-            <!-- Payment details are managed here in Settings. Existing secure PIN flow is retained. -->
-            <div class="content-card payout-card settings-payout-card">
-                <div class="card-heading"><h3>Payment &amp; Withdrawal Details</h3></div>
-                <div class="payout-status" id="payoutStatus"></div>
-
-                <div class="payout-grid">
-                    <div class="form-group full">
-                        <label for="payBank">Bank</label>
-                        <select id="payBank"><option value="">Select your bank</option></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="payNumber">Account number</label>
-                        <input type="text" id="payNumber" inputmode="numeric" maxlength="10" autocomplete="off" placeholder="10-digit account number">
-                    </div>
-                    <div class="form-group">
-                        <label for="payName">Account name</label>
-                        <input type="text" id="payName" readonly placeholder="Filled in automatically">
-                    </div>
-                </div>
-
-                <p class="payout-note">The account name comes from your bank and must match your verified name.</p>
-                <p class="payout-error" id="payError"></p>
-                <button type="button" class="primary-btn" id="paySave" disabled>Save payout details</button>
-            </div>
-
-
-            <div class="content-card settings-card" id="settingsCard">
-
-                <div class="card-heading">
-                    <h3>Account Settings</h3>
-                    <button type="button" class="icon-edit-btn" id="settingsEditBtn" aria-label="Edit settings" title="Edit settings">
-                        <i class="fa-solid fa-pen"></i> <span>Edit</span>
+            <header class="topbar">
+                <div class="topbar-right">
+                    <button class="notification-btn" type="button" aria-label="Notifications"
+                        onclick="showPage('notifications')">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notification-dot" id="notificationBadge" hidden>0</span>
                     </button>
-                </div>
 
-                <p id="settingsEmail" hidden></p>
-
-                <div class="settings-field">
-                    <label for="setAccountType">Account Type</label>
-                    <input type="text" id="setAccountType" value="Professional" disabled>
-                    <small>This cannot be changed.</small>
-                </div>
-
-                <div class="settings-field">
-                    <label for="setEmail">Email Address</label>
-                    <input type="email" id="setEmail" autocomplete="email" disabled>
-                    <small>Changing your email requires verification.</small>
-                    <p class="settings-error" id="errEmail"></p>
-                </div>
-
-                <div class="settings-field">
-                    <label for="setPhone">Phone Number</label>
-                    <input type="tel" id="setPhone" autocomplete="tel" placeholder="+234 800 000 0000" disabled>
-                    <small>Changing your phone number requires verification.</small>
-                    <p class="settings-error" id="errPhone"></p>
-                </div>
-
-                <div class="settings-field">
-                    <label for="setPasswordMask">Password</label>
-                    <input type="password" id="setPasswordMask" value="••••••••" disabled>
-
-                    <div id="passFields" hidden>
-                        <input type="password" id="setNewPass" autocomplete="new-password" placeholder="New password (min. 8 characters)" disabled>
-                        <input type="password" id="setConfirmPass" autocomplete="new-password" placeholder="Confirm new password" disabled>
-                        <small>Leave blank to keep your current password.</small>
+                    <div class="top-profile">
+                        <div class="small-avatar" id="topAvatar"><i class="fa-solid fa-user"></i></div>
+                        <span id="topName">Your Name</span>
                     </div>
-                    <p class="settings-error" id="errPass"></p>
                 </div>
+            </header>
 
-                <div class="settings-row">
+            <!-- OVERVIEW -->
+            <section class="dashboard-section active" id="overview">
+
+                <div class="welcome-section">
                     <div>
-                        <h4>Security PIN</h4>
-                        <p id="pinStatusText">Protects changes to your email, phone and password.</p>
+                        <h1>Welcome back, <span id="welcomeName">Professional</span> 👋</h1>
+                        <p>Here's what's happening with your VORVENA account.</p>
                     </div>
-                    <button type="button" class="soft-btn" id="changePinBtn">Change PIN</button>
+                    <span class="current-date" id="todayDate"></span>
                 </div>
 
-                <div class="settings-row">
-                    <div>
-                        <h4>Email Notifications</h4>
-                        <p>Receive updates about offers and projects.</p>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon"><i class="fa-solid fa-naira-sign"></i></div>
+                            <span>Total Earnings</span>
+                        </div>
+                        <h2>₦0.00</h2>
+                        <p>Your total released earnings</p>
                     </div>
-                    <label class="switch">
-                        <input type="checkbox" id="setNotify" disabled>
-                        <span class="switch-slider"></span>
-                    </label>
-                </div>
 
-                <div class="settings-row">
-                    <div>
-                        <h4>Profile Information</h4>
-                        <p>Update your name, photo and professional details.</p>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon"><i class="fa-solid fa-briefcase"></i></div>
+                            <span>Active Projects</span>
+                        </div>
+                        <h2>0</h2>
+                        <p>Projects currently in progress</p>
                     </div>
-                    <button type="button" class="soft-btn" onclick="showPage('profile')">Edit Profile</button>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <span>Pending Offers</span>
+                        </div>
+                        <h2 id="offerCount">0</h2>
+                        <p>Offers waiting for your response</p>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+                            <span>Completed Projects</span>
+                        </div>
+                        <h2>0</h2>
+                        <p>Projects successfully delivered</p>
+                    </div>
                 </div>
 
-                <div class="settings-actions" id="settingsActions" hidden>
-                    <button type="button" class="soft-btn" id="settingsCancel">Cancel</button>
-                    <button type="button" class="primary-btn" id="settingsSave">Save Changes</button>
+                <div class="overview-grid">
+
+                    <div class="content-card">
+                        <div class="card-heading">
+                            <h3>Recent Hiring Offers</h3>
+                            <a href="#" onclick="showPage('offers'); return false;">View All</a>
+                        </div>
+                        <div id="overviewOffers"></div>
+                    </div>
+
+                    <div class="content-card profile-completion">
+                        <div class="card-heading">
+                            <h3>Profile Completion</h3>
+                            <strong id="completionPercentage">0%</strong>
+                        </div>
+
+                        <p>Complete your professional profile to build trust and improve your chances of getting hired.
+                        </p>
+
+                        <div class="progress-track">
+                            <div class="progress-fill" id="completionProgress"></div>
+                        </div>
+
+                        <p>Keep your skills, portfolio and experience up to date.</p>
+
+                        <div class="verification-status">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            Verification Status:
+                            <strong id="identityStatus">Pending</strong>
+                        </div>
+
+                        <button class="primary-btn" onclick="showPage('profile')">Complete Profile</button>
+                    </div>
+
                 </div>
 
-                <button class="logout-settings-btn" id="settingsLogout">Log Out</button>
+                <div class="content-card recent-projects">
+                    <div class="card-heading">
+                        <h3>Recent Projects</h3>
+                        <a href="#" onclick="showPage('projects'); return false;">View All</a>
+                    </div>
+                    <div class="empty-state">
+                        Your projects will appear here when you accept a hiring offer and client payment is confirmed.
+                    </div>
+                </div>
 
+            </section>
+
+            <!-- HIRING OFFERS -->
+            <section class="dashboard-section" id="offers">
+                <h2 class="page-title">Hiring Offers</h2>
+                <p class="page-description">Review offers from clients and decide which projects to take.</p>
+                <div class="content-card" id="allOffers"></div>
+            </section>
+
+            <!-- PROJECTS -->
+            <section class="dashboard-section" id="projects">
+                <h2 class="page-title">My Projects</h2>
+                <p class="page-description">Manage your active and completed projects.</p>
+
+                <div class="content-card">
+                    <div class="card-heading">
+                        <h3>Project Overview</h3>
+                    </div>
+                    <div class="empty-state">
+                        No projects yet. Accepted offers will appear here after the client's payment is confirmed.
+                    </div>
+                </div>
+            </section>
+
+            <!-- EARNINGS -->
+            <section class="dashboard-section" id="earnings">
+                <h2 class="page-title">Earnings & Payments</h2>
+                <p class="page-description">Track your earnings, pending payments and transactions.</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card"><span>Total Earnings</span>
+                        <h2>₦0.00</h2>
+                    </div>
+                    <div class="stat-card"><span>Available Balance</span>
+                        <h2 id="availableBalance">₦0.00</h2>
+                    </div>
+                    <div class="stat-card"><span>Pending Payments</span>
+                        <h2>₦0.00</h2>
+                    </div>
+                    <div class="stat-card"><span>VORVENA Commission</span>
+                        <h2>15%</h2>
+                    </div>
+                </div>
+
+
+                <div class="content-card payout-card">
+                    <div class="card-heading">
+                        <h3>Request Withdrawal</h3>
+                    </div>
+                    <p class="payout-note" id="wdInfo"></p>
+
+                    <div class="form-group">
+                        <label for="wdAmount">Amount (₦)</label>
+                        <input type="text" id="wdAmount" inputmode="decimal" autocomplete="off" placeholder="0.00">
+                    </div>
+
+                    <p class="payout-error" id="wdError"></p>
+                    <button type="button" class="primary-btn" id="wdBtn" disabled>Request withdrawal</button>
+                    <p class="payout-note" id="wdLast"></p>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-heading">
+                        <h3>Transaction History</h3>
+                    </div>
+                    <div class="empty-state">Your payment transactions will appear here.</div>
+                </div>
+            </section>
+
+            <!-- PROFESSIONAL PROFILE -->
+            <section class="dashboard-section" id="profile">
+
+                <h2 class="page-title">My Professional Profile</h2>
+                <p class="page-description">Manage your public professional information.</p>
+
+                <div class="profile-layout">
+
+                    <div class="content-card profile-photo-card">
+                        <div class="large-avatar" id="largeAvatar"><i class="fa-solid fa-user"></i></div>
+
+                        <h3 id="profileDisplayName">Your Name</h3>
+                        <p id="profileDisplayRole">Professional Account</p>
+
+                        <label for="photoInput" class="upload-photo-btn">
+                            <i class="fa-solid fa-camera"></i> Upload Profile Picture
+                        </label>
+                        <input type="file" id="photoInput" accept="image/*">
+
+                        <div class="verification-status">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            Identity Verification:
+                            <strong id="profileIdentityStatus">Pending</strong>
+                        </div>
+
+                        <div class="verification-status">
+                            <i class="fa-solid fa-award"></i>
+                            SkillProof:
+                            <strong id="skillProofStatus">Not Completed</strong>
+                        </div>
+                    </div>
+
+                    <div class="content-card">
+                        <div class="card-heading">
+                            <h3>Personal Information</h3>
+                        </div>
+
+                        <form id="profileForm">
+                            <div class="form-group">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" id="fullName" placeholder="Enter your full name">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileRole">Professional Role</label>
+                                <input type="text" id="profileRole" placeholder="e.g. Full-stack Developer">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileExperience">Experience</label>
+                                <input type="text" id="profileExperience" placeholder="e.g. 3 years">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileSkills">Skills</label>
+                                <input type="text" id="profileSkills" placeholder="e.g. HTML, CSS, JavaScript">
+                            </div>
+                            <div class="form-group">
+                                <label for="profilePortfolio">Portfolio Link</label>
+                                <input type="url" id="profilePortfolio" placeholder="https://yourportfolio.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileSocialLink">Social Media Link</label>
+                                <input type="url" id="profileSocialLink" placeholder="https://...">
+                            </div>
+                            <div class="form-group">
+                                <label for="profileBio">Professional Bio</label>
+                                <textarea id="profileBio"
+                                    placeholder="Tell clients about your experience and skills"></textarea>
+                            </div>
+                            <button type="submit" class="primary-btn">Save Profile</button>
+                        </form>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- NOTIFICATIONS -->
+            <section class="dashboard-section" id="notifications">
+                <h2 class="page-title">Notifications</h2>
+                <p class="page-description">Stay updated on your account and projects.</p>
+
+                <!-- HIRING ALERTS: filled by JavaScript when a client hires this professional -->
+                <div class="content-card">
+                    <div class="card-heading">
+                        <h3>Hiring Alerts</h3>
+                        <button type="button" class="link-btn" id="markAllRead">Mark all as read</button>
+                    </div>
+                    <div id="hireNotifications"></div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-heading">
+                        <h3>Account</h3>
+                    </div>
+
+                    <div class="notification-item">
+                        <i class="fa-solid fa-envelope"></i>
+                        <div>
+                            <h4>Welcome to VORVENA</h4>
+                            <p>Your professional dashboard is ready. Complete your profile to get started.</p>
+                        </div>
+                    </div>
+
+                    <div class="notification-item">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <div>
+                            <h4>Complete Your Verification</h4>
+                            <p>Complete your identity verification to qualify for paid projects.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SETTINGS -->
+            <section class="dashboard-section" id="settings">
+
+                <h2 class="page-title">Settings</h2>
+                <p class="page-description">Manage your account preferences. Click the edit icon to make changes.</p>
+
+                <!-- Payment details are managed here in Settings. Existing secure PIN flow is retained. -->
+                <div class="content-card payout-card settings-payout-card">
+                    <div class="card-heading">
+                        <h3>Payment &amp; Withdrawal Details</h3>
+                    </div>
+                    <div class="payout-status" id="payoutStatus"></div>
+
+                    <div class="payout-grid">
+                        <div class="form-group full">
+                            <label for="payBank">Bank</label>
+                            <select id="payBank">
+                                <option value="">Select your bank</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="payNumber">Account number</label>
+                            <input type="text" id="payNumber" inputmode="numeric" maxlength="10" autocomplete="off"
+                                placeholder="10-digit account number">
+                        </div>
+                        <div class="form-group">
+                            <label for="payName">Account name</label>
+                            <input type="text" id="payName" readonly placeholder="Filled in automatically">
+                        </div>
+                    </div>
+
+                    <p class="payout-note">The account name comes from your bank and must match your verified name.</p>
+                    <p class="payout-error" id="payError"></p>
+                    <button type="button" class="primary-btn" id="paySave" disabled>Save payout details</button>
+                </div>
+
+
+                <div class="content-card settings-card" id="settingsCard">
+
+                    <div class="card-heading">
+                        <h3>Account Settings</h3>
+                        <button type="button" class="icon-edit-btn" id="settingsEditBtn" aria-label="Edit settings"
+                            title="Edit settings">
+                            <i class="fa-solid fa-pen"></i> <span>Edit</span>
+                        </button>
+                    </div>
+
+                    <p id="settingsEmail" hidden></p>
+
+                    <div class="settings-field">
+                        <label for="setAccountType">Account Type</label>
+                        <input type="text" id="setAccountType" value="Professional" disabled>
+                        <small>This cannot be changed.</small>
+                    </div>
+
+                    <div class="settings-field">
+                        <label for="setEmail">Email Address</label>
+                        <input type="email" id="setEmail" autocomplete="email" disabled>
+                        <small>Changing your email requires verification.</small>
+                        <p class="settings-error" id="errEmail"></p>
+                    </div>
+
+                    <div class="settings-field">
+                        <label for="setPhone">Phone Number</label>
+                        <input type="tel" id="setPhone" autocomplete="tel" placeholder="+234 800 000 0000" disabled>
+                        <small>Changing your phone number requires verification.</small>
+                        <p class="settings-error" id="errPhone"></p>
+                    </div>
+
+                    <div class="settings-field">
+                        <label for="setPasswordMask">Password</label>
+                        <input type="password" id="setPasswordMask" value="••••••••" disabled>
+
+                        <div id="passFields" hidden>
+                            <input type="password" id="setNewPass" autocomplete="new-password"
+                                placeholder="New password (min. 8 characters)" disabled>
+                            <input type="password" id="setConfirmPass" autocomplete="new-password"
+                                placeholder="Confirm new password" disabled>
+                            <small>Leave blank to keep your current password.</small>
+                        </div>
+                        <p class="settings-error" id="errPass"></p>
+                    </div>
+
+                    <div class="settings-row">
+                        <div>
+                            <h4>Security PIN</h4>
+                            <p id="pinStatusText">Protects changes to your email, phone and password.</p>
+                        </div>
+                        <button type="button" class="soft-btn" id="changePinBtn">Change PIN</button>
+                    </div>
+
+                    <div class="settings-row">
+                        <div>
+                            <h4>Email Notifications</h4>
+                            <p>Receive updates about offers and projects.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="setNotify" disabled>
+                            <span class="switch-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-row">
+                        <div>
+                            <h4>Profile Information</h4>
+                            <p>Update your name, photo and professional details.</p>
+                        </div>
+                        <button type="button" class="soft-btn" onclick="showPage('profile')">Edit Profile</button>
+                    </div>
+
+                    <div class="settings-actions" id="settingsActions" hidden>
+                        <button type="button" class="soft-btn" id="settingsCancel">Cancel</button>
+                        <button type="button" class="primary-btn" id="settingsSave">Save Changes</button>
+                    </div>
+
+                    <button class="logout-settings-btn" id="settingsLogout">Log Out</button>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- SECURITY PIN POPUP -->
+    <div class="otp-overlay" id="pinOverlay" hidden>
+        <div class="otp-modal" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
+            <div class="otp-icon"><i class="fa-solid fa-lock"></i></div>
+            <h3 id="pinTitle">Security PIN</h3>
+            <p id="pinMessage"></p>
+
+            <div id="pinRowEnter">
+                <input type="password" class="pin-input" id="pinEnter" inputmode="numeric" maxlength="6"
+                    autocomplete="off" placeholder="••••••" aria-label="Security PIN">
             </div>
 
-        </section>
+            <div id="pinRowCode" hidden>
+                <input type="text" class="pin-input" id="pinCode" inputmode="numeric" maxlength="6"
+                    autocomplete="one-time-code" placeholder="••••••" aria-label="6-digit reset code">
+            </div>
 
-    </main>
+            <div id="pinRowNew" hidden>
+                <input type="password" class="pin-input" id="pinNew" inputmode="numeric" maxlength="6"
+                    autocomplete="new-password" placeholder="New PIN" aria-label="New PIN">
+                <input type="password" class="pin-input" id="pinConfirm" inputmode="numeric" maxlength="6"
+                    autocomplete="new-password" placeholder="Confirm PIN" aria-label="Confirm new PIN">
+            </div>
 
-</div>
+            <p class="settings-error" id="pinError"></p>
 
-<!-- SECURITY PIN POPUP -->
-<div class="otp-overlay" id="pinOverlay" hidden>
-    <div class="otp-modal" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
-        <div class="otp-icon"><i class="fa-solid fa-lock"></i></div>
-        <h3 id="pinTitle">Security PIN</h3>
-        <p id="pinMessage"></p>
+            <button type="button" class="primary-btn otp-verify" id="pinAction">Confirm</button>
 
-        <div id="pinRowEnter">
-            <input type="password" class="pin-input" id="pinEnter" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="••••••" aria-label="Security PIN">
+            <div class="otp-footer">
+                <span id="pinTimer"></span>
+                <button type="button" class="link-btn" id="pinResend" hidden>Resend code</button>
+                <button type="button" class="link-btn" id="pinForgot">Forgot PIN?</button>
+            </div>
+
+            <button type="button" class="link-btn" id="pinCancel">Cancel</button>
         </div>
-
-        <div id="pinRowCode" hidden>
-            <input type="text" class="pin-input" id="pinCode" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="••••••" aria-label="6-digit reset code">
-        </div>
-
-        <div id="pinRowNew" hidden>
-            <input type="password" class="pin-input" id="pinNew" inputmode="numeric" maxlength="6" autocomplete="new-password" placeholder="New PIN" aria-label="New PIN">
-            <input type="password" class="pin-input" id="pinConfirm" inputmode="numeric" maxlength="6" autocomplete="new-password" placeholder="Confirm PIN" aria-label="Confirm new PIN">
-        </div>
-
-        <p class="settings-error" id="pinError"></p>
-
-        <button type="button" class="primary-btn otp-verify" id="pinAction">Confirm</button>
-
-        <div class="otp-footer">
-            <span id="pinTimer"></span>
-            <button type="button" class="link-btn" id="pinResend" hidden>Resend code</button>
-            <button type="button" class="link-btn" id="pinForgot">Forgot PIN?</button>
-        </div>
-
-        <button type="button" class="link-btn" id="pinCancel">Cancel</button>
     </div>
-</div>
 
-<div class="toast-message" id="toast" role="status" aria-live="polite"></div>
+    <div class="toast-message" id="toast" role="status" aria-live="polite"></div>
 
-<script>"use strict";
+    <script>"use strict";
 
-// STORAGE KEYS
-const PROFILE_KEY = "vorvenaProfessionalProfile";
-const IMAGE_KEY = "vorvenaProfileImage";
-const OFFERS_KEY = "vorvenaProfessionalOffers";
-const SHARED_OFFERS_KEY = "vorvenaSharedOffers";
-const NOTIFICATIONS_KEY_PREFIX = "vorvenaProfessionalNotifications:";
-const EMAIL = sessionStorage.getItem("vorvenaLoggedInEmail") || "default";
-const SUMMARY_KEY = "vorvenaPayoutSummary:" + EMAIL;
-const WD_KEY = "vorvenaWithdrawals:" + EMAIL;
+        // STORAGE KEYS
+        const PROFILE_KEY = "vorvenaProfessionalProfile";
+        const IMAGE_KEY = "vorvenaProfileImage";
+        const OFFERS_KEY = "vorvenaProfessionalOffers";
+        const SHARED_OFFERS_KEY = "vorvenaSharedOffers";
+        const NOTIFICATIONS_KEY_PREFIX = "vorvenaProfessionalNotifications:";
+        const EMAIL = sessionStorage.getItem("vorvenaLoggedInEmail") || "default";
+        const SUMMARY_KEY = "vorvenaPayoutSummary:" + EMAIL;
+        const WD_KEY = "vorvenaWithdrawals:" + EMAIL;
 
-const OFFER_CHECK_INTERVAL = 10000; // how often (ms) to look for new hires
+        const OFFER_CHECK_INTERVAL = 10000; // how often (ms) to look for new hires
 
-const sidebar = document.getElementById("sidebar");
-const menuToggle = document.getElementById("barMenu");
-const baseTitle = document.title;
+        const sidebar = document.getElementById("sidebar");
+        const menuToggle = document.getElementById("barMenu");
+        const baseTitle = document.title;
 
-let profile = {};
-let profileImage = "";
-let offers = [];
-let toastTimer;
+        let profile = {};
+        let profileImage = "";
+        let offers = [];
+        let toastTimer;
 
-// LOGIN PROTECTION
-function checkLogin() {
-    const loggedIn = sessionStorage.getItem("vorvenaLoggedIn");
-    const role = sessionStorage.getItem("vorvenaLoggedInRole");
+        // LOGIN PROTECTION
+        function checkLogin() {
+            const loggedIn = sessionStorage.getItem("vorvenaLoggedIn");
+            const role = sessionStorage.getItem("vorvenaLoggedInRole");
 
-    if (loggedIn !== "true" || role !== "professional") {
-        window.location.replace("login.html");
-        return false;
-    }
-    return true;
-}
-
-if (!checkLogin()) {
-    throw new Error("Professional login required.");
-}
-
-// HELPERS
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-const naira = n => "₦" + Number(n).toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const when = iso => new Date(iso).toLocaleString("en-NG", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
-
-const store = {
-    get(key, fallback) {
-        try {
-            const value = JSON.parse(localStorage.getItem(key));
-            return value === null ? fallback : value;
-        } catch (error) {
-            return fallback;
+            if (loggedIn !== "true" || role !== "professional") {
+                window.location.replace("login.html");
+                return false;
+            }
+            return true;
         }
-    },
-    set(key, value) {
-        try { localStorage.setItem(key, JSON.stringify(value)); } catch (error) { /* ignore */ }
-    }
-};
 
-// TOAST
-function notify(message) {
-    const toast = document.getElementById("toast");
-    toast.textContent = message;
-    toast.classList.add("show");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast.classList.remove("show"), 2800);
-}
-
-// LOAD PROFILE
-function readProfile() {
-    try {
-        const saved = sessionStorage.getItem(PROFILE_KEY) || localStorage.getItem(PROFILE_KEY);
-        profile = saved ? JSON.parse(saved) : {};
-    } catch (error) {
-        profile = {};
-    }
-
-    if (!profile || typeof profile !== "object" || Array.isArray(profile)) {
-        profile = {};
-    }
-
-    profile.fullName ||= sessionStorage.getItem("vorvenaFullName") || "";
-    profile.email ||= sessionStorage.getItem("vorvenaEmail") || "";
-    profile.phone ||= sessionStorage.getItem("vorvenaPhone") || "";
-    profile.country ||= sessionStorage.getItem("vorvenaCountry") || "";
-    profile.city ||= sessionStorage.getItem("vorvenaCity") || "";
-
-    if (Array.isArray(profile.skills)) {
-        // already an array
-    } else if (typeof profile.skills === "string" && profile.skills) {
-        profile.skills = profile.skills.split(",").map(s => s.trim()).filter(Boolean);
-    } else {
-        profile.skills = [];
-    }
-
-    try {
-        profileImage = localStorage.getItem(IMAGE_KEY) || "";
-    } catch (error) {
-        profileImage = "";
-    }
-
-    renderProfile();
-}
-
-function saveProfile() {
-    try {
-        const data = JSON.stringify(profile);
-        sessionStorage.setItem(PROFILE_KEY, data);
-        localStorage.setItem(PROFILE_KEY, data);
-        return true;
-    } catch (error) {
-        notify("Could not save your profile. Please try again.");
-        return false;
-    }
-}
-
-// DISPLAY PROFILE
-function renderProfile() {
-    const name = profile.fullName || "Your Name";
-    const firstName = name.trim().split(/\s+/)[0] || "Professional";
-
-    document.getElementById("sidebarName").textContent = name;
-    document.getElementById("topName").textContent = name;
-    document.getElementById("welcomeName").textContent = firstName;
-    document.getElementById("profileDisplayName").textContent = name;
-    document.getElementById("profileDisplayRole").textContent = profile.role || "Professional Account";
-    document.getElementById("settingsEmail").textContent = profile.email || "Not available";
-
-    const fields = {
-        fullName: profile.fullName,
-        profileRole: profile.role,
-        profileExperience: profile.experience,
-        profileSkills: profile.skills.join(", "),
-        profilePortfolio: profile.portfolio,
-        profileSocialLink: profile.socialLink,
-        profileBio: profile.bio
-    };
-
-    Object.entries(fields).forEach(([id, value]) => {
-        const input = document.getElementById(id);
-        if (input && value !== undefined && value !== null) input.value = value;
-    });
-
-    document.getElementById("identityStatus").textContent = profile.identityVerified ? "Verified" : "Pending";
-    document.getElementById("profileIdentityStatus").textContent = profile.identityVerified ? "Verified" : "Pending";
-    document.getElementById("skillProofStatus").textContent = profile.skillProofPassed ? "Completed" : "Not Completed";
-
-    renderPhoto();
-    updateProfileCompletion();
-}
-
-// PROFILE PHOTO
-function renderPhoto() {
-    ["sidebarAvatar", "topAvatar", "largeAvatar"].forEach(id => {
-        const avatar = document.getElementById(id);
-        if (!avatar) return;
-
-        avatar.replaceChildren();
-
-        if (profileImage) {
-            const image = document.createElement("img");
-            image.src = profileImage;
-            image.alt = "Professional profile picture";
-            avatar.appendChild(image);
-        } else {
-            const icon = document.createElement("i");
-            icon.className = "fa-solid fa-user";
-            avatar.appendChild(icon);
+        if (!checkLogin()) {
+            throw new Error("Professional login required.");
         }
-    });
-}
 
-document.getElementById("photoInput").addEventListener("change", function () {
-    const file = this.files && this.files[0];
-    if (!file) return;
+        // HELPERS
+        const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+        const naira = n => "₦" + Number(n).toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const when = iso => new Date(iso).toLocaleString("en-NG", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 
-    if (!file.type.startsWith("image/")) {
-        notify("Please select a valid image.");
-        this.value = "";
-        return;
-    }
+        const store = {
+            get(key, fallback) {
+                try {
+                    const value = JSON.parse(localStorage.getItem(key));
+                    return value === null ? fallback : value;
+                } catch (error) {
+                    return fallback;
+                }
+            },
+            set(key, value) {
+                try { localStorage.setItem(key, JSON.stringify(value)); } catch (error) { /* ignore */ }
+            }
+        };
 
-    if (file.size > 2 * 1024 * 1024) {
-        notify("Please select an image smaller than 2MB.");
-        this.value = "";
-        return;
-    }
+        // TOAST
+        function notify(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.classList.add("show");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove("show"), 2800);
+        }
 
-    const reader = new FileReader();
+        // LOAD PROFILE
+        function readProfile() {
+            try {
+                const saved = sessionStorage.getItem(PROFILE_KEY) || localStorage.getItem(PROFILE_KEY);
+                profile = saved ? JSON.parse(saved) : {};
+            } catch (error) {
+                profile = {};
+            }
 
-    reader.onload = event => {
-        try {
-            const newImage = event.target.result;
-            localStorage.setItem(IMAGE_KEY, newImage);
-            profileImage = newImage;
+            if (!profile || typeof profile !== "object" || Array.isArray(profile)) {
+                profile = {};
+            }
+
+            profile.fullName ||= sessionStorage.getItem("vorvenaFullName") || "";
+            profile.email ||= sessionStorage.getItem("vorvenaEmail") || "";
+            profile.phone ||= sessionStorage.getItem("vorvenaPhone") || "";
+            profile.country ||= sessionStorage.getItem("vorvenaCountry") || "";
+            profile.city ||= sessionStorage.getItem("vorvenaCity") || "";
+
+            if (Array.isArray(profile.skills)) {
+                // already an array
+            } else if (typeof profile.skills === "string" && profile.skills) {
+                profile.skills = profile.skills.split(",").map(s => s.trim()).filter(Boolean);
+            } else {
+                profile.skills = [];
+            }
+
+            try {
+                profileImage = localStorage.getItem(IMAGE_KEY) || "";
+            } catch (error) {
+                profileImage = "";
+            }
+
+            renderProfile();
+        }
+
+        function saveProfile() {
+            try {
+                const data = JSON.stringify(profile);
+                sessionStorage.setItem(PROFILE_KEY, data);
+                localStorage.setItem(PROFILE_KEY, data);
+                return true;
+            } catch (error) {
+                notify("Could not save your profile. Please try again.");
+                return false;
+            }
+        }
+
+        // DISPLAY PROFILE
+        function renderProfile() {
+            const name = profile.fullName || "Your Name";
+            const firstName = name.trim().split(/\s+/)[0] || "Professional";
+
+            document.getElementById("sidebarName").textContent = name;
+            document.getElementById("topName").textContent = name;
+            document.getElementById("welcomeName").textContent = firstName;
+            document.getElementById("profileDisplayName").textContent = name;
+            document.getElementById("profileDisplayRole").textContent = profile.role || "Professional Account";
+            document.getElementById("settingsEmail").textContent = profile.email || "Not available";
+
+            const fields = {
+                fullName: profile.fullName,
+                profileRole: profile.role,
+                profileExperience: profile.experience,
+                profileSkills: profile.skills.join(", "),
+                profilePortfolio: profile.portfolio,
+                profileSocialLink: profile.socialLink,
+                profileBio: profile.bio
+            };
+
+            Object.entries(fields).forEach(([id, value]) => {
+                const input = document.getElementById(id);
+                if (input && value !== undefined && value !== null) input.value = value;
+            });
+
+            document.getElementById("identityStatus").textContent = profile.identityVerified ? "Verified" : "Pending";
+            document.getElementById("profileIdentityStatus").textContent = profile.identityVerified ? "Verified" : "Pending";
+            document.getElementById("skillProofStatus").textContent = profile.skillProofPassed ? "Completed" : "Not Completed";
+
             renderPhoto();
             updateProfileCompletion();
-            syncDirectory();
-            notify("Profile picture updated.");
-        } catch (error) {
-            notify("Image could not be saved. Try a smaller image.");
-        }
-    };
-
-    reader.onerror = () => notify("Could not read this image.");
-    reader.readAsDataURL(file);
-});
-
-// SAVE PROFILE
-document.getElementById("profileForm").addEventListener("submit", event => {
-    event.preventDefault();
-
-    profile.fullName = document.getElementById("fullName").value.trim();
-    profile.role = document.getElementById("profileRole").value.trim();
-    profile.experience = document.getElementById("profileExperience").value.trim();
-    profile.skills = document.getElementById("profileSkills").value
-        .split(",").map(s => s.trim()).filter(Boolean);
-    profile.portfolio = document.getElementById("profilePortfolio").value.trim();
-    profile.socialLink = document.getElementById("profileSocialLink").value.trim();
-    profile.bio = document.getElementById("profileBio").value.trim();
-
-    if (!saveProfile()) return;
-
-    renderProfile();
-    syncDirectory();
-    notify("Your professional profile has been updated.");
-
-    refreshOffers(true);
-});
-
-// PUBLIC CARD: keeps the professional's card on the clients' list up to date.
-// Only safe details are shared. BACKEND: replace with PATCH /api/professionals/me
-const DIRECTORY_KEY = "vorvenaProfessionalDirectory";
-
-function syncDirectory() {
-    if (!profile.professionalId) return;
-
-    // Same levels the onboarding page uses. Free text such as "3 years" is not a level,
-    // so it returns "" and the card keeps the level it already has.
-    const cardExperience = value => {
-        const level = String(value || "").trim().toLowerCase();
-        if (level === "beginner" || level === "entry") return "entry";
-        if (level === "intermediate") return "intermediate";
-        if (level === "experienced" || level === "expert") return "expert";
-        return "";
-    };
-
-    const write = photo => {
-        try {
-            const list = JSON.parse(localStorage.getItem(DIRECTORY_KEY) || "[]");
-            const directory = Array.isArray(list) ? list : [];
-            let card = directory.find(item => item.professionalId === profile.professionalId);
-
-            // The card is missing (for example after clearing part of the storage):
-            // publish it again under the sub-category chosen during onboarding.
-            if (!card) {
-                if (!profile.specialty || !(profile.fullName || profile.name)) return;
-                card = {
-                    professionalId: profile.professionalId,
-                    name: profile.fullName || profile.name,
-                    specialty: profile.specialty,
-                    role: profile.role || "",
-                    country: profile.country || "",
-                    bio: profile.bio || "",
-                    skills: [],
-                    experience: cardExperience(profile.experience) || "entry",
-                    photo: "",
-                    skillProofPassed: Boolean(profile.skillProofPassed)
-                };
-                directory.unshift(card);
-            }
-
-            const skills = Array.isArray(profile.skills)
-                ? profile.skills
-                : String(profile.skills || "").split(",").map(s => s.trim()).filter(Boolean);
-
-            card.name = profile.fullName || card.name;
-            card.bio = profile.bio || card.bio;
-            card.skills = skills.slice(0, 8);
-            if (profile.role) card.role = profile.role;
-            if (cardExperience(profile.experience)) card.experience = cardExperience(profile.experience);
-            if (profile.country) card.country = profile.country;
-            if (photo !== null) card.photo = photo;
-            card.updatedAt = new Date().toISOString();
-
-            localStorage.setItem(DIRECTORY_KEY, JSON.stringify(directory));
-        } catch (error) { /* ignore */ }
-    };
-
-    if (!profileImage) { write(""); return; }
-
-    const img = new Image();
-    img.onload = () => {
-        const scale = Math.min(1, 320 / Math.max(img.width, img.height));
-        const canvas = document.createElement("canvas");
-        canvas.width = Math.round(img.width * scale);
-        canvas.height = Math.round(img.height * scale);
-        canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
-        write(canvas.toDataURL("image/jpeg", 0.8));
-    };
-    img.onerror = () => write(null);
-    img.src = profileImage;
-}
-
-// PROFILE COMPLETION
-function updateProfileCompletion() {
-    const checks = [
-        Boolean(profile.fullName),
-        Boolean(profile.role),
-        Boolean(profile.experience),
-        profile.skills.length > 0,
-        Boolean(profile.portfolio),
-        Boolean(profile.socialLink),
-        Boolean(profile.bio),
-        Boolean(profileImage)
-    ];
-
-    const percentage = Math.round((checks.filter(Boolean).length / checks.length) * 100);
-
-    document.getElementById("completionPercentage").textContent = percentage + "%";
-    document.getElementById("completionProgress").style.width = percentage + "%";
-}
-
-// PROFESSIONAL IDENTITY
-function getProfessionalIdentity() {
-    return {
-        email: (profile.email || sessionStorage.getItem("vorvenaLoggedInEmail") || "").trim().toLowerCase(),
-        id: profile.professionalId || profile.id || "",
-        name: (profile.fullName || "").trim().toLowerCase()
-    };
-}
-
-// READ SHARED OFFERS
-function readSharedOffers() {
-    try {
-        const saved = JSON.parse(localStorage.getItem(SHARED_OFFERS_KEY) || "[]");
-        if (!Array.isArray(saved)) return [];
-
-        const identity = getProfessionalIdentity();
-
-        return saved.filter(offer => {
-            // The permanent professional ID always wins, so changing email never hides offers
-            if (offer.professionalId) {
-                return Boolean(identity.id) && offer.professionalId === identity.id;
-            }
-            if (offer.professionalEmail && identity.email) {
-                return String(offer.professionalEmail).trim().toLowerCase() === identity.email;
-            }
-            if (offer.professionalId && identity.id) {
-                return offer.professionalId === identity.id;
-            }
-            if (offer.professionalName && identity.name) {
-                return String(offer.professionalName).trim().toLowerCase() === identity.name;
-            }
-            return false;
-        }).map(offer => ({ ...offer, isShared: true }));
-
-    } catch (error) {
-        console.error("Could not load shared offers:", error);
-        return [];
-    }
-}
-
-// READ ALL OFFERS
-// Only real offers sent by clients are shown. Sample offers that older versions
-// of this page saved in the browser are dropped here.
-function readOffers() {
-    let localOffers = [];
-
-    try {
-        const saved = localStorage.getItem(OFFERS_KEY);
-
-        if (saved !== null) {
-            const parsed = JSON.parse(saved);
-            localOffers = Array.isArray(parsed) ? parsed.filter(offer => !offer.isDemo) : [];
-        }
-    } catch (error) {
-        console.error("Could not load local offers:", error);
-        localOffers = [];
-    }
-
-    return [...localOffers.filter(offer => !offer.isShared), ...readSharedOffers()];
-}
-
-// SAVE OFFER RESPONSES
-function saveOffers() {
-    try {
-        const localOffers = offers.filter(offer => !offer.isShared);
-        const sharedOffers = JSON.parse(localStorage.getItem(SHARED_OFFERS_KEY) || "[]");
-
-        if (!Array.isArray(sharedOffers)) throw new Error("Invalid shared offers data.");
-
-        const updatedSharedOffers = sharedOffers.map(sharedOffer => {
-            const updated = offers.find(offer => offer.id === sharedOffer.id && offer.isShared);
-
-            return updated
-                ? { ...sharedOffer, status: updated.status, respondedAt: new Date().toISOString() }
-                : sharedOffer;
-        });
-
-        localStorage.setItem(OFFERS_KEY, JSON.stringify(localOffers));
-        localStorage.setItem(SHARED_OFFERS_KEY, JSON.stringify(updatedSharedOffers));
-        return true;
-
-    } catch (error) {
-        console.error("Could not save offers:", error);
-        notify("Could not save offer changes.");
-        return false;
-    }
-}
-
-// CREATE OFFER CARD
-function createOfferCard(offer) {
-    const card = document.createElement("div");
-    card.className = "offer-card";
-
-    const title = document.createElement("h4");
-    title.textContent = offer.title || "Untitled Project";
-
-    const description = document.createElement("p");
-    description.textContent = offer.description || "No project description provided.";
-
-    card.append(title, description);
-
-    const details = document.createElement("div");
-    details.className = "offer-details";
-
-    const budget = document.createElement("span");
-    budget.textContent = "Budget: ";
-    const budgetValue = document.createElement("strong");
-    budgetValue.textContent = offer.budget || "Not specified";
-    budget.appendChild(budgetValue);
-
-    const deadline = document.createElement("span");
-    deadline.textContent = "Deadline: ";
-    const deadlineValue = document.createElement("strong");
-    deadlineValue.textContent = offer.deadline || "Not specified";
-    deadline.appendChild(deadlineValue);
-
-    details.append(budget, deadline);
-    card.appendChild(details);
-
-    if (offer.status === "pending") {
-        const actions = document.createElement("div");
-        actions.className = "offer-actions";
-
-        const acceptButton = document.createElement("button");
-        acceptButton.className = "accept-btn";
-        acceptButton.textContent = "Accept Offer";
-        acceptButton.addEventListener("click", () => respondOffer(offer.id, "accepted"));
-
-        const declineButton = document.createElement("button");
-        declineButton.className = "decline-btn";
-        declineButton.textContent = "Decline";
-        declineButton.addEventListener("click", () => respondOffer(offer.id, "declined"));
-
-        actions.append(acceptButton, declineButton);
-        card.appendChild(actions);
-
-    } else if (offer.status === "accepted") {
-        const status = document.createElement("p");
-        const strong = document.createElement("strong");
-        strong.textContent = "Accepted";
-        status.append("Offer status: ", strong);
-        card.appendChild(status);
-
-        const paymentStatus = document.createElement("div");
-        paymentStatus.className = "offer-payment-status";
-
-        const icon = document.createElement("i");
-        icon.className = "fa-solid fa-clock";
-
-        const content = document.createElement("div");
-        const heading = document.createElement("strong");
-        heading.textContent = "Awaiting Client Payment";
-        const message = document.createElement("p");
-        message.textContent = "The client must complete payment before this project becomes active. Your project workspace is currently locked.";
-
-        content.append(heading, message);
-        paymentStatus.append(icon, content);
-
-        if (isPaymentVerified(offer)) {
-            heading.textContent = "Payment Confirmed";
-            message.textContent = "The client's payment is confirmed. Your project workspace is open.";
-            icon.className = "fa-solid fa-circle-check";
-            card.appendChild(paymentStatus);
-            card.appendChild(createWorkspaceLink(offer));
-        } else {
-            card.appendChild(paymentStatus);
         }
 
-    } else if (offer.status === "declined") {
-        const status = document.createElement("p");
-        const strong = document.createElement("strong");
-        strong.textContent = "Declined";
-        status.append("Offer status: ", strong);
-        card.appendChild(status);
-    }
-
-    return card;
-}
-
-// RENDER OFFERS
-function renderOffers() {
-    const overview = document.getElementById("overviewOffers");
-    const allOffers = document.getElementById("allOffers");
-
-    overview.replaceChildren();
-    allOffers.replaceChildren();
-
-    offers.forEach(offer => {
-        overview.appendChild(createOfferCard(offer));
-        allOffers.appendChild(createOfferCard(offer));
-    });
-
-    if (offers.length === 0) {
-        overview.textContent = "No hiring offers yet.";
-        allOffers.textContent = "No hiring offers yet.";
-    }
-
-    document.getElementById("offerCount").textContent =
-        offers.filter(offer => offer.status === "pending").length;
-
-    renderProjects();
-}
-
-// RENDER PROJECTS
-function renderProjects() {
-    const projectCard = document.querySelector("#projects .content-card");
-    if (!projectCard) return;
-
-    projectCard.replaceChildren();
-
-    const heading = document.createElement("div");
-    heading.className = "card-heading";
-    const title = document.createElement("h3");
-    title.textContent = "Project Overview";
-    heading.appendChild(title);
-    projectCard.appendChild(heading);
-
-    // Accepted offers stay locked until backend payment verification.
-    const acceptedOffers = offers.filter(offer => offer.status === "accepted");
-
-    if (acceptedOffers.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "empty-state";
-        empty.textContent = "No active projects yet. Accepted offers will appear here after the client's payment is confirmed.";
-        projectCard.appendChild(empty);
-        return;
-    }
-
-    acceptedOffers.forEach(offer => {
-        const project = document.createElement("div");
-        project.className = "offer-card";
-
-        const projectTitle = document.createElement("h4");
-        projectTitle.textContent = offer.title || "Untitled Project";
-
-        const projectDescription = document.createElement("p");
-        projectDescription.textContent = "This offer has been accepted. The project is not active yet.";
-
-        const status = document.createElement("div");
-        status.className = "offer-payment-status";
-
-        const icon = document.createElement("i");
-        icon.className = "fa-solid fa-lock";
-
-        const content = document.createElement("div");
-        const statusTitle = document.createElement("strong");
-        statusTitle.textContent = "Workspace Locked";
-        const statusMessage = document.createElement("p");
-        statusMessage.textContent = "Waiting for verified client payment. You cannot access project work until payment is confirmed.";
-
-        content.append(statusTitle, statusMessage);
-        status.append(icon, content);
-        project.append(projectTitle, projectDescription, status);
-
-        if (isPaymentVerified(offer)) {
-            projectDescription.textContent = "Payment confirmed. This project is active.";
-            statusTitle.textContent = "Workspace Open";
-            statusMessage.textContent = "The client's payment is verified. You can now work in the project workspace.";
-            icon.className = "fa-solid fa-circle-check";
-            project.appendChild(createWorkspaceLink(offer));
-        }
-        projectCard.appendChild(project);
-    });
-}
-
-// WORKSPACE ACCESS (opens only after payment is verified)
-function isPaymentVerified(offer) {
-    const paymentState = String(
-        offer.paymentStatus || (offer.payment && offer.payment.status) || ""
-    ).toLowerCase();
-
-    return offer.paymentVerified === true ||
-        offer.paid === true ||
-        ["paid", "verified", "success"].includes(paymentState);
-}
-
-function createWorkspaceLink(offer) {
-    const link = document.createElement("a");
-    link.className = "primary-btn";
-    link.href = "project-workspace.html?projectId=" + encodeURIComponent(offer.id);
-    link.textContent = "Open Project Workspace";
-    link.style.display = "inline-block";
-    link.style.marginTop = "12px";
-    link.style.textDecoration = "none";
-    return link;
-}
-
-// ACCEPT OR DECLINE OFFER
-function respondOffer(id, decision) {
-    const offer = offers.find(item => item.id === id);
-    if (!offer || offer.status !== "pending") return;
-
-    const previousStatus = offer.status;
-    offer.status = decision;
-
-    if (!saveOffers()) {
-        offer.status = previousStatus;
-        return;
-    }
-
-    renderOffers();
-
-    notify(decision === "accepted"
-        ? "Offer accepted. The client has been notified."
-        : "Offer declined. The client has been notified.");
-}
-
-/* ============================================================
-   HIRE NOTIFICATIONS
-   A professional is notified the moment a client hires them:
-   a toast, a badge on the bell and the Notifications menu,
-   a new entry on the Notifications page, and a count in the tab title.
-
-   DEMO MODE: hires arrive through the shared offers list in this browser.
-   When the backend is ready, load notifications from your API
-   (GET /api/notifications) and push new ones with WebSocket / SSE,
-   then keep the same render functions below.
-============================================================ */
-
-function notificationsKey() {
-    return NOTIFICATIONS_KEY_PREFIX + EMAIL;
-}
-
-function readNotifications() {
-    try {
-        const saved = JSON.parse(localStorage.getItem(notificationsKey()) || "[]");
-        return Array.isArray(saved) ? saved : [];
-    } catch (error) {
-        return [];
-    }
-}
-
-function writeNotifications(list) {
-    try {
-        localStorage.setItem(notificationsKey(), JSON.stringify(list.slice(0, 200)));
-        return true;
-    } catch (error) {
-        return false;
-    }
-}
-
-function timeAgo(isoDate) {
-    const time = new Date(isoDate).getTime();
-    if (!time) return "";
-
-    const seconds = Math.max(0, Math.round((Date.now() - time) / 1000));
-    if (seconds < 60) return "Just now";
-
-    const minutes = Math.round(seconds / 60);
-    if (minutes < 60) return `${minutes} min ago`;
-
-    const hours = Math.round(minutes / 60);
-    if (hours < 24) return `${hours} hour${hours === 1 ? "" : "s"} ago`;
-
-    const days = Math.round(hours / 24);
-    return `${days} day${days === 1 ? "" : "s"} ago`;
-}
-
-function isNotificationsPageOpen() {
-    return document.getElementById("notifications").classList.contains("active");
-}
-
-// Looks for new hire requests and creates a notification for each one
-function syncHireNotifications() {
-    const list = readNotifications();
-    const known = new Set(list.map(item => item.offerId));
-
-    const fresh = offers.filter(offer =>
-        offer.isShared && offer.status === "pending" && offer.id && !known.has(offer.id)
-    );
-
-    if (fresh.length === 0) return;
-
-    fresh.forEach(offer => {
-        const client = offer.clientName || offer.clientFullName || "A client";
-
-        list.unshift({
-            id: "hire-" + offer.id,
-            type: "hire",
-            offerId: offer.id,
-            title: "You've been hired!",
-            message: `${client} wants to hire you for "${offer.title || "a project"}". Review the offer and respond.`,
-            createdAt: offer.createdAt || new Date().toISOString(),
-            read: false
-        });
-    });
-
-    writeNotifications(list);
-
-    notify(fresh.length === 1
-        ? "New hire request! A client wants to hire you."
-        : `${fresh.length} new hire requests! Clients want to hire you.`);
-
-    renderNotifications();
-
-    // If the person is already looking at the page, nothing is "unread"
-    if (isNotificationsPageOpen()) markAllNotificationsRead();
-}
-
-function updateNotificationBadges() {
-    const unread = readNotifications().filter(item => !item.read).length;
-    const label = unread > 9 ? "9+" : String(unread);
-
-    ["notificationBadge", "navNotifBadge"].forEach(id => {
-        const badge = document.getElementById(id);
-        if (!badge) return;
-        badge.textContent = label;
-        badge.hidden = unread === 0;
-    });
-
-    document.title = unread > 0 ? `(${unread}) ${baseTitle}` : baseTitle;
-}
-
-function renderNotifications() {
-    const container = document.getElementById("hireNotifications");
-    const list = readNotifications();
-
-    container.replaceChildren();
-
-    if (list.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "empty-state";
-        empty.textContent = "No hiring alerts yet. You'll be notified here as soon as a client hires you.";
-        container.appendChild(empty);
-    }
-
-    list.forEach(item => {
-        const row = document.createElement("div");
-        row.className = "notification-item hire-note" + (item.read ? "" : " unread");
-
-        const icon = document.createElement("i");
-        icon.className = "fa-solid fa-briefcase";
-
-        const body = document.createElement("div");
-        body.className = "hire-note-body";
-
-        const heading = document.createElement("h4");
-        heading.textContent = item.title || "New notification";
-
-        const message = document.createElement("p");
-        message.textContent = item.message || "";
-
-        const time = document.createElement("small");
-        time.className = "note-time";
-        time.textContent = timeAgo(item.createdAt);
-
-        const view = document.createElement("button");
-        view.type = "button";
-        view.className = "soft-btn";
-        view.textContent = "View offer";
-        view.addEventListener("click", () => {
-            markNotificationRead(item.id);
-            showPage("offers");
-        });
-
-        body.append(heading, message, time, view);
-        row.append(icon, body);
-        container.appendChild(row);
-    });
-
-    updateNotificationBadges();
-}
-
-function markNotificationRead(id) {
-    const list = readNotifications();
-    const item = list.find(entry => entry.id === id);
-    if (!item || item.read) return;
-
-    item.read = true;
-    writeNotifications(list);
-    updateNotificationBadges();
-}
-
-// Clears the badges without redrawing, so new items stay highlighted while the person reads them
-function markAllNotificationsRead() {
-    const list = readNotifications();
-    if (!list.some(item => !item.read)) return;
-
-    list.forEach(item => { item.read = true; });
-    writeNotifications(list);
-    updateNotificationBadges();
-}
-
-document.getElementById("markAllRead").addEventListener("click", () => {
-    markAllNotificationsRead();
-    renderNotifications();
-});
-
-// AUTOMATIC OFFER REFRESH
-function refreshOffers(force) {
-    const latest = readOffers();
-
-    if (force || JSON.stringify(latest) !== JSON.stringify(offers)) {
-        offers = latest;
-        renderOffers();
-    }
-
-    syncHireNotifications();
-}
-
-window.addEventListener("storage", event => {
-    if (event.key === SHARED_OFFERS_KEY) refreshOffers();
-});
-
-window.addEventListener("focus", () => refreshOffers());
-
-document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) refreshOffers();
-});
-
-setInterval(() => refreshOffers(), OFFER_CHECK_INTERVAL);
-
-// NAVIGATION
-function showPage(page) {
-    const target = document.getElementById(page);
-
-    if (!target || !target.classList.contains("dashboard-section")) return;
-
-    document.querySelectorAll(".dashboard-section").forEach(s => s.classList.remove("active"));
-    document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
-
-    target.classList.add("active");
-
-    const activeLink = document.querySelector(`.nav-link[data-page="${page}"]`);
-    if (activeLink) activeLink.classList.add("active");
-
-    // Always open Settings locked, with the latest saved values
-    if (page === "settings" && typeof window.refreshSettings === "function") {
-        window.refreshSettings();
-    }
-
-    // Opening Notifications shows the latest alerts, then clears the badges
-    if (page === "notifications") {
-        renderNotifications();
-        markAllNotificationsRead();
-    }
-
-    closeSidebar();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-document.querySelectorAll("[data-page]").forEach(link => {
-    link.addEventListener("click", event => {
-        event.preventDefault();
-        showPage(link.dataset.page);
-    });
-});
-
-// MOBILE MENU
-function closeSidebar() {
-    sidebar.classList.remove("open");
-    menuToggle.setAttribute("aria-expanded", "false");
-}
-
-menuToggle.addEventListener("click", () => {
-    const open = sidebar.classList.toggle("open");
-    menuToggle.setAttribute("aria-expanded", String(open));
-});
-
-document.addEventListener("click", event => {
-    if (!sidebar.classList.contains("open")) return;
-    if (sidebar.contains(event.target) || menuToggle.contains(event.target)) return;
-    closeSidebar();
-});
-
-// DATE
-document.getElementById("todayDate").textContent =
-    new Date().toLocaleDateString("en-NG", {
-        weekday: "long", day: "numeric", month: "long", year: "numeric"
-    });
-
-// LOGOUT
-function logout() {
-    if (!confirm("Are you sure you want to log out?")) return;
-
-    sessionStorage.removeItem("vorvenaLoggedIn");
-    sessionStorage.removeItem("vorvenaLoggedInEmail");
-    sessionStorage.removeItem("vorvenaLoggedInRole");
-    localStorage.removeItem("vorvenaRemembered");
-
-    window.location.replace("login.html");
-}
-
-document.getElementById("logoutBtn").addEventListener("click", logout);
-document.getElementById("settingsLogout").addEventListener("click", logout);
-
-// INITIALISE DASHBOARD
-readProfile();
-offers = readOffers();
-renderOffers();
-renderNotifications();
-syncHireNotifications();
-
-/* ============================================================
-   SECURITY PIN + SETTINGS
-============================================================ */
-
-// BACKEND PLACEHOLDERS. In this demo the PIN is kept (hashed) in this browser only.
-// When the backend is ready, replace each method body with a real fetch() call.
-// Backend rules: store only a HASH of the PIN, lock after 5 wrong tries (15 min),
-// send the reset code to the CURRENT email/phone, and email an alert after any change.
-const PinAPI = {
-    key: "vorvenaSecurityPin:" + EMAIL,
-    MAX_FAILS: 5,
-    LOCK_MINUTES: 15,
-
-    read() {
-        try { return JSON.parse(localStorage.getItem(this.key) || "null"); }
-        catch (e) { return null; }
-    },
-
-    write(data) { localStorage.setItem(this.key, JSON.stringify(data)); },
-
-    async hash(pin, salt) {
-        const text = salt + ":" + pin;
-        if (window.crypto && crypto.subtle) {
-            const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-            return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
-        }
-        let h = 5381;
-        for (const c of text) h = ((h << 5) + h + c.charCodeAt(0)) >>> 0;
-        return String(h);
-    },
-
-    hasPin() { const d = this.read(); return Boolean(d && d.hash); },
-
-    // POST /api/security-pin   { pin }
-    async createPin(pin) {
-        const salt = Math.random().toString(36).slice(2);
-        this.write({ salt, hash: await this.hash(pin, salt), fails: 0, lockedUntil: 0 });
-        return { ok: true };
-    },
-
-    // POST /api/security-pin/verify   { pin }
-    async verifyPin(pin) {
-        const d = this.read();
-        if (!d) return { ok: false };
-
-        if (d.lockedUntil > Date.now()) {
-            return { ok: false, lockedMinutes: Math.ceil((d.lockedUntil - Date.now()) / 60000) };
-        }
-
-        if (await this.hash(pin, d.salt) === d.hash) {
-            d.fails = 0;
-            this.write(d);
-            return { ok: true };
-        }
-
-        d.fails = (d.fails || 0) + 1;
-
-        if (d.fails >= this.MAX_FAILS) {
-            d.fails = 0;
-            d.lockedUntil = Date.now() + this.LOCK_MINUTES * 60000;
-            this.write(d);
-            return { ok: false, lockedMinutes: this.LOCK_MINUTES };
-        }
-
-        this.write(d);
-        return { ok: false, left: this.MAX_FAILS - d.fails };
-    },
-
-    // POST /api/security-pin/reset-code   (backend emails/texts a one-time code)
-    async sendResetCode(channel) {
-        await wait(500);
-        return { ok: true };
-    },
-
-    // POST /api/security-pin/reset-code/verify   { code }
-    // DEMO MODE: any 6-digit code is accepted until the backend exists.
-    async verifyResetCode(code) {
-        await wait(500);
-        return { ok: /^\d{6}$/.test(code) };
-    },
-
-    // PUT /api/security-pin   { code, newPin }
-    async resetPin(newPin) { return this.createPin(newPin); }
-};
-
-// BACKEND PLACEHOLDER for saving account changes.
-// PATCH /api/account   { email?, phone?, password?, emailNotifications? }
-const SettingsAPI = {
-    async updateAccount(changes) {
-        await wait(400);
-        return { ok: true };
-    }
-};
-
-/* ---------- PIN POPUP (create / verify / change / forgot) ---------- */
-(function () {
-    const $ = id => document.getElementById(id);
-    const RESEND_SECONDS = 60;
-
-    let mode = null;      // "create" | "verify" | "change" | "forgot"
-    let step = null;      // "enter" | "code" | "new"
-    let onDone = null;
-    let timer = null;
-
-    function maskTarget() {
-        const email = profile.email || "";
-        if (email.includes("@")) {
-            const [name, domain] = email.split("@");
-            return { channel: "email", label: name.slice(0, 2) + "***@" + domain };
-        }
-        const phone = (profile.phone || "").replace(/\s/g, "");
-        return { channel: "phone", label: "•••• " + phone.slice(-3) };
-    }
-
-    function setError(text) { $("pinError").textContent = text || ""; }
-
-    function setStep(name) {
-        step = name;
-        $("pinRowEnter").hidden = name !== "enter";
-        $("pinRowCode").hidden = name !== "code";
-        $("pinRowNew").hidden = name !== "new";
-        $("pinForgot").hidden = name !== "enter" || mode === "create";
-        $("pinResend").hidden = true;
-        $("pinTimer").textContent = "";
-        clearInterval(timer);
-        setError("");
-
-        const text = {
-            enter: {
-                title: mode === "change" ? "Enter your current PIN" : "Enter your Security PIN",
-                message: "Enter your 6-digit Security PIN to continue.",
-                button: mode === "change" ? "Continue" : "Confirm"
-            },
-            code: {
-                title: "Reset your PIN",
-                message: "",
-                button: "Verify code"
-            },
-            new: {
-                title: mode === "create" ? "Create your Security PIN" : "Choose a new PIN",
-                message: mode === "create"
-                    ? "Before you continue, create a 6-digit PIN. You'll use it to confirm changes to your email, phone number, password and payout details."
-                    : "Choose a new 6-digit PIN.",
-                button: mode === "create" ? "Create PIN" : "Save new PIN"
-            }
-        }[name];
-
-        $("pinTitle").textContent = text.title;
-        $("pinMessage").textContent = text.message;
-        $("pinAction").textContent = text.button;
-
-        const input = { enter: "pinEnter", code: "pinCode", new: "pinNew" }[name];
-        $(input).focus();
-    }
-
-    function clearInputs() {
-        ["pinEnter", "pinCode", "pinNew", "pinConfirm"].forEach(id => { $(id).value = ""; });
-    }
-
-    function open(m, callback) {
-        mode = m;
-        onDone = callback || null;
-        clearInputs();
-        $("pinCancel").textContent = m === "create" ? "Log out" : "Cancel";
-        $("pinOverlay").hidden = false;
-        setStep(m === "create" ? "new" : "enter");
-    }
-
-    function close() {
-        clearInterval(timer);
-        $("pinOverlay").hidden = true;
-        clearInputs();
-        mode = null;
-        onDone = null;
-    }
-
-    function startCountdown() {
-        let left = RESEND_SECONDS;
-        $("pinResend").hidden = true;
-        $("pinTimer").textContent = `Resend code in ${left}s`;
-
-        clearInterval(timer);
-        timer = setInterval(() => {
-            left--;
-            if (left <= 0) {
-                clearInterval(timer);
-                $("pinTimer").textContent = "";
-                $("pinResend").hidden = false;
-            } else {
-                $("pinTimer").textContent = `Resend code in ${left}s`;
-            }
-        }, 1000);
-    }
-
-    async function sendCode() {
-        const target = maskTarget();
-        $("pinMessage").textContent =
-            `We sent a 6-digit code to your ${target.channel} (${target.label}). Enter it to reset your PIN.`;
-
-        const result = await PinAPI.sendResetCode(target.channel);
-        if (!result.ok) { setError("Could not send the code. Please try again."); return; }
-        startCountdown();
-    }
-
-    function startForgot() {
-        mode = "forgot";
-        setStep("code");
-        sendCode();
-    }
-
-    async function submit() {
-        setError("");
-        $("pinAction").disabled = true;
-
-        try {
-            if (step === "enter") {
-                const pin = $("pinEnter").value;
-                if (pin.length !== 6) return setError("Enter your 6-digit PIN.");
-
-                const res = await PinAPI.verifyPin(pin);
-
-                if (!res.ok) {
-                    $("pinEnter").value = "";
-                    if (res.lockedMinutes) return setError(`Too many wrong attempts. Try again in ${res.lockedMinutes} minute(s), or reset your PIN.`);
-                    return setError(`Incorrect PIN. ${res.left} attempt(s) left.`);
+        // PROFILE PHOTO
+        function renderPhoto() {
+            ["sidebarAvatar", "topAvatar", "largeAvatar"].forEach(id => {
+                const avatar = document.getElementById(id);
+                if (!avatar) return;
+
+                avatar.replaceChildren();
+
+                if (profileImage) {
+                    const image = document.createElement("img");
+                    image.src = profileImage;
+                    image.alt = "Professional profile picture";
+                    avatar.appendChild(image);
+                } else {
+                    const icon = document.createElement("i");
+                    icon.className = "fa-solid fa-user";
+                    avatar.appendChild(icon);
                 }
+            });
+        }
 
-                if (mode === "change") return setStep("new");
+        document.getElementById("photoInput").addEventListener("change", function () {
+            const file = this.files && this.files[0];
+            if (!file) return;
 
-                const callback = onDone;
-                close();
-                if (callback) callback();
+            if (!file.type.startsWith("image/")) {
+                notify("Please select a valid image.");
+                this.value = "";
                 return;
             }
 
-            if (step === "code") {
-                const code = $("pinCode").value;
-                if (code.length !== 6) return setError("Enter the full 6-digit code.");
-
-                const res = await PinAPI.verifyResetCode(code);
-                if (!res.ok) return setError("Incorrect code. Please try again.");
-
-                return setStep("new");
+            if (file.size > 2 * 1024 * 1024) {
+                notify("Please select an image smaller than 2MB.");
+                this.value = "";
+                return;
             }
 
-            if (step === "new") {
-                const pin = $("pinNew").value;
-                const confirmPin = $("pinConfirm").value;
+            const reader = new FileReader();
 
-                if (pin.length !== 6) return setError("Your PIN must be 6 digits.");
-                if (pin !== confirmPin) return setError("The PINs do not match.");
+            reader.onload = event => {
+                try {
+                    const newImage = event.target.result;
+                    localStorage.setItem(IMAGE_KEY, newImage);
+                    profileImage = newImage;
+                    renderPhoto();
+                    updateProfileCompletion();
+                    syncDirectory();
+                    notify("Profile picture updated.");
+                } catch (error) {
+                    notify("Image could not be saved. Try a smaller image.");
+                }
+            };
 
-                const created = mode === "create";
-                const res = created ? await PinAPI.createPin(pin) : await PinAPI.resetPin(pin);
+            reader.onerror = () => notify("Could not read this image.");
+            reader.readAsDataURL(file);
+        });
 
-                if (!res.ok) return setError("Could not save your PIN. Please try again.");
+        // SAVE PROFILE
+        document.getElementById("profileForm").addEventListener("submit", event => {
+            event.preventDefault();
 
-                close();
-                notify(created ? "Security PIN created." : "Your Security PIN has been updated.");
+            profile.fullName = document.getElementById("fullName").value.trim();
+            profile.role = document.getElementById("profileRole").value.trim();
+            profile.experience = document.getElementById("profileExperience").value.trim();
+            profile.skills = document.getElementById("profileSkills").value
+                .split(",").map(s => s.trim()).filter(Boolean);
+            profile.portfolio = document.getElementById("profilePortfolio").value.trim();
+            profile.socialLink = document.getElementById("profileSocialLink").value.trim();
+            profile.bio = document.getElementById("profileBio").value.trim();
+
+            if (!saveProfile()) return;
+
+            renderProfile();
+            syncDirectory();
+            notify("Your professional profile has been updated.");
+
+            refreshOffers(true);
+        });
+
+        // PUBLIC CARD: keeps the professional's card on the clients' list up to date.
+        // Only safe details are shared. BACKEND: replace with PATCH /api/professionals/me
+        const DIRECTORY_KEY = "vorvenaProfessionalDirectory";
+
+        function syncDirectory() {
+            if (!profile.professionalId) return;
+
+            // Same levels the onboarding page uses. Free text such as "3 years" is not a level,
+            // so it returns "" and the card keeps the level it already has.
+            const cardExperience = value => {
+                const level = String(value || "").trim().toLowerCase();
+                if (level === "beginner" || level === "entry") return "entry";
+                if (level === "intermediate") return "intermediate";
+                if (level === "experienced" || level === "expert") return "expert";
+                return "";
+            };
+
+            const write = photo => {
+                try {
+                    const list = JSON.parse(localStorage.getItem(DIRECTORY_KEY) || "[]");
+                    const directory = Array.isArray(list) ? list : [];
+                    let card = directory.find(item => item.professionalId === profile.professionalId);
+
+                    // The card is missing (for example after clearing part of the storage):
+                    // publish it again under the sub-category chosen during onboarding.
+                    if (!card) {
+                        if (!profile.specialty || !(profile.fullName || profile.name)) return;
+                        card = {
+                            professionalId: profile.professionalId,
+                            name: profile.fullName || profile.name,
+                            specialty: profile.specialty,
+                            role: profile.role || "",
+                            country: profile.country || "",
+                            bio: profile.bio || "",
+                            skills: [],
+                            experience: cardExperience(profile.experience) || "entry",
+                            photo: "",
+                            skillProofPassed: Boolean(profile.skillProofPassed)
+                        };
+                        directory.unshift(card);
+                    }
+
+                    const skills = Array.isArray(profile.skills)
+                        ? profile.skills
+                        : String(profile.skills || "").split(",").map(s => s.trim()).filter(Boolean);
+
+                    card.name = profile.fullName || card.name;
+                    card.bio = profile.bio || card.bio;
+                    card.skills = skills.slice(0, 8);
+                    if (profile.role) card.role = profile.role;
+                    if (cardExperience(profile.experience)) card.experience = cardExperience(profile.experience);
+                    if (profile.country) card.country = profile.country;
+                    if (photo !== null) card.photo = photo;
+                    card.updatedAt = new Date().toISOString();
+
+                    localStorage.setItem(DIRECTORY_KEY, JSON.stringify(directory));
+                } catch (error) { /* ignore */ }
+            };
+
+            if (!profileImage) { write(""); return; }
+
+            const img = new Image();
+            img.onload = () => {
+                const scale = Math.min(1, 320 / Math.max(img.width, img.height));
+                const canvas = document.createElement("canvas");
+                canvas.width = Math.round(img.width * scale);
+                canvas.height = Math.round(img.height * scale);
+                canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+                write(canvas.toDataURL("image/jpeg", 0.8));
+            };
+            img.onerror = () => write(null);
+            img.src = profileImage;
+        }
+
+        // PROFILE COMPLETION
+        function updateProfileCompletion() {
+            const checks = [
+                Boolean(profile.fullName),
+                Boolean(profile.role),
+                Boolean(profile.experience),
+                profile.skills.length > 0,
+                Boolean(profile.portfolio),
+                Boolean(profile.socialLink),
+                Boolean(profile.bio),
+                Boolean(profileImage)
+            ];
+
+            const percentage = Math.round((checks.filter(Boolean).length / checks.length) * 100);
+
+            document.getElementById("completionPercentage").textContent = percentage + "%";
+            document.getElementById("completionProgress").style.width = percentage + "%";
+        }
+
+        // PROFESSIONAL IDENTITY
+        function getProfessionalIdentity() {
+            return {
+                email: (profile.email || sessionStorage.getItem("vorvenaLoggedInEmail") || "").trim().toLowerCase(),
+                id: profile.professionalId || profile.id || "",
+                name: (profile.fullName || "").trim().toLowerCase()
+            };
+        }
+
+        // READ SHARED OFFERS
+        function readSharedOffers() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(SHARED_OFFERS_KEY) || "[]");
+                if (!Array.isArray(saved)) return [];
+
+                const identity = getProfessionalIdentity();
+
+                return saved.filter(offer => {
+                    // The permanent professional ID always wins, so changing email never hides offers
+                    if (offer.professionalId) {
+                        return Boolean(identity.id) && offer.professionalId === identity.id;
+                    }
+                    if (offer.professionalEmail && identity.email) {
+                        return String(offer.professionalEmail).trim().toLowerCase() === identity.email;
+                    }
+                    if (offer.professionalId && identity.id) {
+                        return offer.professionalId === identity.id;
+                    }
+                    if (offer.professionalName && identity.name) {
+                        return String(offer.professionalName).trim().toLowerCase() === identity.name;
+                    }
+                    return false;
+                }).map(offer => ({ ...offer, isShared: true }));
+
+            } catch (error) {
+                console.error("Could not load shared offers:", error);
+                return [];
+            }
+        }
+
+        // READ ALL OFFERS
+        // Only real offers sent by clients are shown. Sample offers that older versions
+        // of this page saved in the browser are dropped here.
+        function readOffers() {
+            let localOffers = [];
+
+            try {
+                const saved = localStorage.getItem(OFFERS_KEY);
+
+                if (saved !== null) {
+                    const parsed = JSON.parse(saved);
+                    localOffers = Array.isArray(parsed) ? parsed.filter(offer => !offer.isDemo) : [];
+                }
+            } catch (error) {
+                console.error("Could not load local offers:", error);
+                localOffers = [];
+            }
+
+            return [...localOffers.filter(offer => !offer.isShared), ...readSharedOffers()];
+        }
+
+        // SAVE OFFER RESPONSES
+        function saveOffers() {
+            try {
+                const localOffers = offers.filter(offer => !offer.isShared);
+                const sharedOffers = JSON.parse(localStorage.getItem(SHARED_OFFERS_KEY) || "[]");
+
+                if (!Array.isArray(sharedOffers)) throw new Error("Invalid shared offers data.");
+
+                const updatedSharedOffers = sharedOffers.map(sharedOffer => {
+                    const updated = offers.find(offer => offer.id === sharedOffer.id && offer.isShared);
+
+                    return updated
+                        ? { ...sharedOffer, status: updated.status, respondedAt: new Date().toISOString() }
+                        : sharedOffer;
+                });
+
+                localStorage.setItem(OFFERS_KEY, JSON.stringify(localOffers));
+                localStorage.setItem(SHARED_OFFERS_KEY, JSON.stringify(updatedSharedOffers));
+                return true;
+
+            } catch (error) {
+                console.error("Could not save offers:", error);
+                notify("Could not save offer changes.");
+                return false;
+            }
+        }
+
+        // CREATE OFFER CARD
+        function createOfferCard(offer) {
+            const card = document.createElement("div");
+            card.className = "offer-card";
+
+            const title = document.createElement("h4");
+            title.textContent = offer.title || "Untitled Project";
+
+            const description = document.createElement("p");
+            description.textContent = offer.description || "No project description provided.";
+
+            card.append(title, description);
+
+            const details = document.createElement("div");
+            details.className = "offer-details";
+
+            const budget = document.createElement("span");
+            budget.textContent = "Budget: ";
+            const budgetValue = document.createElement("strong");
+            budgetValue.textContent = offer.budget || "Not specified";
+            budget.appendChild(budgetValue);
+
+            const deadline = document.createElement("span");
+            deadline.textContent = "Deadline: ";
+            const deadlineValue = document.createElement("strong");
+            deadlineValue.textContent = offer.deadline || "Not specified";
+            deadline.appendChild(deadlineValue);
+
+            details.append(budget, deadline);
+            card.appendChild(details);
+
+            if (offer.status === "pending") {
+                const actions = document.createElement("div");
+                actions.className = "offer-actions";
+
+                const acceptButton = document.createElement("button");
+                acceptButton.className = "accept-btn";
+                acceptButton.textContent = "Accept Offer";
+                acceptButton.addEventListener("click", () => respondOffer(offer.id, "accepted"));
+
+                const declineButton = document.createElement("button");
+                declineButton.className = "decline-btn";
+                declineButton.textContent = "Decline";
+                declineButton.addEventListener("click", () => respondOffer(offer.id, "declined"));
+
+                actions.append(acceptButton, declineButton);
+                card.appendChild(actions);
+
+            } else if (offer.status === "accepted") {
+                const status = document.createElement("p");
+                const strong = document.createElement("strong");
+                strong.textContent = "Accepted";
+                status.append("Offer status: ", strong);
+                card.appendChild(status);
+
+                const paymentStatus = document.createElement("div");
+                paymentStatus.className = "offer-payment-status";
+
+                const icon = document.createElement("i");
+                icon.className = "fa-solid fa-clock";
+
+                const content = document.createElement("div");
+                const heading = document.createElement("strong");
+                heading.textContent = "Awaiting Client Payment";
+                const message = document.createElement("p");
+                message.textContent = "The client must complete payment before this project becomes active. Your project workspace is currently locked.";
+
+                content.append(heading, message);
+                paymentStatus.append(icon, content);
+
+                if (isPaymentVerified(offer)) {
+                    heading.textContent = "Payment Confirmed";
+                    message.textContent = "The client's payment is confirmed. Your project workspace is open.";
+                    icon.className = "fa-solid fa-circle-check";
+                    card.appendChild(paymentStatus);
+                    card.appendChild(createWorkspaceLink(offer));
+                } else {
+                    card.appendChild(paymentStatus);
+                }
+
+            } else if (offer.status === "declined") {
+                const status = document.createElement("p");
+                const strong = document.createElement("strong");
+                strong.textContent = "Declined";
+                status.append("Offer status: ", strong);
+                card.appendChild(status);
+            }
+
+            return card;
+        }
+
+        // RENDER OFFERS
+        function renderOffers() {
+            const overview = document.getElementById("overviewOffers");
+            const allOffers = document.getElementById("allOffers");
+
+            overview.replaceChildren();
+            allOffers.replaceChildren();
+
+            offers.forEach(offer => {
+                overview.appendChild(createOfferCard(offer));
+                allOffers.appendChild(createOfferCard(offer));
+            });
+
+            if (offers.length === 0) {
+                overview.textContent = "No hiring offers yet.";
+                allOffers.textContent = "No hiring offers yet.";
+            }
+
+            document.getElementById("offerCount").textContent =
+                offers.filter(offer => offer.status === "pending").length;
+
+            renderProjects();
+        }
+
+        // RENDER PROJECTS
+        function renderProjects() {
+            const projectCard = document.querySelector("#projects .content-card");
+            if (!projectCard) return;
+
+            projectCard.replaceChildren();
+
+            const heading = document.createElement("div");
+            heading.className = "card-heading";
+            const title = document.createElement("h3");
+            title.textContent = "Project Overview";
+            heading.appendChild(title);
+            projectCard.appendChild(heading);
+
+            // Accepted offers stay locked until backend payment verification.
+            const acceptedOffers = offers.filter(offer => offer.status === "accepted");
+
+            if (acceptedOffers.length === 0) {
+                const empty = document.createElement("div");
+                empty.className = "empty-state";
+                empty.textContent = "No active projects yet. Accepted offers will appear here after the client's payment is confirmed.";
+                projectCard.appendChild(empty);
+                return;
+            }
+
+            acceptedOffers.forEach(offer => {
+                const project = document.createElement("div");
+                project.className = "offer-card";
+
+                const projectTitle = document.createElement("h4");
+                projectTitle.textContent = offer.title || "Untitled Project";
+
+                const projectDescription = document.createElement("p");
+                projectDescription.textContent = "This offer has been accepted. The project is not active yet.";
+
+                const status = document.createElement("div");
+                status.className = "offer-payment-status";
+
+                const icon = document.createElement("i");
+                icon.className = "fa-solid fa-lock";
+
+                const content = document.createElement("div");
+                const statusTitle = document.createElement("strong");
+                statusTitle.textContent = "Workspace Locked";
+                const statusMessage = document.createElement("p");
+                statusMessage.textContent = "Waiting for verified client payment. You cannot access project work until payment is confirmed.";
+
+                content.append(statusTitle, statusMessage);
+                status.append(icon, content);
+                project.append(projectTitle, projectDescription, status);
+
+                if (isPaymentVerified(offer)) {
+                    projectDescription.textContent = "Payment confirmed. This project is active.";
+                    statusTitle.textContent = "Workspace Open";
+                    statusMessage.textContent = "The client's payment is verified. You can now work in the project workspace.";
+                    icon.className = "fa-solid fa-circle-check";
+                    project.appendChild(createWorkspaceLink(offer));
+                }
+                projectCard.appendChild(project);
+            });
+        }
+
+        // WORKSPACE ACCESS (opens only after payment is verified)
+        function isPaymentVerified(offer) {
+            const paymentState = String(
+                offer.paymentStatus || (offer.payment && offer.payment.status) || ""
+            ).toLowerCase();
+
+            return offer.paymentVerified === true ||
+                offer.paid === true ||
+                ["paid", "verified", "success"].includes(paymentState);
+        }
+
+        function createWorkspaceLink(offer) {
+            const link = document.createElement("a");
+            link.className = "primary-btn";
+            link.href = "project-workspace.html?projectId=" + encodeURIComponent(offer.id);
+            link.textContent = "Open Project Workspace";
+            link.style.display = "inline-block";
+            link.style.marginTop = "12px";
+            link.style.textDecoration = "none";
+            return link;
+        }
+
+        // ACCEPT OR DECLINE OFFER
+        function respondOffer(id, decision) {
+            const offer = offers.find(item => item.id === id);
+            if (!offer || offer.status !== "pending") return;
+
+            const previousStatus = offer.status;
+            offer.status = decision;
+
+            if (!saveOffers()) {
+                offer.status = previousStatus;
+                return;
+            }
+
+            renderOffers();
+
+            notify(decision === "accepted"
+                ? "Offer accepted. The client has been notified."
+                : "Offer declined. The client has been notified.");
+        }
+
+        /* ============================================================
+           HIRE NOTIFICATIONS
+           A professional is notified the moment a client hires them:
+           a toast, a badge on the bell and the Notifications menu,
+           a new entry on the Notifications page, and a count in the tab title.
+        
+           DEMO MODE: hires arrive through the shared offers list in this browser.
+           When the backend is ready, load notifications from your API
+           (GET /api/notifications) and push new ones with WebSocket / SSE,
+           then keep the same render functions below.
+        ============================================================ */
+
+        function notificationsKey() {
+            return NOTIFICATIONS_KEY_PREFIX + EMAIL;
+        }
+
+        function readNotifications() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(notificationsKey()) || "[]");
+                return Array.isArray(saved) ? saved : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function writeNotifications(list) {
+            try {
+                localStorage.setItem(notificationsKey(), JSON.stringify(list.slice(0, 200)));
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function timeAgo(isoDate) {
+            const time = new Date(isoDate).getTime();
+            if (!time) return "";
+
+            const seconds = Math.max(0, Math.round((Date.now() - time) / 1000));
+            if (seconds < 60) return "Just now";
+
+            const minutes = Math.round(seconds / 60);
+            if (minutes < 60) return `${minutes} min ago`;
+
+            const hours = Math.round(minutes / 60);
+            if (hours < 24) return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+
+            const days = Math.round(hours / 24);
+            return `${days} day${days === 1 ? "" : "s"} ago`;
+        }
+
+        function isNotificationsPageOpen() {
+            return document.getElementById("notifications").classList.contains("active");
+        }
+
+        // Looks for new hire requests and creates a notification for each one
+        function syncHireNotifications() {
+            const list = readNotifications();
+            const known = new Set(list.map(item => item.offerId));
+
+            const fresh = offers.filter(offer =>
+                offer.isShared && offer.status === "pending" && offer.id && !known.has(offer.id)
+            );
+
+            if (fresh.length === 0) return;
+
+            fresh.forEach(offer => {
+                const client = offer.clientName || offer.clientFullName || "A client";
+
+                list.unshift({
+                    id: "hire-" + offer.id,
+                    type: "hire",
+                    offerId: offer.id,
+                    title: "You've been hired!",
+                    message: `${client} wants to hire you for "${offer.title || "a project"}". Review the offer and respond.`,
+                    createdAt: offer.createdAt || new Date().toISOString(),
+                    read: false
+                });
+            });
+
+            writeNotifications(list);
+
+            notify(fresh.length === 1
+                ? "New hire request! A client wants to hire you."
+                : `${fresh.length} new hire requests! Clients want to hire you.`);
+
+            renderNotifications();
+
+            // If the person is already looking at the page, nothing is "unread"
+            if (isNotificationsPageOpen()) markAllNotificationsRead();
+        }
+
+        function updateNotificationBadges() {
+            const unread = readNotifications().filter(item => !item.read).length;
+            const label = unread > 9 ? "9+" : String(unread);
+
+            ["notificationBadge", "navNotifBadge"].forEach(id => {
+                const badge = document.getElementById(id);
+                if (!badge) return;
+                badge.textContent = label;
+                badge.hidden = unread === 0;
+            });
+
+            document.title = unread > 0 ? `(${unread}) ${baseTitle}` : baseTitle;
+        }
+
+        function renderNotifications() {
+            const container = document.getElementById("hireNotifications");
+            const list = readNotifications();
+
+            container.replaceChildren();
+
+            if (list.length === 0) {
+                const empty = document.createElement("div");
+                empty.className = "empty-state";
+                empty.textContent = "No hiring alerts yet. You'll be notified here as soon as a client hires you.";
+                container.appendChild(empty);
+            }
+
+            list.forEach(item => {
+                const row = document.createElement("div");
+                row.className = "notification-item hire-note" + (item.read ? "" : " unread");
+
+                const icon = document.createElement("i");
+                icon.className = "fa-solid fa-briefcase";
+
+                const body = document.createElement("div");
+                body.className = "hire-note-body";
+
+                const heading = document.createElement("h4");
+                heading.textContent = item.title || "New notification";
+
+                const message = document.createElement("p");
+                message.textContent = item.message || "";
+
+                const time = document.createElement("small");
+                time.className = "note-time";
+                time.textContent = timeAgo(item.createdAt);
+
+                const view = document.createElement("button");
+                view.type = "button";
+                view.className = "soft-btn";
+                view.textContent = "View offer";
+                view.addEventListener("click", () => {
+                    markNotificationRead(item.id);
+                    showPage("offers");
+                });
+
+                body.append(heading, message, time, view);
+                row.append(icon, body);
+                container.appendChild(row);
+            });
+
+            updateNotificationBadges();
+        }
+
+        function markNotificationRead(id) {
+            const list = readNotifications();
+            const item = list.find(entry => entry.id === id);
+            if (!item || item.read) return;
+
+            item.read = true;
+            writeNotifications(list);
+            updateNotificationBadges();
+        }
+
+        // Clears the badges without redrawing, so new items stay highlighted while the person reads them
+        function markAllNotificationsRead() {
+            const list = readNotifications();
+            if (!list.some(item => !item.read)) return;
+
+            list.forEach(item => { item.read = true; });
+            writeNotifications(list);
+            updateNotificationBadges();
+        }
+
+        document.getElementById("markAllRead").addEventListener("click", () => {
+            markAllNotificationsRead();
+            renderNotifications();
+        });
+
+        // AUTOMATIC OFFER REFRESH
+        function refreshOffers(force) {
+            const latest = readOffers();
+
+            if (force || JSON.stringify(latest) !== JSON.stringify(offers)) {
+                offers = latest;
+                renderOffers();
+            }
+
+            syncHireNotifications();
+        }
+
+        window.addEventListener("storage", event => {
+            if (event.key === SHARED_OFFERS_KEY) refreshOffers();
+        });
+
+        window.addEventListener("focus", () => refreshOffers());
+
+        document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) refreshOffers();
+        });
+
+        setInterval(() => refreshOffers(), OFFER_CHECK_INTERVAL);
+
+        // NAVIGATION
+        function showPage(page) {
+            const target = document.getElementById(page);
+
+            if (!target || !target.classList.contains("dashboard-section")) return;
+
+            document.querySelectorAll(".dashboard-section").forEach(s => s.classList.remove("active"));
+            document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+
+            target.classList.add("active");
+
+            const activeLink = document.querySelector(`.nav-link[data-page="${page}"]`);
+            if (activeLink) activeLink.classList.add("active");
+
+            // Always open Settings locked, with the latest saved values
+            if (page === "settings" && typeof window.refreshSettings === "function") {
+                window.refreshSettings();
+            }
+
+            // Opening Notifications shows the latest alerts, then clears the badges
+            if (page === "notifications") {
+                renderNotifications();
+                markAllNotificationsRead();
+            }
+
+            closeSidebar();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        document.querySelectorAll("[data-page]").forEach(link => {
+            link.addEventListener("click", event => {
+                event.preventDefault();
+                showPage(link.dataset.page);
+            });
+        });
+
+        // MOBILE MENU
+        function closeSidebar() {
+            sidebar.classList.remove("open");
+            menuToggle.setAttribute("aria-expanded", "false");
+        }
+
+        menuToggle.addEventListener("click", () => {
+            const open = sidebar.classList.toggle("open");
+            menuToggle.setAttribute("aria-expanded", String(open));
+        });
+
+        document.addEventListener("click", event => {
+            if (!sidebar.classList.contains("open")) return;
+            if (sidebar.contains(event.target) || menuToggle.contains(event.target)) return;
+            closeSidebar();
+        });
+
+        // DATE
+        document.getElementById("todayDate").textContent =
+            new Date().toLocaleDateString("en-NG", {
+                weekday: "long", day: "numeric", month: "long", year: "numeric"
+            });
+
+        // LOGOUT
+        function logout() {
+            if (!confirm("Are you sure you want to log out?")) return;
+
+            sessionStorage.removeItem("vorvenaLoggedIn");
+            sessionStorage.removeItem("vorvenaLoggedInEmail");
+            sessionStorage.removeItem("vorvenaLoggedInRole");
+            localStorage.removeItem("vorvenaRemembered");
+
+            window.location.replace("login.html");
+        }
+
+        document.getElementById("logoutBtn").addEventListener("click", logout);
+        document.getElementById("settingsLogout").addEventListener("click", logout);
+
+        // INITIALISE DASHBOARD
+        readProfile();
+        offers = readOffers();
+        renderOffers();
+        renderNotifications();
+        syncHireNotifications();
+
+        /* ============================================================
+           SECURITY PIN + SETTINGS
+        ============================================================ */
+
+        // BACKEND PLACEHOLDERS. In this demo the PIN is kept (hashed) in this browser only.
+        // When the backend is ready, replace each method body with a real fetch() call.
+        // Backend rules: store only a HASH of the PIN, lock after 5 wrong tries (15 min),
+        // send the reset code to the CURRENT email/phone, and email an alert after any change.
+        const PinAPI = {
+            key: "vorvenaSecurityPin:" + EMAIL,
+            MAX_FAILS: 5,
+            LOCK_MINUTES: 15,
+
+            read() {
+                try { return JSON.parse(localStorage.getItem(this.key) || "null"); }
+                catch (e) { return null; }
+            },
+
+            write(data) { localStorage.setItem(this.key, JSON.stringify(data)); },
+
+            async hash(pin, salt) {
+                const text = salt + ":" + pin;
+                if (window.crypto && crypto.subtle) {
+                    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+                    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+                }
+                let h = 5381;
+                for (const c of text) h = ((h << 5) + h + c.charCodeAt(0)) >>> 0;
+                return String(h);
+            },
+
+            hasPin() { const d = this.read(); return Boolean(d && d.hash); },
+
+            // POST /api/security-pin   { pin }
+            async createPin(pin) {
+                const salt = Math.random().toString(36).slice(2);
+                this.write({ salt, hash: await this.hash(pin, salt), fails: 0, lockedUntil: 0 });
+                return { ok: true };
+            },
+
+            // POST /api/security-pin/verify   { pin }
+            async verifyPin(pin) {
+                const d = this.read();
+                if (!d) return { ok: false };
+
+                if (d.lockedUntil > Date.now()) {
+                    return { ok: false, lockedMinutes: Math.ceil((d.lockedUntil - Date.now()) / 60000) };
+                }
+
+                if (await this.hash(pin, d.salt) === d.hash) {
+                    d.fails = 0;
+                    this.write(d);
+                    return { ok: true };
+                }
+
+                d.fails = (d.fails || 0) + 1;
+
+                if (d.fails >= this.MAX_FAILS) {
+                    d.fails = 0;
+                    d.lockedUntil = Date.now() + this.LOCK_MINUTES * 60000;
+                    this.write(d);
+                    return { ok: false, lockedMinutes: this.LOCK_MINUTES };
+                }
+
+                this.write(d);
+                return { ok: false, left: this.MAX_FAILS - d.fails };
+            },
+
+            // POST /api/security-pin/reset-code   (backend emails/texts a one-time code)
+            async sendResetCode(channel) {
+                await wait(500);
+                return { ok: true };
+            },
+
+            // POST /api/security-pin/reset-code/verify   { code }
+            // DEMO MODE: any 6-digit code is accepted until the backend exists.
+            async verifyResetCode(code) {
+                await wait(500);
+                return { ok: /^\d{6}$/.test(code) };
+            },
+
+            // PUT /api/security-pin   { code, newPin }
+            async resetPin(newPin) { return this.createPin(newPin); }
+        };
+
+        // BACKEND PLACEHOLDER for saving account changes.
+        // PATCH /api/account   { email?, phone?, password?, emailNotifications? }
+        const SettingsAPI = {
+            async updateAccount(changes) {
+                await wait(400);
+                return { ok: true };
+            }
+        };
+
+        /* ---------- PIN POPUP (create / verify / change / forgot) ---------- */
+        (function () {
+            const $ = id => document.getElementById(id);
+            const RESEND_SECONDS = 60;
+
+            let mode = null;      // "create" | "verify" | "change" | "forgot"
+            let step = null;      // "enter" | "code" | "new"
+            let onDone = null;
+            let timer = null;
+
+            function maskTarget() {
+                const email = profile.email || "";
+                if (email.includes("@")) {
+                    const [name, domain] = email.split("@");
+                    return { channel: "email", label: name.slice(0, 2) + "***@" + domain };
+                }
+                const phone = (profile.phone || "").replace(/\s/g, "");
+                return { channel: "phone", label: "•••• " + phone.slice(-3) };
+            }
+
+            function setError(text) { $("pinError").textContent = text || ""; }
+
+            function setStep(name) {
+                step = name;
+                $("pinRowEnter").hidden = name !== "enter";
+                $("pinRowCode").hidden = name !== "code";
+                $("pinRowNew").hidden = name !== "new";
+                $("pinForgot").hidden = name !== "enter" || mode === "create";
+                $("pinResend").hidden = true;
+                $("pinTimer").textContent = "";
+                clearInterval(timer);
+                setError("");
+
+                const text = {
+                    enter: {
+                        title: mode === "change" ? "Enter your current PIN" : "Enter your Security PIN",
+                        message: "Enter your 6-digit Security PIN to continue.",
+                        button: mode === "change" ? "Continue" : "Confirm"
+                    },
+                    code: {
+                        title: "Reset your PIN",
+                        message: "",
+                        button: "Verify code"
+                    },
+                    new: {
+                        title: mode === "create" ? "Create your Security PIN" : "Choose a new PIN",
+                        message: mode === "create"
+                            ? "Before you continue, create a 6-digit PIN. You'll use it to confirm changes to your email, phone number, password and payout details."
+                            : "Choose a new 6-digit PIN.",
+                        button: mode === "create" ? "Create PIN" : "Save new PIN"
+                    }
+                }[name];
+
+                $("pinTitle").textContent = text.title;
+                $("pinMessage").textContent = text.message;
+                $("pinAction").textContent = text.button;
+
+                const input = { enter: "pinEnter", code: "pinCode", new: "pinNew" }[name];
+                $(input).focus();
+            }
+
+            function clearInputs() {
+                ["pinEnter", "pinCode", "pinNew", "pinConfirm"].forEach(id => { $(id).value = ""; });
+            }
+
+            function open(m, callback) {
+                mode = m;
+                onDone = callback || null;
+                clearInputs();
+                $("pinCancel").textContent = m === "create" ? "Log out" : "Cancel";
+                $("pinOverlay").hidden = false;
+                setStep(m === "create" ? "new" : "enter");
+            }
+
+            function close() {
+                clearInterval(timer);
+                $("pinOverlay").hidden = true;
+                clearInputs();
+                mode = null;
+                onDone = null;
+            }
+
+            function startCountdown() {
+                let left = RESEND_SECONDS;
+                $("pinResend").hidden = true;
+                $("pinTimer").textContent = `Resend code in ${left}s`;
+
+                clearInterval(timer);
+                timer = setInterval(() => {
+                    left--;
+                    if (left <= 0) {
+                        clearInterval(timer);
+                        $("pinTimer").textContent = "";
+                        $("pinResend").hidden = false;
+                    } else {
+                        $("pinTimer").textContent = `Resend code in ${left}s`;
+                    }
+                }, 1000);
+            }
+
+            async function sendCode() {
+                const target = maskTarget();
+                $("pinMessage").textContent =
+                    `We sent a 6-digit code to your ${target.channel} (${target.label}). Enter it to reset your PIN.`;
+
+                const result = await PinAPI.sendResetCode(target.channel);
+                if (!result.ok) { setError("Could not send the code. Please try again."); return; }
+                startCountdown();
+            }
+
+            function startForgot() {
+                mode = "forgot";
+                setStep("code");
+                sendCode();
+            }
+
+            async function submit() {
+                setError("");
+                $("pinAction").disabled = true;
+
+                try {
+                    if (step === "enter") {
+                        const pin = $("pinEnter").value;
+                        if (pin.length !== 6) return setError("Enter your 6-digit PIN.");
+
+                        const res = await PinAPI.verifyPin(pin);
+
+                        if (!res.ok) {
+                            $("pinEnter").value = "";
+                            if (res.lockedMinutes) return setError(`Too many wrong attempts. Try again in ${res.lockedMinutes} minute(s), or reset your PIN.`);
+                            return setError(`Incorrect PIN. ${res.left} attempt(s) left.`);
+                        }
+
+                        if (mode === "change") return setStep("new");
+
+                        const callback = onDone;
+                        close();
+                        if (callback) callback();
+                        return;
+                    }
+
+                    if (step === "code") {
+                        const code = $("pinCode").value;
+                        if (code.length !== 6) return setError("Enter the full 6-digit code.");
+
+                        const res = await PinAPI.verifyResetCode(code);
+                        if (!res.ok) return setError("Incorrect code. Please try again.");
+
+                        return setStep("new");
+                    }
+
+                    if (step === "new") {
+                        const pin = $("pinNew").value;
+                        const confirmPin = $("pinConfirm").value;
+
+                        if (pin.length !== 6) return setError("Your PIN must be 6 digits.");
+                        if (pin !== confirmPin) return setError("The PINs do not match.");
+
+                        const created = mode === "create";
+                        const res = created ? await PinAPI.createPin(pin) : await PinAPI.resetPin(pin);
+
+                        if (!res.ok) return setError("Could not save your PIN. Please try again.");
+
+                        close();
+                        notify(created ? "Security PIN created." : "Your Security PIN has been updated.");
+                        updatePinStatus();
+                    }
+                } finally {
+                    $("pinAction").disabled = false;
+                }
+            }
+
+            ["pinEnter", "pinCode", "pinNew", "pinConfirm"].forEach(id => {
+                $(id).addEventListener("input", e => {
+                    e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6);
+                    setError("");
+                });
+
+                $(id).addEventListener("keydown", e => {
+                    if (e.key === "Enter") submit();
+                });
+            });
+
+            $("pinAction").addEventListener("click", submit);
+            $("pinForgot").addEventListener("click", startForgot);
+            $("pinResend").addEventListener("click", sendCode);
+
+            $("pinCancel").addEventListener("click", () => {
+                if (mode === "create") logout();
+                else close();
+            });
+
+            document.addEventListener("keydown", e => {
+                if (e.key === "Escape" && !$("pinOverlay").hidden && mode !== "create") close();
+            });
+
+            $("pinOverlay").addEventListener("click", e => {
+                if (e.target === $("pinOverlay") && mode !== "create") close();
+            });
+
+            window.PinModal = { open };
+
+            // FIRST ACCESS: the professional must create a PIN before using the dashboard
+            if (!PinAPI.hasPin()) open("create");
+        })();
+
+        function updatePinStatus() {
+            const el = document.getElementById("pinStatusText");
+            if (el) el.textContent = PinAPI.hasPin()
+                ? "Your PIN is set. It protects changes to your email, phone, password and payout details."
+                : "Not set yet.";
+        }
+
+        /* ---------- SETTINGS: locked until Edit ---------- */
+        (function () {
+            const $ = id => document.getElementById(id);
+            const lockable = ["setEmail", "setPhone", "setNewPass", "setConfirmPass", "setNotify"];
+
+            function clearErrors() {
+                ["errEmail", "errPhone", "errPass"].forEach(id => { $(id).textContent = ""; });
+            }
+
+            function fillFields() {
+                $("setEmail").value = profile.email || "";
+                $("setPhone").value = profile.phone || "";
+                $("setNotify").checked = profile.emailNotifications !== false;
+                $("setNewPass").value = "";
+                $("setConfirmPass").value = "";
+                clearErrors();
                 updatePinStatus();
             }
-        } finally {
-            $("pinAction").disabled = false;
-        }
-    }
 
-    ["pinEnter", "pinCode", "pinNew", "pinConfirm"].forEach(id => {
-        $(id).addEventListener("input", e => {
-            e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6);
-            setError("");
-        });
-
-        $(id).addEventListener("keydown", e => {
-            if (e.key === "Enter") submit();
-        });
-    });
-
-    $("pinAction").addEventListener("click", submit);
-    $("pinForgot").addEventListener("click", startForgot);
-    $("pinResend").addEventListener("click", sendCode);
-
-    $("pinCancel").addEventListener("click", () => {
-        if (mode === "create") logout();
-        else close();
-    });
-
-    document.addEventListener("keydown", e => {
-        if (e.key === "Escape" && !$("pinOverlay").hidden && mode !== "create") close();
-    });
-
-    $("pinOverlay").addEventListener("click", e => {
-        if (e.target === $("pinOverlay") && mode !== "create") close();
-    });
-
-    window.PinModal = { open };
-
-    // FIRST ACCESS: the professional must create a PIN before using the dashboard
-    if (!PinAPI.hasPin()) open("create");
-})();
-
-function updatePinStatus() {
-    const el = document.getElementById("pinStatusText");
-    if (el) el.textContent = PinAPI.hasPin()
-        ? "Your PIN is set. It protects changes to your email, phone, password and payout details."
-        : "Not set yet.";
-}
-
-/* ---------- SETTINGS: locked until Edit ---------- */
-(function () {
-    const $ = id => document.getElementById(id);
-    const lockable = ["setEmail", "setPhone", "setNewPass", "setConfirmPass", "setNotify"];
-
-    function clearErrors() {
-        ["errEmail", "errPhone", "errPass"].forEach(id => { $(id).textContent = ""; });
-    }
-
-    function fillFields() {
-        $("setEmail").value = profile.email || "";
-        $("setPhone").value = profile.phone || "";
-        $("setNotify").checked = profile.emailNotifications !== false;
-        $("setNewPass").value = "";
-        $("setConfirmPass").value = "";
-        clearErrors();
-        updatePinStatus();
-    }
-
-    function setEditing(on) {
-        lockable.forEach(id => { $(id).disabled = !on; });
-        $("passFields").hidden = !on;
-        $("settingsActions").hidden = !on;
-        $("settingsEditBtn").hidden = on;
-        if (!on) fillFields();
-        else $("setEmail").focus();
-    }
-
-    window.refreshSettings = () => setEditing(false);
-
-    function validate() {
-        clearErrors();
-        let ok = true;
-
-        const email = $("setEmail").value.trim();
-        const phone = $("setPhone").value.trim();
-        const pass = $("setNewPass").value;
-        const confirmPass = $("setConfirmPass").value;
-
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            $("errEmail").textContent = "Enter a valid email address.";
-            ok = false;
-        }
-
-        const digits = phone.replace(/\D/g, "");
-        if (!/^\+?[\d\s()-]+$/.test(phone) || digits.length < 7 || digits.length > 15) {
-            $("errPhone").textContent = "Enter a valid phone number.";
-            ok = false;
-        }
-
-        if (pass || confirmPass) {
-            if (pass.length < 8) {
-                $("errPass").textContent = "Password must be at least 8 characters.";
-                ok = false;
-            } else if (pass !== confirmPass) {
-                $("errPass").textContent = "Passwords do not match.";
-                ok = false;
+            function setEditing(on) {
+                lockable.forEach(id => { $(id).disabled = !on; });
+                $("passFields").hidden = !on;
+                $("settingsActions").hidden = !on;
+                $("settingsEditBtn").hidden = on;
+                if (!on) fillFields();
+                else $("setEmail").focus();
             }
-        }
 
-        return ok;
-    }
+            window.refreshSettings = () => setEditing(false);
 
-    function collectChanges() {
-        const changes = {};
-        const email = $("setEmail").value.trim();
-        const phone = $("setPhone").value.trim();
-        const pass = $("setNewPass").value;
-        const notifications = $("setNotify").checked;
+            function validate() {
+                clearErrors();
+                let ok = true;
 
-        if (email !== (profile.email || "")) changes.email = email;
-        if (phone !== (profile.phone || "")) changes.phone = phone;
-        if (pass) changes.password = pass;
-        if (notifications !== (profile.emailNotifications !== false)) {
-            changes.emailNotifications = notifications;
-        }
-        return changes;
-    }
+                const email = $("setEmail").value.trim();
+                const phone = $("setPhone").value.trim();
+                const pass = $("setNewPass").value;
+                const confirmPass = $("setConfirmPass").value;
 
-    const needsPin = c => "email" in c || "phone" in c || "password" in c;
-
-    // Things saved under the old email (payout summary, withdrawals, hiring alerts,
-    // Security PIN, photo) move to the new email so nothing is lost after the change.
-    function moveEmailKeys(oldKey, newKey) {
-        if (!oldKey || oldKey === newKey) return;
-
-        [
-            "vorvenaPayoutSummary:",
-            "vorvenaWithdrawals:",
-            NOTIFICATIONS_KEY_PREFIX,
-            "vorvenaSecurityPin:",
-            "vorvenaAccountImage:"
-        ].forEach(prefix => {
-            try {
-                const value = localStorage.getItem(prefix + oldKey);
-
-                if (value !== null) {
-                    localStorage.setItem(prefix + newKey, value);
-                    localStorage.removeItem(prefix + oldKey);
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    $("errEmail").textContent = "Enter a valid email address.";
+                    ok = false;
                 }
-            } catch (error) { /* ignore */ }
-        });
-    }
 
-    // Keeps this login session and "Remember me" pointing at the new email
-    function switchSessionEmail(oldKey, newKey, newEmail) {
-        sessionStorage.setItem("vorvenaLoggedInEmail", newKey);
-        sessionStorage.setItem("vorvenaEmail", newEmail);
+                const digits = phone.replace(/\D/g, "");
+                if (!/^\+?[\d\s()-]+$/.test(phone) || digits.length < 7 || digits.length > 15) {
+                    $("errPhone").textContent = "Enter a valid phone number.";
+                    ok = false;
+                }
 
-        try {
-            const remembered = JSON.parse(localStorage.getItem("vorvenaRemembered") || "null");
+                if (pass || confirmPass) {
+                    if (pass.length < 8) {
+                        $("errPass").textContent = "Password must be at least 8 characters.";
+                        ok = false;
+                    } else if (pass !== confirmPass) {
+                        $("errPass").textContent = "Passwords do not match.";
+                        ok = false;
+                    }
+                }
 
-            if (remembered && remembered.email === oldKey) {
-                remembered.email = newKey;
-                localStorage.setItem("vorvenaRemembered", JSON.stringify(remembered));
-            }
-        } catch (error) { /* ignore */ }
-    }
-
-    async function applyChanges(changes) {
-        const result = await SettingsAPI.updateAccount(changes);
-
-        if (!result.ok) {
-            notify("Could not save your changes. Please try again.");
-            return false;
-        }
-
-        const oldKey = VorvenaAuth.normalizeEmail(sessionStorage.getItem("vorvenaLoggedInEmail"));
-        let accountKey = oldKey;
-        let emailChanged = false;
-
-        // Move the stored account to the new email, so the new email can log in.
-        if ("email" in changes) {
-            const newKey = VorvenaAuth.normalizeEmail(changes.email);
-            const moved = VorvenaAuth.changeEmail(oldKey, changes.email);
-
-            // "no-account" only happens for demo data without a registered account
-            if (!moved.ok && moved.reason !== "no-account") {
-                $("errEmail").textContent = moved.reason === "exists"
-                    ? "This email is already used by another account."
-                    : "Could not update your email. Please try again.";
-                return false;
+                return ok;
             }
 
-            if (moved.ok) {
-                moveEmailKeys(oldKey, newKey);
-                switchSessionEmail(oldKey, newKey, changes.email);
+            function collectChanges() {
+                const changes = {};
+                const email = $("setEmail").value.trim();
+                const phone = $("setPhone").value.trim();
+                const pass = $("setNewPass").value;
+                const notifications = $("setNotify").checked;
+
+                if (email !== (profile.email || "")) changes.email = email;
+                if (phone !== (profile.phone || "")) changes.phone = phone;
+                if (pass) changes.password = pass;
+                if (notifications !== (profile.emailNotifications !== false)) {
+                    changes.emailNotifications = notifications;
+                }
+                return changes;
             }
 
-            accountKey = newKey;
-            emailChanged = true;
-        }
+            const needsPin = c => "email" in c || "phone" in c || "password" in c;
 
-        // Keep the stored account's phone number in step too
-        if ("phone" in changes) {
-            const phoneResult = VorvenaAuth.changePhone(accountKey, changes.phone);
-            if (!phoneResult.ok && phoneResult.reason !== "no-account") {
-                notify("Could not update your phone number. Please try again.");
-                return false;
+            // Things saved under the old email (payout summary, withdrawals, hiring alerts,
+            // Security PIN, photo) move to the new email so nothing is lost after the change.
+            function moveEmailKeys(oldKey, newKey) {
+                if (!oldKey || oldKey === newKey) return;
+
+                [
+                    "vorvenaPayoutSummary:",
+                    "vorvenaWithdrawals:",
+                    NOTIFICATIONS_KEY_PREFIX,
+                    "vorvenaSecurityPin:",
+                    "vorvenaAccountImage:"
+                ].forEach(prefix => {
+                    try {
+                        const value = localStorage.getItem(prefix + oldKey);
+
+                        if (value !== null) {
+                            localStorage.setItem(prefix + newKey, value);
+                            localStorage.removeItem(prefix + oldKey);
+                        }
+                    } catch (error) { /* ignore */ }
+                });
             }
-        }
 
-        // The password is never kept in the browser.
-        const { password, ...safe } = changes;
-        Object.assign(profile, safe);
+            // Keeps this login session and "Remember me" pointing at the new email
+            function switchSessionEmail(oldKey, newKey, newEmail) {
+                sessionStorage.setItem("vorvenaLoggedInEmail", newKey);
+                sessionStorage.setItem("vorvenaEmail", newEmail);
 
-        if (!saveProfile()) return false;
+                try {
+                    const remembered = JSON.parse(localStorage.getItem("vorvenaRemembered") || "null");
 
-        renderProfile();
-        setEditing(false);
-        notify("Settings updated successfully.");
+                    if (remembered && remembered.email === oldKey) {
+                        remembered.email = newKey;
+                        localStorage.setItem("vorvenaRemembered", JSON.stringify(remembered));
+                    }
+                } catch (error) { /* ignore */ }
+            }
 
-        // A new email changes the keys this page uses for the PIN, alerts and payouts,
-        // so reload once to start cleanly on the new email.
-        if (emailChanged) setTimeout(() => window.location.reload(), 1400);
+            async function applyChanges(changes) {
+                const result = await SettingsAPI.updateAccount(changes);
 
-        return true;
-    }
+                if (!result.ok) {
+                    notify("Could not save your changes. Please try again.");
+                    return false;
+                }
 
-    $("settingsEditBtn").addEventListener("click", () => setEditing(true));
-    $("settingsCancel").addEventListener("click", () => setEditing(false));
-    $("changePinBtn").addEventListener("click", () => PinModal.open("change"));
+                const oldKey = VorvenaAuth.normalizeEmail(sessionStorage.getItem("vorvenaLoggedInEmail"));
+                let accountKey = oldKey;
+                let emailChanged = false;
 
-    $("settingsSave").addEventListener("click", async () => {
-        if (!validate()) return;
+                // Move the stored account to the new email, so the new email can log in.
+                if ("email" in changes) {
+                    const newKey = VorvenaAuth.normalizeEmail(changes.email);
+                    const moved = VorvenaAuth.changeEmail(oldKey, changes.email);
 
-        const changes = collectChanges();
+                    // "no-account" only happens for demo data without a registered account
+                    if (!moved.ok && moved.reason !== "no-account") {
+                        $("errEmail").textContent = moved.reason === "exists"
+                            ? "This email is already used by another account."
+                            : "Could not update your email. Please try again.";
+                        return false;
+                    }
 
-        if (Object.keys(changes).length === 0) {
-            notify("No changes to save.");
+                    if (moved.ok) {
+                        moveEmailKeys(oldKey, newKey);
+                        switchSessionEmail(oldKey, newKey, changes.email);
+                    }
+
+                    accountKey = newKey;
+                    emailChanged = true;
+                }
+
+                // Keep the stored account's phone number in step too
+                if ("phone" in changes) {
+                    const phoneResult = VorvenaAuth.changePhone(accountKey, changes.phone);
+                    if (!phoneResult.ok && phoneResult.reason !== "no-account") {
+                        notify("Could not update your phone number. Please try again.");
+                        return false;
+                    }
+                }
+
+                // The password is never kept in the browser.
+                const { password, ...safe } = changes;
+                Object.assign(profile, safe);
+
+                if (!saveProfile()) return false;
+
+                renderProfile();
+                setEditing(false);
+                notify("Settings updated successfully.");
+
+                // A new email changes the keys this page uses for the PIN, alerts and payouts,
+                // so reload once to start cleanly on the new email.
+                if (emailChanged) setTimeout(() => window.location.reload(), 1400);
+
+                return true;
+            }
+
+            $("settingsEditBtn").addEventListener("click", () => setEditing(true));
+            $("settingsCancel").addEventListener("click", () => setEditing(false));
+            $("changePinBtn").addEventListener("click", () => PinModal.open("change"));
+
+            $("settingsSave").addEventListener("click", async () => {
+                if (!validate()) return;
+
+                const changes = collectChanges();
+
+                if (Object.keys(changes).length === 0) {
+                    notify("No changes to save.");
+                    setEditing(false);
+                    return;
+                }
+
+                if (needsPin(changes)) PinModal.open("verify", () => applyChanges(changes));
+                else await applyChanges(changes);
+            });
+
             setEditing(false);
-            return;
-        }
+        })();
 
-        if (needsPin(changes)) PinModal.open("verify", () => applyChanges(changes));
-        else await applyChanges(changes);
-    });
+        /* ============================================================
+           EARNINGS: PAYOUT DETAILS + WITHDRAWAL REQUEST
+        ============================================================ */
 
-    setEditing(false);
-})();
+        // BACKEND PLACEHOLDERS. The full account number goes straight to the backend
+        // and is never kept in the browser. Real checks (name match, balance, approval)
+        // must happen on the server, because anything in the browser can be edited.
+        const PayoutAPI = {
+            // GET /api/banks (use your payout provider's bank list)
+            async listBanks() {
+                return [
+                    { code: "044", name: "Access Bank" },
+                    { code: "050", name: "Ecobank" },
+                    { code: "070", name: "Fidelity Bank" },
+                    { code: "011", name: "First Bank" },
+                    { code: "214", name: "FCMB" },
+                    { code: "058", name: "GTBank" },
+                    { code: "232", name: "Sterling Bank" },
+                    { code: "033", name: "UBA" },
+                    { code: "035", name: "Wema Bank" },
+                    { code: "057", name: "Zenith Bank" }
+                ];
+            },
 
-/* ============================================================
-   EARNINGS: PAYOUT DETAILS + WITHDRAWAL REQUEST
-============================================================ */
+            // POST /api/payout/resolve { bankCode, accountNumber } -> account name from the bank
+            // DEMO: returns the profile name until the backend exists.
+            async resolveAccount() {
+                await wait(500);
+                return { ok: true, accountName: (profile.fullName || "ACCOUNT HOLDER").toUpperCase() };
+            },
 
-// BACKEND PLACEHOLDERS. The full account number goes straight to the backend
-// and is never kept in the browser. Real checks (name match, balance, approval)
-// must happen on the server, because anything in the browser can be edited.
-const PayoutAPI = {
-    // GET /api/banks (use your payout provider's bank list)
-    async listBanks() {
-        return [
-            { code: "044", name: "Access Bank" },
-            { code: "050", name: "Ecobank" },
-            { code: "070", name: "Fidelity Bank" },
-            { code: "011", name: "First Bank" },
-            { code: "214", name: "FCMB" },
-            { code: "058", name: "GTBank" },
-            { code: "232", name: "Sterling Bank" },
-            { code: "033", name: "UBA" },
-            { code: "035", name: "Wema Bank" },
-            { code: "057", name: "Zenith Bank" }
-        ];
-    },
+            // PUT /api/payout-account { bankCode, accountNumber }
+            async save(data) {
+                await wait(500);
+                return { ok: true, last4: data.accountNumber.slice(-4) };
+            }
+        };
 
-    // POST /api/payout/resolve { bankCode, accountNumber } -> account name from the bank
-    // DEMO: returns the profile name until the backend exists.
-    async resolveAccount() {
-        await wait(500);
-        return { ok: true, accountName: (profile.fullName || "ACCOUNT HOLDER").toUpperCase() };
-    },
+        const WithdrawAPI = {
+            // POST /api/withdrawals { amount } -> lands in the admin approval queue
+            async request() {
+                await wait(500);
+                return { ok: true };
+            }
+        };
 
-    // PUT /api/payout-account { bankCode, accountNumber }
-    async save(data) {
-        await wait(500);
-        return { ok: true, last4: data.accountNumber.slice(-4) };
-    }
-};
+        (function () {
+            const $ = id => document.getElementById(id);
 
-const WithdrawAPI = {
-    // POST /api/withdrawals { amount } -> lands in the admin approval queue
-    async request() {
-        await wait(500);
-        return { ok: true };
-    }
-};
+            let banks = [];
+            let resolvedName = "";
 
-(function () {
-    const $ = id => document.getElementById(id);
+            function setError(text) { $("payError").textContent = text || ""; }
 
-    let banks = [];
-    let resolvedName = "";
+            function renderPayout() {
+                const summary = store.get(SUMMARY_KEY, null);
+                const box = $("payoutStatus");
 
-    function setError(text) { $("payError").textContent = text || ""; }
+                box.classList.toggle("saved", Boolean(summary));
+                box.textContent = summary
+                    ? "Saved: " + summary.bank + " •••• " + summary.last4 + " · " + summary.name
+                    : "No payout details yet. Add your bank account so you can be paid when a project is completed.";
+                $("paySave").textContent = summary ? "Update payout details" : "Save payout details";
 
-    function renderPayout() {
-        const summary = store.get(SUMMARY_KEY, null);
-        const box = $("payoutStatus");
+                renderWithdraw();
+            }
 
-        box.classList.toggle("saved", Boolean(summary));
-        box.textContent = summary
-            ? "Saved: " + summary.bank + " •••• " + summary.last4 + " · " + summary.name
-            : "No payout details yet. Add your bank account so you can be paid when a project is completed.";
-        $("paySave").textContent = summary ? "Update payout details" : "Save payout details";
+            function resetResolved() {
+                resolvedName = "";
+                $("payName").value = "";
+                $("paySave").disabled = true;
+            }
 
-        renderWithdraw();
-    }
+            async function tryResolve() {
+                resetResolved();
+                setError("");
 
-    function resetResolved() {
-        resolvedName = "";
-        $("payName").value = "";
-        $("paySave").disabled = true;
-    }
+                const bankCode = $("payBank").value;
+                const number = $("payNumber").value;
+                if (!bankCode || number.length !== 10) return;
 
-    async function tryResolve() {
-        resetResolved();
-        setError("");
+                $("payName").value = "Checking account…";
+                const res = await PayoutAPI.resolveAccount(bankCode, number);
 
-        const bankCode = $("payBank").value;
-        const number = $("payNumber").value;
-        if (!bankCode || number.length !== 10) return;
+                // Ignore stale answers if the person kept typing
+                if ($("payBank").value !== bankCode || $("payNumber").value !== number) return;
 
-        $("payName").value = "Checking account…";
-        const res = await PayoutAPI.resolveAccount(bankCode, number);
+                if (!res.ok) {
+                    $("payName").value = "";
+                    setError("We could not find this account. Check the bank and number.");
+                    return;
+                }
 
-        // Ignore stale answers if the person kept typing
-        if ($("payBank").value !== bankCode || $("payNumber").value !== number) return;
+                $("payName").value = res.accountName;
 
-        if (!res.ok) {
-            $("payName").value = "";
-            setError("We could not find this account. Check the bank and number.");
-            return;
-        }
+                // Every word of the profile name must appear in the bank's account name
+                const own = (profile.fullName || "").toLowerCase().split(/\s+/).filter(word => word.length > 1);
+                const bankName = res.accountName.toLowerCase();
 
-        $("payName").value = res.accountName;
+                if (own.length && !own.every(word => bankName.includes(word))) {
+                    setError("This account name does not match your profile name. Use an account in your own name.");
+                    return;
+                }
 
-        // Every word of the profile name must appear in the bank's account name
-        const own = (profile.fullName || "").toLowerCase().split(/\s+/).filter(word => word.length > 1);
-        const bankName = res.accountName.toLowerCase();
+                resolvedName = res.accountName;
+                $("paySave").disabled = false;
+            }
 
-        if (own.length && !own.every(word => bankName.includes(word))) {
-            setError("This account name does not match your profile name. Use an account in your own name.");
-            return;
-        }
+            async function doSavePayout() {
+                const bankCode = $("payBank").value;
+                const number = $("payNumber").value;
+                const bank = banks.find(item => item.code === bankCode);
 
-        resolvedName = res.accountName;
-        $("paySave").disabled = false;
-    }
+                $("paySave").disabled = true;
+                const res = await PayoutAPI.save({ bankCode, accountNumber: number });
 
-    async function doSavePayout() {
-        const bankCode = $("payBank").value;
-        const number = $("payNumber").value;
-        const bank = banks.find(item => item.code === bankCode);
+                if (!res.ok) {
+                    $("paySave").disabled = false;
+                    notify("Could not save your payout details. Please try again.");
+                    return;
+                }
 
-        $("paySave").disabled = true;
-        const res = await PayoutAPI.save({ bankCode, accountNumber: number });
+                // Only a masked summary is kept in the browser, never the full number.
+                store.set(SUMMARY_KEY, { bank: bank ? bank.name : "Bank", last4: res.last4, name: resolvedName });
 
-        if (!res.ok) {
-            $("paySave").disabled = false;
-            notify("Could not save your payout details. Please try again.");
-            return;
-        }
+                $("payNumber").value = "";
+                $("payBank").value = "";
+                resetResolved();
+                renderPayout();
+                notify("Payout details saved.");
+            }
 
-        // Only a masked summary is kept in the browser, never the full number.
-        store.set(SUMMARY_KEY, { bank: bank ? bank.name : "Bank", last4: res.last4, name: resolvedName });
+            $("payBank").addEventListener("change", tryResolve);
 
-        $("payNumber").value = "";
-        $("payBank").value = "";
-        resetResolved();
-        renderPayout();
-        notify("Payout details saved.");
-    }
+            $("payNumber").addEventListener("input", event => {
+                event.target.value = event.target.value.replace(/\D/g, "").slice(0, 10);
+                tryResolve();
+            });
 
-    $("payBank").addEventListener("change", tryResolve);
+            // Adding or changing bank details always needs the Security PIN
+            $("paySave").addEventListener("click", () => {
+                if (resolvedName) PinModal.open("verify", doSavePayout);
+            });
 
-    $("payNumber").addEventListener("input", event => {
-        event.target.value = event.target.value.replace(/\D/g, "").slice(0, 10);
-        tryResolve();
-    });
+            // Withdrawal request: the professional asks, an admin approves, the backend sends
+            function available() {
+                return parseFloat($("availableBalance").textContent.replace(/[^\d.]/g, "")) || 0;
+            }
 
-    // Adding or changing bank details always needs the Security PIN
-    $("paySave").addEventListener("click", () => {
-        if (resolvedName) PinModal.open("verify", doSavePayout);
-    });
+            function renderWithdraw() {
+                const hasPayout = Boolean(store.get(SUMMARY_KEY, null));
+                const balance = available();
+                const last = store.get(WD_KEY, []).slice(-1)[0];
 
-    // Withdrawal request: the professional asks, an admin approves, the backend sends
-    function available() {
-        return parseFloat($("availableBalance").textContent.replace(/[^\d.]/g, "")) || 0;
-    }
+                $("wdInfo").textContent = !hasPayout
+                    ? "Add your payout details first."
+                    : balance <= 0
+                        ? "You have no available balance yet. Earnings appear here after a client approves your work."
+                        : "Available balance: " + naira(balance) + ". Each request is reviewed before it is sent.";
 
-    function renderWithdraw() {
-        const hasPayout = Boolean(store.get(SUMMARY_KEY, null));
-        const balance = available();
-        const last = store.get(WD_KEY, []).slice(-1)[0];
+                $("wdBtn").disabled = !hasPayout || balance <= 0;
+                $("wdLast").textContent = last
+                    ? "Last request: " + naira(last.amount) + " on " + when(last.date) + " · " + last.status
+                    : "";
+            }
 
-        $("wdInfo").textContent = !hasPayout
-            ? "Add your payout details first."
-            : balance <= 0
-                ? "You have no available balance yet. Earnings appear here after a client approves your work."
-                : "Available balance: " + naira(balance) + ". Each request is reviewed before it is sent.";
+            $("wdAmount").addEventListener("input", event => {
+                event.target.value = event.target.value.replace(/[^\d.]/g, "");
+                $("wdError").textContent = "";
+            });
 
-        $("wdBtn").disabled = !hasPayout || balance <= 0;
-        $("wdLast").textContent = last
-            ? "Last request: " + naira(last.amount) + " on " + when(last.date) + " · " + last.status
-            : "";
-    }
+            $("wdBtn").addEventListener("click", () => {
+                const amount = parseFloat($("wdAmount").value);
 
-    $("wdAmount").addEventListener("input", event => {
-        event.target.value = event.target.value.replace(/[^\d.]/g, "");
-        $("wdError").textContent = "";
-    });
+                if (!amount || amount <= 0) { $("wdError").textContent = "Enter the amount you want to withdraw."; return; }
+                if (amount > available()) { $("wdError").textContent = "That is more than your available balance."; return; }
 
-    $("wdBtn").addEventListener("click", () => {
-        const amount = parseFloat($("wdAmount").value);
+                PinModal.open("verify", async () => {
+                    const res = await WithdrawAPI.request({ amount });
 
-        if (!amount || amount <= 0) { $("wdError").textContent = "Enter the amount you want to withdraw."; return; }
-        if (amount > available()) { $("wdError").textContent = "That is more than your available balance."; return; }
+                    if (!res.ok) { notify("Could not send your request. Please try again."); return; }
 
-        PinModal.open("verify", async () => {
-            const res = await WithdrawAPI.request({ amount });
+                    const list = store.get(WD_KEY, []);
+                    list.push({ amount, date: new Date().toISOString(), status: "Pending approval" });
+                    store.set(WD_KEY, list);
 
-            if (!res.ok) { notify("Could not send your request. Please try again."); return; }
+                    $("wdAmount").value = "";
+                    renderWithdraw();
+                    notify("Withdrawal request sent for approval.");
+                });
+            });
 
-            const list = store.get(WD_KEY, []);
-            list.push({ amount, date: new Date().toISOString(), status: "Pending approval" });
-            store.set(WD_KEY, list);
+            PayoutAPI.listBanks().then(list => {
+                banks = list;
+                list.forEach(bank => {
+                    const option = document.createElement("option");
+                    option.value = bank.code;
+                    option.textContent = bank.name;
+                    $("payBank").appendChild(option);
+                });
+            });
 
-            $("wdAmount").value = "";
-            renderWithdraw();
-            notify("Withdrawal request sent for approval.");
-        });
-    });
-
-    PayoutAPI.listBanks().then(list => {
-        banks = list;
-        list.forEach(bank => {
-            const option = document.createElement("option");
-            option.value = bank.code;
-            option.textContent = bank.name;
-            $("payBank").appendChild(option);
-        });
-    });
-
-    renderPayout();
-})();
-</script>
-<script src="vorvena-loader.js" defer></script>
+            renderPayout();
+        })();
+    </script>
+    <script src="vorvena-loader.js" defer></script>
 
 </body>
+
 </html>

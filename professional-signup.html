@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,8 +11,12 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/png" href="./assets/vorvena_logo_transparent%20(1).png">
 
+  <link rel="apple-touch-icon" href="./assets/vorvena_logo_transparent%20(1).png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/css/intlTelInput.css">
   <link rel="stylesheet" href="vorvena-loader.css">
   <script src="vorvena-auth.js"></script>
@@ -93,20 +98,18 @@
 
           <div class="form-group">
             <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" name="fullName"
-              placeholder="Enter your full name" autocomplete="name" required>
+            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" autocomplete="name"
+              required>
           </div>
 
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" id="email" name="email"
-              placeholder="example@email.com" autocomplete="email" required>
+            <input type="email" id="email" name="email" placeholder="example@email.com" autocomplete="email" required>
           </div>
 
           <div class="form-group">
             <label for="country">Country</label>
-            <input type="text" id="country" name="country"
-              placeholder="Select your country using the phone selector"
+            <input type="text" id="country" name="country" placeholder="Select your country using the phone selector"
               readonly required>
             <small class="field-hint">
               Choose your country in the phone number selector below.
@@ -115,36 +118,30 @@
 
           <div class="form-group">
             <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone"
-              placeholder="Enter your phone number" autocomplete="tel" required>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" autocomplete="tel" required>
           </div>
 
           <div class="form-group">
             <label for="region">State / Province / Region</label>
-            <input type="text" id="region" name="region"
-              placeholder="Enter your state or region"
+            <input type="text" id="region" name="region" placeholder="Enter your state or region"
               autocomplete="address-level1" required>
           </div>
 
           <div class="form-group">
             <label for="city">City</label>
-            <input type="text" id="city" name="city"
-              placeholder="Enter your city"
-              autocomplete="address-level2" required>
+            <input type="text" id="city" name="city" placeholder="Enter your city" autocomplete="address-level2"
+              required>
           </div>
 
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password"
-              placeholder="Create a strong password"
+            <input type="password" id="password" name="password" placeholder="Create a strong password"
               autocomplete="new-password" minlength="8" required>
           </div>
 
           <div class="form-group">
             <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword"
-              name="confirmPassword"
-              placeholder="Confirm your password"
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password"
               autocomplete="new-password" minlength="8" required>
           </div>
 
@@ -179,213 +176,214 @@
   <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@25.3.1/build/js/intlTelInputWithUtils.min.js"></script>
 
   <script>
-  document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
 
-    const form = document.getElementById("professionalSignupForm");
+      const form = document.getElementById("professionalSignupForm");
 
-    const fullNameInput = document.getElementById("fullName");
-    const emailInput = document.getElementById("email");
-    const countryInput = document.getElementById("country");
-    const phoneInput = document.getElementById("phone");
-    const regionInput = document.getElementById("region");
-    const cityInput = document.getElementById("city");
-    const passwordInput = document.getElementById("password");
-    const confirmPasswordInput = document.getElementById("confirmPassword");
-    const termsInput = document.getElementById("terms");
+      const fullNameInput = document.getElementById("fullName");
+      const emailInput = document.getElementById("email");
+      const countryInput = document.getElementById("country");
+      const phoneInput = document.getElementById("phone");
+      const regionInput = document.getElementById("region");
+      const cityInput = document.getElementById("city");
+      const passwordInput = document.getElementById("password");
+      const confirmPasswordInput = document.getElementById("confirmPassword");
+      const termsInput = document.getElementById("terms");
 
-    const yearElement = document.getElementById("year");
+      const yearElement = document.getElementById("year");
 
-    if (yearElement) {
-      yearElement.textContent = new Date().getFullYear();
-    }
-
-    if (!window.intlTelInput) {
-      alert("Phone number service could not load. Please refresh the page.");
-      return;
-    }
-
-    const iti = window.intlTelInput(phoneInput, {
-      initialCountry: "ng",
-      separateDialCode: true,
-      nationalMode: true,
-      countrySearch: true,
-      countryOrder: ["ng", "us", "gb", "ca"]
-    });
-
-    function updateCountry() {
-      const selectedCountry = iti.getSelectedCountryData();
-      countryInput.value = selectedCountry.name || "";
-    }
-
-    updateCountry();
-    phoneInput.addEventListener("countrychange", updateCountry);
-
-    phoneInput.addEventListener("input", () => {
-      phoneInput.value = phoneInput.value.replace(/\D/g, "");
-      phoneInput.setCustomValidity("");
-    });
-
-    function validateEmail() {
-      const email = emailInput.value.trim();
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-      if (!emailPattern.test(email)) {
-        alert("Please enter a valid email address.");
-        emailInput.focus();
-        return false;
+      if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
       }
 
-      return true;
-    }
-
-    async function validatePhoneNumber() {
-      await iti.promise;
-
-      const phoneDigits = phoneInput.value.trim();
-      const selectedCountry = iti.getSelectedCountryData();
-
-      if (!phoneDigits) {
-        alert("Please enter your phone number.");
-        phoneInput.focus();
-        return false;
-      }
-
-      if (!/^\d+$/.test(phoneDigits)) {
-        alert("Please enter numbers only in your phone number.");
-        phoneInput.focus();
-        return false;
-      }
-
-      if (!selectedCountry.iso2 || !selectedCountry.dialCode) {
-        alert("Please select your country.");
-        phoneInput.focus();
-        return false;
-      }
-
-      if (!iti.isValidNumber()) {
-        alert("Please enter a valid phone number for your selected country.");
-        phoneInput.focus();
-        return false;
-      }
-
-      return true;
-    }
-
-    async function getInternationalPhone() {
-      await iti.promise;
-
-      const internationalNumber = iti.getNumber();
-
-      if (internationalNumber && /^\+\d{7,15}$/.test(internationalNumber)) {
-        return internationalNumber;
-      }
-
-      return null;
-    }
-
-    form.addEventListener("submit", async (event) => {
-
-      event.preventDefault();
-
-      const fullName = fullNameInput.value.trim();
-      const email = emailInput.value.trim();
-      const region = regionInput.value.trim();
-      const city = cityInput.value.trim();
-      const password = passwordInput.value;
-      const confirmPassword = confirmPasswordInput.value;
-
-      if (!fullName) {
-        alert("Please enter your full name.");
-        fullNameInput.focus();
+      if (!window.intlTelInput) {
+        alert("Phone number service could not load. Please refresh the page.");
         return;
       }
 
-      if (!validateEmail()) return;
-      if (!(await validatePhoneNumber())) return;
+      const iti = window.intlTelInput(phoneInput, {
+        initialCountry: "ng",
+        separateDialCode: true,
+        nationalMode: true,
+        countrySearch: true,
+        countryOrder: ["ng", "us", "gb", "ca"]
+      });
 
-      if (!region) {
-        alert("Please enter your state or region.");
-        regionInput.focus();
-        return;
+      function updateCountry() {
+        const selectedCountry = iti.getSelectedCountryData();
+        countryInput.value = selectedCountry.name || "";
       }
 
-      if (!city) {
-        alert("Please enter your city.");
-        cityInput.focus();
-        return;
+      updateCountry();
+      phoneInput.addEventListener("countrychange", updateCountry);
+
+      phoneInput.addEventListener("input", () => {
+        phoneInput.value = phoneInput.value.replace(/\D/g, "");
+        phoneInput.setCustomValidity("");
+      });
+
+      function validateEmail() {
+        const email = emailInput.value.trim();
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+        if (!emailPattern.test(email)) {
+          alert("Please enter a valid email address.");
+          emailInput.focus();
+          return false;
+        }
+
+        return true;
       }
 
-      if (password.length < 8) {
-        alert("Your password must contain at least 8 characters.");
-        passwordInput.focus();
-        return;
-      }
+      async function validatePhoneNumber() {
+        await iti.promise;
 
-      if (password !== confirmPassword) {
-        alert("Your passwords do not match.");
-        confirmPasswordInput.focus();
-        return;
-      }
+        const phoneDigits = phoneInput.value.trim();
+        const selectedCountry = iti.getSelectedCountryData();
 
-      if (!termsInput.checked) {
-        alert("Please accept the Terms of Service and Privacy Policy.");
-        termsInput.focus();
-        return;
-      }
-
-      try {
-
-        const internationalPhone = await getInternationalPhone();
-
-        if (!internationalPhone) {
-          alert("Please check your phone number and try again.");
+        if (!phoneDigits) {
+          alert("Please enter your phone number.");
           phoneInput.focus();
-          return;
+          return false;
         }
 
-        const registration = await VorvenaAuth.register({
-          fullName,
-          email,
-          phone: internationalPhone,
-          country: iti.getSelectedCountryData().name || "",
-          region,
-          city,
-          role: "professional",
-          password
-        });
-
-        if (!registration.ok) {
-          alert(registration.reason === "exists"
-            ? "An account with this email already exists. Please log in."
-            : "We could not save your account. Please try again.");
-          return;
+        if (!/^\d+$/.test(phoneDigits)) {
+          alert("Please enter numbers only in your phone number.");
+          phoneInput.focus();
+          return false;
         }
 
-        sessionStorage.setItem("vorvenaFullName", fullName);
-        sessionStorage.setItem("vorvenaEmail", email);
-        sessionStorage.setItem("vorvenaPhone", internationalPhone);
+        if (!selectedCountry.iso2 || !selectedCountry.dialCode) {
+          alert("Please select your country.");
+          phoneInput.focus();
+          return false;
+        }
 
-        sessionStorage.setItem(
-          "vorvenaCountry",
-          iti.getSelectedCountryData().name || ""
-        );
+        if (!iti.isValidNumber()) {
+          alert("Please enter a valid phone number for your selected country.");
+          phoneInput.focus();
+          return false;
+        }
 
-        sessionStorage.setItem("vorvenaRegion", region);
-        sessionStorage.setItem("vorvenaCity", city);
-        sessionStorage.setItem("vorvenaAccountType", "professional");
-
-        window.location.href = "verification.html";
-
-      } catch (error) {
-
-        console.error("Phone processing error:", error);
-        alert("We could not process your phone number. Please try again.");
-
+        return true;
       }
+
+      async function getInternationalPhone() {
+        await iti.promise;
+
+        const internationalNumber = iti.getNumber();
+
+        if (internationalNumber && /^\+\d{7,15}$/.test(internationalNumber)) {
+          return internationalNumber;
+        }
+
+        return null;
+      }
+
+      form.addEventListener("submit", async (event) => {
+
+        event.preventDefault();
+
+        const fullName = fullNameInput.value.trim();
+        const email = emailInput.value.trim();
+        const region = regionInput.value.trim();
+        const city = cityInput.value.trim();
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+
+        if (!fullName) {
+          alert("Please enter your full name.");
+          fullNameInput.focus();
+          return;
+        }
+
+        if (!validateEmail()) return;
+        if (!(await validatePhoneNumber())) return;
+
+        if (!region) {
+          alert("Please enter your state or region.");
+          regionInput.focus();
+          return;
+        }
+
+        if (!city) {
+          alert("Please enter your city.");
+          cityInput.focus();
+          return;
+        }
+
+        if (password.length < 8) {
+          alert("Your password must contain at least 8 characters.");
+          passwordInput.focus();
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          alert("Your passwords do not match.");
+          confirmPasswordInput.focus();
+          return;
+        }
+
+        if (!termsInput.checked) {
+          alert("Please accept the Terms of Service and Privacy Policy.");
+          termsInput.focus();
+          return;
+        }
+
+        try {
+
+          const internationalPhone = await getInternationalPhone();
+
+          if (!internationalPhone) {
+            alert("Please check your phone number and try again.");
+            phoneInput.focus();
+            return;
+          }
+
+          const registration = await VorvenaAuth.register({
+            fullName,
+            email,
+            phone: internationalPhone,
+            country: iti.getSelectedCountryData().name || "",
+            region,
+            city,
+            role: "professional",
+            password
+          });
+
+          if (!registration.ok) {
+            alert(registration.reason === "exists"
+              ? "An account with this email already exists. Please log in."
+              : "We could not save your account. Please try again.");
+            return;
+          }
+
+          sessionStorage.setItem("vorvenaFullName", fullName);
+          sessionStorage.setItem("vorvenaEmail", email);
+          sessionStorage.setItem("vorvenaPhone", internationalPhone);
+
+          sessionStorage.setItem(
+            "vorvenaCountry",
+            iti.getSelectedCountryData().name || ""
+          );
+
+          sessionStorage.setItem("vorvenaRegion", region);
+          sessionStorage.setItem("vorvenaCity", city);
+          sessionStorage.setItem("vorvenaAccountType", "professional");
+
+          window.location.href = "verification.html";
+
+        } catch (error) {
+
+          console.error("Phone processing error:", error);
+          alert("We could not process your phone number. Please try again.");
+
+        }
+      });
     });
-  });
   </script>
 
   <script src="vorvena-loader.js" defer></script>
 </body>
+
 </html>
