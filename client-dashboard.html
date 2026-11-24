@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Client Dashboard | VORVENA</title>
-    <link rel="icon" type="image/png" href="./assets/vorvena_logo_transparent%20(1).png">
+    <!-- VORVENA Favicon -->
 
-    <link rel="apple-touch-icon" href="./assets/vorvena_logo_transparent%20(1).png">
+<link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
     <meta name="description" content="Find, hire and manage tech professionals on VORVENA.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="VORVENA">
@@ -132,7 +134,8 @@
                     id="offerCount">2</span></button>
             <button class="nav" data-page="projects"><i class="fa fa-folder-open"></i> My Projects</button>
             <button class="nav" data-page="payments"><i class="fa fa-wallet"></i> Payments</button>
-            <button class="nav" data-page="notifications"><i class="fa fa-bell"></i> Notifications</button>
+            <button class="nav" data-page="notifications"><i class="fa fa-bell"></i> Notifications <span
+                    class="count unread-count" id="notifCount" hidden>0</span></button>
             <button class="nav" data-page="settings"><i class="fa fa-gear"></i> Settings</button>
         </nav>
 
@@ -259,63 +262,14 @@
 
                 <div class="search">
                     <input id="search" placeholder="Search by name, role or skill...">
-                    <select id="category">
-                        <option value="all">All categories</option>
-                        <option>Development</option>
-                        <option>Design</option>
-                        <option>Data & AI</option>
+                    <select id="category" aria-label="Filter by role">
+                        <option value="all">All roles</option>
                     </select>
                 </div>
 
-                <div class="talents" id="talents">
-                    <article class="talent" data-cat="Development"
-                        data-search="alex morgan full stack developer react node javascript">
-                        <div class="talent-top">
-                            <span class="avatar talent-avatar">AM</span>
-                            <small class="verified">✓ Verified</small>
-                        </div>
-                        <h3>Alex Morgan</h3>
-                        <label>Full-Stack Developer</label>
-                        <p>I build reliable web applications and modern digital products.</p>
-                        <div class="tags"><span>React</span><span>Node.js</span><span>JavaScript</span></div>
-                        <div class="rating">★ 4.9 (28) <span>5 years exp.</span></div>
-                        <button class="outline hire" data-person="Alex Morgan" data-role="Full-Stack Developer">View
-                            profile</button>
-                    </article>
+                <div class="talents" id="talents"></div>
 
-                    <article class="talent" data-cat="Design"
-                        data-search="sarah johnson ui ux designer figma prototyping">
-                        <div class="talent-top">
-                            <span class="avatar talent-avatar pink">SJ</span>
-                            <small class="verified">✓ Verified</small>
-                        </div>
-                        <h3>Sarah Johnson</h3>
-                        <label>UI/UX Designer</label>
-                        <p>I design clear, accessible experiences users enjoy.</p>
-                        <div class="tags"><span>Figma</span><span>Prototyping</span><span>Research</span></div>
-                        <div class="rating">★ 5.0 (19) <span>4 years exp.</span></div>
-                        <button class="outline hire" data-person="Sarah Johnson" data-role="UI/UX Designer">View
-                            profile</button>
-                    </article>
-
-                    <article class="talent" data-cat="Data & AI"
-                        data-search="david chen data analyst python machine learning">
-                        <div class="talent-top">
-                            <span class="avatar talent-avatar gold">DC</span>
-                            <small class="verified">✓ Verified</small>
-                        </div>
-                        <h3>David Chen</h3>
-                        <label>Data Analyst</label>
-                        <p>I turn complex data into practical business insights.</p>
-                        <div class="tags"><span>Python</span><span>SQL</span><span>Power BI</span></div>
-                        <div class="rating">★ 4.8 (16) <span>3 years exp.</span></div>
-                        <button class="outline hire" data-person="David Chen" data-role="Data Analyst">View
-                            profile</button>
-                    </article>
-                </div>
-
-                <p class="note">Sample professionals for interface preview. Real profiles will load from the VORVENA
-                    backend.</p>
+                <p class="note talent-empty" id="talentEmpty" hidden></p>
             </section>
 
             <section class="page" id="offers">
@@ -423,15 +377,14 @@
                     <p>Updates about your offers and projects.</p>
                 </div>
                 <section class="panel">
-                    <div class="notice"><b>Project milestone updated</b>
-                        <p>Business website redesign is now 68% complete.</p><small>2 hours ago</small>
+                    <div class="panel-head">
+                        <div>
+                            <h2>Recent updates</h2>
+                            <p>Responses to your hiring offers</p>
+                        </div>
+                        <button class="link" id="markAllRead" type="button">Mark all as read</button>
                     </div>
-                    <div class="notice"><b>Hiring offer sent</b>
-                        <p>Your offer to Sarah Johnson is awaiting a response.</p><small>Yesterday</small>
-                    </div>
-                    <div class="notice"><b>Payment confirmed</b>
-                        <p>Your previous project payment was confirmed.</p><small>3 days ago</small>
-                    </div>
+                    <div id="notificationList"></div>
                 </section>
             </section>
 
@@ -496,8 +449,7 @@
                 </div>
                 <label>Project description<textarea id="description" rows="4" required
                         placeholder="Describe the work and deliverables..."></textarea></label>
-                <small class="note">Frontend preview only. Backend submission is not connected.</small>
-                <button class="primary">Preview offer</button>
+                <button class="primary">Send offer</button>
             </form>
         </div>
     </div>
@@ -558,6 +510,8 @@
 
         const SHARED_OFFERS_KEY = 'vorvenaSharedOffers';
         const CLIENT_OFFERS_KEY = 'vorvenaClientOffers';
+        const DIRECTORY_KEY = 'vorvenaProfessionalDirectory';
+        const NOTIFICATIONS_KEY_PREFIX = 'vorvenaClientNotifications:';
 
         let offers = [];
         let selected = '';
@@ -630,6 +584,30 @@
             });
         }
 
+        function getClientEmail() {
+            return String(
+                sessionStorage.getItem('vorvenaLoggedInEmail') ||
+                clientProfile.email ||
+                sessionStorage.getItem('vorvenaEmail') || ''
+            ).trim();
+        }
+
+        function readJSON(storage, key, fallback) {
+            try {
+                const value = JSON.parse(storage.getItem(key));
+                return value === null || value === undefined ? fallback : value;
+            } catch (error) {
+                return fallback;
+            }
+        }
+
+        function statusLabel(status) {
+            const value = String(status || '').toLowerCase();
+            if (value === 'accepted') return 'Accepted';
+            if (value === 'declined') return 'Declined';
+            return 'Awaiting response';
+        }
+
         /* Offer storage */
         function getSharedOffers() {
             try {
@@ -679,12 +657,18 @@
 
         /* Get the current client's offers */
         function loadOffers() {
-            const savedOffers = getSavedClientOffers();
+            // Offers saved by the public professionals page use different field names,
+            // so they are mapped to the shape this dashboard draws.
+            const savedOffers = getSavedClientOffers().map(item => ({
+                ...item,
+                person: item.person || item.professionalName || 'Professional',
+                role: item.role || item.professionalRole || 'Professional',
+                project: item.project || item.title || 'Project',
+                status: statusLabel(item.status)
+            }));
             const sharedOffers = getSharedOffers();
 
-            const clientEmail =
-                clientProfile.email ||
-                sessionStorage.getItem('vorvenaEmail') || '';
+            const clientEmail = getClientEmail();
 
             const mySharedOffers = sharedOffers.filter(offer => {
                 if (!offer.clientEmail) return false;
@@ -696,7 +680,7 @@
                 const existing = savedOffers.find(item => item.id === shared.id);
 
                 if (existing) {
-                    existing.status = shared.status;
+                    existing.status = statusLabel(shared.status);
                 } else {
                     savedOffers.push({
                         id: shared.id,
@@ -704,7 +688,7 @@
                         role: shared.professionalRole || 'Professional',
                         project: shared.title,
                         budget: shared.budget,
-                        status: shared.status,
+                        status: statusLabel(shared.status),
                         deadline: shared.deadline,
                         isShared: true
                     });
@@ -887,40 +871,246 @@
 
         $('#menu').onclick = () => $('#sidebar').classList.toggle('open');
 
+        /* REAL PROFESSIONALS
+           Reads the professionals who finished onboarding (the same public cards the
+           Explore page uses). No email, phone or documents are ever read here.
+           BACKEND: replace loadProfessionals() with  GET /api/professionals */
+        let professionals = [];
+        let professionalsSignature = '';
+
+        function getSuspendedProfessionalIds() {
+            const blocked = new Set();
+            const accounts = readJSON(localStorage, 'vorvenaAccounts', {}) || {};
+
+            Object.values(accounts).forEach(account => {
+                if (account && account.status && account.status !== 'active' &&
+                    account.profile && account.profile.professionalId) {
+                    blocked.add(account.profile.professionalId);
+                }
+            });
+
+            return blocked;
+        }
+
+        function buildProfessional(card, photo) {
+            const name = String(card.name || '').trim();
+
+            const rawSkills = Array.isArray(card.skills)
+                ? card.skills
+                : String(card.skills || '').split(',');
+
+            const skills = rawSkills
+                .map(skill => String(skill).trim())
+                .filter(Boolean)
+                .slice(0, 4);
+
+            const rawExperience = String(card.experience || '').toLowerCase();
+            const experience =
+                rawExperience === 'expert' || rawExperience === 'experienced' ? 'Expert' :
+                    rawExperience === 'intermediate' ? 'Intermediate' : 'Entry level';
+
+            return {
+                id: card.professionalId,
+                name,
+                role: String(card.role || 'Professional').trim(),
+                country: String(card.country || '').trim(),
+                bio: String(card.bio || '').trim() || 'New professional on VORVENA.',
+                skills,
+                experience,
+                verified: Boolean(card.skillProofPassed),
+                photo: typeof photo === 'string' && photo.indexOf('data:image/') === 0 ? photo : ''
+            };
+        }
+
+        function loadProfessionals() {
+            const blocked = getSuspendedProfessionalIds();
+            const seen = new Set();
+            const list = [];
+
+            const directory = readJSON(localStorage, DIRECTORY_KEY, []);
+
+            (Array.isArray(directory) ? directory : []).forEach(card => {
+                if (!card || !card.professionalId || !card.name ||
+                    blocked.has(card.professionalId) || seen.has(card.professionalId)) return;
+
+                seen.add(card.professionalId);
+                list.push(buildProfessional(card, card.photo));
+            });
+
+            // Safety net: a professional who finished onboarding still appears even if
+            // their public card is missing from the directory.
+            const accounts = readJSON(localStorage, 'vorvenaAccounts', {}) || {};
+
+            Object.keys(accounts).forEach(email => {
+                const account = accounts[email];
+                const profile = account && account.profile;
+
+                if (!account || account.role !== 'professional' || !account.onboardingComplete ||
+                    (account.status && account.status !== 'active') ||
+                    !profile || !profile.professionalId ||
+                    !(profile.fullName || account.fullName) ||
+                    blocked.has(profile.professionalId) || seen.has(profile.professionalId)) return;
+
+                seen.add(profile.professionalId);
+
+                let photo = '';
+                try { photo = localStorage.getItem('vorvenaAccountImage:' + email) || ''; } catch (error) { /* ignore */ }
+
+                list.push(buildProfessional({
+                    professionalId: profile.professionalId,
+                    name: profile.fullName || account.fullName,
+                    role: profile.role,
+                    country: profile.country,
+                    bio: profile.bio,
+                    skills: profile.skills,
+                    experience: profile.experience,
+                    skillProofPassed: profile.skillProofPassed
+                }, photo));
+            });
+
+            return list;
+        }
+
+        function populateCategories() {
+            const select = $('#category');
+            const current = select.value;
+
+            select.replaceChildren(new Option('All roles', 'all'));
+
+            [...new Set(professionals.map(person => person.role))]
+                .sort((a, b) => a.localeCompare(b))
+                .forEach(role => select.appendChild(new Option(role, role)));
+
+            select.value = [...select.options].some(option => option.value === current) ? current : 'all';
+        }
+
+        function buildTalentCard(person, index) {
+            const card = document.createElement('article');
+            card.className = 'talent';
+            card.dataset.role = person.role;
+            card.dataset.search = [person.name, person.role, person.country, person.bio, ...person.skills]
+                .join(' ').toLowerCase();
+
+            const top = document.createElement('div');
+            top.className = 'talent-top';
+
+            const avatar = document.createElement('span');
+            avatar.className = 'avatar talent-avatar ' + ['', 'pink', 'gold'][index % 3];
+
+            if (person.photo) {
+                const img = document.createElement('img');
+                img.src = person.photo;
+                img.alt = person.name + ' profile picture';
+                avatar.appendChild(img);
+            } else {
+                avatar.textContent = initials(person.name);
+            }
+
+            const badge = document.createElement('small');
+            badge.className = person.verified ? 'verified' : 'verified new';
+            badge.textContent = person.verified ? '✓ Verified' : 'New on VORVENA';
+
+            top.append(avatar, badge);
+
+            const name = document.createElement('h3');
+            name.textContent = person.name;
+
+            const role = document.createElement('label');
+            role.textContent = person.role;
+
+            const bio = document.createElement('p');
+            bio.textContent = person.bio.length > 110 ? person.bio.slice(0, 107) + '…' : person.bio;
+
+            const tags = document.createElement('div');
+            tags.className = 'tags';
+            person.skills.forEach(skill => {
+                const tag = document.createElement('span');
+                tag.textContent = skill;
+                tags.appendChild(tag);
+            });
+
+            const rating = document.createElement('div');
+            rating.className = 'rating new';
+            rating.textContent = 'No reviews yet';
+            const detail = document.createElement('span');
+            detail.textContent = [person.experience, person.country].filter(Boolean).join(' · ');
+            rating.appendChild(detail);
+
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'outline hire';
+            button.textContent = 'Send offer';
+            button.addEventListener('click', () => openHireModal(person));
+
+            card.append(top, name, role, bio, tags, rating, button);
+            return card;
+        }
+
+        function renderTalents() {
+            const grid = $('#talents');
+            grid.replaceChildren();
+
+            professionals.forEach((person, index) => grid.appendChild(buildTalentCard(person, index)));
+
+            populateCategories();
+            filterProfessionals();
+        }
+
+        function refreshProfessionals() {
+            const latest = loadProfessionals();
+            const signature = JSON.stringify(latest);
+
+            if (signature === professionalsSignature) return;
+
+            professionalsSignature = signature;
+            professionals = latest;
+            renderTalents();
+        }
+
         /* Professional search and filtering */
         function filterProfessionals() {
-            const query = $('#search').value.toLowerCase();
-            const category = $('#category').value;
+            const query = $('#search').value.trim().toLowerCase();
+            const role = $('#category').value;
+            let visible = 0;
 
             $$('.talent').forEach(card => {
-                card.hidden = !(
-                    card.dataset.search.toLowerCase().includes(query) &&
-                    (category === 'all' || card.dataset.cat === category)
-                );
+                const show =
+                    card.dataset.search.includes(query) &&
+                    (role === 'all' || card.dataset.role === role);
+
+                card.hidden = !show;
+                if (show) visible++;
             });
+
+            const empty = $('#talentEmpty');
+            empty.hidden = visible > 0;
+
+            if (!professionals.length) {
+                empty.textContent = 'No professionals have joined VORVENA yet. Please check back soon.';
+            } else if (!visible) {
+                empty.textContent = 'No professionals match your search.';
+            }
         }
 
         $('#search').oninput = filterProfessionals;
         $('#category').onchange = filterProfessionals;
 
         /* Open hiring modal */
-        $$('.hire').forEach(button => {
-            button.onclick = () => {
-                selected = button.dataset.person;
+        function openHireModal(person) {
+            selected = person.name;
 
-                selectedProfessional = {
-                    name: button.dataset.person,
-                    role: button.dataset.role,
-                    email: button.dataset.email || '',
-                    id: button.dataset.professionalId || button.dataset.id || ''
-                };
-
-                $('#chosen').textContent =
-                    selectedProfessional.name + ' · ' + selectedProfessional.role;
-
-                $('#modal').classList.add('show');
+            selectedProfessional = {
+                name: person.name,
+                role: person.role,
+                email: '',
+                id: person.id
             };
-        });
+
+            $('#chosen').textContent =
+                selectedProfessional.name + ' · ' + selectedProfessional.role;
+
+            $('#modal').classList.add('show');
+        }
 
         function closeModal() {
             $('#modal').classList.remove('show');
@@ -945,15 +1135,18 @@
                 return notify('Please select a professional first.');
             }
 
+            // The professional's permanent ID is how the offer reaches their dashboard.
+            if (!selectedProfessional.id || getSuspendedProfessionalIds().has(selectedProfessional.id)) {
+                return notify('This professional is not available to receive offers right now.');
+            }
+
             if (!title) return notify('Enter a project title.');
             if (!Number.isFinite(amount) || amount < 1) {
                 return notify('Enter a valid budget.');
             }
             if (!deadline) return notify('Select a project deadline.');
 
-            const clientEmail =
-                clientProfile.email ||
-                sessionStorage.getItem('vorvenaEmail') || '';
+            const clientEmail = getClientEmail();
 
             const offer = {
                 id: 'offer-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8),
@@ -993,6 +1186,7 @@
 
                 saveClientOffers();
                 render();
+                syncNotifications();
 
                 event.target.reset();
                 closeModal();
@@ -1018,27 +1212,194 @@
                 offer.paymentStatus = shared.paymentStatus || (shared.payment && shared.payment.status) || offer.paymentStatus || '';
                 offer.paymentVerified = shared.paymentVerified === true || shared.paid === true;
 
-                if (shared.status === 'accepted') {
-                    offer.status = 'Accepted';
-                } else if (shared.status === 'declined') {
-                    offer.status = 'Declined';
-                } else {
-                    offer.status = 'Awaiting response';
-                }
+                offer.status = statusLabel(shared.status);
             });
 
             saveClientOffers();
             render();
+
+            // Tell the client straight away if a professional answered while they are here.
+            const fresh = syncNotifications().filter(item => item.type !== 'sent');
+            if (fresh.length) notify(fresh[0].message);
         }
+
+        /* NOTIFICATIONS
+           Built from the real offers this client sent, so they stay correct even when
+           the professional answers while the client is logged out. Read/unread state is
+           saved per client. BACKEND: replace with  GET /api/notifications */
+        let notifications = [];
+
+        function notificationsKey() {
+            return NOTIFICATIONS_KEY_PREFIX + getClientEmail().toLowerCase();
+        }
+
+        function loadNotifications() {
+            const saved = readJSON(localStorage, notificationsKey(), []);
+            notifications = Array.isArray(saved) ? saved.filter(item => item && item.id) : [];
+        }
+
+        function saveNotifications() {
+            try {
+                localStorage.setItem(notificationsKey(), JSON.stringify(notifications.slice(0, 100)));
+            } catch (error) { /* storage full: the list still works for this visit */ }
+        }
+
+        function timeAgo(iso) {
+            const time = new Date(iso).getTime();
+            if (!Number.isFinite(time)) return '';
+
+            const minutes = Math.floor((Date.now() - time) / 60000);
+            if (minutes < 1) return 'Just now';
+            if (minutes < 60) return minutes + (minutes === 1 ? ' minute ago' : ' minutes ago');
+
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return hours + (hours === 1 ? ' hour ago' : ' hours ago');
+
+            const days = Math.floor(hours / 24);
+            if (days === 1) return 'Yesterday';
+            if (days < 7) return days + ' days ago';
+
+            return new Date(time).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        // Adds any notification that does not exist yet. Returns the new ones.
+        function syncNotifications() {
+            const email = getClientEmail().toLowerCase();
+            const created = [];
+
+            if (email) {
+                getSharedOffers().forEach(shared => {
+                    if (!shared || !shared.id || !shared.clientEmail ||
+                        String(shared.clientEmail).toLowerCase() !== email) return;
+
+                    const who = shared.professionalName || 'The professional';
+                    const project = shared.title || 'your project';
+
+                    const add = (type, title, message, at, read) => {
+                        const id = shared.id + ':' + type;
+                        if (notifications.some(item => item.id === id)) return;
+
+                        const item = {
+                            id, offerId: shared.id, type, title, message,
+                            createdAt: at || new Date().toISOString(),
+                            read: Boolean(read)
+                        };
+
+                        notifications.push(item);
+                        created.push(item);
+                    };
+
+                    add('sent', 'Hiring offer sent',
+                        'Your offer to ' + who + ' for “' + project + '” is awaiting a response.',
+                        shared.createdAt, true);
+
+                    if (String(shared.status).toLowerCase() === 'accepted') {
+                        add('accepted', 'Offer accepted',
+                            who + ' accepted your offer for “' + project + '”. Open Hiring Offers to continue to payment.',
+                            shared.respondedAt, false);
+                    }
+
+                    if (String(shared.status).toLowerCase() === 'declined') {
+                        add('declined', 'Offer declined',
+                            who + ' declined your offer for “' + project + '”. You can explore other professionals.',
+                            shared.respondedAt, false);
+                    }
+                });
+            }
+
+            if (created.length) {
+                notifications.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                saveNotifications();
+            }
+
+            renderNotifications();
+            return created;
+        }
+
+        function markNotificationRead(id) {
+            const item = notifications.find(entry => entry.id === id);
+            if (!item || item.read) return;
+
+            item.read = true;
+            saveNotifications();
+            renderNotifications();
+        }
+
+        function renderNotifications() {
+            const list = $('#notificationList');
+            const unread = notifications.filter(item => !item.read).length;
+
+            const badge = $('#notifCount');
+            badge.textContent = unread > 9 ? '9+' : unread;
+            badge.hidden = unread === 0;
+
+            $('#markAllRead').hidden = unread === 0;
+
+            list.replaceChildren();
+
+            if (!notifications.length) {
+                const empty = document.createElement('p');
+                empty.className = 'note';
+                empty.textContent = 'No notifications yet. Updates about your hiring offers will appear here.';
+                list.appendChild(empty);
+                return;
+            }
+
+            notifications.forEach(item => {
+                const notice = document.createElement('div');
+                notice.className = 'notice' + (item.read ? '' : ' unread');
+                notice.tabIndex = 0;
+                notice.setAttribute('role', 'button');
+
+                const title = document.createElement('b');
+                title.textContent = item.title;
+
+                const message = document.createElement('p');
+                message.textContent = item.message;
+
+                const time = document.createElement('small');
+                time.textContent = timeAgo(item.createdAt);
+
+                notice.append(title, message, time);
+
+                const open = () => {
+                    markNotificationRead(item.id);
+                    go('offers');
+                };
+
+                notice.addEventListener('click', open);
+                notice.addEventListener('keydown', event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        open();
+                    }
+                });
+
+                list.appendChild(notice);
+            });
+        }
+
+        $('#markAllRead').onclick = () => {
+            notifications.forEach(item => { item.read = true; });
+            saveNotifications();
+            renderNotifications();
+        };
 
         /* Detect professional responses from the other dashboard */
         window.addEventListener('storage', event => {
             if (event.key === SHARED_OFFERS_KEY) {
                 refreshOfferStatuses();
             }
+
+            if (event.key === DIRECTORY_KEY || event.key === 'vorvenaAccounts') {
+                refreshProfessionals();
+            }
         });
 
-        window.addEventListener('focus', refreshOfferStatuses);
+        window.addEventListener('focus', () => {
+            refreshOfferStatuses();
+            refreshProfessionals();
+        });
 
         /* Profile picture selection */
         $('#settingsPicture').addEventListener('change', function () {
@@ -1140,6 +1501,9 @@
         /* Initialize dashboard */
         updateClientProfileDisplay();
         loadOffers();
+        refreshProfessionals();
+        loadNotifications();
+        syncNotifications();
     </script>
 
 </body>

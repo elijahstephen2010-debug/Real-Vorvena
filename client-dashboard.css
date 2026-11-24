@@ -1613,3 +1613,56 @@ tr:last-child td {
 @media (max-width: 768px) { .brand img { width: 160px; height: 60px; } }
 @media (max-width: 425px) { .brand img { width: 145px; height: 54px; } }
 @media (max-width: 375px) { .brand img { width: 135px; height: 50px; } }
+
+/* ==============================
+   REAL PROFESSIONALS + NOTIFICATIONS
+============================== */
+
+.count[hidden],
+.note[hidden],
+.link[hidden] {
+    display: none;
+}
+
+.count.unread-count {
+    background: #e5484d;
+}
+
+.talent-empty {
+    text-align: center;
+    padding: 36px 16px;
+}
+
+.verified.new {
+    color: var(--muted);
+    background: #f1f4f9;
+}
+
+.rating.new {
+    color: var(--muted);
+}
+
+.notice {
+    cursor: pointer;
+}
+
+.notice:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: 2px;
+}
+
+.notice.unread {
+    background: var(--blue-light);
+    border-color: #c9d8f5;
+}
+
+.notice.unread b::after {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-left: 8px;
+    border-radius: 50%;
+    background: #e5484d;
+    vertical-align: middle;
+}
