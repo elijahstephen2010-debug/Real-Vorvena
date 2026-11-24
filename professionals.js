@@ -221,6 +221,13 @@ const skillLibrary = {
 
 const DEMO_PROFILES_PER_SPECIALTY = 3;
 
+// Sample profiles are OFF for visitors. Only real, registered professionals are shown.
+// They stay in this file as a reference for the card structure.
+// To preview them, open the page with  ?category=<specialty>&preview=samples
+// (sample profiles are labelled and can never be hired).
+const SHOW_SAMPLE_PROFILES =
+    new URLSearchParams(window.location.search).get("preview") === "samples";
+
 const professionals = [];
 
 let profileId = 1;
@@ -504,9 +511,11 @@ function getAllProfessionals(onlySpecialty) {
 
         const real = registered.filter(person => person.specialty === specialty);
 
-        const samples = professionals
-            .filter(person => person.specialty === specialty)
-            .slice(0, Math.max(0, DEMO_PROFILES_PER_SPECIALTY - real.length));
+        const samples = SHOW_SAMPLE_PROFILES
+            ? professionals
+                .filter(person => person.specialty === specialty)
+                .slice(0, Math.max(0, DEMO_PROFILES_PER_SPECIALTY - real.length))
+            : [];
 
         pool.push(...real, ...samples);
 
@@ -933,9 +942,18 @@ function renderProfessionals() {
             const emptyText = emptyState.querySelector("p");
             const term = professionalSearch.value.trim();
 
-            if (emptyTitle) emptyTitle.textContent = "No professionals found";
+            const nobodyYet = getAllProfessionals(selectedSpecialty).length === 0;
 
-            if (emptyText) {
+            if (emptyTitle) {
+                emptyTitle.textContent = nobodyYet
+                    ? "No professionals here yet"
+                    : "No professionals found";
+            }
+
+            if (emptyText && nobodyYet) {
+                emptyText.textContent =
+                    `No ${currentSpecialty.title} have joined yet. Please check back soon or explore another specialty.`;
+            } else if (emptyText) {
                 emptyText.textContent = term
                     ? `No ${currentSpecialty.title} match "${term}" with your current filters. Try a different search or clear the filters.`
                     : `No ${currentSpecialty.title} match your current filters. Try adjusting or clearing them.`;
@@ -1180,21 +1198,36 @@ function updateProfileAccess() {
                 professionals and manage your projects.
             </p>
 
-            <a href="${getPageLink("signup.html")}" class="auth-option">
-                <i class="fas fa-user-plus"></i>
-                Create an Account
-            </a>
-
             <a href="${getPageLink("client-signup.html")}" class="auth-option">
                 <i class="fas fa-envelope"></i>
                 Continue with Email
             </a>
+
+            <button type="button" class="auth-option" id="googleAuthButton">
+                <svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true">
+                    <path fill="#4285F4" d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5.1h6.6c3.9-3.6 6.1-8.8 6.1-15Z"/>
+                    <path fill="#34A853" d="M24 44c5.5 0 10.1-1.8 13.5-4.9l-6.6-5.1c-1.8 1.2-4.1 2-6.9 2-5.3 0-9.8-3.6-11.4-8.4H5.8v5.3A20 20 0 0 0 24 44Z"/>
+                    <path fill="#FBBC05" d="M12.6 27.6a12 12 0 0 1 0-7.2v-5.3H5.8a20 20 0 0 0 0 17.8l6.8-5.3Z"/>
+                    <path fill="#EA4335" d="M24 12c3 0 5.7 1 7.8 3.1l5.8-5.8C34.1 6 29.5 4 24 4A20 20 0 0 0 5.8 15.1l6.8 5.3C14.2 15.6 18.7 12 24 12Z"/>
+                </svg>
+                Sign in with Google
+            </button>
+
+            <p class="auth-google-note" id="googleAuthNote" role="status" style="display:none"></p>
 
             <p class="auth-terms">
                 Already have an account?
                 <a href="${getPageLink("login.html")}">Log In</a>
             </p>
         `;
+
+        // BACKEND: replace with the real Google sign-in flow.
+        document.getElementById("googleAuthButton")
+            .addEventListener("click", function () {
+                const note = document.getElementById("googleAuthNote");
+                note.textContent = "Google sign-in is not connected yet.";
+                note.style.display = "block";
+            });
 
         return;
     }

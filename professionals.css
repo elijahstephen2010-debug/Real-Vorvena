@@ -1523,3 +1523,6 @@ textarea:focus-visible {
 @media (max-width: 768px) { .auth-logo { position: static; width: 160px; height: 60px; margin-bottom: 15px; } }
 @media (max-width: 425px) { .auth-logo { width: 145px; height: 54px; } }
 @media (max-width: 375px) { .auth-logo { width: 135px; height: 50px; } }
+
+/* Keeps the white logo inside the navy panel (it was landing on the white profile side) */
+.modal-auth-panel { position: relative; }
