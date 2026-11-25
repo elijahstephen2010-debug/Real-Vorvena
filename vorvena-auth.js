@@ -535,3 +535,18 @@
     };
 
 })(window);
+
+/* ------------------------------------------------------------
+   ENTRANCE SCREEN: hide it BEFORE the first paint on a refresh
+   This file loads in the <head>, so it can mark the page before
+   anything is drawn. index.css hides the entrance screen when
+   this mark is on. Without it, the welcome screen flashed on
+   every refresh until vorvena-loader.js (end of the page) ran.
+------------------------------------------------------------ */
+(function () {
+    try {
+        if (sessionStorage.getItem("vorvenaIntroSeen") === "true") {
+            document.documentElement.classList.add("vorvena-intro-seen");
+        }
+    } catch (error) { /* storage blocked: the entrance screen just plays */ }
+})();

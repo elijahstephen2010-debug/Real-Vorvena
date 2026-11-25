@@ -68,6 +68,10 @@
     // ENTRANCE SCREEN: ONLY ON THE FIRST PAGE OF A VISIT
     // The big entrance loader (#intro) plays once when someone enters
     // the site. On every other page, only the small page loader is used.
+    // introPlaying is true only while the entrance screen is really being shown,
+    // so the small spinner never appears on top of it.
+    let introPlaying = false;
+
     try {
         const intro = document.getElementById("intro");
 
@@ -75,6 +79,7 @@
             if (intro) intro.style.display = "none";
         } else {
             sessionStorage.setItem("vorvenaIntroSeen", "true");
+            introPlaying = Boolean(intro);
         }
     } catch (error) {
         // If storage is blocked, the entrance screen just plays as normal.
@@ -88,10 +93,17 @@
         navigationEntry &&
         navigationEntry.type === "back_forward";
 
+    // A refresh is not a page change, so it never shows the spinner
+    const isReload =
+        navigationEntry &&
+        navigationEntry.type === "reload";
+
     // SHOW LOADER WHEN ARRIVING THROUGH NORMAL NAVIGATION
     if (
         sessionStorage.getItem("vorvenaPageTransition") === "true" &&
-        !isHistoryNavigation
+        !isHistoryNavigation &&
+        !isReload &&
+        !introPlaying
     ) {
         sessionStorage.removeItem("vorvenaPageTransition");
 
@@ -104,7 +116,8 @@
                 hideTimer = setTimeout(hideLoader, 400);
             }, { once: true });
         }
-    } else if (isHistoryNavigation) {
+    } else if (isHistoryNavigation || isReload || introPlaying) {
+        // Clear any leftover marker so it cannot trigger the spinner later
         sessionStorage.removeItem("vorvenaPageTransition");
     }
 
@@ -132,6 +145,16 @@
 
         if (!link) return;
 
+        // Another handler already took over this click (no page change)
+        if (event.defaultPrevented) return;
+
+        // New tab / new window clicks do not change this page
+        if (
+            event.ctrlKey || event.metaKey ||
+            event.shiftKey || event.altKey ||
+            event.button !== 0
+        ) return;
+
         if (
             link.target === "_blank" ||
             link.hasAttribute("download")
@@ -151,13 +174,26 @@
 
         if (destination.origin !== window.location.origin) return;
 
+        // "/", "/index.html" and "/about", "/about.html" are the same page.
+        // A link to the same page (with or without #section) does not reload
+        // it, so no spinner and no leftover marker.
+        const samePage = path =>
+            (path.replace(/index\.html$/, "").replace(/\.html$/, "") || "/");
+
         if (
-            destination.pathname === window.location.pathname &&
+            samePage(destination.pathname) === samePage(window.location.pathname) &&
             destination.search === window.location.search
         ) return;
 
         sessionStorage.setItem("vorvenaPageTransition", "true");
         showLoader();
+
+        // Safety net: if the page does not actually change, never leave the
+        // spinner covering the screen or a marker waiting for the next refresh.
+        hideTimer = setTimeout(() => {
+            sessionStorage.removeItem("vorvenaPageTransition");
+            hideLoader();
+        }, 8000);
 
     });
 

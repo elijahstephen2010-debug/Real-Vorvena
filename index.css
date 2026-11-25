@@ -83,6 +83,11 @@ section {
   pointer-events: none;
 }
 
+/* Already played in this visit (set early by vorvena-auth.js): never show it again on a refresh */
+html.vorvena-intro-seen .intro-screen {
+  display: none !important;
+}
+
 .intro-screen.hide {
   opacity: 0;
   visibility: hidden;

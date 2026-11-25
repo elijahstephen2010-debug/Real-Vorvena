@@ -112,10 +112,10 @@
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-header">
-                            <div class="stat-icon"><i class="fa-solid fa-naira-sign"></i></div>
+                            <div class="stat-icon"><i class="fa-solid fa-dollar-sign"></i></div>
                             <span>Total Earnings</span>
                         </div>
-                        <h2>₦0.00</h2>
+                        <h2>$0.00</h2>
                         <p>Your total released earnings</p>
                     </div>
 
@@ -224,13 +224,13 @@
 
                 <div class="stats-grid">
                     <div class="stat-card"><span>Total Earnings</span>
-                        <h2>₦0.00</h2>
+                        <h2>$0.00</h2>
                     </div>
                     <div class="stat-card"><span>Available Balance</span>
-                        <h2 id="availableBalance">₦0.00</h2>
+                        <h2 id="availableBalance">$0.00</h2>
                     </div>
                     <div class="stat-card"><span>Pending Payments</span>
-                        <h2>₦0.00</h2>
+                        <h2>$0.00</h2>
                     </div>
                     <div class="stat-card"><span>VORVENA Commission</span>
                         <h2>15%</h2>
@@ -245,7 +245,7 @@
                     <p class="payout-note" id="wdInfo"></p>
 
                     <div class="form-group">
-                        <label for="wdAmount">Amount (₦)</label>
+                        <label for="wdAmount">Amount (USD)</label>
                         <input type="text" id="wdAmount" inputmode="decimal" autocomplete="off" placeholder="0.00">
                     </div>
 
@@ -579,7 +579,7 @@
 
         // HELPERS
         const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
-        const naira = n => "₦" + Number(n).toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const naira = n => "$" + Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         const when = iso => new Date(iso).toLocaleString("en-NG", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 
         const store = {

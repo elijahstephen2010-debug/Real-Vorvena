@@ -64,6 +64,45 @@
             margin-top: 7px
         }
 
+        /* Back to Home links */
+        a.nav-home {
+            text-decoration: none;
+            margin-bottom: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.14)
+        }
+
+        .top-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-left: auto;
+            margin-right: 14px;
+            padding: 8px 14px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: #fff;
+            color: var(--blue);
+            font-size: 0.8125rem;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+            flex-shrink: 0
+        }
+
+        .top-home:hover {
+            background: var(--blue);
+            color: #fff
+        }
+
+        @media (max-width: 425px) {
+            .top-home {
+                margin-right: 8px;
+                padding: 7px 10px;
+                gap: 5px;
+                font-size: 0.75rem
+            }
+        }
+
         /* Logo in the top bar. The sidebar logo is hidden on tablets and phones until the
            menu is opened, so this keeps the logo always visible and always a link to the
            landing page. Same sizes as the sidebar logo: 160x60 tablet, 145x54 mobile,
@@ -127,6 +166,7 @@
         </div>
 
         <nav>
+            <a class="nav nav-home" href="index.html"><i class="fa fa-arrow-left"></i> Back to Home</a>
             <button class="nav active" data-page="overview"><i class="fa fa-house"></i> Overview</button>
             <button class="nav" data-page="discover"><i class="fa fa-magnifying-glass"></i> Explore
                 Professionals</button>
@@ -157,6 +197,7 @@
             <a class="top-brand" href="index.html" aria-label="VORVENA Home"><img
                     src="./assets/vorvena_logo_transparent (1).png" alt="VORVENA Logo"></a>
             <div class="crumb">Workspace / <b id="pageName">Overview</b></div>
+            <a class="top-home" href="index.html" aria-label="Back to home"><i class="fa fa-house"></i><span>Home</span></a>
             <div class="top-user">
                 <span id="topName">Client</span>
                 <span class="avatar small" id="topAvatar">C</span>
@@ -172,9 +213,6 @@
                         <h1>Welcome back, <span id="welcomeName">Client</span>.</h1>
                         <p>Manage your projects and find the right people to bring your ideas to life.</p>
                     </div>
-                    <button class="primary" data-goto="discover">
-                        <i class="fa fa-search"></i> Find a professional
-                    </button>
                 </div>
 
                 <div class="stats">
@@ -861,7 +899,7 @@
             window.scrollTo(0, 0);
         }
 
-        $$('.nav').forEach(button => {
+        $$('.nav[data-page]').forEach(button => {
             button.onclick = () => go(button.dataset.page);
         });
 
