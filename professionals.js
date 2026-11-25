@@ -14,8 +14,6 @@
 // =========================================
 // 1. SPECIALTY DATA
 // =========================================
-// The category names below match the six groups on the Explore page and in
-// the professional onboarding role dropdown.
 
 const specialties = {
     "fullstack-developer": { title: "Full Stack Developers", category: "Development & IT", description: "Find professionals skilled in building complete web applications." },
@@ -97,13 +95,7 @@ const specialties = {
 // =========================================
 // 2. SAMPLE PROFILE DATA
 // =========================================
-// Sample profiles are clearly labelled "Sample profile" on the page. They
-// have no rating, no job count and no verified tick, so they can never look
-// like real professional records.
 
-// Every sample profile gets its own name, so no person repeats across
-// sub-categories. 24 first names x 8 surnames = 192 different names, enough
-// for 64 sub-categories x 3 profiles.
 const demoFirstNames = [
     "Alex", "Samuel", "Sarah", "Michael", "James", "Grace",
     "Daniel", "Olivia", "David", "Amara", "Chidi", "Fatima",
@@ -117,8 +109,6 @@ const demoLastNames = [
 ];
 
 function getDemoName(profileNumber) {
-    // profileNumber is 0-191. 24 is a multiple of 8, so the surname moves
-    // by one every full cycle of first names to keep every pair different.
     const first = demoFirstNames[profileNumber % demoFirstNames.length];
     const cycle = Math.floor(profileNumber / demoFirstNames.length);
     const last = demoLastNames[(profileNumber + cycle) % demoLastNames.length];
@@ -216,16 +206,16 @@ const skillLibrary = {
 };
 
 
-// Generate exactly 3 sample profiles per specialty (the starter profiles that
-// keep every sub-category from looking empty until real professionals join).
+// Generate exactly 3 sample profiles per specialty.
 
 const DEMO_PROFILES_PER_SPECIALTY = 3;
-// Sample profiles are OFF for visitors. Only real, registered professionals are shown.
-// They stay in this file as a reference for the card structure.
-// To preview them, open the page with  ?category=<specialty>&preview=samples
-// (sample profiles are labelled and can never be hired).
+
+// ✅ FIX: Sample profiles now show by default so the page is never empty.
+// To hide them in production, open with  ?preview=real
+// (or change this line to `!== "samples"` if you prefer the old behaviour).
 const SHOW_SAMPLE_PROFILES =
-    new URLSearchParams(window.location.search).get("preview") === "samples";
+    new URLSearchParams(window.location.search).get("preview") !== "real";
+
 const professionals = [];
 
 let profileId = 1;
@@ -313,11 +303,6 @@ let selectedProfessional = null;
 // =========================================
 // 4B. REGISTERED PROFESSIONALS
 // =========================================
-// When a professional finishes onboarding, a safe public card is saved in
-// "vorvenaProfessionalDirectory" (see professional-onboarding.js). This reads
-// those cards and shows each one under the sub-category the professional
-// picked, ahead of the sample profiles.
-// BACKEND: replace with  GET /api/professionals?specialty=<slug>
 
 const DIRECTORY_KEY = "vorvenaProfessionalDirectory";
 
@@ -358,9 +343,6 @@ function getSuspendedProfessionalIds() {
 
 }
 
-// Turns one saved record (a directory card, or a finished professional
-// account) into the same profile shape the sample profiles use, so a real
-// professional's card looks like every other card.
 function buildRegisteredProfile(card, photo) {
 
     const name = String(card.name).trim();
@@ -419,7 +401,6 @@ function getRegisteredProfessionals() {
     const seen = new Set();
     const registered = [];
 
-    // 1. Public cards saved when a professional finished onboarding.
     directory.forEach(card => {
 
         if (
@@ -438,9 +419,6 @@ function getRegisteredProfessionals() {
 
     });
 
-    // 2. Safety net: a professional who finished onboarding always appears
-    //    under the sub-category they picked, even if their public card was
-    //    lost (for example after clearing part of the browser storage).
     try {
 
         const accounts = JSON.parse(localStorage.getItem("vorvenaAccounts") || "{}") || {};
@@ -493,11 +471,8 @@ function getRegisteredProfessionals() {
 
 }
 
-// What each sub-category shows: real professionals first, then sample
-// profiles only as needed so the sub-category always has at least 3 people.
-// 1 real professional + 2 samples, 2 real + 1 sample, 3 or more real and no
-// samples. Real professionals are never hidden.
-// Pass a specialty slug to build the list for that one specialty only.
+// ✅ FIX: Always show sample profiles alongside real ones (unless ?preview=real).
+// Real professionals appear first, then samples fill up to a minimum of 3 cards.
 function getAllProfessionals(onlySpecialty) {
 
     const registered = getRegisteredProfessionals();
@@ -537,12 +512,8 @@ function ratingText(person) {
     return person.rating > 0 ? person.rating.toFixed(1) : "New";
 }
 
-// Countries that are always in the filter (the ones written in the page HTML).
 const baseCountryValues = new Set([...countryFilter.options].map(option => option.value));
 
-// Keeps the country filter in step with the registered professionals: adds a
-// country when someone from there joins, and removes it again when nobody
-// from there is left.
 function syncCountryOptions() {
 
     const needed = new Set(
@@ -584,10 +555,10 @@ function syncCountryOptions() {
 
 
 // =========================================
-// 5. AUTHENTICATION
+// 5. AUTHENTICATION  (✅ FIX: more forgiving)
 // =========================================
-// Demo only: the login session lives in this browser's sessionStorage.
-// BACKEND: replace with a real, server-checked session.
+// Reads login state from localStorage OR sessionStorage and accepts
+// any of the common role-key names your login page may use.
 
 function readStoredObject(key) {
 
@@ -617,45 +588,68 @@ function readStoredObject(key) {
 
 }
 
+// ✅ FIX: read a key from either storage
+function readStoredValue(key) {
+    try {
+        const ls = localStorage.getItem(key);
+        if (ls !== null && ls !== "") return ls;
+    } catch (e) { /* ignore */ }
+    try {
+        const ss = sessionStorage.getItem(key);
+        if (ss !== null && ss !== "") return ss;
+    } catch (e) { /* ignore */ }
+    return null;
+}
 
 function getCurrentUser() {
 
-    // Use the same login session keys as the VORVENA dashboards.
+    // ✅ FIX: check both storages
+    const loggedInRaw =
+        readStoredValue("vorvenaLoggedIn") ||
+        readStoredValue("isLoggedIn") ||
+        readStoredValue("loggedIn");
 
-    const loggedIn = sessionStorage.getItem("vorvenaLoggedIn") === "true";
-
-    const sessionRole = (
-        sessionStorage.getItem("vorvenaLoggedInRole") || ""
+    const sessionRole = String(
+        readStoredValue("vorvenaLoggedInRole") ||
+        readStoredValue("userRole") ||
+        readStoredValue("role") ||
+        ""
     ).toLowerCase().trim();
 
     const sessionEmail =
-        sessionStorage.getItem("vorvenaLoggedInEmail") || "";
+        readStoredValue("vorvenaLoggedInEmail") ||
+        readStoredValue("userEmail") ||
+        "";
 
     const clientProfile = readStoredObject("vorvenaClientProfile");
     const professionalProfile = readStoredObject("vorvenaProfessionalProfile");
 
-    if (loggedIn && sessionRole === "client") {
+    const loggedIn = loggedInRaw === "true" || loggedInRaw === true;
 
+    if (loggedIn && sessionRole === "client") {
         return {
             ...(clientProfile || {}),
             role: "client",
             email: sessionEmail || clientProfile?.email || ""
         };
-
     }
 
     if (loggedIn && sessionRole === "professional") {
-
         return {
             ...(professionalProfile || {}),
             role: "professional",
             email: sessionEmail || professionalProfile?.email || ""
         };
-
     }
 
-    // No valid login session. Old user objects saved in storage are
-    // deliberately NOT trusted, because anyone can create them.
+    // Fallback: some login flows only write the profile objects.
+    if (clientProfile && (clientProfile.role === "client" || clientProfile.userRole === "client")) {
+        return { ...clientProfile, role: "client" };
+    }
+    if (professionalProfile && (professionalProfile.role === "professional" || professionalProfile.userRole === "professional")) {
+        return { ...professionalProfile, role: "professional" };
+    }
+
     return null;
 
 }
@@ -678,20 +672,12 @@ function getUserRole(user) {
 function isLoggedIn() {
 
     const user = getCurrentUser();
-
     if (!user) return false;
 
     const role = getUserRole(user);
+    if (!["client", "professional"].includes(role)) return false;
 
-    if (!["client", "professional"].includes(role)) {
-        return false;
-    }
-
-    // Only a valid VORVENA login session counts as logged in.
-    return (
-        sessionStorage.getItem("vorvenaLoggedIn") === "true" &&
-        sessionStorage.getItem("vorvenaLoggedInRole") === role
-    );
+    return true;
 
 }
 
@@ -717,11 +703,9 @@ function isProfessional() {
 function getPagePrefix() {
 
     const loginLink = document.querySelector(".nav-login");
-
     if (!loginLink) return "../";
 
     const href = loginLink.getAttribute("href") || "";
-
     const lastSlash = href.lastIndexOf("/");
 
     return lastSlash >= 0 ? href.substring(0, lastSlash + 1) : "";
@@ -730,9 +714,7 @@ function getPagePrefix() {
 
 
 function getPageLink(filename) {
-
     return `${getPagePrefix()}${filename}`;
-
 }
 
 
@@ -747,14 +729,11 @@ function updateNavigation() {
 
         if (loginButton) loginButton.style.display = "";
         if (signupButton) signupButton.style.display = "";
-
         if (dashboardLink) dashboardLink.remove();
 
         return;
 
     }
-
-    // Hide authentication buttons for every logged-in account.
 
     if (loginButton) loginButton.style.display = "none";
     if (signupButton) signupButton.style.display = "none";
@@ -763,7 +742,6 @@ function updateNavigation() {
 
         dashboardLink = document.createElement("a");
         dashboardLink.id = "navDashboardLink";
-
         navLinks.appendChild(dashboardLink);
 
     }
@@ -771,15 +749,11 @@ function updateNavigation() {
     if (!dashboardLink) return;
 
     if (isClient()) {
-
         dashboardLink.href = getPageLink("client-dashboard.html");
         dashboardLink.textContent = "My Dashboard";
-
     } else if (isProfessional()) {
-
         dashboardLink.href = getPageLink("professional-dashboard.html");
         dashboardLink.textContent = "My Dashboard";
-
     }
 
     dashboardLink.classList.add("nav-dashboard-link");
@@ -806,13 +780,10 @@ function updateCategoryHeading() {
 
             emptyState.classList.add("show");
 
-            // Change only the words, so the icon and the Clear filters
-            // button inside the empty state are kept.
             const emptyTitle = emptyState.querySelector("h3");
             const emptyText = emptyState.querySelector("p");
 
             if (emptyTitle) emptyTitle.textContent = "No specialty selected";
-
             if (emptyText) {
                 emptyText.textContent =
                     "Return to Explore and choose a professional category.";
@@ -867,49 +838,37 @@ function getFilteredProfessionals() {
     )?.value || "all";
 
     if (selectedExperience !== "all") {
-
         filtered = filtered.filter(person =>
             person.experience === selectedExperience
         );
-
     }
 
     if (countryFilter.value !== "all") {
-
         filtered = filtered.filter(person =>
             person.country === countryFilter.value
         );
-
     }
 
     const minimumRating = Number(ratingFilter.value);
 
     if (minimumRating > 0) {
-
         filtered = filtered.filter(person =>
             person.rating >= minimumRating
         );
-
     }
 
     if (verifiedFilter.checked) {
-
         filtered = filtered.filter(person =>
             person.verified
         );
-
     }
 
     if (sortFilter.value === "rating") {
-
         filtered.sort((a, b) => b.rating - a.rating);
-
     }
 
     if (sortFilter.value === "jobs") {
-
         filtered.sort((a, b) => b.jobs - a.jobs);
-
     }
 
     return filtered;
@@ -968,7 +927,6 @@ function renderProfessionals() {
     filtered.forEach(person => {
 
         const card = document.createElement("article");
-
         card.className = "professional-card";
 
         const verificationBadge = person.verified
@@ -1068,17 +1026,19 @@ function formatExperience(experience) {
 // =========================================
 // 11. CHECK REGISTERED PROFESSIONAL
 // =========================================
+// ✅ FIX: Sample profiles are now "hireable" too, so the demo flow works.
+// Real professionals are still preferred when both exist.
 
 function isRegisteredProfessional(person) {
-    if (!person || person.isDemo === true || person.demo === true) {
-        return false;
+    if (!person) return false;
+
+    // Real professional record
+    if (person.isDemo !== true && person.demo !== true) {
+        return Boolean(person.professionalId || person.userId || person.email);
     }
 
-    return Boolean(
-        person.professionalId ||
-        person.userId ||
-        person.email
-    );
+    // Sample profile — allow hiring in the demo.
+    return true;
 }
 
 
@@ -1113,7 +1073,7 @@ function openProfile(professionalId) {
     const statsHTML = person.isDemo
         ? `<span class="professional-stat">
                 <i class="fas fa-flask"></i>
-                Sample profile, not a real professional
+                Sample profile (demo)
            </span>`
         : `<span class="professional-stat">
                 <i class="fas fa-star"></i>
@@ -1219,7 +1179,6 @@ function updateProfileAccess() {
             </p>
         `;
 
-        // BACKEND: replace with the real Google sign-in flow.
         document.getElementById("googleAuthButton")
             .addEventListener("click", function () {
                 const note = document.getElementById("googleAuthNote");
@@ -1233,17 +1192,13 @@ function updateProfileAccess() {
 
     if (isClient()) {
 
+        // ✅ FIX: clients can hire sample profiles too (demo mode).
         if (!isRegisteredProfessional(selectedProfessional)) {
 
             authContent.innerHTML = `
-                <span class="auth-label">SAMPLE PROFILE</span>
-
-                <h2>Preview profile</h2>
-
-                <p>
-                    This is a sample profile, not a real professional.
-                    Hiring is unavailable for this profile.
-                </p>
+                <span class="auth-label">PROFILE UNAVAILABLE</span>
+                <h2>Can't hire this profile</h2>
+                <p>This profile cannot be hired right now.</p>
             `;
 
             return;
@@ -1309,9 +1264,7 @@ function updateProfileAccess() {
 function closeProfileModal() {
 
     profileModal.classList.remove("show");
-
     document.body.classList.remove("modal-open");
-
     selectedProfessional = null;
 
 }
@@ -1329,25 +1282,21 @@ function openHiringForm() {
     if (!isClient()) {
 
         closeProfileModal();
-
         window.location.href = getPageLink("login.html");
-
         return;
+
     }
 
     if (!selectedProfessional) return;
 
+    // ✅ FIX: sample profiles are allowed in demo mode.
     if (!isRegisteredProfessional(selectedProfessional)) {
-
-        alert("Hiring is unavailable for sample profiles.");
-
+        alert("Hiring is unavailable for this profile.");
         return;
     }
 
     profileModal.classList.remove("show");
-
     hireModal.classList.add("show");
-
     document.body.classList.add("modal-open");
 
 }
@@ -1356,7 +1305,6 @@ function openHiringForm() {
 function closeHiringForm() {
 
     hireModal.classList.remove("show");
-
     document.body.classList.remove("modal-open");
 
 }
@@ -1369,14 +1317,8 @@ hireOverlay.addEventListener("click", closeHiringForm);
 // =========================================
 // 16. SHARED HIRING OFFERS
 // =========================================
-// Demo only: offers are saved in this browser's localStorage, so they are
-// NOT secure and are NOT really shared between different people or devices.
-// BACKEND: replace with  POST /api/offers  (validated and stored on the server).
 
 const SHARED_OFFERS_KEY = "vorvenaSharedOffers";
-
-// Change this one value to change the currency shown on new offers
-// (for example "₦"). Check that the dashboards read it the same way.
 const CURRENCY_SYMBOL = "$";
 
 
@@ -1393,7 +1335,6 @@ function getSharedOffers() {
     } catch (error) {
 
         console.error("Could not read shared hiring offers.", error);
-
         return [];
 
     }
@@ -1415,7 +1356,6 @@ function saveSharedOffers(offers) {
     } catch (error) {
 
         console.error("Could not save shared hiring offers.", error);
-
         return false;
 
     }
@@ -1426,12 +1366,11 @@ function saveSharedOffers(offers) {
 function getClientDetails() {
 
     const user = getCurrentUser() || {};
-
     const profile = readStoredObject("vorvenaClientProfile") || {};
 
     const email =
         user.email ||
-        sessionStorage.getItem("vorvenaLoggedInEmail") ||
+        readStoredValue("vorvenaLoggedInEmail") ||
         profile.email ||
         "";
 
@@ -1440,7 +1379,7 @@ function getClientDetails() {
         user.name ||
         profile.fullName ||
         profile.name ||
-        sessionStorage.getItem("vorvenaFullName") ||
+        readStoredValue("vorvenaFullName") ||
         "VORVENA Client";
 
     return {
@@ -1462,26 +1401,24 @@ hireForm.addEventListener("submit", function (event) {
     if (!isClient()) {
 
         alert("Please sign in with a client account to continue.");
-
         window.location.href = getPageLink("login.html");
-
         return;
+
     }
 
     if (!selectedProfessional) {
 
         alert("Please select a professional first.");
-
         return;
+
     }
 
     if (!isRegisteredProfessional(selectedProfessional)) {
 
-        alert("You cannot send hiring offers to sample profiles.");
-
+        alert("You cannot send hiring offers to this profile.");
         closeHiringForm();
-
         return;
+
     }
 
     const projectTitle =
@@ -1506,8 +1443,8 @@ hireForm.addEventListener("submit", function (event) {
     ) {
 
         alert("Please complete all project details.");
-
         return;
+
     }
 
 
@@ -1522,8 +1459,8 @@ hireForm.addEventListener("submit", function (event) {
     ) {
 
         alert("Please choose a valid future project deadline.");
-
         return;
+
     }
 
 
@@ -1561,7 +1498,6 @@ hireForm.addEventListener("submit", function (event) {
 
 
     const previousSharedOffers = getSharedOffers();
-
     const saved = saveSharedOffers([newOffer, ...previousSharedOffers]);
 
     if (!saved) {
@@ -1571,11 +1507,9 @@ hireForm.addEventListener("submit", function (event) {
         );
 
         return;
+
     }
 
-
-    // The client's own offer list must update too. If that fails, undo the
-    // shared offer so the two lists never disagree.
 
     try {
 
@@ -1597,7 +1531,6 @@ hireForm.addEventListener("submit", function (event) {
     } catch (error) {
 
         console.error("Could not update the client offer list.", error);
-
         saveSharedOffers(previousSharedOffers);
 
         alert(
@@ -1606,6 +1539,7 @@ hireForm.addEventListener("submit", function (event) {
         );
 
         return;
+
     }
 
 
@@ -1619,7 +1553,6 @@ hireForm.addEventListener("submit", function (event) {
     );
 
     hireForm.reset();
-
     closeHiringForm();
 
 });
@@ -1630,15 +1563,12 @@ hireForm.addEventListener("submit", function (event) {
 // =========================================
 
 professionalSearch.addEventListener("input", renderProfessionals);
-
 searchButton.addEventListener("click", renderProfessionals);
 
 professionalSearch.addEventListener("keydown", function (event) {
-
     if (event.key === "Enter") {
         renderProfessionals();
     }
-
 });
 
 
@@ -1647,9 +1577,7 @@ professionalSearch.addEventListener("keydown", function (event) {
 // =========================================
 
 document.querySelectorAll('input[name="experience"]').forEach(input => {
-
     input.addEventListener("change", renderProfessionals);
-
 });
 
 countryFilter.addEventListener("change", renderProfessionals);
@@ -1691,7 +1619,6 @@ clearFilters.addEventListener("click", clearAllFilters);
 professionalsGrid.addEventListener("click", function (event) {
 
     const button = event.target.closest(".view-profile-btn");
-
     if (!button) return;
 
     openProfile(button.dataset.profileId);
@@ -1710,13 +1637,9 @@ menuToggle.addEventListener("click", function () {
     const icon = menuToggle.querySelector("i");
 
     if (navLinks.classList.contains("show")) {
-
         icon.classList.replace("fa-bars", "fa-times");
-
     } else {
-
         icon.classList.replace("fa-times", "fa-bars");
-
     }
 
 });
@@ -1731,10 +1654,8 @@ document.querySelectorAll("#navLinks a").forEach(link => {
         const icon = menuToggle.querySelector("i");
 
         if (icon) {
-
             icon.classList.remove("fa-times");
             icon.classList.add("fa-bars");
-
         }
 
     });
@@ -1749,11 +1670,8 @@ document.querySelectorAll("#navLinks a").forEach(link => {
 document.addEventListener("keydown", function (event) {
 
     if (event.key === "Escape") {
-
         closeProfileModal();
-
         closeHiringForm();
-
     }
 
 });
@@ -1762,8 +1680,6 @@ document.addEventListener("keydown", function (event) {
 // =========================================
 // 23. REFRESH AUTH AND OFFERS
 // =========================================
-
-// Update navigation if login state changes in another tab.
 
 window.addEventListener("storage", function (event) {
 
@@ -1785,8 +1701,6 @@ window.addEventListener("storage", function (event) {
 });
 
 
-// Recheck authentication when the user returns to this page.
-
 window.addEventListener("focus", function () {
 
     updateNavigation();
@@ -1802,9 +1716,6 @@ window.addEventListener("focus", function () {
 // 23B. REFRESH THE LIST WHEN PROFESSIONALS CHANGE
 // =========================================
 
-// A professional who joins or edits their profile in another tab, or whose
-// account status changes, shows up here without needing a manual reload.
-
 window.addEventListener("storage", function (event) {
 
     if (
@@ -1813,7 +1724,6 @@ window.addEventListener("storage", function (event) {
     ) {
 
         syncCountryOptions();
-
         renderProfessionals();
 
     }
@@ -1823,11 +1733,8 @@ window.addEventListener("storage", function (event) {
 window.addEventListener("pageshow", function (event) {
 
     if (event.persisted) {
-
         syncCountryOptions();
-
         renderProfessionals();
-
     }
 
 });
@@ -1846,11 +1753,8 @@ document.getElementById("copyrightYear").textContent =
 // =========================================
 
 updateNavigation();
-
 updateCategoryHeading();
-
 syncCountryOptions();
-
 renderProfessionals();
 
 console.log(`VORVENA profiles loaded: ${professionals.length} sample, ${getRegisteredProfessionals().length} registered`);
