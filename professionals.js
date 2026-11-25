@@ -220,14 +220,12 @@ const skillLibrary = {
 // keep every sub-category from looking empty until real professionals join).
 
 const DEMO_PROFILES_PER_SPECIALTY = 3;
-
 // Sample profiles are OFF for visitors. Only real, registered professionals are shown.
 // They stay in this file as a reference for the card structure.
 // To preview them, open the page with  ?category=<specialty>&preview=samples
 // (sample profiles are labelled and can never be hired).
 const SHOW_SAMPLE_PROFILES =
     new URLSearchParams(window.location.search).get("preview") === "samples";
-
 const professionals = [];
 
 let profileId = 1;
