@@ -16,7 +16,7 @@ node_modules/
 # Zips and large media
 *.zip
 *.rar
-*.mp4
+
 
 # Editor and system files
 .vscode/
